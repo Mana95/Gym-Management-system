@@ -1,0 +1,47 @@
+
+            <div class="card mb-3">
+                <div class="card-header"><p>Groups   &nbsp; <button type="button" [routerLink]="['/newUserGroup']"class="btn btn-success  btn-sm">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
+                 
+
+                </div>
+                
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                   
+                  <div class="row">
+                    <div class="container">
+                      <h1>
+                        <b>All Group Status</b>
+                      </h1>
+                      <hr />
+                      <!-- <p>Your role is: <strong>{{currentUser.role}}</strong>.</p> -->
+                      <br />
+                      <table #dataTable class="table table-striped table-hover table-bordered" id="mytable">
+                        <caption>
+                          <b>View User Details</b>
+                        </caption>
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;" scope="col">Group ID</th>
+                            <th  style="text-align: center;" scope="col">Group Name</th>
+                            <th  style="text-align: center;" scope="col">Description</th>
+                            <th  style="text-align: center;" scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+               
+                          <tr *ngFor="let data of userGroup">
+                  
+                            <td style="text-align: center;" #groupID>{{ data.GroupId}}</td>
+                            <td style="text-align: center;">{{ data.GroupName}}</td>
+                            <td style="text-align: center;">{{ data.description}}</td>
+                            <td style="text-align: center;"><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></button></td>
+                          </tr>
+                        
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
