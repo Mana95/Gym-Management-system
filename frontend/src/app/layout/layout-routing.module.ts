@@ -17,6 +17,7 @@ const routes: Routes = [
             {path: 'userNewRole' , loadChildren:() => import('./user/user-role/user-new-role/user-new-role.module').then(m=> m.UserNewRoleModule)},
             {path: 'editUser/:userid' , loadChildren:() => import('./user/edit-user/edit-user.module').then(m=> m.EditUserModule)},
             {path: 'changepw' , loadChildren:() => import('./user/edit-user/change-pw/change-pw.module').then(m=> m.ChangePwModule)},
+            {path: 'editGroup/:groupId' , loadChildren:() => import('./user/user-group/edit-group/edit-group.module').then(m=> m.EditGroupModule)},
            
             { path: 'brands', loadChildren: () => import('./charts/charts.module').then(m => m.ChartsModule) },
             { path: 'catagory', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) },

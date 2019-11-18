@@ -2,7 +2,7 @@ import { User } from './../../../_models/user';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-user',
@@ -10,15 +10,20 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnInit {
+
+  formData : User;
+  userRole:any;
+
   id:any;
   activeStatus: '';
- 
+  emailValue: any;
   viewForm:FormGroup;
   loading = false;
    error = '';
    submitted = false;
 
-   data = new User();
+   user = new User();
+   valueUser : any;
   constructor(
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
@@ -32,9 +37,20 @@ export class EditUserComponent implements OnInit {
     .subscribe(
       data => {
         console.log(data);
-        this.data = data;
+        this.valueUser = data;
+        this.user = this.valueUser
+        console.log('Define' +this.user)
+    
       }   
     )
+    this.authenticationService.getAllRole()
+    .subscribe(data => {
+      this.userRole = data;
+      console.log(data)
+    },error=> {
+      this.error = error;
+      this.loading = false;
+    })
 
   }
 
@@ -44,17 +60,51 @@ export class EditUserComponent implements OnInit {
 
   }
 
-  updateRecords(data , data2,data3) {
-  //   alert("This is the value " +this.data.active)
-  //   alert(data3.value)
-    
-  //  alert(data.value);
-  //  alert(data2.value);
+  updateRecords(data1, data2) {
+    alert("This is the submit button method"+ this.f.userId)
+;
 var id = 'PO' + Math.random().toString(36).substr(2, 9);
 var PO_id ='-' + Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9)
 console.log(id)
 console.log(PO_id);
   }
+
+  onSubmit() {
+
+
+let editUserDetails = {
+  "uniqueId" : this.user._id,
+  "userId": this.user.userId,
+  "email": this.user.email,
+  "firstName": this.user.firstName,
+  "lastName":this.user.lastName,
+  "mobileNumber":this.user.mobileNumber,
+  "assignRole": this.user.assignRole,
+  "address": this.user.address,
+  "city": this.user.city,
+  "state": this.user.state,
+  "zip": this.user.zip,
+  "description":this.user.description,
+  "active": this.user.active
+}
+this.authenticationService.updateUser(editUserDetails)
+.subscribe(data => {
+  
+  console.log(data);
+  this.openConfirmationDialog();
+},error=> {
+  this.error = error;
+  this.loading = false;
+})
+
+
+    console.log("Update"+JSON.stringify(editUserDetails));   
+
+}
+
+openConfirmationDialog() {
+
+}
 
 
 }

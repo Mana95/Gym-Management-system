@@ -23,10 +23,35 @@ module.exports = {
     creationUser,
     getRoles,
     groupinsertion,
-    getGroups
+    getGroups,
+    UpdateUserService,
+    loadByID
 
 
 };
+
+async function loadByID(id) {
+    console.log('Service:' + id)
+    return await Groups.findById(id);
+}
+
+async function UpdateUserService(newData) {
+    console.log(newData.uniqueId);
+
+    User.updateOne(
+        {
+            _id: newData.uniqueId
+        },
+        {
+            $set: newData
+        }, function (err, responses) {
+            if (err) {
+                console.log(err);
+            }
+        }  );
+
+
+}
 
 async function groupinsertion(groupData){
     console.log("groupData");

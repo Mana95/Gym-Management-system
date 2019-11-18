@@ -18,7 +18,7 @@
                         </thead>
                         <tbody>
                         <tr *ngFor= "let data of userview">
-                                <td style="text-align: center;">{{ data.firstName}}</td>
+                                <td style="text-align: center;" data-toggle="tooltip" data-placement="top" title= {{data.userId}}>{{ data.firstName}}</td>
                                 <td style="text-align: center;">{{ data.lastName}}</td>
                                 <td style="text-align: center;">{{ data.assignRole}}</td>
                                 <td style="text-align: center;">{{ data.mobileNumber}}</td>

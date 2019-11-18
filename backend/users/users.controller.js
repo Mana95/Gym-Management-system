@@ -11,6 +11,9 @@ router.post('/userCreation', userCreation);
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
+router.post('/userUpdate', UpdateUser);
+router.get('/getId/:id' , getGroupById)
+
 
 router.get('/roles', getAllRoles);
 router.get('/current', getCurrent);
@@ -22,6 +25,22 @@ router.delete('/d/:id', deleteRecord);
 
 
 module.exports = router;
+
+function getGroupById (req,res,next){
+    console.log("Controller:" +req.params.id)
+    userService.loadByID(req.params.id)
+    .then(user => user ? res.json(user) : res.sendStatus(404))
+    .catch(err => next(err));
+
+}
+
+
+function UpdateUser(req, res, next){
+    console.log("Controller:" + JSON.stringify(req.body));
+    userService.UpdateUserService(req.body)
+     .then(() => res.json({}))
+    .catch(err => next(err));
+}
 
 function deleteRecord(req,res,next){
 

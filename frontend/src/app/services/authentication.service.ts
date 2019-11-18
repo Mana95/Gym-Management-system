@@ -85,11 +85,26 @@ export class AuthenticationService {
 
       }
 
+      //user get by Id
       getById(id: any): Observable<User> {
 
         console.log("This is the job service" +  id);
        
           return this.http.get<any>(config.PAPYRUS+`/users/userById/${id}`);
+        }
+
+        //Update user
+        updateUser(UserParamUpdate): Observable<any> {
+          console.log("New Data" + UserParamUpdate);
+          return this.http.post<User>(config.PAPYRUS+`/users/userUpdate`, UserParamUpdate)
+        }
+
+        //Get Group data by id 
+
+        LoadGroupData(groupid): Observable<any> {
+          console.log("service :" + groupid);
+          return this.http.get<any>(config.PAPYRUS+`/users/getId/${groupid}`);
+
         }
       
 
