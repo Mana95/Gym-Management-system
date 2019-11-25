@@ -14,7 +14,11 @@ const schema = new Schema({
     description: {
         type:String,
         required:true
+    },
+    roleName: {
+        type:String
     }
+
 });
 
 schema.set('toJSON', { virtuals: true });

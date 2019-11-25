@@ -33,6 +33,32 @@
                 </ul>
             </li>
         </div> 
+        <!-- End UserModule -->
+
+<!-- Catagory -->
+<div class="nested-menu">
+        <a class="list-group-item" (click)="addExpandCatClass('pages')">
+                <i class="fa fa-tags"></i>&nbsp;
+            <span>{{ 'Catagory' | translate }}</span>
+        </a>
+        <li class="nested" [class.expand]="showMenuCat === 'pages'">
+            <ul class="submenu">
+                <li>
+                    <a [routerLink]="['/mainCat']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                        <i class="fa fa-shopping-bag"></i>&nbsp;
+                        <span>{{ 'Main Catagory' | translate }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
+                        <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
+                        <span>{{ 'Sub Catagory' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </div> 
+    <!-- End Catagory -->
 
 
         <a [routerLink]="['/brands']" [routerLinkActive]="['router-link-active']" class="list-group-item">

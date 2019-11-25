@@ -1,0 +1,47 @@
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Main Catagory</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  <form [formGroup] ="catagoryResgiter" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Main Catagory ID *</label>
+        <input type="text" class="form-control" formControlName = "catId" placeholder="Group ID" [ngClass]="{ 'is-invalid': submitted && mc.catId.errors }">
+        <div *ngIf="submitted && mc.catId.errors" class="invalid-feedback">
+          <div *ngIf="mc.catId.errors.required">Catagory ID is required</div>
+      </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Main Catagory Name</label>
+        <input type="text" class="form-control" formControlName = "catName" placeholder="Group Name"  [ngClass]="{ 'is-invalid': submitted && mc.catName.errors }">
+        <div *ngIf="submitted && mc.catName.errors" class="invalid-feedback">
+          <div *ngIf="mc.catName.errors.required">Main Catagory is required</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Description</label>
+      <textarea class="form-control" placeholder="Description" formControlName = "description" rows="3" [ngClass]="{ 'is-invalid': submitted && mc.description.errors }"></textarea>
+      <div *ngIf="submitted && mc.description.errors" class="invalid-feedback">
+        <div *ngIf="mc.description.errors.required">Description is required</div>
+    </div>
+    </div>
+       
+
+
+    <button type="submit" class="btn btn-primary">Submit<i class="fa fa-book" aria-hidden="true"></i></button>
+    </form>
+  </div>
+</ng-template>
+<button type="button" class="btn btn-primary btn-sm" (click)="open(content)"><b>New</b></button>
+
+
+<hr>
+
+<pre>{{closeResult}}</pre>

@@ -3,6 +3,7 @@
     <div class="col-md-12">
       <div class="card bg-light mb-2">
         <div class="card-header"><b> User {{user.firstName}} Record</b></div>
+        <app-edit-modal></app-edit-modal>
         <form (ngSubmit)="onSubmit()" >
         <div class="card-body">
           <div class="form-row">
@@ -114,4 +115,5 @@
       </div>
     </div>
   </div>
+ 
 </div>

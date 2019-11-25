@@ -25,10 +25,24 @@ module.exports = {
     groupinsertion,
     getGroups,
     UpdateUserService,
-    loadByID
+    loadByID,
+    getGroupNames,
+    getDetailUsers
+
 
 
 };
+
+async function getDetailUsers(roleValue) {
+    console.log('service' + roleValue )
+  return await User.find({assignRole: roleValue})
+    
+}
+
+async function getGroupNames(){
+    //Using Projection
+    return await Groups.find({},{GroupName:1 , _id:0});
+}
 
 async function loadByID(id) {
     console.log('Service:' + id)

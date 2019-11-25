@@ -13,6 +13,10 @@ router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
 router.post('/userUpdate', UpdateUser);
 router.get('/getId/:id' , getGroupById)
+router.get('/groupNames' , getGroupByName)
+router.get('/userRoles/:id' , getuserRole)
+
+
 
 
 router.get('/roles', getAllRoles);
@@ -25,6 +29,21 @@ router.delete('/d/:id', deleteRecord);
 
 
 module.exports = router;
+
+function getuserRole(req,res, next) {
+    console.log("contorller" + req.params.id)
+    let roleValue = req.params.id
+    userService.getDetailUsers(roleValue)
+    .then(users => res.json(users))
+    .catch(err => next(err));
+}
+
+function getGroupByName(req, res, next){
+    console.log(res.body)
+    userService.getGroupNames()
+    .then(users => res.json(users))
+    .catch(err => next(err));
+}
 
 function getGroupById (req,res,next){
     console.log("Controller:" +req.params.id)

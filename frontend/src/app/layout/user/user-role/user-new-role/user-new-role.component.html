@@ -14,6 +14,8 @@
                       <div *ngIf="roleF.roleID.errors.required">Role ID is required</div>
                   </div>
                   </div>
+
+
                   <div class="form-group col-md-6">
                     <label for="inputPassword4">Role Name</label>
                     <input type="text" class="form-control" formControlName = "roleName" placeholder="Role Name"  [ngClass]="{ 'is-invalid': submitted && roleF.roleName.errors }">
@@ -21,6 +23,15 @@
                       <div *ngIf="roleF.roleName.errors.required">Role Name is required</div>
                   </div>
                   </div>
+                </div>
+
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Group Name</label>
+                  <select formControlName = "groupName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.groupName.errors}">
+                    <option *ngFor= "let data of group_Name">{{data.GroupName}}</option>
+                    </select>
+                </div>
                 </div>
 
                 <div class="form-group">

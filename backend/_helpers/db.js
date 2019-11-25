@@ -7,6 +7,8 @@ module.exports = {
 
     User: require('../users/user.model'),
     Job: require('../jobs/job.model'),
+    Catagory: require('../catagory/catagory.model'),
+    SubCatagory: require('../catagory/subcatagory.model'),
     //Now added
     Uplds: require('../uplds/upload.model'),
     Comments: require('../comments/comment.model'),

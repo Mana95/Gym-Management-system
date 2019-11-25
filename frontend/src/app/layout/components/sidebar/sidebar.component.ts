@@ -11,6 +11,7 @@ export class SidebarComponent implements OnInit {
     isActive: boolean;
     collapsed: boolean;
     showMenu: string;
+    showMenuCat: string;
     pushRightClass: string;
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -31,6 +32,7 @@ export class SidebarComponent implements OnInit {
         this.isActive = false;
         this.collapsed = false;
         this.showMenu = '';
+        this.showMenuCat = '';
         this.pushRightClass = 'push-right';
     }
 
@@ -39,7 +41,16 @@ export class SidebarComponent implements OnInit {
         this.isActive = !this.isActive;
     }
 
+    addExpandCatClass (element:any) {
+        if (element === this.showMenuCat) {
+            this.showMenuCat = '0';
+        } else {
+            this.showMenuCat = element;
+        }
+    }
+
     addExpandClass(element: any) {
+      //  alert(element)
         if (element === this.showMenu) {
             this.showMenu = '0';
         } else {

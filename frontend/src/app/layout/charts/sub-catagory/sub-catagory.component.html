@@ -1,0 +1,103 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <p><b>Sub Catagory Records</b> &nbsp;
+
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">New Sub Catagory</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="subCatagoryResgiter" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Sub Catagory ID *</label>
+                <input type="text" class="form-control" formControlName="sub_catId" placeholder="Sub Catagory ID"
+                  [ngClass]="{ 'is-invalid': submitted && subC.sub_catId.errors }">
+                <div *ngIf="submitted && subC.sub_catId.errors" class="invalid-feedback">
+                  <div *ngIf="subC.sub_catId.errors.required">Catagory ID is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Sub Catagory Name</label>
+                <input type="text" class="form-control" formControlName="sub_catName" placeholder="Sub Catagory Name"
+                  [ngClass]="{ 'is-invalid': submitted && subC.sub_catName.errors }">
+                <div *ngIf="submitted && subC.sub_catName.errors" class="invalid-feedback">
+                  <div *ngIf="subC.sub_catName.errors.required">Main Catagory is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputState">Main Catagory</label>
+                <select formControlName = "mainCatgory" class="form-control" [ngClass]="{ 'is-invalid': submitted && subC.mainCatgory.errors }">
+                  <option *ngFor= "let data of mainCat">{{data.cat_name}}</option> 
+               </select>
+              </div>
+           
+
+            <div class="form-group">
+              <label for="exampleForsubControlTextarea1">Description</label>
+              <textarea class="form-control" placeholder="Description" formControlName="description" rows="3"
+                [ngClass]="{ 'is-invalid': submitted && subC.description.errors }"></textarea>
+              <div *ngIf="submitted && subC.description.errors" class="invalid-feedback">
+                <div *ngIf="subC.description.errors.required">Description is required</div>
+              </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Submit<i class="fa fa-book" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </ng-template>
+      <button type="button" class="btn btn-primary btn-sm" (click)="open(content)"><b>New</b></button>
+
+  </div>
+
+  <div class="card-body table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+
+        <div class="row">
+          <div class="container">
+            <h1>
+              <b>All Sub Catagory Status</b>
+            </h1>
+            <hr />
+            <!-- <p>Your role is: <strong>{{currentUser.role}}</strong>.</p> -->
+            <br />
+            <table #dataTable class="table table-striped table-hover table-bordered" id="mytable">
+              <caption>
+                <b>View Sub Catagory Details</b>
+              </caption>
+              <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">Sub Catagory ID</th>
+                  <th style="text-align: center;" scope="col">Sub Cataogory Name</th>
+                  <th style="text-align: center;" scope="col">Description</th>
+                  <th style="text-align: center;" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+
+                <tr *ngFor="let data of catData">
+
+                  <td style="text-align: center;">{{ data.id}}</td>
+                  <td style="text-align: center;">{{ data.sub_cat_name}}</td>
+                  <td style="text-align: center;">{{ data.description}}</td>
+                  <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
+                        class="fa fa-pencil" aria-hidden="true"></i></button> &nbsp;
+                    <button type="button" (click)="deleteRecord(data)" class="btn btn-danger btn-sm"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+
+                </tr>
+
+
+              </tbody>
+            </table>
+          </div>
+        </div>

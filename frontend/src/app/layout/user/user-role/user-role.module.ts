@@ -7,6 +7,7 @@ import { PageHeaderModule } from '../../../shared';
 import { UserComponent } from '../user.component';
 import { CommonModule } from '@angular/common';
 import { UserNewRoleComponent } from './user-new-role/user-new-role.component';
+import { EditRoleComponent } from './edit-role/edit-role.component';
 
 @NgModule({
  

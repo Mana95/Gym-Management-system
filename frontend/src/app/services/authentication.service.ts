@@ -18,7 +18,11 @@ export class AuthenticationService {
 
     private http: HttpClient
   ) { }
+  getGroupName() {
+    
+    return this.http.get(config.PAPYRUS+`/users/groupNames`);
 
+  }
   GroupCreation(groupParam) {
     alert(JSON.stringify(groupParam));
     return this.http.post<any>(config.PAPYRUS+ `/users/groupCreation`, groupParam);
@@ -36,6 +40,10 @@ export class AuthenticationService {
   getAllRole() {
     return this.http.get(config.PAPYRUS+`/users/roles`);
   
+  }
+  getRoleUser(roleData) {
+    console.log(roleData);
+    return this.http.get(config.PAPYRUS+`/users/userRoles/${roleData}`);
   }
 
   deleteRecord(idData){
