@@ -17,6 +17,10 @@ const schema = new Schema({
         required: true
 
     },
+    username: {
+        type:String,
+        required:true
+    },
     lastName: {
         type: String,
         required: true
@@ -45,7 +49,7 @@ const schema = new Schema({
         type: Boolean,
     },
     //Add the role for the user.model.js
-    assignRole: {
+    role: {
         type: String,
         required: true
     },

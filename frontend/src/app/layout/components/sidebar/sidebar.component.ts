@@ -1,6 +1,9 @@
+import { Role } from './../../../_models/role';
+import { User } from './../../../_models/user';
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -13,10 +16,13 @@ export class SidebarComponent implements OnInit {
     showMenu: string;
     showMenuCat: string;
     pushRightClass: string;
-
+    currentUser: User;
+    public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService,
+         public router: Router, 
+         private authenticationService: AuthenticationService) {
         this.router.events.subscribe(val => {
             if (
                 val instanceof NavigationEnd &&
@@ -26,6 +32,7 @@ export class SidebarComponent implements OnInit {
                 this.toggleSidebar();
             }
         });
+        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
 
     ngOnInit() {
@@ -34,6 +41,40 @@ export class SidebarComponent implements OnInit {
         this.showMenu = '';
         this.showMenuCat = '';
         this.pushRightClass = 'push-right';
+        console.log(Role);
+        this.authenticationService.getAllRole()
+        .subscribe(
+            response=>{
+                console.log('RESPONSE ABOUT ROLES');
+                // console.log(response[0]);
+                // console.log(response[0].roleName)
+                let i=0;
+                while(this.currentUser.role ==response[i].roleName ){
+                   
+                    console.log('CURRUNT ROLENAME')
+                    console.log(response[i].roleName)
+                    if(this.currentUser.role ==response[i].roleName ){
+                        console.log('While Loop')
+                        this.role_name_array.push(response[i].roleName );
+                        console.log(this.role_name_array);
+                    }
+                    i++;
+                }
+               
+               
+            },
+            error=> {
+                console.log(error);
+            }
+          
+        )
+    }
+
+    get isAdmin() {
+        for(var i =0 ; this.role_name_array.length; i++ ){
+            return this.currentUser && this.currentUser.role === this.role_name_array[i];
+        }
+       
     }
 
 

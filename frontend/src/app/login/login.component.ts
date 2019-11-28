@@ -39,14 +39,12 @@ export class LoginComponent implements OnInit {
         return this.loginForm.controls;
      }
 
+     
+
     onSubmit() {
-
-
-  alert("sadasdads");
-  
-  this.router.navigate(['dashboard']);
-    
-    this.submitted = true;
+      
+  console.log('Here is the Login method');
+   this.submitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -59,14 +57,20 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          alert(data)
-          // this.router.navigate(['/dashboard']);
+         console.log(data)
+         this.router.navigate(['/dashboard']);
+       //   console.log(gat)
+        //  this.router.navigate([]);
         },
         error => {
-          this.error = error;
+          this.error = error.error.message
           this.loading = false;
+          console.log(error.error.message)
+         // alert(error.error.message)
 
         });
+
+        
       
 
     }

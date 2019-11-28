@@ -103,8 +103,11 @@ async function creationUser (userData) {
 
 
 
-async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
+async function authenticate({ firstName, password }) {
+    console.log('Authentication service')
+    console.log({firstName})
+    console.log({password})
+    const user = await User.findOne({ firstName });
     console.log(user);
     if (user && bcrypt.compareSync(password, user.hash)) {
         //  if (user && bcrypt.compareSync(password, user.hash)) {

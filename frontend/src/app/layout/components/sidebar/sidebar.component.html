@@ -1,12 +1,12 @@
-<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}"  *ngIf="currentUser">
     <div class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;
             <span>{{ 'Dashboard' | translate }}</span>
         </a>
         <!-- User Details -->
-        <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
+        <div class="nested-menu" >
+            <a  class="list-group-item" (click)="addExpandClass('pages')" *ngIf="isAdmin" >
                 <i class="fa fa-user-plus"></i>&nbsp;
                 <span>{{ 'User Administration' | translate }}</span>
             </a>
@@ -60,14 +60,9 @@
     </div> 
     <!-- End Catagory -->
 
-
-        <a [routerLink]="['/brands']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-tags"></i>&nbsp;
-            <span>{{ 'Brands' | translate }}</span>
-        </a>
         <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-shopping-bag"></i>&nbsp;
-            <span>{{ 'Catagory' | translate }}</span>
+            <span>{{ 'GRN' | translate }}</span>
         </a>
         <a [routerLink]="['/stores']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-archive"></i>&nbsp;
@@ -75,7 +70,7 @@
         </a>
         <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-cogs"></i>&nbsp;
-            <span>{{ 'Attributes' | translate }}</span>
+            <span>{{ 'Purchase Order' | translate }}</span>
         </a>
         <a [routerLink]="['/salesOrder']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-shopping-cart"></i>&nbsp;
@@ -83,7 +78,7 @@
         </a>
         <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-clipboard"></i>&nbsp;
-            <span>{{ 'Packages' | translate }}</span>
+            <span>{{ 'Reports' | translate }}</span>
         </a>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">

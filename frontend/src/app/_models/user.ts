@@ -14,5 +14,6 @@ export class User {
     description:string;
     active:boolean;
     token?: string;
-    image: string;  
+    image: string;
+    role:String  
 }

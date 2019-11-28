@@ -13,11 +13,20 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 
   constructor(
 
     private http: HttpClient
-  ) { }
+  ) { 
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
   getGroupName() {
     
     return this.http.get(config.PAPYRUS+`/users/groupNames`);
@@ -55,14 +64,17 @@ export class AuthenticationService {
   }
 
 
-  login(username: string, password: string): Observable<any> {
-    console.log(username + password);
-   return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { username, password })
+  login(firstName: string, password: string): Observable<any> {
+    console.log('Authentication' + firstName + password);
+   return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { firstName, password })
      .pipe(map(user => {
        // login successfull if there is a jwt token in the response
        if (user && user.token) {
          // store user details and jwt token in local storage to keep user logged in between page refreshes
          localStorage.setItem('currentUser', JSON.stringify(user));
+         console.log('LOGIN')
+         console.log(user);
+         console.log(this.currentUser)
          this.currentUserSubject.next(user);
        }
 
@@ -113,6 +125,12 @@ export class AuthenticationService {
           console.log("service :" + groupid);
           return this.http.get<any>(config.PAPYRUS+`/users/getId/${groupid}`);
 
+        }
+
+        logout(): void {
+          // remove user from local storage to log user out
+          localStorage.removeItem('currentUser');
+          this.currentUserSubject.next(null);
         }
       
 

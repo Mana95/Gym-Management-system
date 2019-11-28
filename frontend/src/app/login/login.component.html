@@ -21,10 +21,10 @@
                     </div>
                 </div>
                 <button type = "submit" class = "btn rounded-btn">Login</button>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()">{{ 'Log in' | translate }}</a>
+                <!-- <a class="btn rounded-btn" [routerLink]="['/']" (click)="onLoggedin()">{{ 'Log in' | translate }}</a>
                 &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">{{ 'Register' | translate }}</a>
-            <!-- <div *ngIf="error" class="alert alert-danger"><b>{{error}}</b></div> -->
+                <a class="btn rounded-btn" [routerLink]="['/signup']">{{ 'Register' | translate }}</a> -->
+            <div *ngIf="error" class="alert alert-danger"><b>{{error}}</b></div>
             </form>
         </div>
     </div>
