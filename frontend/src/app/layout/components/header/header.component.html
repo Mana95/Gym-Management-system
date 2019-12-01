@@ -5,9 +5,9 @@
         <i class="fa fa-bars text-muted" aria-hidden="true"></i>
     </button>
     <div class="collapse navbar-collapse">
-        <form class="form-inline my-2 my-lg-0">
+        <!-- <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="{{ 'Search' | translate }}" >
-        </form>
+        </form> -->
         <ul class="navbar-nav ml-auto">
            &nbsp;
             <li class="nav-item">
@@ -28,7 +28,7 @@
                             src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image"
                         >
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">John Smith</h5>
+                            <h5 class="mt-0 mb-1">{{currentUser.firstName}}</h5>
                             <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
@@ -39,7 +39,7 @@
                             alt="Generic placeholder image"
                         >
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">John Smith</h5>
+                            <h5 class="mt-0 mb-1">{{currentUser.firstName}}</h5>
                             <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
@@ -50,7 +50,7 @@
                             alt="Generic placeholder image"
                         />
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">John Smith</h5>
+                            <h5 class="mt-0 mb-1">{{currentUser.firstName}}</h5>
                             <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
@@ -59,7 +59,7 @@
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+                    <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">{{currentUser.firstName}}</span>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a href="javascript:void(0)" class="dropdown-item">
@@ -110,7 +110,7 @@
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-user"></i> John Smith <b class="caret"></b>
+                    <i class="fa fa-user"></i>{{currentUser.firstName}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a class="dropdown-item" href="javascript:void(0)">

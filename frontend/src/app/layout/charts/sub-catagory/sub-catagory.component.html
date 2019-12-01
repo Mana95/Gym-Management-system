@@ -10,15 +10,14 @@
           </button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="subCatagoryResgiter" (ngSubmit)="onSubmit()">
+          <form [formGroup]="subCatagoryResgiter" (ngSubmit)="onSubmit(userID)">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4">Sub Catagory ID *</label>
-                <input type="text" class="form-control" formControlName="sub_catId" placeholder="Sub Catagory ID"
-                  [ngClass]="{ 'is-invalid': submitted && subC.sub_catId.errors }">
-                <div *ngIf="submitted && subC.sub_catId.errors" class="invalid-feedback">
+                <input type="text" class="form-control" [value]="userId"  disabled #userID>
+                <!-- <div *ngIf="submitted && subC.sub_catId.errors" class="invalid-feedback">
                   <div *ngIf="subC.sub_catId.errors.required">Catagory ID is required</div>
-                </div>
+                </div> -->
               </div>
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Sub Catagory Name</label>

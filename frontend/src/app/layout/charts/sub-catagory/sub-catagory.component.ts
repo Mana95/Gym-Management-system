@@ -17,6 +17,7 @@ export class SubCatagoryComponent implements OnInit {
   submitted = false;
   loading = false;
   error = '';
+  userId:any;
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -29,7 +30,7 @@ export class SubCatagoryComponent implements OnInit {
      
       
     this.subCatagoryResgiter = this.formBuilder.group({
-      sub_catId: ['', Validators.required],
+      //sub_catId: ['', Validators.required],
       sub_catName: ['', Validators.required],
       description: ['', Validators.required],
       mainCatgory:['' ,Validators.required ]
@@ -50,7 +51,16 @@ export class SubCatagoryComponent implements OnInit {
         console.log(data);
       }
     );
-    
+     //Id Gen
+     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+     var string_length = 8;
+     var id = 'SC_'+'';
+     for (var i=0; i<string_length; i++) {
+       var rnum = Math.floor(Math.random() * chars.length);
+       id += chars.substring(rnum,rnum+1);
+       this.userId = id;
+ 
+     }
 
   }
 
@@ -77,14 +87,14 @@ export class SubCatagoryComponent implements OnInit {
   }
 
 
-  onSubmit() {
+  onSubmit(userID) {
     this.submitted = true;
     this.loading = true;
 
     if (this.subCatagoryResgiter.valid) {
 
       let sub_cat = {
-        id: this.subC.sub_catId.value,
+        id: userID.value,
         sub_cat_name: this.subC.sub_catName.value,
         description: this.subC.description.value,
         mainCatgory:this.subC.mainCatgory.value

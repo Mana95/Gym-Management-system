@@ -12,6 +12,16 @@ export class CatagoryService {
     private http: HttpClient
    ) { }
 
+   getSubCatNames(catName) {
+     console.log('CATAGORY')
+     console.log(catName)
+     return this.http.get<any>(config.PAPYRUS +`/catagory/getNames/${catName}`)
+   }
+
+   insertItemData(data) {
+    return this.http.post<any>(config.PAPYRUS+`/catagory/insertItemData`, data)
+   }
+
    getCatNames() {
 
     return this.http.get<any>(config.PAPYRUS+`/catagory/getCatName`)

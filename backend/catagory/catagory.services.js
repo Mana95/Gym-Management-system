@@ -4,6 +4,7 @@ const db = require('_helpers/db');
 
  const Catagory = db.Catagory;
  const SubCatagory = db.SubCatagory;
+ const item = db.Item;
 
 
 module.exports = {
@@ -13,10 +14,26 @@ module.exports = {
    deleteData,
    insertSubCat,
    getAllSub,
-   getCatName
+   getCatName,
+   getCatDataRelevent,
+   insertItData
   
 
 };
+
+async function insertItData(data) {
+    console.log(data)
+    const item = new Item(data);
+    console.log(subcat);
+    await item.save();
+  
+}
+
+async function getCatDataRelevent(id){
+    return await SubCatagory.find({mainCatgory:id});
+}
+
+
 async function getCatName() {
     console.log('getCatagoryName')
     return await Catagory.find({} , {cat_name:1 , _id:0})

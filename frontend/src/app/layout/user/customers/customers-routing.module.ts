@@ -1,18 +1,18 @@
-import { EditGroupComponent } from './edit-group.component';
+import { CustomersComponent } from './customers.component';
+
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: '', component: EditGroupComponent
+        path: '', component:CustomersComponent
     },
 ];
+
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-
-export class EditGroupRoutingModule {
+export class CustomersRoutingModule {
 }

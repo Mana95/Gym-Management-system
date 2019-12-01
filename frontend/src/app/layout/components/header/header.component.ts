@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
+    currentUser:any;
 
     constructor(private translate: TranslateService, public router: Router,
         private authenticationService:AuthenticationService) {
@@ -23,10 +24,12 @@ export class HeaderComponent implements OnInit {
                 this.toggleSidebar();
             }
         });
+        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
+     
     }
 
     isToggled(): boolean {

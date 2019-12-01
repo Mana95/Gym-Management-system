@@ -33,6 +33,8 @@ export class SidebarComponent implements OnInit {
             }
         });
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+        console.log('Constructor');
+        console.log(this.currentUser)
     }
 
     ngOnInit() {
@@ -41,6 +43,7 @@ export class SidebarComponent implements OnInit {
         this.showMenu = '';
         this.showMenuCat = '';
         this.pushRightClass = 'push-right';
+        console.log('ROLE')
         console.log(Role);
         this.authenticationService.getAllRole()
         .subscribe(

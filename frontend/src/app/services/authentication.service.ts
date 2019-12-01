@@ -26,6 +26,17 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+  getSubCatNames(data) {
+    return this.http.get(config.PAPYRUS+`/users/subCatGetting/${data}`)
+  }
+
+  getAllSuppliers() {
+    return this.http.get(config.PAPYRUS+`/users/allSuppliers`)
+  }
+
+  getAllCustomer() {
+    return this.http.get(config.PAPYRUS+`/users/allCustomers`)
+  }
 
   getGroupName() {
     
@@ -50,7 +61,7 @@ export class AuthenticationService {
     return this.http.get(config.PAPYRUS+`/users/roles`);
   
   }
-  getRoleUser(roleData) {
+  getRoleUser(roleData) { 
     console.log(roleData);
     return this.http.get(config.PAPYRUS+`/users/userRoles/${roleData}`);
   }
@@ -61,6 +72,15 @@ export class AuthenticationService {
       return this.http.delete<any>(config.PAPYRUS +`/users/d/${userRecord}`)
  
 
+  }
+
+  registerCustomer(data) :Observable<any>{
+    console.log(data)
+    return this.http.post<any>(config.PAPYRUS+ `/users/cusCreation`, data)
+    
+  }
+  registerSupplier (data):Observable<any> {
+    return this.http.post<any>(config.PAPYRUS+ `/users/supCreation`, data)
   }
 
 
@@ -86,7 +106,7 @@ export class AuthenticationService {
     //methin thamai call karala thiyenne back end ekata 
     alert(userParam.username);
           console.log (userParam );
-          return this.http.post<any>(config.PAPYRUS+`/users/register`, userParam)
+          return this.http.post<any>(config.PAPYRUS+`/users/signUp`, userParam)
           .pipe(map(user => {
             // register successfull if there is a jwt token in the response
             return user;

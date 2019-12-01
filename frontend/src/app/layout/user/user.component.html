@@ -20,7 +20,7 @@
                         <tr *ngFor= "let data of userview">
                                 <td style="text-align: center;" data-toggle="tooltip" data-placement="top" title= {{data.userId}}>{{ data.firstName}}</td>
                                 <td style="text-align: center;">{{ data.lastName}}</td>
-                                <td style="text-align: center;">{{ data.assignRole}}</td>
+                                <td style="text-align: center;">{{ data.role}}</td>
                                 <td style="text-align: center;">{{ data.mobileNumber}}</td>
                                 <td style="text-align: center;"><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                     &nbsp;<button type="button" (click)="deleteRecord(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>

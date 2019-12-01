@@ -5,19 +5,35 @@ module.exports = router;
 
 router.post('/insertCat', insertCatData);
 router.post('/insertSubCat' , insertSubCat)
+router.post('/insertItemData' , insertItemData)
 
 router.get('/getAll', getData);
 router.get('/getAllSub' , getSubCatData)
 router.get('/getCatName' , getCatName)
+router.get('/feteadsda/:id' , getReleventCat)
 
 
 router.delete('/deleteRec/:id', deleteData);
 
 
+function insertItemData(req ,res ,next) {
+    console.log(req.body)
+    catService.insertItData(req.body)
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
+
+function getReleventCat(req ,res ,next){
+    catService.getCatDataRelevent(req.params.id)
+    .then(sup => res.json(sup))
+    .catch(err => next(err));
+
+}
 
 
 
 function insertSubCat(req ,res ,next) {
+    console.log('Controller');
     console.log(req.body);
     catService.insertSubCat(req.body)
     .then(() => res.json({}))

@@ -11,6 +11,9 @@ const nodemailer = require('nodemailer');
 const User = db.User;
 const Roles = db.Roles;
 const Groups = db.Groups;
+const Customers=db.Customers;
+const Supplier =db.Supplier;
+const SubCatagory = db.SubCatagory;
 module.exports = {
 
     authenticate,
@@ -27,11 +30,46 @@ module.exports = {
     UpdateUserService,
     loadByID,
     getGroupNames,
-    getDetailUsers
+    getDetailUsers,
+    cusRegister,
+    getCustomerData,
+    supRegister,
+    getSuppliers,
+    getCatDataRelevent,
+    signUpUser
+
 
 
 
 };
+async function getCatDataRelevent(id){
+    return await SubCatagory.find({mainCatgory:id});
+}
+
+async function getSuppliers() {
+    return await Supplier.find({});
+}
+
+
+async function supRegister(data) {
+    console.log('SERVICE');
+    const supplier = new Supplier(data);
+    console.log(supplier);
+    await supplier.save();
+}
+
+async function getCustomerData(){
+    return await Customers.find({});
+}
+
+async function cusRegister (data) {
+    console.log('SERVICE');
+    const customer = new Customers(data);
+    console.log(customer);
+    await customer.save();
+}
+
+
 
 async function getDetailUsers(roleValue) {
     console.log('service' + roleValue )
@@ -99,6 +137,27 @@ async function creationUser (userData) {
     // save user
     await user.save();
 
+}
+
+async function signUpUser(data) {
+    console.log(data.username);
+    if (await User.findOne({ username: data.username })) {
+        // throw 'User name is already existent'; 
+        let message = 'User Name is available'
+        return {
+            message
+        };
+    }
+
+    const user = new User(data);
+    console.log(user);
+    // hash password
+    if (data.password) {
+        user.hash = bcrypt.hashSync(data.password, 10);
+    }
+
+    // save user
+    await user.save();
 }
 
 

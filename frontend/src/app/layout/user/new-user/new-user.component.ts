@@ -30,8 +30,15 @@ export class NewUserComponent implements OnInit {
 
     this.user.active = false;
      
-
-    let id = 'U_' + Math.random().toString(36).substr(4, 5);
+    var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+    var string_length = 8;
+    var id = 'U_'+'';
+    for (var i=0; i<string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      id += chars.substring(rnum,rnum+1);
+  }
+  console.log(id);
+   
     this.userId = id;
     this.authenticationService.getAllRole()
     .subscribe(data => {
@@ -52,9 +59,6 @@ export class NewUserComponent implements OnInit {
       phonenumber: ['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
       assignRole: ['', Validators.required],
       address: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zip: ['', Validators.required],
       description: ['', Validators.required],
       active: ['false']
     })
@@ -96,9 +100,6 @@ export class NewUserComponent implements OnInit {
       "mobileNumber": this.f.phonenumber.value,
       "role": this.f.assignRole.value,
       "address": this.f.address.value,
-      "city": this.f.city.value,
-      "state": this.f.state.value,
-      "zip": this.f.zip.value,
       "description": this.f.description.value,
       "active": this.f.active.value
 

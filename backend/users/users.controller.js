@@ -6,7 +6,11 @@ const userService = require('./user.service');
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
+router.post('/signUp', signUp);
+
 router.post('/userCreation', userCreation);
+router.post('/cusCreation' , cusRegister)
+router.post('/supCreation' , supRegister)
 
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
@@ -15,6 +19,9 @@ router.post('/userUpdate', UpdateUser);
 router.get('/getId/:id' , getGroupById)
 router.get('/groupNames' , getGroupByName)
 router.get('/userRoles/:id' , getuserRole)
+router.get('/allCustomers' , getCustomersData)
+router.get('/allSuppliers', getSupplierData)
+router.get('/subCatGetting/:id' , getReleventCat)
 
 
 
@@ -29,6 +36,39 @@ router.delete('/d/:id', deleteRecord);
 
 
 module.exports = router;
+function getReleventCat(req ,res ,next){
+    userService.getCatDataRelevent(req.params.id)
+    .then(sup => res.json(sup))
+    .catch(err => next(err));
+
+}
+function getSupplierData(req ,res ,nex) {
+    userService.getSuppliers()
+    .then(sup => res.json(sup))
+    .catch(err => next(err));
+}
+
+function supRegister(req ,res ,next) {
+    userService.supRegister(req.body)
+    .then(sup => res.json(sup))
+    .catch(err => next(err));
+}
+
+function getCustomersData(req, res, next){
+userService.getCustomerData()
+.then(customer => res.json(customer))
+.catch(err => next(err));
+}
+
+function cusRegister(req ,res ,next){
+    console.log(req.body);
+    let cusData = req.body;
+    userService.cusRegister(cusData)
+    .then(customer => res.json(customer))
+    .catch(err => next(err));
+}
+
+
 
 function getuserRole(req,res, next) {
     console.log("contorller" + req.params.id)
@@ -100,6 +140,22 @@ function userCreation (req, res , next) {
     .catch(err => next(err));
 }
 
+function signUp(req, res, next){
+    let currentUser = req.body.firstName
+    console.log('SIGNUp'+ currentUser);
+    userService.signUpUser(req.body)
+        .then(user =>{
+            if(user){
+                console.log('USER')
+                console.log(user)
+                res.json(user)
+              
+            }
+        }
+        )
+        .catch(err => next(err));
+}
+
 function authenticate(req, res, next) {
     console.log(req.body)
     userService.authenticate(req.body)
@@ -111,7 +167,7 @@ function register(req, res, next) {
 
     console.log(req.body);
     userService.create(req.body)
-        .then(() => res.json({}))
+        .then((user) => res.json({}))
         .catch(err => next(err));
 }
 

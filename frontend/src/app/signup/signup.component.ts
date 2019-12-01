@@ -16,10 +16,14 @@ export class SignupComponent implements OnInit {
 
 registerForm : FormGroup;
    //Decalre the variables
-submitted : false;
-loading : false;
+   active = false;
+   submitted = false;   
+   loading = false;
+   errorValue:'any';
 error:'';
 currentUser : User;
+userId: any;
+cusId : any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -31,33 +35,173 @@ currentUser : User;
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            email:['',Validators.required],
-            password: ['', Validators.required]
+            firstName: ['', Validators.required],
+            lastName: ['', Validators.required],
+            address:['',Validators.required],
+            phonenumber:['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
+            email:['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            description: [''],
+            confirmPassword: ['', Validators.required]
+        },
+        {
+            validator: this.MustMatch('password', 'confirmPassword')
         });
+
+
+
+          //Id Gen
+    var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+    var string_length = 8;
+    var id = 'U_' + '';
+    var cusId = 'CUS_'+'';
+    for (var i = 0; i < string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      id += chars.substring(rnum, rnum + 1);
+      this.userId = id;
+
+    }
+    for (var i = 0; i < string_length; i++) {
+        var rnum = Math.floor(Math.random() * chars.length);
+        cusId += chars.substring(rnum, rnum + 1);
+        this.cusId = cusId;
+  
+      }
+
+
+    }
+    
+
+    //validation the phone number
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+
+    }
+
+  }
+
+
+    //Matching the pW
+
+    MustMatch(controlName: string, matchingControlName: string) {
+        return (formGroup: FormGroup) => {
+            const control = formGroup.controls[controlName];
+            const matchingControl = formGroup.controls[matchingControlName];
+    
+            if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+                // return if another validator has already found an error on the matchingControl
+                return;
+            }
+    
+            // set error on matchingControl if validation fails
+            if (control.value !== matchingControl.value) {
+                matchingControl.setErrors({ mustMatch: true });
+            } else {
+                matchingControl.setErrors(null);
+            }
+        }
+    }
+
+    setInactive() {
+    //  console.log('sd')
+        this.active = false;
     }
 //controlling the register
-get registerControls() {
+get f() {
     return this.registerForm.controls;
 }
 
-onSubmit() {
-alert("This is the Submit Form");
+onSubmit(userID) {
+    this.submitted = true;
+    this.loading = true;
+//alert("This is the Submit Form");
+let idData = this.userId;
+let cusId = this.cusId;
+console.log(idData);
 
+let cusParam = {
+    "id": cusId,
+    "user_id": idData,
+    "firstName": this.f.firstName.value ,
+     "lastName": this.f.lastName.value ,
+     "username" : this.f.firstName.value,
+     "password": this.f.password.value,
+     "mobileNumber":this.f.phonenumber.value,
+     "description": this.f.description.value,
+      "email": this.f.email.value,
+      "address":this.f.address.value,
+      "role": "Customer",
+      "active" : "true"
+
+}
+//main table is user
 let userParam = {
-    "username": this.registerControls.username.value , "password": this.registerControls.password.value , "email": this.registerControls.email.value
+    "user_id": idData,
+    "firstName": this.f.firstName.value ,
+     "lastName": this.f.lastName.value ,
+     "username" : this.f.firstName.value,
+     "password": this.f.password.value,
+     "mobileNumber":this.f.phonenumber.value,
+     "description": this.f.description.value,
+      "email": this.f.email.value,
+      "address":this.f.address.value,
+      "role": "Customer",
+      "active" : "true"
 }
 
+
+
+
+
+console.log(cusParam)
+
+if(this.registerForm.valid){
+//inserting to the user table
 this.authenticationService.register(userParam)
 .subscribe(
     data=> {
+        console.log('data');
         console.log(data);
+        
+       
+        if(data.message == 'User Name is available'){
+            this.active = true;
+            this.errorValue =data.message;
+        }
+       // setTimeout(function(){  this.active =false; }, 2000);
     },
     error => {
-        this.error = error;
+        console.log('error');
+        this.error = error.error.message;
+        this.errorValue =error.error.message.message
+        console.log(error);
+        console.log(this.errorValue)
         this.loading = false;
+       
     }
+    
 );
+this.submitted = false;
+//this.loading = false;
+  
+this.registerForm.reset();
 
+
+//inserting to the customer table
+// this.authenticationService.userCreation(cusParam)
+//         .subscribe(data => {
+//           console.log(data);
+//         },
+//           error => {
+//             this.error = error;
+//             this.loading = false;
+
+//           });
+
+
+ }
 }
 }

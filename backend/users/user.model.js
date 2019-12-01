@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    userId: {
+    user_id: {
         type: String,
-        unique: true,
+      
         required: true
     },
     hash: {
@@ -26,18 +26,6 @@ const schema = new Schema({
         required: true
     },
     address: {
-        type: String,
-        required: true
-    },
-    city: {
-        type: String,
-        required: true
-    },
-    state: {
-        type: String,
-        required: true
-    },
-    zip: {
         type: String,
         required: true
     },
