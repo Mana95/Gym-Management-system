@@ -127,15 +127,15 @@ async function getGroups() {
 async function creationUser (userData) {
     console.log("creationUser");
     // validate
-    const user = new User(userData);
+    const cus = new Customers(userData);
     console.log(userData);
     // hash password
     if (userData.password) {
-        user.hash = bcrypt.hashSync(userData.password, 10);
+        cus.hash = bcrypt.hashSync(userData.password, 10);
     }
 
     // save user
-    await user.save();
+    await cus.save();
 
 }
 
@@ -143,10 +143,10 @@ async function signUpUser(data) {
     console.log(data.username);
     if (await User.findOne({ username: data.username })) {
         // throw 'User name is already existent'; 
-        let message = 'User Name is available'
-        return {
-            message
-        };
+        console.log('HI')
+        let message = 3
+        return message;
+        
     }
 
     const user = new User(data);

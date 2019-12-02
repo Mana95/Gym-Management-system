@@ -24,6 +24,10 @@ const schema = new Schema({
         type:String,
         required:true
     },
+    username: {
+        type:String,
+        required:true
+    },
 
     description: {
         type:String,
@@ -49,9 +53,7 @@ const schema = new Schema({
         type: Date,
         default: Date.now
     },
-    description: {
-        type:String
-    }
+   
 
 });
 

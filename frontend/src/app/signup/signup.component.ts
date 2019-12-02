@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../services/authentication.service';
-import { User } from './../_models/user';
+import { User, UserRegistrationStatus } from './../_models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../router.animations';
@@ -19,11 +19,12 @@ registerForm : FormGroup;
    active = false;
    submitted = false;   
    loading = false;
-   errorValue:'any';
+   errorValue: any;
 error:'';
 currentUser : User;
 userId: any;
 cusId : any;
+customerData = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -129,7 +130,7 @@ let cusParam = {
      "lastName": this.f.lastName.value ,
      "username" : this.f.firstName.value,
      "password": this.f.password.value,
-     "mobileNumber":this.f.phonenumber.value,
+     "phonenumber":this.f.phonenumber.value,
      "description": this.f.description.value,
       "email": this.f.email.value,
       "address":this.f.address.value,
@@ -137,6 +138,7 @@ let cusParam = {
       "active" : "true"
 
 }
+console.log(cusParam)
 //main table is user
 let userParam = {
     "user_id": idData,
@@ -165,41 +167,43 @@ this.authenticationService.register(userParam)
     data=> {
         console.log('data');
         console.log(data);
-        
+        this.customerData = true;
        
-        if(data.message == 'User Name is available'){
+        if(data == UserRegistrationStatus.DUPLICATEUSER ){
             this.active = true;
-            this.errorValue =data.message;
+            this.errorValue = 'User Name is available';
+            console.log(this.errorValue);
         }
        // setTimeout(function(){  this.active =false; }, 2000);
     },
     error => {
         console.log('error');
-        this.error = error.error.message;
-        this.errorValue =error.error.message.message
-        console.log(error);
-        console.log(this.errorValue)
+        console.log(error)
         this.loading = false;
        
     }
     
 );
+
+if(!this.customerData) {
+
+this.authenticationService.userCreation(cusParam)
+        .subscribe(data => {
+          console.log(data);
+        },
+          error => {
+            this.error = error;
+            this.loading = false;
+
+          });
+
+        }
 this.submitted = false;
 //this.loading = false;
   
 this.registerForm.reset();
 
 
-//inserting to the customer table
-// this.authenticationService.userCreation(cusParam)
-//         .subscribe(data => {
-//           console.log(data);
-//         },
-//           error => {
-//             this.error = error;
-//             this.loading = false;
-
-//           });
 
 
  }
