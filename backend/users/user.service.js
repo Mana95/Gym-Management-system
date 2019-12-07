@@ -14,6 +14,9 @@ const Groups = db.Groups;
 const Customers=db.Customers;
 const Supplier =db.Supplier;
 const SubCatagory = db.SubCatagory;
+
+
+
 module.exports = {
 
     authenticate,

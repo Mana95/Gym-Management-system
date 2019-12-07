@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs');
+
 const db = require('_helpers/db');
 
 
  const Catagory = db.Catagory;
  const SubCatagory = db.SubCatagory;
- const item = db.Item;
+ const ItemData = db.ItemData;
 
 
 module.exports = {
@@ -16,17 +16,21 @@ module.exports = {
    getAllSub,
    getCatName,
    getCatDataRelevent,
-   insertItData
+   insertItData,
+   getItemData
   
 
 };
 
-async function insertItData(data) {
-    console.log(data)
-    const item = new Item(data);
-    console.log(subcat);
-    await item.save();
-  
+async function getItemData(){
+    return await ItemData.find({});
+}
+
+async function insertItData(data){
+    console.log('SERVICE');
+    const itemData = new ItemData(data);
+    console.log(itemData);
+    await itemData.save();
 }
 
 async function getCatDataRelevent(id){

@@ -4,17 +4,23 @@ const catService = require('./catagory.services')
 module.exports = router;
 
 router.post('/insertCat', insertCatData);
-router.post('/insertSubCat' , insertSubCat)
-router.post('/insertItemData' , insertItemData)
+router.post('/insertSubCat' , insertSubCat);
+router.post('/insertItemData' , insertItemData);
 
 router.get('/getAll', getData);
-router.get('/getAllSub' , getSubCatData)
-router.get('/getCatName' , getCatName)
-router.get('/feteadsda/:id' , getReleventCat)
+router.get('/getAllSub' , getSubCatData);
+router.get('/getCatName' , getCatName);
+router.get('/feteadsda/:id' , getReleventCat);
+router.get('/getItemDetails', getItemDetails);
 
 
 router.delete('/deleteRec/:id', deleteData);
 
+function getItemDetails(req ,res, next){
+    catService.getItemData()
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
 
 function insertItemData(req ,res ,next) {
     console.log(req.body)

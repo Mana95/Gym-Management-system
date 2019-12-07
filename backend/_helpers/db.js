@@ -11,7 +11,8 @@ module.exports = {
     SubCatagory: require('../catagory/subcatagory.model'),
     Customers: require('../users/customer.model'),
     Supplier:require('../users/supplier.model'),
-    Item:require('../catagory/item.model'),
+   
+    ItemData: require('../catagory/item.model'),
     //Now added
     Uplds: require('../uplds/upload.model'),
     Comments: require('../comments/comment.model'),

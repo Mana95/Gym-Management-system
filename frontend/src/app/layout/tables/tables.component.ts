@@ -1,10 +1,11 @@
 import { AuthenticationService } from './../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
+import { distinct } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tables',
@@ -23,6 +24,10 @@ export class TablesComponent implements OnInit {
   userId: any;
   active = false;
   error = '';
+  imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+  editFile: boolean = true;
+  removeUpload: boolean = false;
+
 
 
   constructor(
@@ -31,17 +36,48 @@ export class TablesComponent implements OnInit {
     private catagoryService: CatagoryService,
     private router: Router,
     private route: ActivatedRoute,
-    private autenticationService: AuthenticationService
+    private autenticationService: AuthenticationService,
+
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.itemGroup = this.formBuilder.group({
       cat_name: ['', Validators.required],
-      item_name:['',Validators.required],
-      quantity:['', Validators.required],
-      description: ['', Validators.required],
-      sub_cat: ['', Validators.required]
-    })
+      item_name: ['', Validators.required],
+      quantity: [null, Validators.required],
+      description: [''],
+      sub_cat: ['', Validators.required],
+      selling_price: ['', Validators.required],
+      buying_price: ['', Validators.required]
+    });
+
+    const qty = this.itemGroup.get('quantity');
+    const sellingPrice = this.itemGroup.get('selling_price');
+    const buying_price = this.itemGroup.get('buying_price');
+
+    qty.valueChanges
+      .pipe(distinct())
+      .subscribe(value => qty.setValue(+value || 0));
+
+    sellingPrice.valueChanges
+      .pipe(distinct())
+      .subscribe(value => sellingPrice.setValue(+value || 0));
+
+    buying_price.valueChanges
+      .pipe(distinct())
+      .subscribe(value => buying_price.setValue(+value || 0));
+
+    this.catagoryService.getItemDetials()
+    .subscribe(
+      data=>{
+        console.log(data)
+        this.itemData=data;
+      },
+      error=> {
+        console.log(error)
+      }
+    )
 
 
     this.catagoryService.getCatNames()
@@ -70,39 +106,67 @@ export class TablesComponent implements OnInit {
 
   }
 
+  uploadFile(event) {
+    console.log(this.imageUrl);
+    let reader = new FileReader(); // HTML5 FileReader API
+    let file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(file);
+
+      // When file uploads set it to file formcontrol
+      reader.onload = () => {
+        this.imageUrl = reader.result;
+        this.itemGroup.patchValue({
+          file: reader.result
+        });
+        this.editFile = false;
+        this.removeUpload = true;
+      }
+      // ChangeDetectorRef since file is loading outside the zone
+      this.cd.markForCheck();
+    }
+  }
+
 
   onSubmit(data) {
+    console.log(data.value)
     this.submitted = true;
     this.loading = true;
 
-    let itemData = {
-      id: data.value,
-      cat_name: this.f.cat_name.value,
-      item_name:this.f.item_name.value,
-      quantity:this.f.quantity.value,
-      description: this.f.description.value,
-      sub_cat:  this.f.sub_cat.value
-    }
-    console.log(itemData);
 
-    if(this.itemGroup.valid){
+  
+   
+    if (this.itemGroup.valid) {
+      var selValue = this.f.selling_price.value.toFixed(2);
+      var buyValue = this.f.buying_price.value.toFixed(2);
+      console.log(selValue)
       
-    this.catagoryService.insertItemData(itemData)
-    .subscribe(
-      res=>{
-        console.log(res);
-      },
-      error => {
-        this.error = error;
-        this.loading = false;
+      let itemData = {
+        id: this.userId,
+        cat_name: this.f.cat_name.value,
+        item_name: this.f.item_name.value,
+        quantity: this.f.quantity.value,
+        description: this.f.description.value,
+        sub_cat: this.f.sub_cat.value,
+        selling_price: Number(selValue),
+        buying_price: Number(buyValue),
+        image: data.value
       }
 
-    )
-    this.submitted = false;
+      console.log(itemData);
+      this.catagoryService.insertItemData(itemData)
+        .subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+          }
+
+        )
+      this.submitted = false;
     }
-
-    
-
 
   }
 

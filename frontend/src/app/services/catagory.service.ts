@@ -19,6 +19,7 @@ export class CatagoryService {
    }
 
    insertItemData(data) {
+     console.log('SERVICE'+ data)
     return this.http.post<any>(config.PAPYRUS+`/catagory/insertItemData`, data)
    }
 
@@ -29,6 +30,10 @@ export class CatagoryService {
    }
    insertSubCat(data) {
     return this.http.post<any>(config.PAPYRUS+`/catagory/insertSubCat`, data)
+   }
+
+   getItemDetials(){
+    return this.http.get<any>(config.PAPYRUS+`/catagory/getItemDetails`)
    }
 
 
