@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit {
     collapsed: boolean;
     showMenu: string;
     showMenuCat: string;
+    showMenuRequest: string
     pushRightClass: string;
     currentUser: User;
     public role_name_array = [];
@@ -40,6 +41,7 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.isActive = false;
         this.collapsed = false;
+        this.showMenuRequest='';
         this.showMenu = '';
         this.showMenuCat = '';
         this.pushRightClass = 'push-right';
@@ -85,6 +87,14 @@ export class SidebarComponent implements OnInit {
         this.isActive = !this.isActive;
     }
 
+    addExpandRequestClass (element:any) {
+        if (element === this.showMenuRequest) {
+            this.showMenuRequest = '0';
+        } else {
+            this.showMenuRequest = element;
+        }
+    }
+
     addExpandCatClass (element:any) {
         if (element === this.showMenuCat) {
             this.showMenuCat = '0';
@@ -101,6 +111,8 @@ export class SidebarComponent implements OnInit {
             this.showMenu = element;
         }
     }
+
+    
 
     toggleCollapsed() {
         this.collapsed = !this.collapsed;

@@ -12,9 +12,28 @@ router.get('/getAllSub' , getSubCatData);
 router.get('/getCatName' , getCatName);
 router.get('/feteadsda/:id' , getReleventCat);
 router.get('/getItemDetails', getItemDetails);
-
+router.get('/getitemsNames/:id' , getitemsNames);
+router.get('/getByItemName/:id' ,  getByName);
 
 router.delete('/deleteRec/:id', deleteData);
+
+
+function getByName(req,res,next) {
+    console.log(req.params.id);
+   
+    catService.getByItemName(req.params.id)
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
+
+
+function getitemsNames(req,res,next){
+    console.log(req.params.id)
+    catService.getItemrelventItems(req.params.id)
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
+
 
 function getItemDetails(req ,res, next){
     catService.getItemData()

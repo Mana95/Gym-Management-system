@@ -39,12 +39,22 @@ module.exports = {
     supRegister,
     getSuppliers,
     getCatDataRelevent,
-    signUpUser
+    signUpUser,
+    getreleventSupliers
 
 
 
 
 };
+
+async function getreleventSupliers(data) {
+  var name = data;
+ //  return await Supplier.find({sup_firstName: {$in:[data]}});
+      //return await Supplier.find({sup_firstName:{$regex : new RegExp(data)}});
+      return await Supplier.find({ sup_firstName: { $regex: '^' + data}})
+}
+
+
 async function getCatDataRelevent(id){
     return await SubCatagory.find({mainCatgory:id});
 }

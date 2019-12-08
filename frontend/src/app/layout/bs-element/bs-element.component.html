@@ -1,10 +1,64 @@
+<div class="card lg-12">
+    
+     
+  
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title"><b>Suplliers</b></h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+
+            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
+                <caption>
+                  <b>View Items Details</b>
+                </caption>
+                <thead>
+                  <tr>
+                    <th style="text-align: center;" scope="col">Supplier ID</th>
+                    <th style="text-align: center;" scope="col">Supplier Names</th>
+                    <th style="text-align: center;" scope="col">email</th>
+                    <th style="text-align: center;" scope="col">Phone number</th>
+                    
+                    <th style="text-align: center;" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+  
+                  <tr *ngFor="let data of supData">
+  
+                    <td style="text-align: center;">{{data.sup_id}}</td>
+                    <td style="text-align: center;">{{data.sup_firstName}}</td>
+                    <td style="text-align: center;">{{data.sup_email}}</td>
+                    <td style="text-align: center;">{{data.sup_phonenumber}}</td>
+                    <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm" (click)="onClickMe(data ,content)"><i
+                          class="fa fa-hand-pointer-o" aria-hidden="true"></i></button> &nbsp;
+                      </td>
+  
+                  </tr>
+  
+  
+                </tbody>
+              </table>
+        </ng-template>
+        
+  
+        <!-- TableDetails -->
+    </div>
+
+
+
+    <div class="card-header">
 <div class="card mb-8">
     <div class="card-body table-responsive">
         <div class="col-md-12">
             <div class="card bg-light mb-2">
                 <div class="card-header"><b>Purchase Order</b></div>
                 <div class="card-body">
-                    <form>
+                    <form [formGroup]="poGroup" (ngSubmit)="onSubmit()">
                         <div class="form-row">
                             
                             <div class="form-group col-md-6">
@@ -13,51 +67,83 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="example-date-input" class="">Date</label>
-                                <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                <b><input type="text" class="form-control" [value]="currentDate" disabled #curentDate></b> 
                             </div>
                         </div>
                         
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="Supplier_Id">Supplier Id</label>
-                                <select class="form-control">
-                                    <option>DATA</option>
-                                </select>
+                            <div class="form-group col-md-4">
+                                
+                                <input type="text" placeholder="Supplier Name" class="form-control" #supplierName/> 
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button type= "button" class="btn btn-primary" (click)="open(content , supplierName)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</button>
+
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="Supplier_name">Supplier Name</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control"  [value]="dataId" placeholder="Supplier Id" disabled/>
                             </div>
+                            
+                        </div>
+                        <div class="form-row">
+                        
+                            <div class="form-group col-md-6">
+                                    <label for="example-date-input" class="">Frist Name</label>
+                                <input type="text" class="form-control"  [value]="firstName" placeholder="Frist Name" disabled/>
+                            </div>
+                            <div class="form-group col-md-6">
+                                    <label for="example-date-input" class="">Last Name</label>
+                                <input type="text" class="form-control"  [value]="lastName" placeholder="Last Name" disabled/>
+                            </div>
+                   
                         </div>
 
                         <div class="card bg-secondary border-secondary">
                             <br>
                             <div class="container">
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="Supplier_Id">Catagory No</label>
-                                        <select class="form-control">
-                                            <option>DATA</option>
+                                    <div class="form-group col-md-6" (change)="getCatValue(data)">
+                                        <label for="Supplier_Id">Catagory Name</label>
+                                        <select class="form-control" #data formControlName=cat_name>
+                                        <option *ngFor="let data of catName">{{data.cat_name}}</option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group col-md-6" *ngIf="activecat" (change)="display(item)">
+                                       
+                                        <label for="Item"><b>Item</b></label>
+                                        <select class="form-control" #item>
+                                            <option *ngFor="let data of subcat">{{data.item_name}} </option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="Supplier_name"><b>Choose a Catagory for visibale Sub
-                                                catagory</b></label>
-                                        <label for="Supplier_Id">Catagory No</label>
-                                        <select class="form-control">
-                                            <option>Sub Cat</option>
+                                    <div class="form-group col-md-6" *ngIf="!activecat">
+                                       
+                                        <label for="Supplier_Id">Item</label>
+                                        <select class="form-control" disabled>
+                                            <option>Choose Category</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="Supplier_name">SubCatgory Name</label>
-                                            <input type="text" readonly class="form-control" />
+                                            <label for="Supplier_name">Item Id</label>
+                                            <input type="text" readonly  [value]="itemId"class="form-control" />
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="Supplier_name">Item Name</label>
+                                            <input type="text" readonly [value]="ItemName" class="form-control" />
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label for="Supplier_name">Quantity</label>
-                                            <input type="text" readonly class="form-control" />
+                                            <label for="Supplier_name">Available QTY</label>
+                                            <input type="text" readonly [value]="qty" class="form-control" />
+                                        </div>
+                                        <div class="form-group col-md-2" *ngIf="!activecat" >
+                                            <label for="Supplier_name">QTY</label>
+                                            <input type="text" readonly  numbersOnly class="form-control" />
+                                        </div>
+                                        <div class="form-group col-md-2" *ngIf="activecat" >
+                                            <label for="Supplier_name">QTY</label>
+                                            <input type="text"  numbersOnly class="form-control" />
                                         </div>
 
                                     </div>

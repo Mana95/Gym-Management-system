@@ -22,7 +22,10 @@ const routes: Routes = [
             { path: 'mainCat', loadChildren: () => import('./charts/main-catagory/main-catagory.module').then(m => m.MainCatagoryModule) },
             { path: 'newMainCat', loadChildren: () => import('./charts/main-catagory/main-new-catagory/main-new-catagory.module').then(m => m.MainNewCatagoryModule) },
             { path: 'newSubCat', loadChildren: () => import('./charts/sub-catagory/sub-catagory.module').then(m => m.SubCatagoryModule) },
-
+            { path: 'reqSalesOrder', loadChildren: () => import('./requests/sales-order-request/sales-order-request.module').then(m => m.SalesOrderRequestModule) },
+            { path: 'reqPurchaseOrder', loadChildren: () => import('./requests/purchase-order-request/purchase-order-request.module').then(m => m.PurchaseOrderRequestModule) },
+            
+            
 
             { path: 'new_cus', loadChildren: () => import('./user/customers/new-customer/new-customer.module').then(m => m.NewCustomerModule) },
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule) },

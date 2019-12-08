@@ -16,12 +16,13 @@ router.get('/u', getAll);
 router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
 router.post('/userUpdate', UpdateUser);
-router.get('/getId/:id' , getGroupById)
-router.get('/groupNames' , getGroupByName)
-router.get('/userRoles/:id' , getuserRole)
-router.get('/allCustomers' , getCustomersData)
-router.get('/allSuppliers', getSupplierData)
-router.get('/subCatGetting/:id' , getReleventCat)
+router.get('/getId/:id' , getGroupById);
+router.get('/groupNames' , getGroupByName);
+router.get('/userRoles/:id' , getuserRole);
+router.get('/allCustomers' , getCustomersData);
+router.get('/allSuppliers', getSupplierData);
+router.get('/subCatGetting/:id' , getReleventCat);
+router.get('/getreleventData/:id' , getreleventSupliers);
 
 
 
@@ -36,6 +37,19 @@ router.delete('/d/:id', deleteRecord);
 
 
 module.exports = router;
+
+
+function getreleventSupliers(req, res, next) {
+    let data = req.params.id;
+    //console.log(data)
+    userService.getreleventSupliers(data)
+    .then(sup => res.json(sup))
+    .catch(err => next(err));
+}
+
+
+
+
 function getReleventCat(req ,res ,next){
     userService.getCatDataRelevent(req.params.id)
     .then(sup => res.json(sup))

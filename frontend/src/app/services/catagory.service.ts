@@ -17,6 +17,12 @@ export class CatagoryService {
      console.log(catName)
      return this.http.get<any>(config.PAPYRUS +`/catagory/getNames/${catName}`)
    }
+   getItemsDetails(item) {
+    return this.http.get<any>(config.PAPYRUS +`/catagory/getByItemName/${item}`)
+   }
+   getchoosenItems(catagory) {
+    return this.http.get<any>(config.PAPYRUS +`/catagory/getitemsNames/${catagory}`)
+   }
 
    insertItemData(data) {
      console.log('SERVICE'+ data)

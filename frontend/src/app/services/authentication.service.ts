@@ -23,9 +23,18 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+
+
+  getReleventSuppliers(data) {
+    return this.http.get(config.PAPYRUS+`/users/getreleventData/${data}`)
+  }
+
+
   getSubCatNames(data) {
     return this.http.get(config.PAPYRUS+`/users/subCatGetting/${data}`)
   }

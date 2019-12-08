@@ -70,10 +70,58 @@
             <i class="fa fa-shopping-bag"></i>&nbsp;
             <span>{{ 'Items' | translate }}</span>
         </a>
-        <a [routerLink]="['/stores']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-archive"></i>&nbsp;
-            <span>{{ 'View SO & PO' | translate }}</span>
-        </a>
+      <!-- Request Module -->
+        <div class="nested-menu" >
+            <a  class="list-group-item" (click)="addExpandRequestClass('pages')"  >
+                <i class="fa fa-check-square-o"></i>&nbsp;
+                <span>{{ 'Requests' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenuRequest === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/reqSalesOrder']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                            <i class="fa fa-user"></i>&nbsp;
+                            <span>{{ 'Sales Order' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/reqPurchaseOrder']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-users"></i>&nbsp;
+                            <span>{{ 'Purchase Order' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/suppliers']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+                            <span>{{ 'Invoice' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-address-book"></i>&nbsp;
+                            <span>{{ 'Schedule' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-address-book"></i>&nbsp;
+                            <span>{{ 'Membership' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div> 
+
+
+
+
+
+
+
+
+
+
+
         <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Purchase Order' | translate }}</span>

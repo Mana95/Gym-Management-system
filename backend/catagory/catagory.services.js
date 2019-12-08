@@ -17,10 +17,21 @@ module.exports = {
    getCatName,
    getCatDataRelevent,
    insertItData,
-   getItemData
+   getItemData,
+   getItemrelventItems,
+   getByItemName
   
 
 };
+
+
+async function getByItemName(itemName) {
+    return await ItemData.find({item_name: itemName});
+}
+
+async function getItemrelventItems(category) {
+    return await ItemData.find({cat_name: category});
+}
 
 async function getItemData(){
     return await ItemData.find({});
