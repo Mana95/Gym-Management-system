@@ -36,7 +36,7 @@ const routes: Routes = [
             { path: 'catagory', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) },
             { path: 'stores', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) },
-            { path: 'salesOrder', loadChildren: () => import('./grid/grid.module').then(m => m.GridModule) },
+            { path: 'GRN', loadChildren: () => import('./grid/grid.module').then(m => m.GridModule) },
             { path: 'components', loadChildren: () => import('./bs-component/bs-component.module').then(m => m.BsComponentModule) },
             { path: 'blank-page', loadChildren: () => import('./blank-page/blank-page.module').then(m => m.BlankPageModule) }
         ]

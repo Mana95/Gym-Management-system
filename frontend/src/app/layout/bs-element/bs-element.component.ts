@@ -1,54 +1,82 @@
+import { OrderService } from './../../services/order.service';
 import { CatagoryService } from 'src/app/services/catagory.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import * as moment from 'moment';
+
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { distinct } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from 'src/app/_models';
 @Component({
-    selector: 'app-bs-element',
-    templateUrl: './bs-element.component.html',
-    styleUrls: ['./bs-element.component.scss'],
-    animations: [routerTransition()]
+  selector: 'app-bs-element',
+  templateUrl: './bs-element.component.html',
+  styleUrls: ['./bs-element.component.scss'],
+  animations: [routerTransition()]
 })
 export class BsElementComponent implements OnInit {
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 
-  purchaseOrderGroup:FormGroup
+  purchaseOrderGroup: FormGroup
 
-    closeResult: string;
-    poId:any;
-    
-    currentDate :any;
-    currentTime:any;
-    supplierName:any;
-    supllierId:any
-    supData:any;
-    active = false;
-    firstName:any;
-    lastName:any;
-    dataId:any;
-    catName:any;
-    subcat:any;
-    ItemName:any;
-    itemId:any;
-    activecat= false;
-    qty:Number;
+  closeResult: string;
+  poId: any;
 
-    constructor(
-        private authenticationService:AuthenticationService,
-        private catagoryService:CatagoryService,
-        private modalService: NgbModal,
-        private formBuilder:FormBuilder
+  submitted = false;
+  loading = false;
+  error = '';
 
-    ) {}
+  currentDate: any;
+  currentTime: any;
+  supplierName: any;
+  supllierId: any
+  supData: any;
+  active = false;
+  firstName: any;
+  lastName: any;
+  dataId: any;
+  catName: any;
+  subcat: any;
+  startBuyingPrice: Number;
 
-    ngOnInit() {
-      this.purchaseOrderGroup = this.formBuilder.group({
-        
-      })
-    
+  activecat = false;
+  clickAdd = false;
+  alertdisplay = false;
 
-        //Id Gen
+  setValueqty:Number;
+ 
+  ItemDataValues=[]
+
+  constructor(
+    private orderService: OrderService,
+    private authenticationService: AuthenticationService,
+    private catagoryService: CatagoryService,
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder
+
+  ) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+   }
+
+  ngOnInit() {
+    this.purchaseOrderGroup = this.formBuilder.group({
+      categoryName: ['', Validators.required],
+      quantity: [null, Validators.required],
+      itemDetails:['',Validators.required],
+      itemName: ['',],
+      itemId:[''],
+      itemQty:[''],
+      Avlqty:[''],
+     
+      supplierFirstName:['', Validators.required],
+      supplierLastName : ['', Validators.required],
+      supplierId: ['', Validators.required]
+    })
+    //Id Gen
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
     var string_length = 8;
     var id = 'PO_' + '';
@@ -59,123 +87,330 @@ export class BsElementComponent implements OnInit {
 
       this.currentTime = moment().format('LT');
       this.currentDate = moment().subtract(10, 'days').calendar();
-        
-        this.authenticationService.getAllSuppliers()
-        .subscribe(
-            data=> {
-                console.log(data);
-               this.supllierId=data; 
 
-            }
+      this.authenticationService.getAllSuppliers()
+        .subscribe(
+          data => {
+         //   console.log(data);
+            this.supllierId = data;
+
+          }
         )
 
     }
-     this.catagoryService.getCatNames()
-     .subscribe(
-         response=>{
-             console.log(response);
-             this.catName = response;
-         }
-     )
-    }
-    display(data) {
-      console.log(data.value);
-
-      this.catagoryService.getItemsDetails(data.value)
-          .subscribe(
-            data => {
-              console.log(data);
-                this.ItemName= data[0].item_name;
-                this.itemId = data[0].id;
-                this.qty = data[0].quantity;
-                console.log( this.itemId);
-             
-    
-            },
-            error => {
-              console.log(error);
-            });
-
-     
-
-    }
-
-    getCatValue(data) {
-        console.log('TS')
-        let catName = data.value;
-        console.log(catName)
-        this.catagoryService.getchoosenItems(catName)
-          .subscribe(
-            data => {
-                console.log(data);
-              this.subcat = data;
-              this.activecat = true;
-              console.log(data);
-    
-            },
-            error => {
-              console.log(error);
-            });
-    
-        this.active = true
-      }
-
-    open(content ,supplierName) {
-        console.log(supplierName.value);
-        let data = supplierName.value
-
-        this.authenticationService.getReleventSuppliers(data)
-        .subscribe(
-            response=>{
-            if(response) {
-                    console.log(response);
-                    this.supData = response;
-                    this.active = true;
-                    if(response==''){
-                        alert('Empty')
-                    }
-                    }
-            },
-            error=>{
-                console.log(error); 
-            }
-
-        )
-        
-        this.modalService.open(content, {size: 'lg'})
-        .result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-      }
-
-
-
-      private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-          return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-          return 'by clicking on a backdrop';
-        } else {
-          return `with: ${reason}`;
+    this.catagoryService.getCatNames()
+      .subscribe(
+        response => {
+        //  console.log(response);
+          this.catName = response;
         }
-      }
+      )
+  }
 
-    onClickMe(data ,content) {
-       // alert(data.id);
-        this.firstName = data.sup_firstName;
-        this.lastName=data.sup_lastName;
-        this.dataId = data.sup_id;
-        //Closed the model
-        this.modalService.dismissAll()
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
+  display(data) {
+    //console.log(data.value);
+
+    this.catagoryService.getItemsDetails(data.value)
+      .subscribe(
+        data => {
+        
+          this.purchaseOrderGroup.controls['itemId'].setValue(data[0].id);
+          this.purchaseOrderGroup.controls['itemName'].setValue(data[0].item_name);
+          this.purchaseOrderGroup.controls['Avlqty'].setValue(data[0].quantity);
+        //  this.purchaseOrderGroup.controls['buying_price'].setValue(data[0].buying_price)
+          this.setValueqty =  data[0].quantity;
+         // this.startBuyingPrice = data[0].buying_price;
+
+        },
+        error => {
+          
+        });
+
+
+
+  }
+  get f() {
+
+    return this.purchaseOrderGroup.controls;
+
+  }
+
+
+  getCatValue(data) {
+    console.log('TS')
+    let catName = data.value;
+    console.log(catName)
+    this.catagoryService.getchoosenItems(catName)
+      .subscribe(
+        data => {
+         // console.log(data);
+          this.subcat = data;
+          this.activecat = true;
+        //  console.log(data);
+
+        },
+        error => {
+        //  console.log(error);
+        });
+
+    this.active = true
+  }
+
+  open(content, supplierName) {
+    //alert(content.value);
+    console.log(supplierName.value);
+    let data = supplierName.value
+
+    this.authenticationService.getReleventSuppliers(data)
+      .subscribe(
+        response => {
+          if (response) {
+          //  console.log(response);
+            this.supData = response;
+            this.active = true;
+            if (response == '') {
+              alert('Empty')
+            }
+          }
+        },
+        error => {
+        //  console.log(error);
+        }
+
+      )
+
+    this.modalService.open(content, { size: 'lg' })
+      .result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+  }
+
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
+  }
 
-    onSubmit() {
+  onClickMe(data, content) {
 
-    }
+    let firstName = data.sup_firstName;;
+    let lastName = data.sup_lastName;
+    let supplierId = data.sup_id;
+
+    this.purchaseOrderGroup.controls['supplierFirstName'].setValue(firstName);
+    this.purchaseOrderGroup.controls['supplierLastName'].setValue(lastName);
+    this.purchaseOrderGroup.controls['supplierId'].setValue(supplierId);
+    //Closed the model
+    this.modalService.dismissAll();
+  }
+
+  sumValue() {
+    
+    let currentQty = Number(this.f.quantity.value);
+    let AvlQty = this.f.Avlqty.value;
+    console.log(typeof currentQty);
+
+    let final = currentQty + AvlQty;
+    if(currentQty!== null) {
+    
+    //this.purchaseOrderGroup.controls['quantity'].setValue('');
+  }
+  }
+
+  resetQuantity() {
+   // alert('QQQ');
+    //console.log(this.setValueqty);
+    this.f.Avlqty.setValue(this.setValueqty);
+    //this.purchaseOrderGroup.controls['Avlqty'].setValue(this.setValueqty);
+  }
+
+  ChangeQty() {
+   
 
     
+  
+  }
+
+
+  dropDisplayValues() {
+    const itemId = this.f['itemId'].value;
+    const itemName = this.purchaseOrderGroup.controls['itemName'].value;
+    const qty = Number(this.f.quantity.value)
+    let AvlQty = this.f.Avlqty.value;
+    
+   
+    let final = AvlQty + qty;    
+
+    let ItemDetails = {
+      itemId : itemId, itemName:itemName ,qty:qty , status: 'Pending'
+    }
+    if(qty!== 0 && itemId !== '' && itemName !=='')  {
+    this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
+    this.ItemDataValues.push(ItemDetails);
+
+      // this.orderService.updatequantity(this.f.Avlqty.value ,itemId ).subscribe(response=>{console.log(response)})
+      
+
+
+
+
+
+
+
+  }
+  else {
+    this.alertdisplay = true;
+  }
+  //  console.log(this.ItemDataValues);
+  }
+
+  clearAll() {
+
+    if(this.ItemDataValues.length !== 0 ){
+      this.ItemDataValues.length = 0;
+      this.purchaseOrderGroup.controls['Avlqty'].setValue(this.setValueqty);
+     
+    }else {
+      alert("Your table is already clear")
+    }
+    
+
+
+  }
+
+  deleteRowData(tableData) {
+    console.log('DELETE')
+    console.log(tableData.qty);
+    let numberValue = Number(tableData.qty);
+    let avlNow = this.f.Avlqty.value;
+    let total =  avlNow - numberValue;
+    this.purchaseOrderGroup.controls['Avlqty'].setValue(total);
+    let val =  this.purchaseOrderGroup.controls['Avlqty'].setValue(total);
+    console.log(val);
+
+    for(var i=0 ; this.ItemDataValues.length ; i++){
+     if(this.ItemDataValues[i] == tableData){
+     //   let currentQty = this.ItemDataValues[i].qty;
+      // let dataVal = {
+      //     id : this.ItemDataValues[i].itemId ,
+      //     quantity:  currentQty
+      // }
+      // console.log(dataVal)
+      // this.orderService.updaterowDataquantity(dataVal)
+      // .subscribe(
+      //   response=> {
+      //     console.log(response);
+      //   }
+      // )
+
+    this.ItemDataValues.splice(i, 1);
+        return;
+      }
+     }
+
+
+
+  }
+
+
+
+  onSubmit() {
+    this.submitted = true;
+    this.loading = true;
+
+    let purchaseOrderData = {
+      purchaseOrderId: this.poId,
+      supplierId: this.f.supplierId.value,
+      supllierFirstName:  this.f.supplierFirstName.value,
+      supplierLastName: this.f.supplierLastName.value,
+      date: this.currentTime,
+      time:this.currentDate,
+      categoryName: this.f.categoryName.value,
+      status:'Pending',
+      currentUser: this.currentUserSubject.value.username,
+      ItemDataValues:this.ItemDataValues
+    }
+   // console.group('SUBMIT FORM')
+    console.log(purchaseOrderData);
+
+    if(this.purchaseOrderGroup.valid) {
+
+    //  console.log('INSIDE THE IF LOOP')
+   this.orderService.savePurchaseOrderData(purchaseOrderData)
+   .subscribe(
+     response => {
+       console.log(response);
+     },
+     error =>{
+      this.error = error;
+      this.loading = false;
+     }
+   )
+
+  //  for(var i=0; i<this.ItemDataValues.length ; i++){
+  //    //console.log('FORLOOP')
+  //   let ItemId = this.ItemDataValues[i].itemId;
+  //   let qty = this.ItemDataValues[i].qty;
+  //   let buyingPrice = this.ItemDataValues[i].buyingPrice;
+
+  //   if(buyingPrice ==this.startBuyingPrice) {
+  //    // console.log('2ND IF')
+  //     this.orderService.updatequantity(qty,ItemId)
+  //     .subscribe(response=>{
+  //       console.log(response)
+  //     })
+        
+  //   }
+
+
+    
+
+
+
+  //  }
+
+   
+
+
+
+
+
+
+
+
+    // this.ItemDataValues.length = 0; 
+    //  this.purchaseOrderGroup.reset();
+
+
+
+
+
+
+
+
+
+  }
+
+
+
+    
+
+
+  }
+
+
 
 
 

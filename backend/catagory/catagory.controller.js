@@ -7,6 +7,7 @@ router.post('/insertCat', insertCatData);
 router.post('/insertSubCat' , insertSubCat);
 router.post('/insertItemData' , insertItemData);
 
+
 router.get('/getAll', getData);
 router.get('/getAllSub' , getSubCatData);
 router.get('/getCatName' , getCatName);
@@ -16,6 +17,10 @@ router.get('/getitemsNames/:id' , getitemsNames);
 router.get('/getByItemName/:id' ,  getByName);
 
 router.delete('/deleteRec/:id', deleteData);
+
+
+
+
 
 
 function getByName(req,res,next) {

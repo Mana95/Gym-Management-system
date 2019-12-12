@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 //http  every controller 
     app.use('/users', require('./users/users.controller'));
     app.use('/catagory', require('./catagory/catagory.controller'));
+    app.use('/order', require('./orders/order.controller'));
 
 
      app.use('/uplds', require('./uplds/upload.controller'));

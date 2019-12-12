@@ -132,8 +132,9 @@ export class TablesComponent implements OnInit {
     console.log(data.value)
     this.submitted = true;
     this.loading = true;
-
-
+    // var selValue = this.f.selling_price.value.toFixed(2);
+    
+    // console.log(typeof selValue);
   
    
     if (this.itemGroup.valid) {
