@@ -1,31 +1,33 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
-
 const schema = new Schema({
-    purchaseOrderId : {
+    id : {
         type : String,
         required: true,
         unique: true,
+    },
+    purchaseOrderId: {
+        type:String,
+        required:true
     },
     supplierId:{
         type : String,
         required: true,
     },
-    supllierFirstName:{
+    supplierName:{
         type: String,
         required:true
     },
-    supplierLastName:{
+    supplierAdress:{
         type: String,
+        required:true
+    },
+    purchaseOrderDate: {
+        type: Date,
         required:true
     },
     date : {
-        type: String,
-        required:true
-    },
-    time: {
-        type: String,
+        type: Date,
         required:true
     },
     createdDate: {
@@ -33,8 +35,7 @@ const schema = new Schema({
         default: Date.now
 
     },
-    
-    status: {
+    grnStatus: {
         type: String,
         required:true
     },
@@ -46,7 +47,10 @@ const schema = new Schema({
         type: String,
         required:true
     },
-    ItemDataValues: [{
+    note:{
+        type: String
+    },
+    ItemGrnTable: [{
         itemId :{
             type : String,
             required: true,
@@ -62,8 +66,12 @@ const schema = new Schema({
         status: {
             type: String,
             required:true
+        },
+        buyingPrice: {
+            type: Number,
+            required:true
         }
     }]
 
 });
-module.exports = mongoose.model('purchaseOrder', schema);
+module.exports = mongoose.model('grn', schema);

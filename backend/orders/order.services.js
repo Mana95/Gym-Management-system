@@ -4,6 +4,7 @@ const db = require('_helpers/db');
 const PurchaseOrder = db.PurchaseOrder;
 const ItemData = db.ItemData;
 const Supplier =db.Supplier;
+const GRN = db.GRN;
 
 module.exports = {
     InsertData,
@@ -13,7 +14,39 @@ module.exports = {
     updatedStatus,
     getprogressPo,
     getByIdPo,
-    getSupplierById
+    getSupplierById,
+    SaveDataGrn,
+    updateStatus
+}
+
+async function updateStatus(data){
+    console.log(data)
+        let val = {
+            id:data.id,
+            status:'Approved'
+        }
+
+    PurchaseOrder.updateOne(
+        {
+            purchaseOrderId: val.id
+        },
+        {
+            $set: val
+        }, function (err, responses) {
+            if (err) {
+                console.log(err);
+            }
+        }  );
+
+       
+}
+
+async function SaveDataGrn(data){
+    console.log('SAVE WENNAI YANNE');
+
+    const grn = new GRN(data);
+    //console.log(itemData);
+    await grn.save();
 }
 
 async function getSupplierById(id) {
@@ -27,7 +60,7 @@ async function getByIdPo(id ){
 
 
 async function getprogressPo() {
-    return await PurchaseOrder.find({status:'Approved'});
+    return await PurchaseOrder.find({status:'Pending'});
 }
 
 async function updatedStatus(val) {

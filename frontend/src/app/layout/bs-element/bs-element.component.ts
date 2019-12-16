@@ -1,6 +1,6 @@
 import { OrderService } from './../../services/order.service';
 import { CatagoryService } from 'src/app/services/catagory.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
@@ -74,7 +74,8 @@ export class BsElementComponent implements OnInit {
      
       supplierFirstName:['', Validators.required],
       supplierLastName : ['', Validators.required],
-      supplierId: ['', Validators.required]
+      supplierId: ['', Validators.required],
+      credentials: this.formBuilder.array([]),
     })
     //Id Gen
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
@@ -245,30 +246,32 @@ export class BsElementComponent implements OnInit {
 
 
   dropDisplayValues() {
+   
+
+
     const itemId = this.f['itemId'].value;
     const itemName = this.purchaseOrderGroup.controls['itemName'].value;
     const qty = Number(this.f.quantity.value)
     let AvlQty = this.f.Avlqty.value;
-    
+    console.log(itemId);
    
     let final = AvlQty + qty;    
-
-    let ItemDetails = {
-      itemId : itemId, itemName:itemName ,qty:qty , status: 'Pending'
-    }
     if(qty!== 0 && itemId !== '' && itemName !=='')  {
+      const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
+      creds.push(this.formBuilder.group({
+        itemId: this.f.itemId.value,
+        itemName: this.f.itemName.value,
+        qty:qty,
+        status: 'Pending'
+      }));
     this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
-    this.ItemDataValues.push(ItemDetails);
+    // this.ItemDataValues.push(ItemDetails);
+
+    var siraValue = this.f.credentials.value;
+    console.log(siraValue);
 
       // this.orderService.updatequantity(this.f.Avlqty.value ,itemId ).subscribe(response=>{console.log(response)})
-      
-
-
-
-
-
-
-
+        
   }
   else {
     this.alertdisplay = true;
@@ -290,37 +293,16 @@ export class BsElementComponent implements OnInit {
 
   }
 
-  deleteRowData(tableData) {
+  deleteRowData(index: number) {
     console.log('DELETE')
-    console.log(tableData.qty);
-    let numberValue = Number(tableData.qty);
-    let avlNow = this.f.Avlqty.value;
-    let total =  avlNow - numberValue;
-    this.purchaseOrderGroup.controls['Avlqty'].setValue(total);
-    let val =  this.purchaseOrderGroup.controls['Avlqty'].setValue(total);
-    console.log(val);
+    console.log(index);
+    let array = index;
+    let deleteRow = this.f.credentials.value;
+    
+      deleteRow.splice(index , 1);
 
-    for(var i=0 ; this.ItemDataValues.length ; i++){
-     if(this.ItemDataValues[i] == tableData){
-     //   let currentQty = this.ItemDataValues[i].qty;
-      // let dataVal = {
-      //     id : this.ItemDataValues[i].itemId ,
-      //     quantity:  currentQty
-      // }
-      // console.log(dataVal)
-      // this.orderService.updaterowDataquantity(dataVal)
-      // .subscribe(
-      //   response=> {
-      //     console.log(response);
-      //   }
-      // )
-
-    this.ItemDataValues.splice(i, 1);
-        return;
-      }
-     }
-
-
+    console.log(deleteRow);
+    this.purchaseOrderGroup.controls['credentials'].setValue(deleteRow);
 
   }
 
@@ -340,7 +322,7 @@ export class BsElementComponent implements OnInit {
       categoryName: this.f.categoryName.value,
       status:'Pending',
       currentUser: this.currentUserSubject.value.username,
-      ItemDataValues:this.ItemDataValues
+      ItemDataValues:this.f.credentials.value
     }
    // console.group('SUBMIT FORM')
     console.log(purchaseOrderData);
@@ -359,47 +341,7 @@ export class BsElementComponent implements OnInit {
      }
    )
 
-  //  for(var i=0; i<this.ItemDataValues.length ; i++){
-  //    //console.log('FORLOOP')
-  //   let ItemId = this.ItemDataValues[i].itemId;
-  //   let qty = this.ItemDataValues[i].qty;
-  //   let buyingPrice = this.ItemDataValues[i].buyingPrice;
-
-  //   if(buyingPrice ==this.startBuyingPrice) {
-  //    // console.log('2ND IF')
-  //     this.orderService.updatequantity(qty,ItemId)
-  //     .subscribe(response=>{
-  //       console.log(response)
-  //     })
-        
-  //   }
-
-
-    
-
-
-
-  //  }
-
-   
-
-
-
-
-
-
-
-
-    // this.ItemDataValues.length = 0; 
-    //  this.purchaseOrderGroup.reset();
-
-
-
-
-
-
-
-
+ 
 
   }
 

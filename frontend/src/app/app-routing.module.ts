@@ -1,3 +1,5 @@
+import { ResponseresetpasswordComponent } from './responseresetpassword/responseresetpassword.component';
+import { PasswordchangeComponent } from './passwordchange/passwordchange.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -10,6 +12,14 @@ const routes: Routes = [
     { path: 'signup', loadChildren: () => import('./signup/signup.module').then(m => m.SignupModule) },
     { path: 'error', loadChildren: () => import('./server-error/server-error.module').then(m => m.ServerErrorModule) },
     { path: 'access-denied', loadChildren: () => import('./access-denied/access-denied.module').then(m => m.AccessDeniedModule) },
+    {
+        path: 'request-reset-password',
+        component: PasswordchangeComponent,
+      },
+      {
+        path: 'response-reset-password/:token',
+        component: ResponseresetpasswordComponent
+      },
     { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule) },
     { path: '**', redirectTo: 'not-found' }
 ];

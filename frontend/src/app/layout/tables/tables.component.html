@@ -80,6 +80,16 @@
               </div>
             </div>
             <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Manufacture Date</label>
+                <input type="text" class="form-control" formControlName="item_name" placeholder="Item Name"
+                [ngClass]="{ 'is-invalid': submitted && f.item_name.errors }">
+
+
+
+              </div>    
+            </div>
+            <div class="form-row">
               <div class="form-group col-md-2">
                 <label for="quantity">Quantity</label>
                 <input type="text" class="form-control" numbersOnly formControlName="quantity" placeholder="Qty"

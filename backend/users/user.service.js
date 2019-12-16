@@ -1,6 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const db = require('_helpers/db');
 const details = require('details.json');
 
@@ -14,6 +15,7 @@ const Groups = db.Groups;
 const Customers=db.Customers;
 const Supplier =db.Supplier;
 const SubCatagory = db.SubCatagory;
+const passwordResetToken =db.passwordResetToken;
 
 
 
@@ -40,12 +42,110 @@ module.exports = {
     getSuppliers,
     getCatDataRelevent,
     signUpUser,
-    getreleventSupliers
+    getreleventSupliers,
+    ResetPassword
 
 
 
 
 };
+
+async function ResetPassword(values){
+    // if (!values.email) {
+    //     return res
+    //     .status(500)
+    //     .json({ message: 'Email is required' });
+    //     }
+        const user = await User.findOne({
+        email:values.email
+        });
+        console.log(user);
+        // if (!user) {
+        // return res
+        // .status(409)
+        // .json({ message: 'Email does not exist' });
+        // }
+        var resettoken = new passwordResetToken({ _userId: user._id, resettoken: crypto.randomBytes(16).toString('hex') });
+        resettoken.save(function (err) {
+        if (err) { return  }
+        passwordResetToken.find({ _userId: user._id, resettoken: { $ne: resettoken.resettoken } }).remove().exec();
+
+
+        
+        var transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          port: 465,
+          auth: {
+            user: 'manaalex3@gmail.com',
+            pass: 'QAZ(*&jker":'
+          } 
+        });
+        var mailOptions = {
+        to: user.email,
+        from: 'your email',
+        subject: 'Gym Managment System',
+        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        'http://localhost:4200/response-reset-password/' + resettoken.resettoken + '\n\n' +
+        'If you did not request this, please ignore this email and your password will remain unchanged.\n'+
+        '<br>Thank You.\n'
+        }
+        transporter.sendMail(mailOptions, (err, info) => {
+        })
+        })
+}
+
+
+
+
+
+
+// async function CreatUser(values){
+//     const userEmail = await User.findOne({
+//         email: values.email
+//       });
+//       if (userEmail) {
+//         return res
+//           .status(409)
+//           .json({ message: 'Email already exist' });
+//       }
+  
+//       const userName = await User.findOne({
+//         username: values.username
+//       });
+//       if (userName) {
+//         return res
+//           .status(409)
+//           .json({ message: 'Username already exist' });
+//       }
+  
+//       return bcrypt.hash(req.body.password, 10, (err, hash) => {
+//         if (err) {
+//           return res
+//             .status(400)
+//             .json({ message: 'Error hashing password' });
+//         }
+//         const body = {
+//           username: req.body.username,
+//           email: req.body.email,
+//           password: hash
+//         };
+//         User.create(body)
+//           .then(user => {
+//             res
+//             res.status(201) .json({ message: 'User created successfully', user });
+//           })
+//           .catch(() => {
+//             res
+//               .status(500)
+//               .json({ message: 'Error occured' });
+//           });
+//       });
+// }
+
+
+
+
 
 async function getreleventSupliers(data) {
   var name = data;

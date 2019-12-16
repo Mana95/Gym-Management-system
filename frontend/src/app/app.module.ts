@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PasswordchangeComponent } from './passwordchange/passwordchange.component';
+import { ResponseresetpasswordComponent } from './responseresetpassword/responseresetpassword.component';
 
 @NgModule({
     imports: [
@@ -24,7 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ReactiveFormsModule,
 
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, PasswordchangeComponent, ResponseresetpasswordComponent],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
 })

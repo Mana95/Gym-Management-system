@@ -12,6 +12,8 @@ module.exports = {
     Customers: require('../users/customer.model'),
     Supplier:require('../users/supplier.model'),
     PurchaseOrder:require('../orders/poOrder.model'),
+    GRN:require('../orders/GRN.model'),
+    passwordResetToken:require('../users/resettoken'),
    
     ItemData: require('../catagory/item.model'),
     //Now added

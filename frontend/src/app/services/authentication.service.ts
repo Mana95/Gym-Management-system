@@ -23,13 +23,23 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-
+  
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
+  
+  ValidPasswordToken(body): Observable<any> {
+    return this.http.post(config.PAPYRUS +`/users/valid-password-token`, body);
+  }
+  newPassword(body): Observable<any> {
+    return this.http.post(config.PAPYRUS +`/users/new-password`, body);
+  }
 
+ requestReset(body): Observable<any> {
+    return this.http.post(config.PAPYRUS +`/users/req-reset-password`, body);
+  }
   getReleventSuppliers(data) {
     return this.http.get(config.PAPYRUS+`/users/getreleventData/${data}`)
   }

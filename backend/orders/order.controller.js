@@ -10,6 +10,8 @@ module.exports = router;
 router.post('/savePurchaseOrderData' , savePoData);
 router.post('/updateByQuantity' , updateByQty);
 router.post('/updateBydeleteQuantity' , updateBydelete)
+router.post('/saveGRN', SaveGRNData);
+router.post('/updateStatusOfPO', updateStatusOfPo)
 
 router.get('/getPendingPo', getPendingPo);
 router.get('/getProgressPo', getProgress);
@@ -17,6 +19,25 @@ router.get('/getByIdPo/:id' , getById);
 router.get('/getsId/:id' , getSupplierId)
 
 router.post('/updateStatus', UpdateStatus);
+
+function updateStatusOfPo(req ,res ,next ){
+   
+    console.log('dsdsdsds')
+ 
+    orderService.updateStatus( req.body)
+    .then(grn => res.json(grn))
+    .catch(err => next(err));
+}
+
+
+function SaveGRNData(req ,res, next){
+    let GrnData = req.body;
+    console.log(GrnData)
+    orderService.SaveDataGrn(GrnData)
+    .then(grn => res.json(grn))
+    .catch(err => next(err));
+    
+}
 
 function getSupplierId(req ,res ,next){
     let id = req.params.id

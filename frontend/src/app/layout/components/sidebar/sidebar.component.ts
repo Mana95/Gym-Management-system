@@ -35,7 +35,7 @@ export class SidebarComponent implements OnInit {
         });
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
         console.log('Constructor');
-        console.log(this.currentUser)
+        console.log(this.currentUser.role)
     }
 
     ngOnInit() {
@@ -74,12 +74,62 @@ export class SidebarComponent implements OnInit {
           
         )
     }
+    get CurrentRole(){
+
+        if(this.currentUser.role == Role.Admin){
+            
+            return this.currentUser && this.currentUser.role === Role.Admin;
+        }
+        else if(this.currentUser.role == Role.Customer) {
+            return this.currentUser && this.currentUser.role === Role.Customer;
+        }
+        else if(this.currentUser.role == Role.Supplier) {
+            return this.currentUser && this.currentUser.role === Role.Supplier;
+        }else if(this.currentUser.role == Role.Supplier) {
+            return this.currentUser && this.currentUser.role === Role.User;
+        }
+        
+
+
+
+       
+            let x =this.currentUser && this.currentUser.role === Role.Admin;
+            return x ;
+    }
 
     get isAdmin() {
-        for(var i =0 ; this.role_name_array.length; i++ ){
-            return this.currentUser && this.currentUser.role === this.role_name_array[i];
-        }
+
+        return this.currentUser && this.currentUser.role === Role.Admin;
+
+        // for(var i =0 ; this.role_name_array.length; i++ ){
+        //     return this.currentUser && this.currentUser.role === this.role_name_array[i];
+        // }
        
+    }
+    get category(){
+        if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin 
+        }
+        else if(this.currentUser.role === Role.User){
+
+            return this.currentUser && this.currentUser.role === Role.User;
+        }
+         
+            
+    }
+
+
+
+    get requestModule(){
+        if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin 
+        }
+        else if(this.currentUser.role === Role.User){
+
+            return this.currentUser && this.currentUser.role === Role.User;
+        }
+         
+            
     }
 
 

@@ -1,11 +1,14 @@
 import { CatagoryService } from './../../services/catagory.service';
 import { OrderService } from './../../services/order.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as moment from 'moment';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { User } from 'src/app/_models';
 
 @Component({
     selector: 'app-grid',
@@ -14,6 +17,9 @@ import * as moment from 'moment';
     animations: [routerTransition()]
 })
 export class GridComponent implements OnInit {
+    private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+  
     grnGroup:FormGroup;
 
     submitted = false;
@@ -30,6 +36,7 @@ export class GridComponent implements OnInit {
     itemTableArray =[]
 
     pushbutton =false;
+    disableamount=false;
 
     constructor(
     private orderService: OrderService,
@@ -37,7 +44,10 @@ export class GridComponent implements OnInit {
     private catagoryService: CatagoryService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder
-    ) {}
+    ) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
 
     ngOnInit() {
 this.grnGroup = this.formBuilder.group({
@@ -51,7 +61,9 @@ this.grnGroup = this.formBuilder.group({
     grnStatus:[''],
     supplierAdress:[''],
     note:['',Validators.required],
-    buyingPrice:['', Validators.required]
+    buyingPrice:['', Validators.required],
+    credentials: this.formBuilder.array([]),
+
 
 
 }) 
@@ -104,21 +116,26 @@ this.grnGroup = this.formBuilder.group({
                 this.grnGroup.controls['categoryName'].setValue(data[0].categoryName);
                 this.ItemDataValues = data[0].ItemDataValues;
                this.array = data[0].ItemDataValues;
-
+               const creds = this.grnGroup.controls.credentials as FormArray;
+             
                 for(var i=0 ; i< this.array.length ; i++){
                     let itemId = this.array[i].itemId;
                     let itemName = this.array[i].itemName;
                     let qty = this.array[i].qty;
                     let amount = 0;
 
-                    let arrayList = {
-                        itemId:itemId , itemName:itemName ,qty:qty , amount:amount ,status: this.array[i].status
-                    }
-                    this.itemTableArray.push(arrayList)
+                    creds.push(this.formBuilder.group({
+                        itemId:itemId , itemName:itemName ,qty:qty , amount:amount ,status: this.array[i].status ,price:0
+                    }));
+
+                    // let arrayList = {
+                    //     itemId:itemId , itemName:itemName ,qty:qty , amount:amount ,status: this.array[i].status
+                    // }
+                    // this.itemTableArray.push(arrayList)
 
                 }
                console.log('Array')
-                console.log(this.itemTableArray);
+                //console.log(this.itemTableArray);
             //    this.amount = 0;
 
             }
@@ -127,30 +144,34 @@ this.grnGroup = this.formBuilder.group({
 
     }
     //push array method
-    pushValue(data) {
-        let id = data.itemId;
-        let name = data.itemName;
-        let qty = data.qty;
-        let status = 'Approved';
+    pushValue(data:any) {
+
+        console.log(data);
+
+        // this.disableamount = true;
+        // let id = data.itemId;
+        // let name = data.itemName;
+        // let qty = data.qty;
+        // let status = 'Approved';
      
 
-        let price = Number(this.grnGroup.controls.buyingPrice.value);
-        let amountVal = Number(price.toFixed(2));
-        console.log(typeof amountVal)
+        // let price = Number(this.grnGroup.controls.buyingPrice.value);
+        // let amountVal = Number(price.toFixed(2));
+        // console.log(typeof amountVal)
         
-        let realnumber =qty*price;
+        // let realnumber =qty*price;
 
-            //   console.log(price.toFixed(2));
-            data.amount = realnumber.toFixed(2);
+        //     //   console.log(price.toFixed(2));
+        //     data.amount = realnumber.toFixed(2);
 
-        let ItemDetails = {
-            itemId : id, itemName:name ,qty:qty , status: status , buyingPrice:amountVal.toFixed(2)
-          }
-          console.log(ItemDetails); 
-          if(id!==''&& name!=='' && qty!==0 && status!== ''&& price!==0){
-            this.ItemListArray.push(ItemDetails); //push data into the array
-            data.status = 'Approved';
-          }
+        // let ItemDetails = {
+        //     itemId : id, itemName:name ,qty:qty , status: status , buyingPrice:Number(amountVal.toFixed(2))
+        //   }
+        //   console.log(ItemDetails); 
+        //   if(id!==''&& name!=='' && qty!==0 && status!== ''&& price!==0){
+        //     this.ItemListArray.push(ItemDetails); //push data into the array
+        //     data.status = 'Approved';
+        //   }
       
 
     }
@@ -160,7 +181,9 @@ this.grnGroup = this.formBuilder.group({
         return this.grnGroup.controls;
     
       }
-    
+      public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+      }
 
     onSubmit() {
 
@@ -175,11 +198,59 @@ this.grnGroup = this.formBuilder.group({
             supplierName: this.f.supplierName.value,
             purchaseOrderDate : this.f.purchaseOrderDate.value,
             categoryName: this.f.categoryName.value,
-            grnStatus: this.f.grnStatus.value,
+            grnStatus: 'Done',
             supplierAdress:this.f.supplierAdress.value,
-            note: this.f.note.value
+            note: this.f.note.value,
+            currentUser:this.currentUserSubject.value.username,
+            ItemGrnTable: this.ItemListArray
+           
 
         }
+        console.log(GRNDATA);
+
+        this.orderService.saveGrnValues(GRNDATA)
+        .subscribe(
+            response=>{
+                console.log(response);
+            },
+            error=>
+            {
+                console.log(error);
+
+            },
+            () =>{
+                console.log("Insert GRN Succesfully");
+            }
+        )
+
+
+        this.orderService.updatepoStatus(this.f.purchaseOrderId.value)
+        .subscribe(
+            response=>{console.log(response)},error=>console.log(error) , ()=>console.log("Update the Purchase OrderId")
+        )
+
+       for(var x =0 ; x<this.ItemListArray.length; x++){
+
+        let arrayData = {
+            itemId:this.ItemListArray[x].itemId,
+            qty:this.ItemListArray[x].qty
+
+        }
+
+           this.orderService.updatequantity(arrayData)
+           .subscribe(
+               response=>{
+                   console.log(response);
+               },
+               error=>{
+                   console.log(error);
+               },
+               ()=>{
+                console.log('Item Insert Successfully');
+
+               }
+           )
+       }
 
 
 

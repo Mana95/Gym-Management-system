@@ -1,7 +1,13 @@
 ﻿const express = require('express');
 const router = express.Router();
 const userService = require('./user.service');
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 
+
+const db = require('_helpers/db');
+const User = db.User;
+const passwordResetToken =db.passwordResetToken;
 
 // routes
 router.post('/authenticate', authenticate);
@@ -11,6 +17,9 @@ router.post('/signUp', signUp);
 router.post('/userCreation', userCreation);
 router.post('/cusCreation' , cusRegister)
 router.post('/supCreation' , supRegister)
+router.post('/req-reset-password' , requestMail);
+router.post('/valid-password-token' , ValidPasswordToken);
+
 
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
@@ -27,6 +36,7 @@ router.get('/getreleventData/:id' , getreleventSupliers);
 
 
 
+
 router.get('/roles', getAllRoles);
 router.get('/current', getCurrent);
 router.get('/userById/:id', getById);
@@ -34,11 +44,95 @@ router.put('/:id', update);
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
 router.delete('/d/:id', deleteRecord);
+router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+async function ValidPasswordToken(req, res) {
+    console.log('ValidaPasswordTokern')
+    if (!req.body.resettoken) {
+    return res
+    .status(500)
+    .json({ message: 'Token is required' });
+    }
+    const user = await passwordResetToken.findOne({
+    resettoken: req.body.resettoken
+    });
+    console.log(user)
+    if (!user) {
+    return res
+    .status(409)
+    .json({ message: 'Invalid URL' });
+    }
 
 
+    User.updateOne({ _id: user._userId },{ $set: {_id: user._userId}})
+    .then(() => {
+    res.status(200)
+    .json({
+         message: 'Token verified successfully.' 
+        });
+    }).catch((err) => {
+    return res.status(500).send({ msg: err.message });
+    });
+}
+
+async function NewPassword(req, res) {
+    passwordResetToken.findOne({ resettoken: req.body.resettoken }, function (err, userToken, next) {
+      if (!userToken) {
+        return res
+          .status(409)
+          .json({ message: 'Token has expired' });
+      }
+
+      User.findOne({
+        _id: userToken._userId
+      }, function (err, userEmail, next) {
+         // console.log(userEmail)
+        if (!userEmail) {
+          return res
+            .status(409)
+            .json({ message: 'User does not exist' });
+        }
+
+         return bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
+          if (err) {
+            return res
+              .status(400)
+              .json({ message: 'Error hashing password' });
+          }
+          userEmail.hash = hash;
+          userEmail.save(function (err) {
+            if (err) {
+              return res
+                .status(400)
+                .json({ message: 'Password can not reset.' });
+            } else {
+              userToken.remove();
+              return res
+                .status(201)
+                .json({ message: 'Password reset successfully' });
+            }
+
+          });
+        });
+      });
+
+    })
+}
+
+
+
+
+
+
+function requestMail(req ,res, next){
+    console.log(req.body)
+    userService.ResetPassword(req.body)
+    .then(email => res.json(email))
+    .catch(err => next(err));
+
+}
 function getreleventSupliers(req, res, next) {
     let data = req.params.id;
     //console.log(data)

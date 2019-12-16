@@ -2,86 +2,82 @@
     
      
   
-        <ng-template #content let-modal>
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title"><b>Suplliers</b></h4>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title"><b>Suplliers</b></h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
 
-            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
-                <caption>
-                  <b>View Items Details</b>
-                </caption>
-                <thead>
-                  <tr>
-                    <th style="text-align: center;" scope="col">Supplier ID</th>
-                    <th style="text-align: center;" scope="col">Supplier Names</th>
-                    <th style="text-align: center;" scope="col">email</th>
-                    <th style="text-align: center;" scope="col">Phone number</th>
-                    
-                    <th style="text-align: center;" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
-  
-                  <tr *ngFor="let data of supData">
-  
-                    <td style="text-align: center;">{{data.sup_id}}</td>
-                    <td style="text-align: center;">{{data.sup_firstName}}</td>
-                    <td style="text-align: center;">{{data.sup_email}}</td>
-                    <td style="text-align: center;">{{data.sup_phonenumber}}</td>
-                    <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm" (click)="onClickMe(data ,content)"><i
-                          class="fa fa-hand-pointer-o" aria-hidden="true"></i></button> &nbsp;
-                      </td>
-  
-                  </tr>
-  
-  
-                </tbody>
-              </table>
-        </ng-template>
-        
-  
-        <!-- TableDetails -->
-    </div>
+        <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
+            <caption>
+              <b>View Items Details</b>
+            </caption>
+            <thead>
+              <tr>
+                <th style="text-align: center;" scope="col">Supplier ID</th>
+                <th style="text-align: center;" scope="col">Supplier Names</th>
+                <th style="text-align: center;" scope="col">email</th>
+                <th style="text-align: center;" scope="col">Phone number</th>
+                
+                <th style="text-align: center;" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+
+              <tr >
+
+                <td style="text-align: center;">{{data.sup_id}}</td>
+                <td style="text-align: center;">{{data.sup_firstName}}</td>
+                <td style="text-align: center;">{{data.sup_email}}</td>
+                <td style="text-align: center;">{{data.sup_phonenumber}}</td>
+                <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
+                      class="fa fa-hand-pointer-o" aria-hidden="true"></i></button> &nbsp;
+                  </td>
+
+              </tr>
 
 
+            </tbody>
+          </table>
+    </ng-template>
+    
 
-    <div class="card-header">
+    <!-- TableDetails -->
+</div>
 <div class="card mb-8">
     <div class="card-body table-responsive">
         <div class="col-md-12">
             <div class="card bg-light mb-2">
-                <div class="card-header"><b>Purchase Order</b></div>
+                <div class="card-header"><h2><b>Sales Order</b></h2></div>
                 <div class="card-body">
-                    <form [formGroup]="purchaseOrderGroup" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="salesOrderGroup" (ngSubmit)="onSubmit()">
                         <div class="form-row">
                             
                             <div class="form-group col-md-6">
-                                <label for="Supplier_name">PO No</label>
-                               <b><input type="text" class="form-control" [value]="poId" disabled #userID></b> 
+                                <label for="Supplier_name">SalesOrder Id</label>
+                               <b><input type="text" class="form-control"  disabled formControlName= "salesOrderId" ></b> 
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="example-date-input" class="">Date</label>
-                                <b><input type="text" class="form-control" [value]="currentDate" disabled #curentDate></b> 
+                                <b><input type="text" class="form-control"  disabled formControlName="date" ></b> 
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 
-                                <input type="text" placeholder="Supplier Name" class="form-control" #supplierName/> 
+                                <input type="text" placeholder="Customer Name" class="form-control" #customerName/> 
                             </div>
                             <div class="form-group col-md-2">
-                                <button type= "button" class="btn btn-primary" (click)="open(content , supplierName)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</button>
+                                <button type= "button" class="btn btn-primary" (click)="open(content , customerName)"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</button>
 
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="text" class="form-control" formControlName = "supplierId" placeholder="Supplier Id" disabled/>
+                                <input type="text" class="form-control" formControlName = "customerId" placeholder="Customer Id" disabled/>
                             </div>
                             
                         </div>
@@ -89,11 +85,11 @@
                         
                             <div class="form-group col-md-6">
                                     <label for="example-date-input" class="">Frist Name</label>
-                                <input type="text" class="form-control" formControlName="supplierFirstName"   placeholder="Frist Name" disabled/>
+                                <input type="text" class="form-control" formControlName="customerFirstName"   placeholder="Frist Name" disabled/>
                             </div>
                             <div class="form-group col-md-6">
                                     <label for="example-date-input" class="">Last Name</label>
-                                <input type="text" class="form-control" formControlName = "supplierLastName" placeholder="Last Name" disabled/>
+                                <input type="text" class="form-control" formControlName = "customerLastName" placeholder="Last Name" disabled/>
                             </div>
                    
                         </div>
@@ -102,26 +98,26 @@
                             <br>
                             <div class="container">
                                 <div class="form-row">
-                                    <div class="form-group col-md-6" (change)="getCatValue(data)">
+                                    <div class="form-group col-md-6">
                                         <label for="Supplier_Id" >Catagory Name</label>
                                         <select class="form-control" #data formControlName=categoryName  [ngClass]="{ 'is-invalid': submitted && f.categoryName.errors }">
-                                        <option *ngFor="let data of catName">{{data.cat_name}}</option>
+                                        <option >{{data.cat_name}}</option>
                                       </select>
                                       <div *ngIf="submitted && f.categoryName.errors" class="invalid-feedback">
                                         <div *ngIf="f.categoryName.errors.required">Main Catagory is required</div>
                                       </div>
                                     </div>
-                                    <div class="form-group col-md-6" *ngIf="activecat" (change)="display(item)">
+                                    <div class="form-group col-md-6" >
                                        
                                         <label for="Item"><b>Item</b></label>
                                         <select class="form-control" #item  formControlName=itemDetails  [ngClass]="{ 'is-invalid': submitted && f.itemDetails.errors }">
-                                            <option *ngFor="let data of subcat">{{data.item_name}} </option>
+                                            <option >{{data.item_name}} </option>
                                         </select>
                                         <div *ngIf="submitted && f.itemDetails.errors" class="invalid-feedback">
                                             <div *ngIf="f.itemDetails.errors.required">Item Name is required</div>
                                           </div>
                                     </div>
-                                    <div class="form-group col-md-6" *ngIf="!activecat">
+                                    <div class="form-group col-md-6">
                                        
                                         <label for="Supplier_Id">Item</label>
                                         <select class="form-control" disabled>
@@ -144,11 +140,11 @@
                                             <label for="Supplier_name">Available QTY</label>
                                             <input type="text" readonly formControlName="Avlqty" numbersOnly  placeholder="Avl Qty" class="form-control" />
                                         </div>
-                                        <div class="form-group col-md-2" *ngIf="!activecat" >
+                                        <div class="form-group col-md-2"  >
                                            
                                             <input type="text" readonly formControlName="itemQty" placeholder="Qty" numbersOnly class="form-control" />
                                         </div>
-                                        <div class="form-group col-md-2" *ngIf="activecat">
+                                        <div class="form-group col-md-2" >
                                             
                                             <input type="text" class="form-control" numbersOnly formControlName="quantity" #currentQty  placeholder="Qty"
                                               [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
@@ -174,7 +170,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                     
-                                        <button type="button" class="btn btn-info" (click) = "dropDisplayValues()"><i class="fa fa-plus"
+                                        <button type="button" class="btn btn-info" ><i class="fa fa-plus"
                                                 aria-hidden="true"></i> &nbsp;Add</button>
                                         &nbsp;
                                       
@@ -186,7 +182,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="alert alert-danger" role="alert" *ngIf ="alertdisplay" >
+                        <div class="alert alert-danger" role="alert" >
                             Make Sure to insert quantity value
                           </div>
                         <br/>
@@ -202,13 +198,13 @@
                                 </thead>
                                 <tbody>
                           
-                                  <tr formArrayName="credentials" *ngFor="let creds of purchaseOrderGroup.controls.credentials?.value; let i = index">
+                                  <tr >
                           
-                                    <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemId}}</b></td>
-                                    <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemName}}</b></td>
-                                    <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.qty}}</b></td>
+                                    <td style="text-align: center;"><b>{{data.itemId}} </b></td>
+                                    <td style="text-align: center;"><b>{{data.itemName}}</b></td>
+                                    <td style="text-align: center;"><b>{{data.qty}}</b></td>
                                     <!-- <td style="text-align: center;"><b>Rs:{{data.buyingPrice}}</b></td> -->
-                                    <td style="text-align: center;"><button type="button" class="btn btn-danger btn-sm"  [formGroupName]="i" (click) = "deleteRowData(i)"><i class="fa fa fa-thumbs-down" aria-hidden="true"></i></button></td>
+                                    <td style="text-align: center;"><button type="button" class="btn btn-danger btn-sm" ><i class="fa fa fa-thumbs-down" aria-hidden="true"></i></button></td>
                                     </tr>
                           
                                   

@@ -13,11 +13,11 @@ export class OrderService {
     return this.http.post<any>(config.PAPYRUS+`/order/savePurchaseOrderData`, purchaseOrderData)
   }
 
-  updatequantity(val , itemId) {
+  updatequantity(val) {
     console.log(val)
     let qty = {
-      id:itemId,
-      quantity:val
+      id:val.itemId,
+      quantity:val.qty
     }
     console.log(qty);
     return this.http.post(config.PAPYRUS+`/order/updateByQuantity`, qty)
@@ -49,4 +49,22 @@ export class OrderService {
   getSupplieraddress(sid) {
     return this.http.get(config.PAPYRUS+`/order/getsId/${sid}`)
   }
+
+  saveGrnValues(data) {
+    console.log('save')
+    console.log(data);
+    return this.http.post(config.PAPYRUS+`/order/saveGRN/`,data)
+
+  }
+
+  updatepoStatus(poid){
+    let updateVal = {
+      id:poid
+    }
+    console.log('SERVICE')
+    return this.http.post(config.PAPYRUS+`/order/updateStatusOfPO/`,updateVal)
+  }
+
+
+
 }
