@@ -14,6 +14,9 @@ module.exports = {
     PurchaseOrder:require('../orders/poOrder.model'),
     GRN:require('../orders/GRN.model'),
     passwordResetToken:require('../users/resettoken'),
+    MembershipType: require('../users/membership-type.model'),
+    Membership: require('../users/membership.model'),
+    ScheduleType: require('../users/ScheduleType.model'),
    
     ItemData: require('../catagory/item.model'),
     //Now added

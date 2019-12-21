@@ -8,7 +8,7 @@
         <div class="nested-menu" >
             <a  class="list-group-item" (click)="addExpandClass('pages')"  *ngIf = "isAdmin" >
                 <i class="fa fa-user-plus"></i>&nbsp;
-                <span>{{ 'User Administration' | translate }}</span>
+                <span>{{ 'Administration' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'" *ngIf = "isAdmin" >
                 <ul class="submenu">
@@ -21,7 +21,7 @@
                     <li>
                         <a href="javascript:void(0)" [routerLink]="['/userRole']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-users"></i>&nbsp;
-                            <span>{{ 'Roles' | translate }}</span>
+                            <span>{{ 'Assign Roles' | translate }}</span>
                         </a>
                     </li>
                     <li>
@@ -36,11 +36,29 @@
                             <span>{{ 'Customers' | translate }}</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/instructor']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-user-secret"></i>&nbsp;
+                            <span>{{ 'Instructors' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/schedultType']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-clone"></i>&nbsp;
+                            <span>{{ 'Schedule Type' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/membershiptype']" [routerLinkActive]="['router-link-active']" >
+                            <i class="fa fa-book"></i>&nbsp;
+                            <span>{{ 'Membership Type' | translate }}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </div> 
         <!-- End UserModule -->
-        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item"*ngIf ="category" >
             <i class="fa fa-handshake-o"></i>&nbsp;
             <span>{{ 'Get Membership' | translate }}</span>
         </a>
@@ -69,7 +87,7 @@
     </div> 
     <!-- End Catagory -->
 
-        <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "category">
             <i class="fa fa-shopping-bag"></i>&nbsp;
             <span>{{ 'Items' | translate }}</span>
         </a>
@@ -106,7 +124,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" >
+                        <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-address-book"></i>&nbsp;
                             <span>{{ 'Membership' | translate }}</span>
                         </a>

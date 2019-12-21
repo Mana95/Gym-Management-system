@@ -3,42 +3,43 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
 
-    user_id: {
+    membership_type_id: {
+        type: String,
+        required: true
+    },
+    typeName: {
+
+        type: String,
+        required: true
+
+    },
+    note: {
+        type: String,
+        required: true
+    },
+    years: {
         type: String,
       
-        required: true
     },
-    firstName:{
+    month: {
         type: String,
+        
+    },
+    amount: {
+        type: Number,
         required: true
     },
-    username:{
-        type: String,
-        required: true
-    },
-    email:{
-        type: String,
-        required: true
-    },
-    hash: {
-        type: String,
-        required: true
-    },
-    active: {
+    status: {
         type: Boolean,
-    },
-   
-    role: {
-        type: String,
-        required: true
     },
     createdDate: {
         type: Date,
         default: Date.now
 
-    }  
+    }
+
 });
 
 schema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model('membershiptype', schema);

@@ -13,13 +13,17 @@ const passwordResetToken =db.passwordResetToken;
 router.post('/authenticate', authenticate);
 router.post('/register', register);
 router.post('/signUp', signUp);
+router.post('/saveMembershiptypeData', saveMembershiptypeData);
+router.post('/updateStatus' , updateStatus);
 
 router.post('/userCreation', userCreation);
 router.post('/cusCreation' , cusRegister)
 router.post('/supCreation' , supRegister)
 router.post('/req-reset-password' , requestMail);
 router.post('/valid-password-token' , ValidPasswordToken);
-
+router.post('/insertMembership' , insertMembership);
+router.post('/insertMembershipUser', insertMembershipUser);
+router.post('/saveScheduleType', saveScheduleType);
 
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
@@ -32,6 +36,10 @@ router.get('/allCustomers' , getCustomersData);
 router.get('/allSuppliers', getSupplierData);
 router.get('/subCatGetting/:id' , getReleventCat);
 router.get('/getreleventData/:id' , getreleventSupliers);
+router.get('/getAllMembershipType' , getAllMembershipType);
+router.get('/pendingMembership' , pendingMembership);
+router.get('/getAllSchedule', getAllSchedule);
+
 
 
 
@@ -48,6 +56,16 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+
+async function saveMembershiptypeData(req ,res ,next) {
+    userService.insertMembershipType(req.body)
+    .then(() => res.json({}))
+    .catch(err => next(err));
+}
+
+
+
 async function ValidPasswordToken(req, res) {
     console.log('ValidaPasswordTokern')
     if (!req.body.resettoken) {
@@ -121,10 +139,57 @@ async function NewPassword(req, res) {
     })
 }
 
+// function loadSchedule(req ,res ,next) {
+//     userService.loadSchedule()
+//     .then(membership => res.json(membership))
+//     .catch(err => next(err));
+// }
 
 
+function getAllSchedule(req ,res,next){
+    userService.getAllSchedule()
+    .then(membership => res.json(membership))
+    .catch(err => next(err));
+}
+
+        function saveScheduleType (req , res, next )
+{
+    userService.savescheduleType(req.body)
+    .then(membership => res.json(membership))
+    .catch(err => next(err));
+}
+    function updateStatus(req ,res, next){
+        userService.updateById(req.body)
+        .then(membership => res.json(membership))
+        .catch(err => next(err));
+    }
 
 
+    function pendingMembership(req ,res ,next){
+        userService.GetByPending(req.body)
+        .then(membership => res.json(membership))
+        .catch(err => next(err));
+    }
+
+
+ function insertMembershipUser(req,res,next){
+    userService.insertMembershipToUser(req.body)
+    .then(membership => res.json(membership))
+    .catch(err => next(err));
+ }   
+
+ function insertMembership(req ,res ,next){
+     //console.log(req.body.membershipbody);
+    userService.insertMembership(req.body)
+    .then(membership => res.json(membership))
+    .catch(err => next(err));
+ }
+
+function getAllMembershipType(req ,res ,next){
+    userService.getMembershiptype()
+    .then(email => res.json(email))
+    .catch(err => next(err));
+}
 
 function requestMail(req ,res, next){
     console.log(req.body)
@@ -267,7 +332,16 @@ function signUp(req, res, next){
 function authenticate(req, res, next) {
     console.log(req.body)
     userService.authenticate(req.body)
-        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .then(user => {
+            user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' 
+        })
+    },
+    response=> {
+        if(response =='That user is not Active'){
+            res.status(400).json({ message: 'That user is not Active' })
+        }
+    },
+            )
         .catch(err => next(err));
 }
 

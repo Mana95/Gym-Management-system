@@ -2,7 +2,7 @@ import { OrderService } from './../../services/order.service';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import * as moment from 'moment';
 
@@ -55,7 +55,8 @@ export class BsElementComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private catagoryService: CatagoryService,
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private appRef: ApplicationRef
 
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -71,7 +72,6 @@ export class BsElementComponent implements OnInit {
       itemId:[''],
       itemQty:[''],
       Avlqty:[''],
-     
       supplierFirstName:['', Validators.required],
       supplierLastName : ['', Validators.required],
       supplierId: ['', Validators.required],
@@ -295,13 +295,15 @@ export class BsElementComponent implements OnInit {
 
   deleteRowData(index: number) {
     console.log('DELETE')
-    console.log(index);
+    alert(index);
     let array = index;
     let deleteRow = this.f.credentials.value;
-    
-      deleteRow.splice(index , 1);
-
     console.log(deleteRow);
+    ( < FormArray > this.purchaseOrderGroup.controls['credentials']).removeAt(index);
+   
+      
+
+    //console.log(deleteRow);
     this.purchaseOrderGroup.controls['credentials'].setValue(deleteRow);
 
   }

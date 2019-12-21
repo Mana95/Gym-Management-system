@@ -1,0 +1,110 @@
+<div class="card mb-12">
+  <div class="card-header">
+    <p><b>New Schedule type</b> &nbsp;
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title"><b>New Schedule type</b></h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="scheduleTypeGroup" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <div class="group-gap">
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputquantity4">Schedule type Id*</label>
+                <input type="text" class="form-control" formControlName="id" disabled >
+
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Type Name</label>
+                <input type="text" class="form-control"   id="inlineFormInputGroup"  placeholder="Type Name" formControlName="typeName"
+                [ngClass]="{ 'is-invalid': submitted && f.typeName.errors }">
+                <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.typeName.errors.required">Type Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">  
+                  <label for="inputPassword4">Description</label> 
+                <textarea class="form-control" placeholder="Note" formControlName="description"
+                  rows="3"></textarea>         
+            </div>
+</div>
+            <!-- 2nd Row -->
+
+             
+            <div class="form-row">
+               
+            </div>
+            </div>
+</div>
+
+            <button type="submit" class="btn btn-primary">Submit<i class="fa fa-book" aria-hidden="true"></i></button>
+          </form>
+        </div>
+
+      
+      </ng-template>
+      <button type="button" class="btn btn-primary btn-sm" (click)="open(content)"><b>New</b></button>
+
+
+      <!-- TableDetails -->
+  </div>
+
+  <div class="card-body table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-7">
+                <h2>
+                  <b>All Schedule Type Status</b>
+
+                </h2>
+              </div>
+
+             
+            </div>
+
+            <hr />
+            <!-- <p>Your role is: <strong>{{currentUser.role}}</strong>.</p> -->
+            <br />
+
+
+            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
+              <caption>
+                <b>View Schedule Details</b>
+              </caption>
+              <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">Schedule type ID</th>
+                  <th style="text-align: center;" scope="col">Type Name</th>
+                  <th style="text-align: center;" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+
+                <tr *ngFor="let data of  scheduleData">
+
+                  <td style="text-align: center;">{{data.id}}</td>
+                  <td style="text-align: center;">{{ data.type}}</td>
+                  <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
+                        class="fa fa-pencil" aria-hidden="true"></i></button> &nbsp;
+                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"
+                        aria-hidden="true"></i></button></td>
+
+                </tr>
+
+
+              </tbody>
+            </table>
+          </div>

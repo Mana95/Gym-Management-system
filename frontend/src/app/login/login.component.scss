@@ -1,6 +1,6 @@
-$topnav-background-color:black;
+$topnav-background-image:url('https://wallpaperset.com/w/full/f/2/4/73916.jpg');
 :host {
-    display: block;
+    display: flex;
 }
 .login-page {
     position: absolute;
@@ -9,7 +9,7 @@ $topnav-background-color:black;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: $topnav-background-color;
+    background: $topnav-background-image;
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -39,7 +39,7 @@ $topnav-background-color:black;
         -webkit-border-radius: 50px;
         border-radius: 50px;
         color: rgba(255, 255, 255, 0.8);
-        background: $topnav-background-color;
+        background: $topnav-background-image;
         border: 2px solid rgba(255, 255, 255, 0.8);
         font-size: 18px;
         line-height: 40px;

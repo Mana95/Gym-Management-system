@@ -12,11 +12,13 @@ const nodemailer = require('nodemailer');
 const User = db.User;
 const Roles = db.Roles;
 const Groups = db.Groups;
-const Customers=db.Customers;
-const Supplier =db.Supplier;
+const Customers = db.Customers;
+const Supplier = db.Supplier;
 const SubCatagory = db.SubCatagory;
-const passwordResetToken =db.passwordResetToken;
-
+const passwordResetToken = db.passwordResetToken;
+const MembershipType = db.MembershipType;
+const Membership = db.Membership;
+const ScheduleType =db.ScheduleType;
 
 
 module.exports = {
@@ -43,56 +45,105 @@ module.exports = {
     getCatDataRelevent,
     signUpUser,
     getreleventSupliers,
-    ResetPassword
+    ResetPassword,
+    insertMembershipType,
+    getMembershiptype,
+    insertMembership, 
+    insertMembershipToUser,
+    GetByPending,
+    updateById,
+    savescheduleType,
+    getAllSchedule,
+   
 
 
 
 
 };
 
-async function ResetPassword(values){
-    // if (!values.email) {
-    //     return res
-    //     .status(500)
-    //     .json({ message: 'Email is required' });
-    //     }
-        const user = await User.findOne({
-        email:values.email
-        });
-        console.log(user);
-        // if (!user) {
-        // return res
-        // .status(409)
-        // .json({ message: 'Email does not exist' });
-        // }
-        var resettoken = new passwordResetToken({ _userId: user._id, resettoken: crypto.randomBytes(16).toString('hex') });
-        resettoken.save(function (err) {
-        if (err) { return  }
-        passwordResetToken.find({ _userId: user._id, resettoken: { $ne: resettoken.resettoken } }).remove().exec();
 
+async function getAllSchedule(){
+    return await ScheduleType.find({})
+}
 
-        
-        var transporter = nodemailer.createTransport({
-          service: 'Gmail',
-          port: 465,
-          auth: {
-            user: 'manaalex3@gmail.com',
-            pass: 'QAZ(*&jker":'
-          } 
+async function savescheduleType(body) {
+    const scheduleType = new ScheduleType(body);  
+    await scheduleType.save();
+}
+
+async function updateById(data){
+    console.log(data)
+
+    Membership.updateOne(
+        {
+            membershipId: data.id
+        },
+        {
+            $set: data
+        }, function (err, responses) {
+            if (err) {
+                console.log(err);
+            }
         });
-        var mailOptions = {
-        to: user.email,
-        from: 'your email',
-        subject: 'Gym Managment System',
-        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-        'http://localhost:4200/response-reset-password/' + resettoken.resettoken + '\n\n' +
-        'If you did not request this, please ignore this email and your password will remain unchanged.\n'+
-        '<br>Thank You.\n'
+        let userData = {
+            id:data.id,
+            active:true
         }
-        transporter.sendMail(mailOptions, (err, info) => {
-        })
-        })
+
+
+        User.updateOne(
+            {
+                user_id: userData.id
+            },
+            {
+                $set: userData
+            }, function (err, responses) {
+                if (err) {
+                    console.log(err);
+                }
+            }  
+        )
+}
+
+async function  GetByPending(){
+    return await Membership.find({})
+}
+
+async function insertMembershipToUser(body) {
+    
+    
+  
+    if(!userFind){
+        if(body.password){
+            user.hash = bcrypt.hashSync(body.password, 10);    
+        }
+        await user.save();
+    }
+}
+
+async function insertMembership(body) {
+    //Find in collection
+    const membershipfind = await Membership.findOne({ username: body.membershipbody.username });
+    const userFind =await User.findOne({username:body.UserDatabody.username});
+    //create objects
+    const user = new User(body.UserDatabody);
+    const membership = new Membership(body.membershipbody);
+    //convert to pw to hash saveing part
+    if (!membershipfind) {
+        if(!userFind){
+        if (body.membershipbody.password && body.UserDatabody.password) {
+            membership.hash = bcrypt.hashSync(body.membershipbody.password, 10);   
+            user.hash = membership.hash;
+        }     
+        if(await membership.save()){
+            //console.log('Save una');
+            await user.save();
+        }
+        else{
+            throw 'Data doesn;t Saved to the Mongo DB'
+        }
+    }
+}
 }
 
 
@@ -100,63 +151,74 @@ async function ResetPassword(values){
 
 
 
-// async function CreatUser(values){
-//     const userEmail = await User.findOne({
-//         email: values.email
-//       });
-//       if (userEmail) {
-//         return res
-//           .status(409)
-//           .json({ message: 'Email already exist' });
-//       }
-  
-//       const userName = await User.findOne({
-//         username: values.username
-//       });
-//       if (userName) {
-//         return res
-//           .status(409)
-//           .json({ message: 'Username already exist' });
-//       }
-  
-//       return bcrypt.hash(req.body.password, 10, (err, hash) => {
-//         if (err) {
-//           return res
-//             .status(400)
-//             .json({ message: 'Error hashing password' });
-//         }
-//         const body = {
-//           username: req.body.username,
-//           email: req.body.email,
-//           password: hash
-//         };
-//         User.create(body)
-//           .then(user => {
-//             res
-//             res.status(201) .json({ message: 'User created successfully', user });
-//           })
-//           .catch(() => {
-//             res
-//               .status(500)
-//               .json({ message: 'Error occured' });
-//           });
-//       });
-// }
+
+
+async function insertMembershipType(body) {
+    const membership_type = await MembershipType.findOne({ typeName: body.typeName })
+    const membership = new MembershipType(body);
+    if (membership_type) {
+        throw 'TypeName "' + body.typeName + '" is already taken';
+    }
+    else {
+        await membership.save();
+    }
+
+
+}
+async function getMembershiptype() {
+    return await MembershipType.find({});
+}
+
+async function ResetPassword(values) {
+
+    const user = await User.findOne({
+        email: values.email
+    });
+    console.log(user);
+
+    var resettoken = new passwordResetToken({ _userId: user._id, resettoken: crypto.randomBytes(16).toString('hex') });
+    resettoken.save(function (err) {
+        if (err) { return }
+        passwordResetToken.find({ _userId: user._id, resettoken: { $ne: resettoken.resettoken } }).remove().exec();
+
+
+
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            port: 465,
+            auth: {
+                user: 'manaalex3@gmail.com',
+                pass: 'QAZ(*&jker":'
+            }
+        });
+        var mailOptions = {
+            to: user.email,
+            from: 'your email',
+            subject: 'Gym Managment System',
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                'http://localhost:4200/response-reset-password/' + resettoken.resettoken + '\n\n' +
+                'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
+                '<br>Thank You.\n'
+        }
+        transporter.sendMail(mailOptions, (err, info) => {
+        })
+    })
+}
 
 
 
 
 
 async function getreleventSupliers(data) {
-  var name = data;
- //  return await Supplier.find({sup_firstName: {$in:[data]}});
-      //return await Supplier.find({sup_firstName:{$regex : new RegExp(data)}});
-      return await Supplier.find({ sup_firstName: { $regex: '^' + data}})
+    var name = data;
+
+    return await Supplier.find({ sup_firstName: { $regex: '^' + data } })
 }
 
 
-async function getCatDataRelevent(id){
-    return await SubCatagory.find({mainCatgory:id});
+async function getCatDataRelevent(id) {
+    return await SubCatagory.find({ mainCatgory: id });
 }
 
 async function getSuppliers() {
@@ -171,11 +233,11 @@ async function supRegister(data) {
     await supplier.save();
 }
 
-async function getCustomerData(){
+async function getCustomerData() {
     return await Customers.find({});
 }
 
-async function cusRegister (data) {
+async function cusRegister(data) {
     console.log('SERVICE');
     const customer = new Customers(data);
     console.log(customer);
@@ -185,14 +247,14 @@ async function cusRegister (data) {
 
 
 async function getDetailUsers(roleValue) {
-    console.log('service' + roleValue )
-  return await User.find({assignRole: roleValue})
-    
+    console.log('service' + roleValue)
+    return await User.find({ assignRole: roleValue })
+
 }
 
-async function getGroupNames(){
+async function getGroupNames() {
     //Using Projection
-    return await Groups.find({},{GroupName:1 , _id:0});
+    return await Groups.find({}, { GroupName: 1, _id: 0 });
 }
 
 async function loadByID(id) {
@@ -213,17 +275,17 @@ async function UpdateUserService(newData) {
             if (err) {
                 console.log(err);
             }
-        }  );
+        });
 
 
 }
 
-async function groupinsertion(groupData){
+async function groupinsertion(groupData) {
     console.log("groupData");
 
     const group = new Groups(groupData);
     console.log(group);
-   
+
     // save user
     await group.save();
 }
@@ -237,7 +299,7 @@ async function getGroups() {
 }
 
 
-async function creationUser (userData) {
+async function creationUser(userData) {
     console.log("creationUser");
     // validate
     const cus = new Customers(userData);
@@ -259,7 +321,7 @@ async function signUpUser(data) {
         console.log('HI')
         let message = 3
         return message;
-        
+
     }
 
     const user = new User(data);
@@ -277,12 +339,14 @@ async function signUpUser(data) {
 
 async function authenticate({ firstName, password }) {
     console.log('Authentication service')
-    console.log({firstName})
-    console.log({password})
+   
     const user = await User.findOne({ firstName });
+    const userActive = await User.findOne({})
     console.log(user);
+
+    if(user.active == true) {
     if (user && bcrypt.compareSync(password, user.hash)) {
-        //  if (user && bcrypt.compareSync(password, user.hash)) {
+     
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({ sub: user.id }, config.secret);
         return {
@@ -290,6 +354,14 @@ async function authenticate({ firstName, password }) {
             token
         };
     }
+}
+else if(user.active == false) {
+    throw 'That user is not Active';
+}
+else{
+    throw 'There is no such User';
+}
+
 }
 
 //Get data
@@ -301,7 +373,7 @@ async function getAll() {
 
 
 async function getById(id) {
-    console.log("This is the service "+ id)
+    console.log("This is the service " + id)
     return await User.findById(id);
 }
 
@@ -348,12 +420,12 @@ async function update(id, userParam) {
     Object.assign(user, userParam);
 
     await user.save();
-    
-    
+
+
 }
 
 async function _delete(id) {
 
-    console.log("This is the backend service" +id)
-    await User.findByIdAndRemove({"_id": id});
+    console.log("This is the backend service" + id)
+    await User.findByIdAndRemove({ "_id": id });
 }

@@ -29,6 +29,48 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  // loadSchedule() {
+  //   return this.http.get(config.PAPYRUS+`/users/loadSchedule`)
+  // }
+
+
+
+  getAllSchedule() {
+    return this.http.get(config.PAPYRUS+`/users/getAllSchedule`)
+  }
+
+
+  saveScheduleType(body){
+    return this.http.post(config.PAPYRUS+`/users/saveScheduleType`,body)
+  }
+
+
+  updateStatus(body) {
+    return this.http.post(config.PAPYRUS+`/users/updateStatus`,body)
+  } 
+
+  getByPendingMembership() {
+    return this.http.get(config.PAPYRUS+`/users/pendingMembership`)
+  }
+
+
+  
+  insertMembershipToUser(body):Observable<any> {
+    return this.http.post(config.PAPYRUS+`/users/insertMembershipUser`,body)
+  }
+
+  saveInsertMembershipDetails(membershipbody ,UserDatabody):Observable<any> {
+    return this.http.post(config.PAPYRUS+`/users/insertMembership`,{membershipbody ,UserDatabody})
+  }
+
+
+  getAllMembershipType() {
+    return this.http.get(config.PAPYRUS+`/users/getAllMembershipType`)
+  }
+
+  insertMembershipTypeData(body) {
+    return this.http.post(config.PAPYRUS +`/users/saveMembershiptypeData`, body);
+  }
   
   ValidPasswordToken(body): Observable<any> {
     return this.http.post(config.PAPYRUS +`/users/valid-password-token`, body);
