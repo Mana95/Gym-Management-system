@@ -1,6 +1,6 @@
 import { config } from './../../../config/config';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import * as moment from "moment";
@@ -13,6 +13,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./instructors.component.scss']
 })
 export class InstructorsComponent implements OnInit {
+
+
+
   registrationGroup: FormGroup;
   submitted = false;
   loading = false;
@@ -23,11 +26,11 @@ export class InstructorsComponent implements OnInit {
   currentTime:any;
   currentDate:any; 
   locaionPath:any;
+  FormValue:any;
+  selectedFile: File
   
-  public uploader: FileUploader = new FileUploader({
-    isHTML5: true
-  });
 
+ 
 
 
   constructor(
@@ -52,7 +55,9 @@ export class InstructorsComponent implements OnInit {
       age: ["", Validators.required],
       address: ["", Validators.required],
       description:[''],
-      typeName:['',Validators.required]
+      typeName:['',Validators.required],
+      fileName:[''],
+      experience: new FormArray([])
 
     })
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
@@ -71,11 +76,6 @@ export class InstructorsComponent implements OnInit {
         this.currentDate
       );
     }
-
-
-
-
-
     this.authenticationService.getAllSchedule()
     .subscribe(
       response=>{
@@ -83,21 +83,65 @@ export class InstructorsComponent implements OnInit {
         console.log(response);
       }
     )
-
-
-
-
-
   }
 
+public uploader: FileUploader = new FileUploader({
+    isHTML5: true
+  });
 
 
-
+  get t() {
+    return this.registrationGroup.get('experience') as FormArray
+  }
   get f() {
 
     return this.registrationGroup.controls;
 
   }
+
+  onReset() {
+    // reset whole form back to initial state
+    this.submitted = false;
+    this.registrationGroup.reset();
+    this.t.clear();
+}
+
+  onClear() {
+    // clear errors and reset ticket fields
+    this.submitted = false;
+    this.t.reset();
+}
+  addexperience() {
+
+    const experience = this.formBuilder.group({ 
+      title: [],
+      company: [],
+      employmentType: [],
+      description:[]
+    })
+  
+    this.t.push(experience);
+  }
+
+  onChangeExperince(e) {
+    const numberOfTickets = e.target.value || 0;
+    if (this.t.length < numberOfTickets) {
+        for (let i = this.t.length; i < numberOfTickets; i++) {
+            this.t.push(this.formBuilder.group({
+                name: ['', Validators.required],
+                email: ['', [Validators.required, Validators.email]]
+            }));
+        }
+    } else {
+        for (let i = this.t.length; i >= numberOfTickets; i--) {
+            this.t.removeAt(i);
+        }
+    }
+}
+
+
+
+  
 
   _keyPress(event: any) {
     const pattern = /[0-9]/;
@@ -109,11 +153,15 @@ export class InstructorsComponent implements OnInit {
 
   }
 
-
   uploadFile(event) {
-    console.log(this.imageUrl);
+  
+    const uploadData = new FormData();
+    let fileItem = this.uploader.queue;
+    // uploadData.append('file', fileItem);
+
     let reader = new FileReader(); // HTML5 FileReader API
     let file = event.target.files[0];
+    this.FormValue = uploadData;
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
 
@@ -131,16 +179,24 @@ export class InstructorsComponent implements OnInit {
     }
   }
   onSubmit() {
+   
+  this.submitted= true;
     let data = new FormData();
+   // console.log(data)
+   let fileItem = this.uploader.queue[0]._file;
+   console.log(fileItem);
+   data.append('file', fileItem);
+   data.append('fileSeq', 'seq' + 0);
+  // data.append('dataType', this.registrationGroup.controls.type.value);
     this.submitted = true;
     this.loading = true;
-
+    console.log(this.FormValue);
        
     this.uploadImage(data , this.f.id.value).subscribe(
       (res) => {
-      
-        console.log("This is the reposne " + res.path);
-            this.locaionPath = res.path;
+        console.log(res)
+      //  console.log("This is the reposne " + res);
+         //   this.locaionPath = res.path;
       
       }
             );
@@ -152,9 +208,9 @@ export class InstructorsComponent implements OnInit {
 
   }
 
-  uploadImage(data: FormData ,uniqueId): Observable<any> {
+  uploadImage(data:FormData ,uniqueId): Observable<any> {
     // tslint:disable-next-line:no-debugger
-  alert("This is the "+data);
+  alert("This is the "+ data);
     return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
     
 

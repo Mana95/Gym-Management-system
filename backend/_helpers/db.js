@@ -17,6 +17,7 @@ module.exports = {
     MembershipType: require('../users/membership-type.model'),
     Membership: require('../users/membership.model'),
     ScheduleType: require('../users/ScheduleType.model'),
+    Employee: require('../users/employee.model'),
    
     ItemData: require('../catagory/item.model'),
     //Now added

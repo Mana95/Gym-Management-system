@@ -23,7 +23,8 @@ import { GetmembershipComponent } from './getmembership/getmembership.component'
         TranslateModule,
         NgbDropdownModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        
 
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent]

@@ -1,3 +1,4 @@
+import { NumberDirective } from './../../_directives/numbers-only.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormModule } from './../form/form.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +9,7 @@ import { SalesorderComponent } from './salesorder.component';
 
 @NgModule({
   declarations: [SalesorderComponent],
+ 
   imports: [
     CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule
   ]

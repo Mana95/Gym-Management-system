@@ -19,6 +19,7 @@ const passwordResetToken = db.passwordResetToken;
 const MembershipType = db.MembershipType;
 const Membership = db.Membership;
 const ScheduleType =db.ScheduleType;
+const Employee = db.Employee;
 
 
 module.exports = {
@@ -54,6 +55,9 @@ module.exports = {
     updateById,
     savescheduleType,
     getAllSchedule,
+    getreleventCustomer,
+    creationUserPub,
+    EmployeeCreation
    
 
 
@@ -207,7 +211,10 @@ async function ResetPassword(values) {
 }
 
 
-
+async function getreleventCustomer(data){
+    var name = data;
+    return await Customers.find({ firstName: { $regex: '^' + data } })
+}
 
 
 async function getreleventSupliers(data) {
@@ -297,8 +304,28 @@ async function getRoles() {
 async function getGroups() {
     return await Groups.find({});
 }
+async function EmployeeCreation(data){
+    const employee = new Employee(userData);
+    const employeefind = await Employee.find({username:data.username})
+    if(!employeefind){
+        if (data.password) {
+            cus.hash = bcrypt.hashSync(data.password, 10);
+        }
+        await employee.save(); 
+    }
+}
 
-
+async function creationUserPub(data){
+    const user = new User(data);
+    const userfind = await User.find({username:data.username})
+    if(!userfind){
+        if (data.password) {
+            cus.hash = bcrypt.hashSync(data.password, 10);
+        }
+        await user.save();
+    }
+   
+}
 async function creationUser(userData) {
     console.log("creationUser");
     // validate

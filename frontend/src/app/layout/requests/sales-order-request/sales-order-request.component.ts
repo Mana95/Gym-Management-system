@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sales-order-request.component.scss']
 })
 export class SalesOrderRequestComponent implements OnInit {
-
+  salesOrderData:any;
   constructor() { }
 
   ngOnInit() {

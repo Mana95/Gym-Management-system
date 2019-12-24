@@ -37,6 +37,25 @@ export class GridComponent implements OnInit {
 
     pushbutton =false;
     disableamount=false;
+    
+    
+
+    ItemData : {
+      
+            itemId: 'sds',
+            itemName:'sdsds',
+            qty:'sdsd',
+            amount:'sdsd',
+            status:'sdsd',
+            price:'sdsd'
+          
+        
+      }[];
+
+
+    
+
+
 
     constructor(
     private orderService: OrderService,
@@ -47,6 +66,7 @@ export class GridComponent implements OnInit {
     ) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+        
     }
 
     ngOnInit() {
@@ -62,10 +82,8 @@ this.grnGroup = this.formBuilder.group({
     supplierAdress:[''],
     note:['',Validators.required],
     buyingPrice:['', Validators.required],
+    totalAmount:[''],
     credentials: this.formBuilder.array([]),
-
-
-
 }) 
 
  //Id Gen
@@ -90,6 +108,17 @@ this.grnGroup = this.formBuilder.group({
  this.grnGroup.controls['date'].setValue(this.currentDate);
 
     }
+
+    createItem() {
+        return this.formBuilder.group({
+            itemId: [''],
+            itemName:[''],
+            qty:[''],
+            amount:[''],
+            status:[''],
+            price:['']
+        })
+      }
 
 
     getPurchaseOrderValue(poData) {
@@ -124,37 +153,51 @@ this.grnGroup = this.formBuilder.group({
                     let qty = this.array[i].qty;
                     let amount = 0;
 
-                    creds.push(this.formBuilder.group({
-                        itemId:itemId , itemName:itemName ,qty:qty , amount:amount ,status: this.array[i].status ,price:0
-                    }));
+                let credentionalArray = <FormArray>this.grnGroup.controls.credentials;    
 
-                    // let arrayList = {
-                    //     itemId:itemId , itemName:itemName ,qty:qty , amount:amount ,status: this.array[i].status
-                    // }
-                    // this.itemTableArray.push(arrayList)
+                 const tableData = this.formBuilder.group({
+                        itemId:itemId, itemName:itemName ,qty:qty , amount:0 ,status: this.array[i].status ,price:""
+                    });
+
+                    this.phoneForms.push(tableData);
+
 
                 }
-               console.log('Array')
-                //console.log(this.itemTableArray);
-            //    this.amount = 0;
-
+               console.log('Array');
             }
         )
 
 
     }
+
+    onTrackById(index: number, item: FormGroup) {
+        return index; // or unique value from {item} something like this (item.get('id').value)
+     }
+
+    get phoneForms() {
+        return this.grnGroup.get('credentials') as FormArray
+      }
+
     //push array method
-    pushValue(data:any) {
+    pushValue(index:number) {
 
-        console.log(data);
+       // console.log(this.phoneForms.value[index]);
+        let priceValue = this.phoneForms.value[index].price
+        let priceConvert = Number(priceValue)
+        let amount = Number(this.phoneForms.value[index].qty);
 
+        let amountFinal = amount*priceConvert;
+        console.log(amount)
+        this.phoneForms.value[index].amount = amountFinal;
+        
+        let total =+ amountFinal;
+         ;
+        this.grnGroup.controls['totalAmount'].setValue(total);
         // this.disableamount = true;
         // let id = data.itemId;
         // let name = data.itemName;
         // let qty = data.qty;
         // let status = 'Approved';
-     
-
         // let price = Number(this.grnGroup.controls.buyingPrice.value);
         // let amountVal = Number(price.toFixed(2));
         // console.log(typeof amountVal)
@@ -172,8 +215,6 @@ this.grnGroup = this.formBuilder.group({
         //     this.ItemListArray.push(ItemDetails); //push data into the array
         //     data.status = 'Approved';
         //   }
-      
-
     }
 
     get f() {
@@ -202,7 +243,8 @@ this.grnGroup = this.formBuilder.group({
             supplierAdress:this.f.supplierAdress.value,
             note: this.f.note.value,
             currentUser:this.currentUserSubject.value.username,
-            ItemGrnTable: this.ItemListArray
+            ItemGrnTable: this.ItemListArray,
+            totalAmount:this.f.totalAmount.value
            
 
         }

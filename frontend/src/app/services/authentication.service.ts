@@ -34,6 +34,9 @@ export class AuthenticationService {
   // }
 
 
+  getRelventCustomer(data){
+    return this.http.get(config.PAPYRUS+`/users/getreleventCustomerData/${data}`)
+  }
 
   getAllSchedule() {
     return this.http.get(config.PAPYRUS+`/users/getAllSchedule`)
@@ -173,12 +176,20 @@ export class AuthenticationService {
             return user;
           }));
        }
-
+       userCreationPub(data){
+        return this.http.post<any>(config.PAPYRUS+ `/users/userCreationPub`, data)
+       }
        userCreation(UserCreationParam): Observable<any> {
         // alert("here is the service");
-        return this.http.post<any>(config.PAPYRUS+ `/users/userCreation`, UserCreationParam)
+        return this.http.post<any>(config.PAPYRUS+ `/users/UserCreation`, UserCreationParam)
 
       }
+      EmployeeCreate(UserCreationParam): Observable<any> {
+        // alert("here is the service");
+        return this.http.post<any>(config.PAPYRUS+ `/users/UserCreation`, UserCreationParam)
+
+      }
+
 
       roleCreation(UserRole): Observable<any> {
         

@@ -128,7 +128,7 @@ export class BsElementComponent implements OnInit {
 
         },
         error => {
-          
+          console.log(error);
         });
 
 
@@ -243,7 +243,9 @@ export class BsElementComponent implements OnInit {
     
   
   }
-
+  get phoneForms() {
+    return this.purchaseOrderGroup.get('credentials') as FormArray
+  }
 
   dropDisplayValues() {
    
@@ -257,15 +259,16 @@ export class BsElementComponent implements OnInit {
    
     let final = AvlQty + qty;    
     if(qty!== 0 && itemId !== '' && itemName !=='')  {
-      const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
-      creds.push(this.formBuilder.group({
+    //  const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
+     const tableValue = this.formBuilder.group({
         itemId: this.f.itemId.value,
         itemName: this.f.itemName.value,
         qty:qty,
         status: 'Pending'
-      }));
-    this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
+      });
+    //this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
     // this.ItemDataValues.push(ItemDetails);
+    this.phoneForms.push(tableValue);
 
     var siraValue = this.f.credentials.value;
     console.log(siraValue);
@@ -294,18 +297,7 @@ export class BsElementComponent implements OnInit {
   }
 
   deleteRowData(index: number) {
-    console.log('DELETE')
-    alert(index);
-    let array = index;
-    let deleteRow = this.f.credentials.value;
-    console.log(deleteRow);
-    ( < FormArray > this.purchaseOrderGroup.controls['credentials']).removeAt(index);
-   
-      
-
-    //console.log(deleteRow);
-    this.purchaseOrderGroup.controls['credentials'].setValue(deleteRow);
-
+    this.phoneForms.removeAt(index);
   }
 
 
@@ -340,6 +332,12 @@ export class BsElementComponent implements OnInit {
      error =>{
       this.error = error;
       this.loading = false;
+     },
+     ()=>{
+       this.submitted = false;
+       console.log("Saved");
+       this.purchaseOrderGroup.reset();
+       location.reload();
      }
    )
 

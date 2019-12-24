@@ -1,3 +1,4 @@
+import { FileUploadModule } from 'ng2-file-upload';
 import { UserComponent } from './user.component';
 import { UserRoutingModule } from './user-routing.module';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,7 @@ import { InstructorsComponent } from './instructors/instructors.component';
  
   imports: [
     CommonModule  , UserRoutingModule ,PageHeaderModule ,   FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule ,FileUploadModule
   ],
   declarations: [UserComponent, InstructorsComponent]
 })

@@ -24,6 +24,9 @@ router.post('/valid-password-token' , ValidPasswordToken);
 router.post('/insertMembership' , insertMembership);
 router.post('/insertMembershipUser', insertMembershipUser);
 router.post('/saveScheduleType', saveScheduleType);
+router.post('/userCreationPub' , userCreationPub);
+router.post('/EmployeeCreation' , EmployeeCreation);
+
 
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
@@ -36,6 +39,7 @@ router.get('/allCustomers' , getCustomersData);
 router.get('/allSuppliers', getSupplierData);
 router.get('/subCatGetting/:id' , getReleventCat);
 router.get('/getreleventData/:id' , getreleventSupliers);
+router.get('/getreleventCustomerData/:id' , getreleventCustomerData);
 router.get('/getAllMembershipType' , getAllMembershipType);
 router.get('/pendingMembership' , pendingMembership);
 router.get('/getAllSchedule', getAllSchedule);
@@ -198,6 +202,14 @@ function requestMail(req ,res, next){
     .catch(err => next(err));
 
 }
+function getreleventCustomerData(req , res, next){
+    let data = req.params.id;
+    //console.log(data)
+    userService.getreleventCustomer(data)
+    .then(cus => res.json(cus))
+    .catch(err => next(err));
+}
+
 function getreleventSupliers(req, res, next) {
     let data = req.params.id;
     //console.log(data)
@@ -306,6 +318,18 @@ function getAllGroups(req, res , next){
     .then(users => res.json(users))
     .catch(err => next(err));
 }
+function EmployeeCreation(req ,res ,next){
+    userService.EmployeeCreation(req.body)
+    .then(() => res.json({}))
+    .catch(err => next(err));
+}
+function userCreationPub(req ,res,next){
+   
+    userService.creationUserPub(req.body)
+    .then(() => res.json({}))
+    .catch(err => next(err));
+}
+
 function userCreation (req, res , next) {
     console.log(req.body);
     userService.creationUser(req.body)
@@ -335,13 +359,7 @@ function authenticate(req, res, next) {
         .then(user => {
             user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' 
         })
-    },
-    response=> {
-        if(response =='That user is not Active'){
-            res.status(400).json({ message: 'That user is not Active' })
-        }
-    },
-            )
+    })
         .catch(err => next(err));
 }
 
