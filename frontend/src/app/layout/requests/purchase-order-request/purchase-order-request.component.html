@@ -24,7 +24,12 @@
           
                     <td style="text-align: center;" >{{data.purchaseOrderId}}</td>
                     <td style="text-align: center;">{{ data.supllierFirstName}}</td>
-                    <td  *ngIf="'Pending' == data.status" style="color:Gold; text-align: center; "><i class="fa fa-spinner"  aria-hidden="true"></i><b>PENDING</b></td>
+                    <!-- <td  *ngIf="'Pending' == data.status" style="color:Gold; text-align: center; "><i class="fa fa-spinner"  aria-hidden="true"></i><b>PENDING</b></td> -->
+                    <td  *ngIf="'Pending' == data.status" style="color:Gold; text-align: center; "> 
+                       <ul class="fa-ul">
+                      <li><i class="fa-li fa fa-spinner fa-spin"></i><b>PENDING</b>
+                    </ul>
+                    </td>
                     <td style="text-align: center;"><button type="button" class="btn btn-success"(click)="process(data)" ><i class="fa fa-paper-plane" aria-hidden="true"></i></button></td>
                 
                   </tr>

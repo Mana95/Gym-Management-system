@@ -24,6 +24,9 @@ const schema = new Schema({
         type: Date,
         required: true
     },
+    image:{
+        type:String
+    },
     phonenumber:{
         type: String,
         required: true
@@ -48,6 +51,10 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    date: {
+        type: String,
+        required: true 
+    },
     active: {
         type: Boolean,
     },
@@ -65,4 +72,4 @@ const schema = new Schema({
 
 schema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('Employee', schema);
+module.exports = mongoose.model('employee', schema);

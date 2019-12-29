@@ -21,6 +21,7 @@
                 </caption>
                 <thead>
                   <tr>
+                    <th style="text-align: center;" scope="col">Date</th>
                     <th style="text-align: center;" scope="col">Membership ID</th>
                     <th style="text-align: center;" scope="col">first Name</th>
                     <th style="text-align: center;" scope="col">Contact Number</th>
@@ -32,14 +33,14 @@
                   <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
   
                   <tr *ngFor="let data of salesOrderData">
-  
+                    <td style="text-align: center;">{{data.date}}</td>
                     <td style="text-align: center;">{{data.id}}</td>
-                    <td style="text-align: center;">{{ data.firstName}}</td>
+                    <td style="text-align: center;">{{ data.customerfirstName}}</td>
                     <td style="text-align: center;">{{data.phonenumber}}</td>
                     <td  *ngIf="'false' == data.status" style="color:Gold; text-align: center; "><i class="fa fa-spinner"  aria-hidden="true"></i><b>pending</b></td>
                     <td  *ngIf="'true' == data.status" style="color:green; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i><b>registered</b></td>
                     
-                    <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ><i
+                    <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm" (click)= "process(data)" ><i
                           class="fa fa-thumbs-up" aria-hidden="true"></i></button> &nbsp;
                       <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-ban"
                           aria-hidden="true"></i></button></td>

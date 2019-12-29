@@ -104,11 +104,11 @@
                                         <b>{{ creds.qty }}</b>
                                     </td>
                                     <td style="text-align: center;" [formGroupName]="i">
-                                        <!-- <div class="input-group-prepend">
-                                                        <div class="input-group-text"><b>Rs:</b></div>
-                                                      </div> -->
-                                            <input type="text" appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5"/>
-                                    </td>
+                                      
+                                            <input type="text"  appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5" />
+                                          
+                                        </td>
+                                   
                                     <td style="text-align: center;" [formGroupName]="i">
                                         <b>{{ creds.amount }}</b>
                                     </td>
@@ -120,7 +120,7 @@
                                         style="color:green; text-align: center; ">
                                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                                     </td>
-                                    <td style="text-align: center;" [formGroupName]="i">
+                                    <td style="text-align: center;" [formGroupName]="i" >
                                         <button type="button" class="btn btn-success btn-sm"
                                             (click)="pushValue( i)">
                                             <i class="fa fa-check" aria-hidden="true"></i>

@@ -35,7 +35,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputquantity4">Item Id*</label>
-                <input type="text" class="form-control" [value]="userId" disabled #userID>
+                <input type="text" class="form-control"formControlName="id" disabled>
 
               </div>
               <div class="form-group col-md-6" (change)="getSubCatValue(data)">
@@ -82,12 +82,24 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Manufacture Date</label>
-                <input type="text" class="form-control" formControlName="item_name" placeholder="Item Name"
-                [ngClass]="{ 'is-invalid': submitted && f.item_name.errors }">
+                <input type="date" class="form-control" formControlName="manuDate" placeholder="Manifactured Date"
+                [ngClass]="{ 'is-invalid': submitted && f.manuDate.errors }">
+                <div *ngIf="submitted && f.manuDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.manuDate.errors.required">M Date is required</div>
+                </div>
 
 
+              </div>   
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Exp Date</label>
+                <input type="date" class="form-control" formControlName="expDate" placeholder="Manifactured Date"
+                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }">
+                <div *ngIf="submitted && f.expDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.expDate.errors.required">Exp Date is required</div>
+                </div>
 
-              </div>    
+
+              </div>   
             </div>
             <div class="form-row">
               <div class="form-group col-md-2">
@@ -115,16 +127,11 @@
               </div>
 
               <div class="form-group col-md-5">
-                <label for="quantity">Buying Price</label>
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><b>Rs:</b></div>
-                  </div>
-                <input type="text" appTwoDigitDecimaNumber class="form-control"  formControlName="buying_price"
-                  placeholder="00.00" [ngClass]="{ 'is-invalid': submitted && f.buying_price.errors }">
-                <div *ngIf="submitted && f.buying_price.errors" class="invalid-feedback">
-                  <div *ngIf="f.buying_price.errors.required">Buying Price is required</div>
-                </div>
+                <label for="quantity">Importered Country</label>
+                <input type="text"  class="form-control"  formControlName="importCountry"
+                  placeholder="Importered Country" [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }">
+                <div *ngIf="submitted && f.importCountry.errors" class="invalid-feedback">
+                  <div *ngIf="f.importCountry.errors.required">Importered Country is required</div>
                 </div>
               </div>
             </div>
@@ -190,7 +197,7 @@
 
                 <tr *ngFor="let data of itemData">
 
-                  <td style="text-align: center;">{{data.id}}</td>
+                  <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]="data.image"/></td>
                   <td style="text-align: center;">{{ data.item_name}}</td>
                   <td style="text-align: center;">{{data.sub_cat}}</td>
                   <td style="text-align: center;">{{data.cat_name}}</td>

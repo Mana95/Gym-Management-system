@@ -25,6 +25,7 @@ export class GridComponent implements OnInit {
     submitted = false;
     loading = false;
     error = '';
+    activeInput = false;
 
     grnData:any;
     currentDate:any;
@@ -34,7 +35,7 @@ export class GridComponent implements OnInit {
     amount:any;
     array:any;
     itemTableArray =[]
-
+    AssignArray = [];
     pushbutton =false;
     disableamount=false;
     
@@ -81,7 +82,6 @@ this.grnGroup = this.formBuilder.group({
     grnStatus:[''],
     supplierAdress:[''],
     note:['',Validators.required],
-    buyingPrice:['', Validators.required],
     totalAmount:[''],
     credentials: this.formBuilder.array([]),
 }) 
@@ -122,6 +122,13 @@ this.grnGroup = this.formBuilder.group({
 
 
     getPurchaseOrderValue(poData) {
+        const control = <FormArray>this.grnGroup.controls['credentials'];
+        for(let i = control.length-1; i >= 0; i--) {
+            control.removeAt(i)
+    }
+        
+
+
         this.itemTableArray.length = 0;
         let id = poData.value;
         this.orderService.getByIdPo(id)
@@ -156,11 +163,11 @@ this.grnGroup = this.formBuilder.group({
                 let credentionalArray = <FormArray>this.grnGroup.controls.credentials;    
 
                  const tableData = this.formBuilder.group({
-                        itemId:itemId, itemName:itemName ,qty:qty , amount:0 ,status: this.array[i].status ,price:""
+                        itemId:itemId, itemName:itemName ,qty:qty , amount:0 ,status: this.array[i].status ,price:['']
                     });
 
                     this.phoneForms.push(tableData);
-
+                    console.log(this.phoneForms.value);
 
                 }
                console.log('Array');
@@ -180,9 +187,10 @@ this.grnGroup = this.formBuilder.group({
 
     //push array method
     pushValue(index:number) {
-
+        this.activeInput = true;
        // console.log(this.phoneForms.value[index]);
         let priceValue = this.phoneForms.value[index].price
+        let id = this.phoneForms.value[index].itemId
         let priceConvert = Number(priceValue)
         let amount = Number(this.phoneForms.value[index].qty);
 
@@ -193,28 +201,18 @@ this.grnGroup = this.formBuilder.group({
         let total =+ amountFinal;
          ;
         this.grnGroup.controls['totalAmount'].setValue(total);
-        // this.disableamount = true;
-        // let id = data.itemId;
-        // let name = data.itemName;
-        // let qty = data.qty;
-        // let status = 'Approved';
-        // let price = Number(this.grnGroup.controls.buyingPrice.value);
-        // let amountVal = Number(price.toFixed(2));
-        // console.log(typeof amountVal)
-        
-        // let realnumber =qty*price;
+        for(var i=0;i< this.AssignArray.length;i++){
 
-        //     //   console.log(price.toFixed(2));
-        //     data.amount = realnumber.toFixed(2);
-
-        // let ItemDetails = {
-        //     itemId : id, itemName:name ,qty:qty , status: status , buyingPrice:Number(amountVal.toFixed(2))
-        //   }
-        //   console.log(ItemDetails); 
-        //   if(id!==''&& name!=='' && qty!==0 && status!== ''&& price!==0){
-        //     this.ItemListArray.push(ItemDetails); //push data into the array
-        //     data.status = 'Approved';
-        //   }
+            if( this.AssignArray[i].itemId == id ){
+                this.AssignArray.splice(i , 1);
+                this.AssignArray.push(this.phoneForms.value[index]);
+            }
+        this.AssignArray.push(this.phoneForms.value[index]);
+            
+        }
+    
+        console.log(this.AssignArray);
+        console.log(this.phoneForms.value)
     }
 
     get f() {
@@ -227,10 +225,12 @@ this.grnGroup = this.formBuilder.group({
       }
 
     onSubmit() {
-
+        let arrayItems = this.phoneForms.value;
         this.submitted = true;
         this.loading = true;
-
+        if(this.grnGroup.valid){
+            alert('sdsdsdsds')
+        }
         let GRNDATA = {
             id: this.f.grnId.value,
             date:this.f.date.value,
@@ -243,10 +243,8 @@ this.grnGroup = this.formBuilder.group({
             supplierAdress:this.f.supplierAdress.value,
             note: this.f.note.value,
             currentUser:this.currentUserSubject.value.username,
-            ItemGrnTable: this.ItemListArray,
+            ItemGrnTable: this.phoneForms.value,
             totalAmount:this.f.totalAmount.value
-           
-
         }
         console.log(GRNDATA);
 
@@ -262,40 +260,54 @@ this.grnGroup = this.formBuilder.group({
             },
             () =>{
                 console.log("Insert GRN Succesfully");
+                this.orderService.updatepoStatus(this.f.purchaseOrderId.value)
+                .subscribe(
+                    response=>{
+                        console.log(response)
+                    },error=>
+                    {
+                        console.log(error)
+                     } ,
+                      ()=>{
+                         console.log("Update the Purchase OrderId")
+
+                         for(var x =0 ; x < arrayItems.length; x++){
+
+                            let arrayData = {
+                                id:arrayItems[x].itemId,
+                                quantity:arrayItems[x].qty
+                    
+                            }
+                    
+                               this.orderService.updatequantity(arrayData)
+                               .subscribe(
+                                   response=>{
+                                       console.log(response);
+                                   },
+                                   error=>{
+                                       console.log(error);
+                                   },
+                                   ()=>{
+                                    console.log('Item Insert Successfully');
+                    
+                                   }
+                               )
+                           }
+
+
+                        } 
+                )
+        
             }
         )
 
 
-        this.orderService.updatepoStatus(this.f.purchaseOrderId.value)
-        .subscribe(
-            response=>{console.log(response)},error=>console.log(error) , ()=>console.log("Update the Purchase OrderId")
-        )
-
-       for(var x =0 ; x<this.ItemListArray.length; x++){
-
-        let arrayData = {
-            itemId:this.ItemListArray[x].itemId,
-            qty:this.ItemListArray[x].qty
-
-        }
-
-           this.orderService.updatequantity(arrayData)
-           .subscribe(
-               response=>{
-                   console.log(response);
-               },
-               error=>{
-                   console.log(error);
-               },
-               ()=>{
-                console.log('Item Insert Successfully');
-
-               }
-           )
-       }
+      
+      
 
 
 
     }
 
 }
+

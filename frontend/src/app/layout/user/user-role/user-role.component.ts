@@ -11,6 +11,7 @@ export class UserRoleComponent implements OnInit {
 userRole : any;
 show:true;
 role_name:any;
+id:any;
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,

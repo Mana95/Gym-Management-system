@@ -62,6 +62,36 @@
             <i class="fa fa-handshake-o"></i>&nbsp;
             <span>{{ 'Get Membership' | translate }}</span>
         </a>
+        <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="Schedule" >
+            <i class="fa fa-calendar-o"></i>&nbsp;
+            <span>{{ 'Schedule' | translate }}</span>
+        </a>
+<!--Shcdule Requesting-->
+<div class="nested-menu" *ngIf ="category">
+    <a class="list-group-item" (click)="addExpandSchClass('pages')">
+            <i class="fa fa-calendar-check-o"></i>&nbsp;
+        <span>{{ 'Schedule Req/Accept' | translate }}</span>
+    </a>
+    <li class="nested" [class.expand]="showMenuSch === 'pages'">
+        <ul class="submenu">
+            <li>
+                <a [routerLink]="['/mainCat']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                    <i class="fa fa-shopping-bag"></i>&nbsp;
+                    <span>{{ 'Requested' | translate }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
+                    <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
+                    <span>{{ 'Accepted' | translate }}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</div> 
+
+
+
 <!-- Catagory -->
 <div class="nested-menu" *ngIf ="category">
         <a class="list-group-item" (click)="addExpandCatClass('pages')">
@@ -100,7 +130,7 @@
             <li class="nested" [class.expand]="showMenuRequest === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/reqSalesOrder']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                        <a [routerLink]="['/reqSalesOrder']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf ="category"  >
                             <i class="fa fa-user"></i>&nbsp;
                             <span>{{ 'Sales Order' | translate }}</span>
                         </a>
@@ -133,16 +163,16 @@
             </li>
         </div> 
 
-        <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="category">
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
         </a>
 
-        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="category" >
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Purchase Order' | translate }}</span>
         </a>
-        <a [routerLink]="['/GRN']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/GRN']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="category" >
             <i class="fa fa-shopping-cart"></i>&nbsp;
             <span>{{ 'GRN' | translate }}</span>
         </a>

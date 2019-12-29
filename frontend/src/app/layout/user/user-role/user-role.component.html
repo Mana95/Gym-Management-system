@@ -1,8 +1,7 @@
 
           
           <div class="card mb-3">
-              <div class="card-header"><p>User Roles   &nbsp; <button type="button" [routerLink]="['/userNewRole']"class="btn btn-success  btn-sm">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
-              </div>  
+           
               <div class="card-body table-responsive">
                 
                   <div class="row">
@@ -10,7 +9,7 @@
                       <div class="row">
                         <div class = "col-md-9">
                       <h1>
-                        <b>All User Status</b>
+                        <b>All Role Status</b>
                       </h1>
                     </div>
                     <div class="col-md-3">
@@ -29,9 +28,11 @@
                         </caption>
                         <thead>
                           <tr>
-                            <th style="text-align: center;" scope="col">Role ID</th>
+                            <th style="text-align: center;" scope="col">ID</th>
                             <th  style="text-align: center;" scope="col">Role Name</th>
-                            <th  style="text-align: center;" scope="col">Description</th>
+                            <th  style="text-align: center;" scope="col">Name</th>
+                            <th  style="text-align: center;" scope="col">Email</th>
+                            
                             <th  style="text-align: center;" scope="col">Action</th>
                           </tr>
                         </thead>
@@ -40,12 +41,13 @@
                   
                           <tr *ngFor="let data of userRole ">
                   
-                            <td style="text-align: center;">{{ data.roleID}}</td>
-                            <td style="text-align: center;">{{ data.roleName}}</td>
-                            <td style="text-align: center;">{{ data.description}}</td>
+                            <td style="text-align: center;">{{ data.user_id}}</td>
+                            <td style="text-align: center;">{{ data.role}}</td>
+                            <td style="text-align: center;">{{ data.firstName}}</td>
+                            <td style="text-align: center;">{{ data.email}}</td>
+
                             <td style="text-align: center;"><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
-                              <button type="button" (click)="deleteRecord(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-                          
+                             
                             </tr>
                   
                           

@@ -7,6 +7,7 @@ export class User {
     lastName: string;
     assignRole: string;
     email: string;
+    user_id:string;
     address: string;
     city: string;
     state:string;

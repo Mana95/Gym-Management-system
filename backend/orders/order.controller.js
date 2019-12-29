@@ -11,14 +11,30 @@ router.post('/savePurchaseOrderData' , savePoData);
 router.post('/updateByQuantity' , updateByQty);
 router.post('/updateBydeleteQuantity' , updateBydelete)
 router.post('/saveGRN', SaveGRNData);
-router.post('/updateStatusOfPO', updateStatusOfPo)
+router.post('/updateStatusOfPO', updateStatusOfPo);
+router.post('/insertSalesOrder' , insertSalesOrder);
 
 router.get('/getPendingPo', getPendingPo);
 router.get('/getProgressPo', getProgress);
 router.get('/getByIdPo/:id' , getById);
-router.get('/getsId/:id' , getSupplierId)
+router.get('/getsId/:id' , getSupplierId);
+router.get('/getAllSo', getAllSo);
 
 router.post('/updateStatus', UpdateStatus);
+
+function insertSalesOrder(req , res, next){
+    console.log('dsdsdsds')
+ 
+    orderService.salesOrderInsert(req.body)
+    .then(grn => res.json(grn))
+    .catch(err => next(err));
+}
+
+function getAllSo(req , res, next){
+    orderService.getAllDataSo()
+    .then(grn => res.json(grn))
+    .catch(err => next(err));
+}
 
 function updateStatusOfPo(req ,res ,next ){
    

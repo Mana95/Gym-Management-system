@@ -3,6 +3,7 @@ export enum Role {
     Admin = 'Admin',
     Supplier = 'Supplier',
     Customer = 'Customer',
-    Membership = 'Membership'
+    Membership = 'Membership',
+    Instructor = 'Instructor'
     
 }

@@ -6,6 +6,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { distinct } from 'rxjs/operators';
+import {NgxPopoverImageModule} from 'ngx-popover-image';
 
 @Component({
   selector: 'app-tables',
@@ -27,6 +28,7 @@ export class TablesComponent implements OnInit {
   imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
   editFile: boolean = true;
   removeUpload: boolean = false;
+  image:any;
 
 
 
@@ -43,13 +45,16 @@ export class TablesComponent implements OnInit {
 
   ngOnInit() {
     this.itemGroup = this.formBuilder.group({
+      id:[''],
       cat_name: ['', Validators.required],
       item_name: ['', Validators.required],
       quantity: [null, Validators.required],
       description: [''],
       sub_cat: ['', Validators.required],
       selling_price: ['', Validators.required],
-      buying_price: ['', Validators.required]
+      importCountry:['' , Validators.required],
+      manuDate:[''],
+      expDate:['']
     });
 
     const qty = this.itemGroup.get('quantity');
@@ -64,9 +69,6 @@ export class TablesComponent implements OnInit {
       .pipe(distinct())
       .subscribe(value => sellingPrice.setValue(+value || 0));
 
-    buying_price.valueChanges
-      .pipe(distinct())
-      .subscribe(value => buying_price.setValue(+value || 0));
 
     this.catagoryService.getItemDetials()
     .subscribe(
@@ -95,6 +97,8 @@ export class TablesComponent implements OnInit {
       var rnum = Math.floor(Math.random() * chars.length);
       id += chars.substring(rnum, rnum + 1);
       this.userId = id;
+      this.itemGroup.controls['id'].setValue(id);
+
 
     }
 
@@ -139,19 +143,21 @@ export class TablesComponent implements OnInit {
    
     if (this.itemGroup.valid) {
       var selValue = this.f.selling_price.value.toFixed(2);
-      var buyValue = this.f.buying_price.value.toFixed(2);
-      console.log(selValue)
-      
+    
+
       let itemData = {
-        id: this.userId,
+        id: this.f.id.value,
         cat_name: this.f.cat_name.value,
         item_name: this.f.item_name.value,
         quantity: this.f.quantity.value,
         description: this.f.description.value,
         sub_cat: this.f.sub_cat.value,
         selling_price: Number(selValue),
-        buying_price: Number(buyValue),
-        image: data.value
+        Importered_Country: this.f.importCountry.value,
+        image: this.imageUrl,
+        manuDate:this.f.manuDate.value,
+        expDate:this.f.expDate.value
+
       }
 
       console.log(itemData);
@@ -163,6 +169,9 @@ export class TablesComponent implements OnInit {
           error => {
             this.error = error;
             this.loading = false;
+          },
+          ()=>{
+            location.reload()
           }
 
         )

@@ -53,7 +53,6 @@ export class SalesorderComponent implements OnInit {
       categoryName: ['', Validators.required],
       date:[''],
       quantity: [null, Validators.required],
-      itemDetails:['',Validators.required],
       itemName: ['',],
       itemId:[''],
       itemQty:[''],
@@ -152,6 +151,7 @@ export class SalesorderComponent implements OnInit {
         itemId: this.f.itemId.value,
         itemName: this.f.itemName.value,
         qty:qty,
+        price:[''],
         status: 'Pending'
       });
     //this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
@@ -169,6 +169,10 @@ export class SalesorderComponent implements OnInit {
   }
   //  console.log(this.ItemDataValues);
   }
+
+  onTrackById(index: number, item: FormGroup) {
+    return index; // or unique value from {item} something like this (item.get('id').value)
+ }
 
 
   onClickMe(data, content) {
@@ -252,6 +256,32 @@ export class SalesorderComponent implements OnInit {
 
 
   onSubmit() {
+    this.submitted =true;
+
+    let salesOrderData = {
+      id:this.f.id.value,
+      customerId: this.f.customerId.value,
+      customerfirstName:this.f.customerfirstName.value,
+      customerLastName:this.f.customerLastName.value,
+      categoryName:this.f.categoryName.value,
+      date:this.f.date.value,
+      itemTable:this.f.credentials.value,
+      status:false
+    }
+    console.log(salesOrderData);
+
+    this.orderService.insertSalesOrder(salesOrderData)
+    .subscribe(
+      response=>{
+        console.log(response)
+
+      },
+      error=>{
+        console.log(error);
+
+      }
+    )
+
 
   }
 

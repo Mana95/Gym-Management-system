@@ -11,6 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SalesorderComponent } from './salesorder/salesorder.component';
 import { GetmembershipComponent } from './getmembership/getmembership.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 
 

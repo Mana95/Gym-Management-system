@@ -31,6 +31,9 @@ const routes: Routes = [
             { path: 'membershiptype', loadChildren: () => import('./user/membershiptype/membershiptype.module').then(m => m.MembershiptypeModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'requestMemberShipType', loadChildren: () => import('./requests/membership-request/membership-request.module').then(m => m.MembershipRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User ,Role.Customer] } },
             { path: 'schedultType', loadChildren: () => import('./user/schedule-type/schedule-type.module').then(m => m.ScheduleTypeModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
+            { path: 'schedule', loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
+            { path: 'newschedule', loadChildren: () => import('./schedule/newschedule/newschedule.module').then(m => m.NewscheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
+           
             { path: 'instructor', loadChildren: () => import('./user/instructors/instructors.module').then(m => m.InstructorsModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
          
             { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User] } },
@@ -41,7 +44,7 @@ const routes: Routes = [
 
 
             { path: 'brands', loadChildren: () => import('./charts/charts.module').then(m => m.ChartsModule) },
-            { path: 'catagory', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] }},
+            { path: 'catagory', loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User] }},
             { path: 'stores', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) },
             { path: 'GRN', loadChildren: () => import('./grid/grid.module').then(m => m.GridModule) },

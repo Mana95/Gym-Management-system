@@ -12,6 +12,10 @@ const schema = new Schema({
         type: String,
         required:true
     },
+    Importered_Country:{
+        type: String,
+        required:true
+    },
     item_name: {
         type: String,
         required:true
@@ -29,15 +33,19 @@ const schema = new Schema({
         type: Number,
         required:true
     },
-    buying_price: {
-        type: Number,
-        required:true
-    },
     sub_cat: {
         type: String,
         required:true
     },
     image: {
+        type: String,
+        
+    },
+    manuDate: {
+        type: String,
+        
+    },
+    expDate: {
         type: String,
         
     },

@@ -57,14 +57,33 @@ module.exports = {
     getAllSchedule,
     getreleventCustomer,
     creationUserPub,
-    EmployeeCreation
+    EmployeeCreation,
+    getreleventRoleData,
+    updateRole
    
 
 
 
 
 };
+async function updateRole(data) {
 
+    User.updateOne(
+        {
+            _id: data.id
+        },
+        {
+            $set: data
+        }, function (err, responses) {
+            if (err) {
+                console.log(err);
+            }
+        });
+}
+
+async function getreleventRoleData(data){
+    return await User.find({_id:data})
+}
 
 async function getAllSchedule(){
     return await ScheduleType.find({})
@@ -298,29 +317,40 @@ async function groupinsertion(groupData) {
 }
 
 async function getRoles() {
-    return await Roles.find({});
+    return await User.find({});
 }
 
 async function getGroups() {
     return await Groups.find({});
 }
 async function EmployeeCreation(data){
-    const employee = new Employee(userData);
-    const employeefind = await Employee.find({username:data.username})
-    if(!employeefind){
+   // console.log(data);
+   
+
+    // const employeefind =  Employee.find({username:data.username})
+
+    if (await  Employee.findOne({username:data.username})) {
+        // throw 'User name is already existent'; 
+        console.log('HI')
+        let message = 3
+        return message;
+
+    }
+    console.log('If eken eliye')
+    const employee = new Employee(data);
         if (data.password) {
-            cus.hash = bcrypt.hashSync(data.password, 10);
+            employee.hash = bcrypt.hashSync(data.password, 10);
         }
         await employee.save(); 
-    }
+    
 }
 
 async function creationUserPub(data){
     const user = new User(data);
-    const userfind = await User.find({username:data.username})
+    const userfind = await User.findOne({username:data.username})
     if(!userfind){
         if (data.password) {
-            cus.hash = bcrypt.hashSync(data.password, 10);
+            user.hash = bcrypt.hashSync(data.password, 10);
         }
         await user.save();
     }
@@ -330,7 +360,7 @@ async function creationUser(userData) {
     console.log("creationUser");
     // validate
     const cus = new Customers(userData);
-    console.log(userData);
+   // console.log(userData);
     // hash password
     if (userData.password) {
         cus.hash = bcrypt.hashSync(userData.password, 10);
@@ -393,7 +423,7 @@ else{
 
 //Get data
 async function getAll() {
-    return await User.find({});
+    return await Employee.find({});
 }
 
 
@@ -451,8 +481,24 @@ async function update(id, userParam) {
 
 }
 
-async function _delete(id) {
+async function _delete(data) {
 
-    console.log("This is the backend service" + id)
-    await User.findByIdAndRemove({ "_id": id });
+    console.log(data)
+    await User.deleteOne({ "user_id": data.EmpId } ,
+   async function(err , response){
+        if(err){
+            //console.log('HEllo')
+             return ({
+                message: JSON.stringify(err),
+                error: true
+             });
+        }else{
+            console.log('user done')
+            await Employee.deleteOne({_id : data.id})
+             return ({
+                message: "record is updated successfully",
+                error: false
+            })
+        }
+    });
 }

@@ -32,8 +32,12 @@ export class AuthenticationService {
   // loadSchedule() {
   //   return this.http.get(config.PAPYRUS+`/users/loadSchedule`)
   // }
-
-
+  updateRole(data) {
+    return this.http.post(config.PAPYRUS+`/users/updateRole`,data)
+  }
+  getReleventRoledata(data){
+    return this.http.get(config.PAPYRUS+`/users/getreleventRoleData/${data}`)
+  }
   getRelventCustomer(data){
     return this.http.get(config.PAPYRUS+`/users/getreleventCustomerData/${data}`)
   }
@@ -131,9 +135,9 @@ export class AuthenticationService {
   }
 
   deleteRecord(idData){
-    let userRecord = idData.id
-              alert(userRecord)
-      return this.http.delete<any>(config.PAPYRUS +`/users/d/${userRecord}`)
+    // let userRecord = idData.id
+    //           alert(userRecord)
+      return this.http.post<any>(config.PAPYRUS +`/users/d/` ,idData)
  
 
   }
@@ -186,7 +190,7 @@ export class AuthenticationService {
       }
       EmployeeCreate(UserCreationParam): Observable<any> {
         // alert("here is the service");
-        return this.http.post<any>(config.PAPYRUS+ `/users/UserCreation`, UserCreationParam)
+        return this.http.post<any>(config.PAPYRUS+ `/users/EmployeeCreation`, UserCreationParam)
 
       }
 

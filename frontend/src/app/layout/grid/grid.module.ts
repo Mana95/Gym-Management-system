@@ -11,6 +11,6 @@ import { PageHeaderModule } from './../../shared';
 
 @NgModule({
     imports: [CommonModule, GridRoutingModule, PageHeaderModule, ReactiveFormsModule,FormModule],
-    declarations: [GridComponent,TwoDigitDecimaNumberDirective]
+    declarations: [GridComponent]
 })
 export class GridModule {}

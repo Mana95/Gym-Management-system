@@ -196,7 +196,6 @@
                                     <th style="text-align: center;" scope="col">Item Id</th>
                                     <th  style="text-align: center;" scope="col">Item Name</th>
                                     <th  style="text-align: center;" scope="col">Quantity</th>
-                                    <!-- <th  style="text-align: center;" scope="col">Price</th> -->
                                     <th  style="text-align: center;" scope="col">Action</th>
                                   </tr>
                                 </thead>
@@ -207,7 +206,6 @@
                                     <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemId}}</b></td>
                                     <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemName}}</b></td>
                                     <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.qty}}</b></td>
-                                    <!-- <td style="text-align: center;"><b>Rs:{{data.buyingPrice}}</b></td> -->
                                     <td style="text-align: center;"><button type="button" class="btn btn-danger btn-sm"  (click) = "deleteRowData(i)"><i class="fa fa fa-thumbs-down" aria-hidden="true"></i></button></td>
                                     </tr>
                           
@@ -215,17 +213,9 @@
                                 </tbody>
                               </table>
                               <div class="form-row">
-
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Generate Purcahse Order</button>
-                                    &nbsp;  <button type="button" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel</button>
-                            
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Generate Sales Order</button>
+                                    &nbsp;  <button type="button" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel</button>                
                                 </div>
-                            
-
-
-
-
-
                     </form>
 
                 </div>

@@ -18,6 +18,8 @@ module.exports = {
     Membership: require('../users/membership.model'),
     ScheduleType: require('../users/ScheduleType.model'),
     Employee: require('../users/employee.model'),
+    SalesOrder:require('../orders/soOrder.model'),
+    Schedule: require('../schedule/newschedule.model'),
    
     ItemData: require('../catagory/item.model'),
     //Now added

@@ -8,7 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  
+  page = 1;
+  pageSize = 4;
   userview: any;
+  p: number = 1;
+  searchText;
+  profileUrl:any = '../../../../../../backend/uploads/';
   loading = false;
   error = '';
   refresh:false;
@@ -41,11 +47,12 @@ export class UserComponent implements OnInit {
 
     console.log(data._id);
     let idData = {
-      "id" : data._id
+      "id" : data._id,
+     "EmpId":data.id
     }
     this.authenticationService.deleteRecord(idData)
     .subscribe(data => {
-      console.log(data);
+      console.log(data.message);
       refresh:true;
     },
     error => {

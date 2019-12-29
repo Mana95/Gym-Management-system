@@ -67,7 +67,7 @@ const schema = new Schema({
             type: String,
             required:true
         },
-        buyingPrice: {
+        price: {
             type: Number,
             required:true
         }

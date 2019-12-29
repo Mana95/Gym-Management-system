@@ -26,6 +26,7 @@ router.post('/insertMembershipUser', insertMembershipUser);
 router.post('/saveScheduleType', saveScheduleType);
 router.post('/userCreationPub' , userCreationPub);
 router.post('/EmployeeCreation' , EmployeeCreation);
+router.post('/updateRole' , updateRole);
 
 
 router.get('/u', getAll);
@@ -43,6 +44,7 @@ router.get('/getreleventCustomerData/:id' , getreleventCustomerData);
 router.get('/getAllMembershipType' , getAllMembershipType);
 router.get('/pendingMembership' , pendingMembership);
 router.get('/getAllSchedule', getAllSchedule);
+router.get('/getreleventRoleData/:id', getreleventRoleData);
 
 
 
@@ -55,7 +57,7 @@ router.get('/userById/:id', getById);
 router.put('/:id', update);
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
-router.delete('/d/:id', deleteRecord);
+router.post('/d', deleteRecord);
 router.post('/new-password' , NewPassword)
 
 
@@ -149,6 +151,17 @@ async function NewPassword(req, res) {
 //     .catch(err => next(err));
 // }
 
+function updateRole(req ,res ,next){
+    userService.updateRole(req.body)
+    .then(role => res.json(role))
+    .catch(err => next(err));
+}
+
+function getreleventRoleData(req ,res,next){
+    userService.getreleventRoleData(req.params.id)
+    .then(membership => res.json(membership))
+    .catch(err => next(err));
+}
 
 function getAllSchedule(req ,res,next){
     userService.getAllSchedule()
@@ -288,10 +301,10 @@ function UpdateUser(req, res, next){
 
 function deleteRecord(req,res,next){
 
-    console.log(req.method);
-    console.log(req.params.id);
+  //  console.log(req.method);
+    console.log(req.body);
 
-    userService.delete(req.params.id)
+    userService.delete(req.body)
     .then(() => res.json({}))
     .catch(err => next(err));
     

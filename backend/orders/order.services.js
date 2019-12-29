@@ -5,6 +5,7 @@ const PurchaseOrder = db.PurchaseOrder;
 const ItemData = db.ItemData;
 const Supplier =db.Supplier;
 const GRN = db.GRN;
+const SalesOrder = db.SalesOrder
 
 module.exports = {
     InsertData,
@@ -16,7 +17,19 @@ module.exports = {
     getByIdPo,
     getSupplierById,
     SaveDataGrn,
-    updateStatus
+    updateStatus,
+    salesOrderInsert,
+    getAllDataSo
+}
+async function getAllDataSo() {
+    return await SalesOrder.find({status:false});
+}
+async function salesOrderInsert(data){
+    console.log('SAVE WENNAI YANNE');
+
+    const salesOrder = new SalesOrder(data);
+    //console.log(itemData);
+    await salesOrder.save();
 }
 
 async function updateStatus(data){
@@ -60,7 +73,7 @@ async function getByIdPo(id ){
 
 
 async function getprogressPo() {
-    return await PurchaseOrder.find({status:'Pending'});
+    return await PurchaseOrder.find({status:'Approved'});
 }
 
 async function updatedStatus(val) {

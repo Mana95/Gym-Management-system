@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
     showMenuCat: string;
     showMenuRequest: string
     pushRightClass: string;
+    showMenuSch:string;
     currentUser: User;
     public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -73,6 +74,15 @@ export class SidebarComponent implements OnInit {
             }
           
         )
+    }
+    get Schedule() {
+
+        if(this.currentUser.role == Role.Admin){
+            
+            return this.currentUser && this.currentUser.role === Role.Admin;
+        } else if(this.currentUser.role == Role.Membership) {
+            return this.currentUser && this.currentUser.role === Role.Membership;
+        }
     }
     get CurrentRole(){
 
@@ -150,6 +160,14 @@ export class SidebarComponent implements OnInit {
             this.showMenuCat = '0';
         } else {
             this.showMenuCat = element;
+        }
+    }
+
+    addExpandSchClass(element:any){
+        if (element === this.showMenuSch) {
+            this.showMenuSch = '0';
+        } else {
+            this.showMenuSch = element;
         }
     }
 

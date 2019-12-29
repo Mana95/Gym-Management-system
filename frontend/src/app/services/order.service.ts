@@ -9,18 +9,26 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
+  getAllSo() {
+    return this.http.get(config.PAPYRUS+`/order/getAllSo`)
+  }
   savePurchaseOrderData(purchaseOrderData) {
     return this.http.post<any>(config.PAPYRUS+`/order/savePurchaseOrderData`, purchaseOrderData)
   }
 
   updatequantity(val) {
     console.log(val)
-    let qty = {
-      id:val.itemId,
-      quantity:val.qty
-    }
-    console.log(qty);
-    return this.http.post(config.PAPYRUS+`/order/updateByQuantity`, qty)
+    // let qty = {
+    //   id:val.itemId,
+    //   quantity:val.qty
+    // }
+    //console.log(qty);
+    return this.http.post(config.PAPYRUS+`/order/updateByQuantity`, val)
+  }
+
+
+  insertSalesOrder(data) {
+    return this.http.post(config.PAPYRUS+`/order/insertSalesOrder`, data)
   }
 
   updaterowDataquantity(dataVal) {

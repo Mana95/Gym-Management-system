@@ -39,8 +39,6 @@
                 </td>
 
             </tr>
-
-
           </tbody>
         </table>
   </ng-template>
@@ -51,7 +49,7 @@
 <div class="card-body table-responsive">
   <div class="col-md-12">
       <div class="card bg-light mb-2">
-          <div class="card-header"><b>Sales Order</b></div>
+          <div class="card-header"><h2><b>Sales Order</b></h2></div>
           <div class="card-body">
               <form [formGroup]="salesOrderGroup" (ngSubmit)="onSubmit()">
                   <div class="form-row">
@@ -172,18 +170,23 @@
                         <th style="text-align: center;" scope="col">Item Id</th>
                         <th  style="text-align: center;" scope="col">Item Name</th>
                         <th  style="text-align: center;" scope="col">Quantity</th>
-                        <!-- <th  style="text-align: center;" scope="col">Price</th> -->
+                     <th  style="text-align: center;" scope="col">Price</th> 
                         <th  style="text-align: center;" scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
               
-                      <tr formArrayName="credentials" *ngFor="let creds of salesOrderGroup.controls.credentials?.value; let i = index">
+                      <tr formArrayName="credentials" *ngFor="let creds of salesOrderGroup.controls.credentials?.value;trackBy: onTrackById; let i = index">
               
                         <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemId}}</b></td>
                         <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.itemName}}</b></td>
                         <td style="text-align: center;"  [formGroupName]="i"><b>{{creds.qty}}</b></td>
                         <!-- <td style="text-align: center;"><b>Rs:{{data.buyingPrice}}</b></td> -->
+                        <td style="text-align: center;" [formGroupName]="i">
+                                      
+                          <input type="text"  appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5" />
+                        
+                      </td>
                         <td style="text-align: center;"><button type="button" class="btn btn-danger btn-sm"  (click) = "deleteRowData(i)"><i class="fa fa fa-thumbs-down" aria-hidden="true"></i></button></td>
                         </tr>
               

@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { EditRoleComponent } from './edit-role.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [EditRoleComponent],
   imports: [
-    CommonModule ,EditRoleRoutingModule ,PageHeaderModule, NgbModule
+    CommonModule ,EditRoleRoutingModule ,PageHeaderModule, NgbModule ,ReactiveFormsModule
   ]
 })
 export class EditRoleModule { }

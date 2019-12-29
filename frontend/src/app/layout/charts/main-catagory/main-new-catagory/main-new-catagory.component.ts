@@ -90,9 +90,13 @@ if(this.catagoryResgiter.valid) {
     error => {
       this.error = error;
       this.loading = false;
+    },
+    () =>{
+      this.submitted = false;
+      this.catagoryResgiter.reset();
+      location.reload()
     });
-    this.submitted = false;
-  this.catagoryResgiter.reset();
+    
 
 
 

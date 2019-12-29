@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-sales-order-request',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalesOrderRequestComponent implements OnInit {
   salesOrderData:any;
-  constructor() { }
+  constructor(   private orderService : OrderService) { }
 
   ngOnInit() {
+this.orderService.getAllSo()
+.subscribe(
+  response=>{
+    console.log(response)
+    this.salesOrderData = response
   }
+)
 
+    
+  }
+  process(data){
+
+  }
 }
+
