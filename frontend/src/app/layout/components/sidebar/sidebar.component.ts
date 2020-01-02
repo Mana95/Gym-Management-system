@@ -75,37 +75,73 @@ export class SidebarComponent implements OnInit {
           
         )
     }
-    get Schedule() {
 
+    get customer() {
         if(this.currentUser.role == Role.Admin){
             
             return this.currentUser && this.currentUser.role === Role.Admin;
-        } else if(this.currentUser.role == Role.Membership) {
-            return this.currentUser && this.currentUser.role === Role.Membership;
+        } else if(this.currentUser.role == Role.Customer) {
+            return this.currentUser && this.currentUser.role === Role.Customer;
+        }   
+    }
+    get Instructor() {
+        if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin 
+        } else if(this.currentUser.role === Role.Instructor){
+
+            return this.currentUser && this.currentUser.role === Role.Instructor;
         }
     }
-    get CurrentRole(){
+    get OnlyMembership() {
+        if(this.currentUser.role === Role.Membership){
+            return this.currentUser && this.currentUser.role === Role.Membership 
+        } else if(this.currentUser.role === Role.Admin){
 
-        if(this.currentUser.role == Role.Admin){
-            
             return this.currentUser && this.currentUser.role === Role.Admin;
         }
-        else if(this.currentUser.role == Role.Customer) {
+    }
+
+    get Membership () {
+        if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin 
+        }
+        else if(this.currentUser.role === Role.Customer){
+
             return this.currentUser && this.currentUser.role === Role.Customer;
         }
-        else if(this.currentUser.role == Role.Supplier) {
-            return this.currentUser && this.currentUser.role === Role.Supplier;
-        }else if(this.currentUser.role == Role.Supplier) {
-            return this.currentUser && this.currentUser.role === Role.User;
-        }
+        
+    }
+    // get Schedule() {
+
+    //     if(this.currentUser.role == Role.Admin){
+            
+    //         return this.currentUser && this.currentUser.role === Role.Admin;
+    //     } else if(this.currentUser.role == Role.Membership) {
+    //         return this.currentUser && this.currentUser.role === Role.Membership;
+    //     }
+    // }
+    // get CurrentRole(){
+
+    //     if(this.currentUser.role == Role.Admin){
+            
+    //         return this.currentUser && this.currentUser.role === Role.Admin;
+    //     }
+    //     else if(this.currentUser.role == Role.Customer) {
+    //         return this.currentUser && this.currentUser.role === Role.Customer;
+    //     }
+    //     else if(this.currentUser.role == Role.Supplier) {
+    //         return this.currentUser && this.currentUser.role === Role.Supplier;
+    //     }else if(this.currentUser.role == Role.Supplier) {
+    //         return this.currentUser && this.currentUser.role === Role.User;
+    //     }
         
 
 
 
        
-            let x =this.currentUser && this.currentUser.role === Role.Admin;
-            return x ;
-    }
+    //         let x =this.currentUser && this.currentUser.role === Role.Admin;
+    //         return x ;
+    // }
 
     get isAdmin() {
 
@@ -116,6 +152,21 @@ export class SidebarComponent implements OnInit {
         // }
        
     }
+
+    get requestSchedule() {
+        if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin 
+        }
+        else if(this.currentUser.role === Role.User){
+
+            return this.currentUser && this.currentUser.role === Role.User;
+        }
+        else if(this.currentUser.role === Role.Instructor){
+
+            return this.currentUser && this.currentUser.role === Role.Instructor;
+        }
+    }
+
     get category(){
         if(this.currentUser.role === Role.Admin){
             return this.currentUser && this.currentUser.role === Role.Admin 
@@ -127,7 +178,33 @@ export class SidebarComponent implements OnInit {
          
             
     }
+get salesOrder () {
+    if(this.currentUser.role === Role.Admin){
+        return this.currentUser && this.currentUser.role === Role.Admin 
+    }
+    else if(this.currentUser.role === Role.User){
 
+        return this.currentUser && this.currentUser.role === Role.User;
+    }
+    else if(this.currentUser.role === Role.Customer){
+
+        return this.currentUser && this.currentUser.role === Role.Customer;
+    }
+}
+
+get PurchaseOrder(){
+    if(this.currentUser.role === Role.Admin){
+        return this.currentUser && this.currentUser.role === Role.Admin 
+    }
+    else if(this.currentUser.role === Role.User){
+
+        return this.currentUser && this.currentUser.role === Role.User;
+    }
+    else if(this.currentUser.role === Role.Supplier){
+
+        return this.currentUser && this.currentUser.role === Role.Supplier;
+    }
+}
 
 
     get requestModule(){

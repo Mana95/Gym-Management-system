@@ -21,6 +21,9 @@ const schema = new Schema({
         type: Boolean,
         required: true,
     },
+    rejectStatus:{
+        type: Boolean,
+    },
     acceptStatus:{
         type: Boolean,
         required: true,

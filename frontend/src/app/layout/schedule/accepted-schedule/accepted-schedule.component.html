@@ -1,0 +1,109 @@
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b>New Schedule</b></h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="ScheduleMakeGroup" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Schedule Id</b></label>
+                <input type="text" class="form-control inputClass" formControlName="id" [disabled]>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Schedule Type</b></label>
+                <input type="email" class="form-control inputClass" [disabled] formControlName="type">
+                </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Membership Id</b></label>
+                <input type="text" class="form-control inputClass" [disabled] formControlName="membershipId">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Date</b></label>
+                <input type="text" class="form-control inputClass" [disabled] formControlName="date">
+              </div>
+            </div>
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Member Name</b></label>
+    <input type="text" class="form-control inputClass" formControlName="memberName" [disabled]>
+  </div>
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Height</b></label>
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><b>Inch:</b></div>
+      </div>
+      <input type="text" class="form-control" [disabled] id="inlineFormInputGroup" 
+        formControlName="height">
+    </div>
+  </div>
+
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Weight</b></label>
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><b>Kg:</b></div>
+      </div>
+      <input type="text" class="form-control" [disabled] id="inlineFormInputGroup" 
+        formControlName="weight">
+    </div>
+  </div>
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Gender</b></label>
+    <input type="text" class="form-control inputClass" formControlName="gender" [disabled]>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Instructor Name</b></label>
+    <input type="text" class="form-control inputClass" formControlName="instructorName" [disabled]>
+  </div>
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Instructor Contact</b></label> 
+      <input type="text" class="form-control" [disabled] id="contact" 
+        formControlName="height">   
+  </div>
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Name of the Schedule</b></label> 
+      <input type="text" class="form-control" [disabled] = true id="nameOfSchedule" 
+        formControlName="height">   
+  </div>
+  <div class="form-group col-md-3">
+    <label for="userID"><b>Schedule end</b></label> 
+      <input type="text" class="form-control" [disabled] id="scend" 
+        formControlName="height">   
+  </div>
+</div>  
+      
+<div class="form-row">
+
+  
+</div> 
+
+
+
+         
+
+
+ 
+
+
+
+
+
+
+
+            <button type="submit" class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

@@ -17,6 +17,37 @@ export class ScheduleService {
    }
 
 
+
+   loadById(id) {
+     console.log(id)
+    return this.http.get(config.PAPYRUS+`/shedule/loadById/${id}`)
+   }
+
+
+
+   getAcceptedSchedule() {
+    return this.http.get(config.PAPYRUS+`/shedule/getAcceptedSchedule`)
+  }
+   
+
+
+
+
+   RejectRecord(id){
+     console.log(id);
+     let data = {
+       id:id
+     }
+    return this.http.post(config.PAPYRUS+`/shedule/RejectRecord` , data);
+   }
+   updateRecord(id) {
+    return this.http.get(config.PAPYRUS+`/shedule/updateRecord/${id}`)
+   }
+
+   getPendings() {
+    return this.http.get<any>(config.PAPYRUS+`/shedule/getPendings`)
+   }
+
    getMySchedule(userId) {
     return this.http.get(config.PAPYRUS+`/shedule/getMySchedule/${userId}`)
    }

@@ -90,6 +90,7 @@ this.scheduleService.getscedultType()
       type:this.f.typeName.value,
       createStatus:false,
       acceptStatus:false,
+      rejectStatus:false,
       date:this.f.date.value,
       description:this.f.description.value
     }

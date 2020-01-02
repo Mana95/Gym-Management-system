@@ -77,6 +77,7 @@ export class NewCustomerComponent implements OnInit {
       address:this.f.address.value ,
       phonenumber:this.f.phonenumber.value,
       description:this.f.description.value,
+      role:'Customer',
       email:this.f.email.value
     }
     console.log(cus_data)

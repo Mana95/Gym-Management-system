@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordchangeComponent } from './passwordchange/passwordchange.component';
 import { ResponseresetpasswordComponent } from './responseresetpassword/responseresetpassword.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { WebpageComponent } from './webpage/webpage.component';
 
 @NgModule({
     imports: [
