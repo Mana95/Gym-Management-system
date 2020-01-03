@@ -38,6 +38,7 @@ export class GridComponent implements OnInit {
     AssignArray = [];
     pushbutton =false;
     disableamount=false;
+    TotalAmountArray = [0];
     
     
 
@@ -52,11 +53,6 @@ export class GridComponent implements OnInit {
           
         
       }[];
-
-
-    
-
-
 
     constructor(
     private orderService: OrderService,
@@ -116,7 +112,7 @@ this.grnGroup = this.formBuilder.group({
             qty:[''],
             amount:[''],
             status:[''],
-            price:['']
+            price:['',Validators.required]
         })
       }
 
@@ -126,26 +122,21 @@ this.grnGroup = this.formBuilder.group({
         for(let i = control.length-1; i >= 0; i--) {
             control.removeAt(i)
     }
-        
-
-
         this.itemTableArray.length = 0;
         let id = poData.value;
         this.orderService.getByIdPo(id)
         .subscribe(
             data=>{
-
             let supplierId = data[0].supplierId;
+            //getting data
             this.orderService.getSupplieraddress(supplierId)
             .subscribe(
                 response1 =>{
                     console.log(response1);
                     this.grnGroup.controls['supplierAdress'].setValue(response1[0].sup_address);
-
                 }
+                //End
             )
-
-                //console.log(data)
                 this.grnGroup.controls['supplierName'].setValue(data[0].supllierFirstName +" "+ data[0].supplierLastName );
                 this.grnGroup.controls['purchaseOrderDate'].setValue(data[0].time);
                 this.grnGroup.controls['supplierId'].setValue(data[0].supplierId);
@@ -166,7 +157,7 @@ this.grnGroup = this.formBuilder.group({
                         itemId:itemId, itemName:itemName ,qty:qty , amount:0 ,status: this.array[i].status ,price:['']
                     });
 
-                    this.phoneForms.push(tableData);
+                     this.phoneForms.push(tableData);
                     console.log(this.phoneForms.value);
 
                 }
@@ -188,31 +179,33 @@ this.grnGroup = this.formBuilder.group({
     //push array method
     pushValue(index:number) {
         this.activeInput = true;
-       // console.log(this.phoneForms.value[index]);
         let priceValue = this.phoneForms.value[index].price
         let id = this.phoneForms.value[index].itemId
         let priceConvert = Number(priceValue)
         let amount = Number(this.phoneForms.value[index].qty);
 
         let amountFinal = amount*priceConvert;
-        console.log(amount)
+       //    console.log(amount)
         this.phoneForms.value[index].amount = amountFinal;
         
         let total =+ amountFinal;
-         ;
-        this.grnGroup.controls['totalAmount'].setValue(total);
-        for(var i=0;i< this.AssignArray.length;i++){
+        var sum = 0;
+        
 
-            if( this.AssignArray[i].itemId == id ){
-                this.AssignArray.splice(i , 1);
-                this.AssignArray.push(this.phoneForms.value[index]);
-            }
-        this.AssignArray.push(this.phoneForms.value[index]);
+       // console.log(this.phoneForms.value.length);
+        let lenghOfArray = this.phoneForms.value.length
+        console.log()
+        
+         for(var x=0 ; x<lenghOfArray ; x++){
             
-        }
-    
-        console.log(this.AssignArray);
-        console.log(this.phoneForms.value)
+             sum += parseFloat(this.phoneForms.value[x].amount);
+       //      console.log('FOR')
+          //   console.log(total)
+         }
+         this.grnGroup.controls['totalAmount'].setValue(sum.toFixed(2));
+     //   console.log("THIS IS ARRAY");
+     //   console.log(sum)
+        //console.log(this.phoneForms.value);
     }
 
     get f() {
@@ -225,6 +218,9 @@ this.grnGroup = this.formBuilder.group({
       }
 
     onSubmit() {
+        if(this.grnGroup.valid){
+            alert()
+        }
         let arrayItems = this.phoneForms.value;
         this.submitted = true;
         this.loading = true;

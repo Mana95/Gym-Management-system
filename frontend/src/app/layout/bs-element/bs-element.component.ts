@@ -68,7 +68,8 @@ export class BsElementComponent implements OnInit {
       categoryName: ['', Validators.required],
       quantity: [null, Validators.required],
       itemDetails:['',Validators.required],
-      itemName: ['',],
+      itemName: [''],
+      date:[''],
       itemId:[''],
       itemQty:[''],
       Avlqty:[''],
@@ -77,6 +78,10 @@ export class BsElementComponent implements OnInit {
       supplierId: ['', Validators.required],
       credentials: this.formBuilder.array([]),
     })
+    let currentMilli = Date.now()
+    let today = moment(currentMilli).format("DD-MM-Y");
+    this.currentDate = moment().subtract(10, 'days').calendar();
+    this.purchaseOrderGroup.controls['date'].setValue(today);
     //Id Gen
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
     var string_length = 8;
@@ -87,7 +92,7 @@ export class BsElementComponent implements OnInit {
       this.poId = id;
 
       this.currentTime = moment().format('LT');
-      this.currentDate = moment().subtract(10, 'days').calendar();
+  
 
       this.authenticationService.getAllSuppliers()
         .subscribe(

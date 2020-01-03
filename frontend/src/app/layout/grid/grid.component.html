@@ -23,6 +23,7 @@
                             <div class="form-group col-md-6" (change)="getPurchaseOrderValue(data)">
                                 <label for="Supplier_Id">Purchase Order ID</label>
                                 <select class="form-control" #data formControlName="purchaseOrderId">
+                                    <option selected>Choose...</option>
                                     <option *ngFor="let data of poId">{{
                                         data.purchaseOrderId
                                     }}</option>
@@ -105,8 +106,10 @@
                                     </td>
                                     <td style="text-align: center;" [formGroupName]="i">
                                       
-                                            <input type="text"  appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5" />
-                                          
+                                            <input type="text"  appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+                                            <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                                                <div *ngIf="f.price.errors.required">Price is Required</div>
+                                              </div>
                                         </td>
                                    
                                     <td style="text-align: center;" [formGroupName]="i">
@@ -132,9 +135,17 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <div class="form-group col-md-3">
-                                    <input type="text" formControlName="totalAmount" placeholder="Total Amount" readonly
+                                    <label for="Supplier_Id"><b>Total</b></label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                          <div class="input-group-text"><b>Rs:</b></div>
+                                        </div>
+                                        <input type="text" class="form-control" appTwoDigitDecimaNumber  id="inlineFormInputGroup"  placeholder="00.00" formControlName="totalAmount">
+ 
+                                    </div>
+                                    <!-- <input type="text" formControlName="totalAmount" placeholder="Total Amount" readonly
                                         class="form-control" appTwoDigitDecimaNumber size="1"
-                                        id="inlineFormInputGroup" />
+                                        id="inlineFormInputGroup" /> -->
                                 </div>
                             </div>
                         </div>
