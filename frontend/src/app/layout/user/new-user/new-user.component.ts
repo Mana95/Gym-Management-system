@@ -1,3 +1,4 @@
+import { UserRegistrationStatus } from 'src/app/_models/user';
 import { config } from './../../../config/config';
 import { FileUploader } from 'ng2-file-upload';
 import { User } from './../../../_models/user';
@@ -8,7 +9,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 // import {} from '../../../../../../backend/uploads'
 import * as moment from "moment";
-import { Observable } from 'rxjs';
+import { Observable, merge, forkJoin } from 'rxjs';
+import { switchMap, map, catchError, flatMap } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new-user',
@@ -48,6 +51,7 @@ export class NewUserComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -176,7 +180,7 @@ export class NewUserComponent implements OnInit {
     }
 }
 
-  onSubmit(userID) {
+  onSubmit(content ,contentDone) {
     this.submitted = true;
     this.loading = true;
     const formData = new FormData();
@@ -200,23 +204,12 @@ export class NewUserComponent implements OnInit {
    
   
       if(this.userRegisterFrom.valid){
-        alert('Hey');
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //    alert('Hey');
+        // forkJoin(
+        //   this.uploadImage(formData, this.f.id.value), this.authenticationService.EmployeeCreate(UserCreationParam)
+        // ).subscribe((res) => {
+        //  console.log(res[0]);
+        // });
 
       this.uploadImage(formData, this.f.id.value).subscribe(
         (res) => {
@@ -243,45 +236,49 @@ export class NewUserComponent implements OnInit {
             active: true,
             date: this.CurrentDate
           }
-       
-          this.authenticationService.EmployeeCreate(UserCreationParam)
-          .subscribe(
-            response=>{
-              console.log(response.message);
+          forkJoin(
+            this.authenticationService.userCreationPub(UserData),this.authenticationService.EmployeeCreate(UserCreationParam)
+          ).subscribe(
+            res=>{
+              this.funcA(res[0], res[1] ,content ,contentDone);
             },
             error=>{
               console.log(error);
-              this.error =error;
-              this.loading = false;
-            },
-            ()=>{
-              // this.authenticationService.userCreationPub(UserData)
-              // .subscribe(
-              //   response => {
-              //     console.log(response)
-                  
-              //    // location.reload();
-              //     console.log('All Done')
-                  
-              //   }
-              // )
             }
           )
+          
           },
       );
     }
 
   }
+  funcA(response1 , resonse2 ,content ,contentDone){
+   // console.log(namee)
+    //console.log('dsadsadas');
+    if(response1 ==UserRegistrationStatus.DUPLICATEUSER){
+      this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
+    }else if(resonse2 ==UserRegistrationStatus.DUPLICATEUSER){
+      this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
+    }else if(resonse2 !==UserRegistrationStatus.DUPLICATEUSER){
+      console.log('DINEDSDSD');
+      this.modalService.open(contentDone, {backdropClass: 'light-blue-backdrop'});
+      location.reload();
+    }
+  
+    
+  
+  }
 
+  
 
   checkBoxValue(data) {
-    alert(data.value);
+  //  alert(data.value);
 
   }
 
   uploadImage(data: FormData, uniqueId): Observable<any> {
     // tslint:disable-next-line:no-debugger
-    alert("This is the " + data);
+    //alert("This is the " + data);
     return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
 
 

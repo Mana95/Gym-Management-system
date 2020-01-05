@@ -333,13 +333,29 @@ function getAllGroups(req, res , next){
 }
 function EmployeeCreation(req ,res ,next){
     userService.EmployeeCreation(req.body)
-    .then(() => res.json({}))
+    .then(user =>{
+        if(user){
+        //    console.log('USER')
+            console.log(user)
+            res.json(user)
+          
+        }
+    }
+    )
     .catch(err => next(err));
 }
 function userCreationPub(req ,res,next){
    
     userService.creationUserPub(req.body)
-    .then(() => res.json({}))
+    .then(user =>{
+        if(user){
+        //    console.log('USER')
+            console.log(user)
+            res.json(user)
+          
+        }
+    }
+    )
     .catch(err => next(err));
 }
 

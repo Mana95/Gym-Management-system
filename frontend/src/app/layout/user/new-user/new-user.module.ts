@@ -12,6 +12,7 @@ import { FileUploadModule } from 'ng2-file-upload';
   imports: [
     CommonModule, NewUserRoutingModule  ,PageHeaderModule ,   FormsModule,
     ReactiveFormsModule,FileUploadModule
-  ]
+  ],
+  
 })
 export class NewUserModule { }

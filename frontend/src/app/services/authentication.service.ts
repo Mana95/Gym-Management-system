@@ -189,8 +189,10 @@ export class AuthenticationService {
 
       }
       EmployeeCreate(UserCreationParam): Observable<any> {
-        // alert("here is the service");
-        return this.http.post<any>(config.PAPYRUS+ `/users/EmployeeCreation`, UserCreationParam)
+       let objectData = JSON.stringify(UserCreationParam);
+       console.log(objectData);
+   
+         return this.http.post<any>(config.PAPYRUS+ `/users/EmployeeCreation`, UserCreationParam)
 
       }
 

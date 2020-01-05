@@ -327,7 +327,7 @@ async function EmployeeCreation(data){
    console.log(data);
     if (await  Employee.findOne({username:data.username})) {
         // throw 'User name is already existent'; 
-        console.log('HI')
+        //console.log('HI')
         let message = 3
         return message;
 
@@ -337,7 +337,7 @@ async function EmployeeCreation(data){
         let message = 3
         return message;
     }
-    
+    //console.log('If eken eliye')
     const employee = new Employee(data);
         if (data.password) {
             employee.hash = bcrypt.hashSync(data.password, 10);
@@ -350,7 +350,14 @@ async function creationUserPub(data){
     const user = new User(data);
     const userfind = await User.findOne({username:data.username});
     const userEmail = await User.findOne({email:data.email});
-    if(!userfind && userEmail){
+    if(userEmail){
+        let message = 3
+        return message;
+    }else if(userfind){
+        let message = 3
+        return message;
+    }
+    if(!userfind){
         if (data.password) {
             user.hash = bcrypt.hashSync(data.password, 10);
         }else {
