@@ -1,4 +1,5 @@
-# Inventory Registration
+# Gym Managment System
+
 
 NodeJS + MongoDB API for User Management, Inventory Registration
 
