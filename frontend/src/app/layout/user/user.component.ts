@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user',
@@ -21,13 +22,17 @@ export class UserComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
-
+public getSantizeUrl(url : string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+}
   ngOnInit() {
     this.authenticationService.getAllUsers()
     .subscribe(
       data => {
        this.userview = data
+       this.userview
         console.log(data);
       }
     );

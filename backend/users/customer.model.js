@@ -9,12 +9,7 @@ const schema = new Schema({
     },
     user_id:{
         type: String,
-        unique: true,
-        required: true
-    },
-    hash: {
-        type: String,
-        required: true
+       
     },
     firstName: {
         type: String,
@@ -28,7 +23,9 @@ const schema = new Schema({
         type:String,
         required:true
     },
-
+    gender:{
+        type:String,    
+    },
     description: {
         type:String,
         required:true
@@ -53,6 +50,12 @@ const schema = new Schema({
         type: Date,
         default: Date.now
     },
+    address2:{
+        type:String
+    },
+    active:{
+        type:Boolean
+    }
    
 
 });

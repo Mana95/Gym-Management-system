@@ -44,7 +44,7 @@
                                 <tbody>
                                   <tr *ngFor="let data of  userview | paginate:{ itemsPerPage: 10 ,currentPage: p} | filter:searchText ">
                                     <td style="text-align: center;">{{data.date}}</td>
-                                    <td style="text-align: center;"><img src="'profileUrl'+'data.image'" alt="Smiley face"></td>
+                                    <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]=getSantizeUrl(data.imagePath)/></td>
                                     <td style="text-align: center;">{{data.id}}</td>  
                                     <td style="text-align: center;">{{data.firstName}} {{data.LastName}}</td>
                                     <td style="text-align: center;">{{data.phonenumber}}</td>

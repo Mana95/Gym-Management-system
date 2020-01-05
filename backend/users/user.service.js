@@ -324,11 +324,7 @@ async function getGroups() {
     return await Groups.find({});
 }
 async function EmployeeCreation(data){
-   // console.log(data);
-   
-
-    // const employeefind =  Employee.find({username:data.username})
-
+   console.log(data);
     if (await  Employee.findOne({username:data.username})) {
         // throw 'User name is already existent'; 
         console.log('HI')
@@ -336,7 +332,12 @@ async function EmployeeCreation(data){
         return message;
 
     }
-    console.log('If eken eliye')
+    else if(await Employee.findOne({email:data.email})){
+        console.log('Else If HI')
+        let message = 3
+        return message;
+    }
+    
     const employee = new Employee(data);
         if (data.password) {
             employee.hash = bcrypt.hashSync(data.password, 10);
@@ -347,10 +348,15 @@ async function EmployeeCreation(data){
 
 async function creationUserPub(data){
     const user = new User(data);
-    const userfind = await User.findOne({username:data.username})
-    if(!userfind){
+    const userfind = await User.findOne({username:data.username});
+    const userEmail = await User.findOne({email:data.email});
+    if(!userfind && userEmail){
         if (data.password) {
             user.hash = bcrypt.hashSync(data.password, 10);
+        }else {
+            console.log('HI')
+            let message = 3
+            return message; 
         }
         await user.save();
     }

@@ -2,6 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { UserRegistrationStatus } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-new-customer',
@@ -14,6 +15,10 @@ export class NewCustomerComponent implements OnInit {
   loading = false;
   error = '';
   userId : any;
+  active = false;
+  customerData = false;
+  errorValue: any;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,10 +30,15 @@ export class NewCustomerComponent implements OnInit {
   ngOnInit() {
    this.cusRegister = this.formBuilder.group({
     firstName: ['', Validators.required],
-    age: ['' , Validators.required],
+    gender: ['' , Validators.required],
     lastName: ['', Validators.required],
     address: ['', Validators.required],
+    address2:[''],
+    password:['',Validators.required],
     phonenumber: ['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
+    emergencyNumber:['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
+    username:['',Validators.required],
+    
     description:['',  Validators.required],
     email: ['', [Validators.required, Validators.email]],
     
@@ -43,6 +53,7 @@ export class NewCustomerComponent implements OnInit {
       id += chars.substring(rnum,rnum+1);
       this.userId = id;
   }
+  
   console.log(id);
  
   }
@@ -73,20 +84,70 @@ export class NewCustomerComponent implements OnInit {
       id: userID.value,
       firstName: this.f.firstName.value,
       lastName:this.f.lastName.value,
-      age: this.f.age.value,
+      gender: this.f.gender.value,
       address:this.f.address.value ,
+      address2:this.f.address2.value ,
+      password: this.f.password.value,
+      username : this.f.username.value,
       phonenumber:this.f.phonenumber.value,
       description:this.f.description.value,
       role:'Customer',
-      email:this.f.email.value
+      email:this.f.email.value,
+      active : true
     }
+
+    let userParam = {
+      "user_id": userID.value,
+      "firstName": this.f.firstName.value ,
+       "lastName": this.f.lastName.value ,
+       "username" : this.f.username.value,
+       "password": this.f.password.value,
+       "mobileNumber":this.f.phonenumber.value,
+       "description": this.f.description.value,
+        "email": this.f.email.value,
+        "address":this.f.address.value,
+        "role": "Customer",
+        "active" : true
+  }
+  
+
+
     console.log(cus_data)
     if(this.cusRegister.valid){
+
+
+      this.authenticationService.register(userParam)
+      .subscribe(
+          data=> {
+              console.log('data');
+              console.log(data);
+              this.customerData = true;
+             
+              if(data == UserRegistrationStatus.DUPLICATEUSER ){
+                  this.active = true;
+                  this.errorValue = 'User Name is available';
+                  console.log(this.errorValue);
+              }
+          },
+          error => {
+              console.log('error');
+              console.log(error)
+              this.loading = false;      
+          },
+          () =>{
+            console.log('Done');
+            this.submitted = false;
+  
+        this.cusRegister.reset();
+          }
+          
+      );
+
       ///alert('Valid');
       this.authenticationService.registerCustomer(cus_data)
       .subscribe(
         response=>{
-          console.log('RESPONSE');
+         // console.log('RESPONSE');
           console.log(response);
 
         },
@@ -94,11 +155,12 @@ export class NewCustomerComponent implements OnInit {
           console.log(error);
           this.error = error;
           this.loading = false;
+        },
+        ()=>{
+          console.log("Done")
         } );
         alert("Register succeeded");
-        this.submitted = false;
-  
-        this.cusRegister.reset();
+        
 
 
     }

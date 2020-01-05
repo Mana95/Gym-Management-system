@@ -16,8 +16,9 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    
     age:{
-        type: Number,
+        type: String,
         required: true
     },
     birth:{
@@ -26,6 +27,11 @@ const schema = new Schema({
     },
     image:{
         type:String
+    },
+    imagePath:{
+        
+        type: String
+       
     },
     phonenumber:{
         type: String,

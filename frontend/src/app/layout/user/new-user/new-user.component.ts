@@ -6,7 +6,7 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+// import {} from '../../../../../../backend/uploads'
 import * as moment from "moment";
 import { Observable } from 'rxjs';
 
@@ -24,6 +24,7 @@ export class NewUserComponent implements OnInit {
   loading = false;
   removeUpload: boolean = false;
   editFile: boolean = true;
+  buttonStatus = false
 
   @Input() isChecked = false;
 
@@ -35,9 +36,9 @@ export class NewUserComponent implements OnInit {
   userRole: any;
   CurrentDate: any;
   imageData: any;
-
+  newImage:any;
   imageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
- 
+  profileUrl :any = '../../../../../../backend/uploads/E_BFZXF5AP/0.jpg';
 
   user = new User();
   constructor(
@@ -50,20 +51,21 @@ export class NewUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    //let Phonenumber = "^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$"
     this.userRegisterFrom = this.formBuilder.group({
       id: [''],
       email: ['', [Validators.required, Validators.email]],
       birth: [''],
-      age: ['', Validators.required],
+      age: ['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       firstName: ['', Validators.required],
       username: ['', Validators.required],
       lastName: ['', Validators.required],
       password: ['', Validators.required],
-      phonenumber: ['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
-      Emergency: ['', [Validators.required, Validators.pattern('[0-9]\\d{9}')]],
+      phonenumber: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
+      Emergency: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       address: ['', Validators.required],
       description: [''],
+      document:['', Validators.required],
       confirmPassword: ['', Validators.required]
     },
       {
@@ -96,6 +98,11 @@ export class NewUserComponent implements OnInit {
 
   }
 
+
+
+
+  
+
   public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
@@ -127,6 +134,14 @@ export class NewUserComponent implements OnInit {
 
   uploadFile(event) {
 
+
+    const fileEvnet = event.target.files[0];
+    if(fileEvnet){
+      this.buttonStatus = true;
+    }
+    console.log(fileEvnet);
+    this.newImage = fileEvnet;
+ 
     const uploadData = new FormData();
     let fileItem = this.uploader.queue;
     // uploadData.append('file', fileItem);
@@ -151,36 +166,26 @@ export class NewUserComponent implements OnInit {
     }
   }
 
+  validateFile(name: String) {
+    var ext = name.substring(name.lastIndexOf('.') + 1);
+    if (ext.toLowerCase() == 'png') {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
   onSubmit(userID) {
     this.submitted = true;
     this.loading = true;
-    let data = new FormData();
-    let fileItem = this.uploader.queue[0]._file;
-    data.append('file', fileItem);
-    data.append('fileSeq', 'seq' + 0);
+    const formData = new FormData();
+    //let fileItem = this.uploader.queue[0]._file;
 
 
+   formData.append('file',  this.newImage);
 
-    let UserCreationParam = {
-      id: this.f.id.value,
-      image: fileItem.name,
-      email: this.f.email.value,
-      birth: this.f.birth.value,
-      age: this.f.age.value,
-      firstName: this.f.firstName.value,
-      username: this.f.username.value,
-      lastName: this.f.lastName.value,
-      password: this.f.password.value,
-      phonenumber: this.f.phonenumber.value,
-      Emergency: this.f.Emergency.value,
-      role: 'User',
-      address: this.f.address.value,
-      description: this.f.description.value,
-      active: true,
-      date: this.CurrentDate
-    };
-
-    console.log(UserCreationParam)
+   console.log(this.newImage.destination);
 
     let UserData = {
       user_id: this.f.id.value,
@@ -192,43 +197,78 @@ export class NewUserComponent implements OnInit {
       password: this.f.password.value
     };
     //console.log(JSON.stringify(UserCreationParam));
-    if (this.userRegisterFrom.valid) {
-      alert('Hey');
-      this.authenticationService.EmployeeCreate(UserCreationParam)
-        .subscribe(data => {
-          console.log(data);
-        },
-          error => {
-            this.error = error;
-            this.loading = false;
+   
+  
+      if(this.userRegisterFrom.valid){
+        alert('Hey');
+      
 
-          },
-          () => {
-            //alert("Register succeeded");
-            this.submitted = false;
-            // this.userRegisterFrom.reset();
-            this.authenticationService.userCreationPub(UserData)
-              .subscribe(
-                response => {
-                  console.log(response)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      this.uploadImage(formData, this.f.id.value).subscribe(
+        (res) => {
+          console.log(res)
+          console.log("This is the reposne " + JSON.stringify(res));
+          this.locaionPath = res.destination;
+       //Insertion of Employee
+          let UserCreationParam = {
+            id: this.f.id.value,
+            image: this.newImage.name,
+            email: this.f.email.value,
+            birth: this.f.birth.value,
+            age: this.f.age.value,
+            firstName: this.f.firstName.value,
+            username: this.f.username.value,
+            lastName: this.f.lastName.value,
+            password: this.f.password.value,
+            phonenumber: this.f.phonenumber.value,
+            Emergency: this.f.Emergency.value,
+            role: 'User',
+            imagePath: this.locaionPath,
+            address: this.f.address.value,
+            description: this.f.description.value,
+            active: true,
+            date: this.CurrentDate
+          }
+       
+          this.authenticationService.EmployeeCreate(UserCreationParam)
+          .subscribe(
+            response=>{
+              console.log(response.message);
+            },
+            error=>{
+              console.log(error);
+              this.error =error;
+              this.loading = false;
+            },
+            ()=>{
+              // this.authenticationService.userCreationPub(UserData)
+              // .subscribe(
+              //   response => {
+              //     console.log(response)
                   
-                  location.reload();
-                  console.log('Done')
-                  this.uploadImage(data, this.f.id.value).subscribe(
-                    (res) => {
-                      console.log(res)
-                      console.log("This is the reposne " + res);
-                      this.locaionPath = res.path;
-                },
-                () => {
-                
-
-                    }
-                  );
-                }
-              )
-          });
-
+              //    // location.reload();
+              //     console.log('All Done')
+                  
+              //   }
+              // )
+            }
+          )
+          },
+      );
     }
 
   }

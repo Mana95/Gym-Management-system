@@ -180,7 +180,7 @@ export class AuthenticationService {
             return user;
           }));
        }
-       userCreationPub(data){
+       userCreationPub(data): Observable<any> {
         return this.http.post<any>(config.PAPYRUS+ `/users/userCreationPub`, data)
        }
        userCreation(UserCreationParam): Observable<any> {
