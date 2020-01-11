@@ -16,12 +16,12 @@ const schema = new Schema({
         required:true
     },
 
-    sup_description: {
+    sup_company: {
         type:String,
         required:true
     },
 
-    sup_age: {
+    sup_nicNumber: {
         type:String,
         required:true
     },
@@ -29,9 +29,24 @@ const schema = new Schema({
         type:String,
         required:true
     },
-    sup_phonenumber: {
+    sup_username:{
         type:String,
         required:true
+    },
+    sup_phonenumber: {
+        type:Number,
+        required:true
+    },
+    sup_phonenumber1: {
+        type:Number,
+        required:true
+    },
+    active:{
+        type:Boolean,
+        required:true
+    },
+    role:{
+        type:String
     },
     sup_email: {
         type:String,

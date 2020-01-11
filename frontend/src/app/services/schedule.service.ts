@@ -28,10 +28,6 @@ export class ScheduleService {
    getAcceptedSchedule() {
     return this.http.get(config.PAPYRUS+`/shedule/getAcceptedSchedule`)
   }
-   
-
-
-
 
    RejectRecord(id){
      console.log(id);
@@ -40,8 +36,10 @@ export class ScheduleService {
      }
     return this.http.post(config.PAPYRUS+`/shedule/RejectRecord` , data);
    }
-   updateRecord(id) {
-    return this.http.get(config.PAPYRUS+`/shedule/updateRecord/${id}`)
+   updateRecord(data) {
+     console.log(data);
+     return this.http.post(config.PAPYRUS+`/shedule/updateRecord` , data);
+    
    }
 
    getPendings() {

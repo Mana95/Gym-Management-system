@@ -36,7 +36,7 @@ async function getAcceptedSchedule() {
 async function RejectRecord(data){
     Schedule.updateOne(
         {
-            _id: data.id
+            _id: data._id
         },
         {
             $set: data
@@ -53,7 +53,7 @@ async function RejectRecord(data){
 async function updateRecord(data){
     Schedule.updateOne(
         {
-            _id: data.id
+            _id: data._id
         },
         {
             $set: data
@@ -72,9 +72,19 @@ async function getByMySchedule(id){
     return await Schedule.find({membershipId:id})
 }
 
-async function insertSchData(data){
+async function insertSchData(data){ 
+    const schduleId = await Schedule.findOne({membershipId:data.membershipId , createStatus: true})
+if(schduleId){
     const schedule = new Schedule(data);  
     await schedule.save();
+    return 1;
+}else{
+        return 3;
+    
+}
+const schedule = new Schedule(data);  
+    await schedule.save();
+
 }
 
 async function getByName(){

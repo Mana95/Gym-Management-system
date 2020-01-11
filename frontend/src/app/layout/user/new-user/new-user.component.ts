@@ -135,7 +135,6 @@ export class NewUserComponent implements OnInit {
 
   }
 
-
   uploadFile(event) {
 
 
@@ -240,6 +239,7 @@ export class NewUserComponent implements OnInit {
             this.authenticationService.userCreationPub(UserData),this.authenticationService.EmployeeCreate(UserCreationParam)
           ).subscribe(
             res=>{
+              this.router.navigate(['/newUser']);
               this.funcA(res[0], res[1] ,content ,contentDone);
             },
             error=>{
@@ -262,7 +262,7 @@ export class NewUserComponent implements OnInit {
     }else if(resonse2 !==UserRegistrationStatus.DUPLICATEUSER){
       console.log('DINEDSDSD');
       this.modalService.open(contentDone, {backdropClass: 'light-blue-backdrop'});
-      location.reload();
+    //  location.reload();
     }
   
     

@@ -16,27 +16,33 @@ export class ScheduleRequestComponent implements OnInit {
 
   ngOnInit() {
 
+
+    this.loadSchedules();
+    
+    
+
+
+  }
+
+  loadSchedules(){
     this.scheduleService.getPendings()
     .subscribe(
       response=>{
         console.log(response);
         this.pendingSchedule = response;
-      }
-    )
-
-
+      })
   }
 
-
-
   UpdateRecord(data) {
-    let id  = data._id
-    alert(id);
-
-    this.scheduleService.updateRecord(id)
+    console.log(data._id);
+    let UpdateData = {
+      _id : data._id
+    }
+    this.scheduleService.updateRecord(UpdateData)
     .subscribe(
-      data=>{
-        console.log(data);
+      response=>{
+        console.log(response);
+        this.loadSchedules();
       }
     )
   }

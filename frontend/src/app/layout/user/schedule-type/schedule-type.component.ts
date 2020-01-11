@@ -34,31 +34,40 @@ export class ScheduleTypeComponent implements OnInit {
       description:['']
     })
 
+ 
+
+
+
+
+this.loadTypeData()
+//Id Gen
+
+this.loadID();
+
+
+
+
+
+  }
+
+  loadTypeData() {
     this.autenticationService.getAllSchedule()
     .subscribe(
       data=>{
         this.scheduleData =data
       }
     )
-
-
-
-
-
-//Id Gen
-var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
-var string_length = 8;
-var id = 'ST_' + '';
-for (var i = 0; i < string_length; i++) {
-  var rnum = Math.floor(Math.random() * chars.length);
-  id += chars.substring(rnum, rnum + 1);
- 
-   this.scheduleTypeGroup.controls['id'].setValue(id);
-}
-
-
-
-
+  }
+  loadID() {
+    var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+    var string_length = 8;
+    var id = 'ST_' + '';
+    for (var i = 0; i < string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      id += chars.substring(rnum, rnum + 1);
+     
+       this.scheduleTypeGroup.controls['id'].setValue(id);
+    }
   }
 
   get f() {
@@ -112,7 +121,8 @@ if(this.scheduleTypeGroup.valid){
     {
       this.submitted = false;
      this.scheduleTypeGroup.reset();
-     location.reload();
+     this.loadID();
+     this.loadTypeData();
     }
 
   )

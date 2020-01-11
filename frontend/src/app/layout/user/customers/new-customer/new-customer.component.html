@@ -81,12 +81,18 @@
                 </div>
                 </div>
                 <div class="form-group col-md-3">
-                  <label for="lastName">Password</label>
-                  <input type="password" class="form-control" formControlName = "password" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                </div>
-                </div>
+                  <label for="password"><b>Password</b></label>
+                  <input type="password"  class="form-control"   formControlName = "password" placeholder="Password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                  <div class="errors" *ngIf="cusRegister.get('password').invalid && (cusRegister.get('password').touched || cusRegister.get('password').dirty)">
+                    <div *ngIf="cusRegister.get('password').hasError('required')">
+                      password is required
+                    </div>
+                    <div class="error-text" *ngIf="cusRegister.get('password').hasError('passwordStrength')">
+                     {{cusRegister.get('password').errors['passwordStrength']}}
+                    </div>
+                    </div>     
+               
+                  </div>
               </div>
               <div class="form-row">
                   <div class="form-group col-md-6">

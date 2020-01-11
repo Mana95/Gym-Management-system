@@ -59,7 +59,8 @@ module.exports = {
     creationUserPub,
     EmployeeCreation,
     getreleventRoleData,
-    updateRole
+    updateRole,
+    loginMail
    
 
 
@@ -192,6 +193,43 @@ async function getMembershiptype() {
     return await MembershipType.find({});
 }
 
+async function loginMail(data){
+    console.log(data);
+    const user = await User.findOne({
+        email: data.mail
+    });
+    if(!user) {
+        console.log('Boyd eke enne');
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            port: 465,
+            auth: {
+                user: 'manaalex3@gmail.com',
+                pass: 'QAZ(*&jker":'
+            } 
+        });
+        var mailOptions = {
+            to: data.mail,
+            from: 'your email',
+            subject: 'Gym Managment System UserName and Password',
+            text: `Hey ,<br/>
+            Here is your username and password for login as a supplier<br/>
+            username:`+data.username+`<br/>
+            password:`+data.password+`<br/>
+            Thank You<br/>
+            Admin Panel`
+        }
+        transporter.sendMail(mailOptions, (err, info) => {
+        })
+
+        let message = 1
+        return message;
+
+    }else{
+        return 3;
+    }
+}
+
 async function ResetPassword(values) {
 
     const user = await User.findOne({
@@ -254,9 +292,16 @@ async function getSuppliers() {
 
 async function supRegister(data) {
     console.log('SERVICE');
-    const supplier = new Supplier(data);
-    console.log(supplier);
-    await supplier.save();
+    const supplier = await Supplier.findOne({sup_email:data.sup_email})
+    if(!supplier){
+        const supplier = new Supplier(data);
+        console.log(supplier);
+        await supplier.save();
+        return 1;
+    }else{
+        return 3;
+    }
+   
 }
 
 async function getCustomerData() {

@@ -58,26 +58,27 @@ this.scheduleService.getscedultType()
     this.Type = data;
   }
 )
-     //Id Gen  
-     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
-     var string_length = 8;
-     var id = "SCH_" + "";
-     for (var i = 0; i < string_length; i++) {
-       var rnum = Math.floor(Math.random() * chars.length);
-       id += chars.substring(rnum, rnum + 1);
-       this.requestScheduleGroup.controls["id"].setValue(id);
  
-    
-
-        
-       this.requestScheduleGroup.controls["date"].setValue(
-         this.currentDate
-       );
-     }
+this.requestScheduleGroup.controls["date"].setValue(
+  this.currentDate
+);
+    this.loadNewId();
   }
 
  get f() {
     return this.requestScheduleGroup.controls;
+  }
+
+  loadNewId(){
+ //Id Gen  
+ var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
+ var string_length = 8;
+ var id = "SCH_" + "";
+ for (var i = 0; i < string_length; i++) {
+   var rnum = Math.floor(Math.random() * chars.length);
+   id += chars.substring(rnum, rnum + 1);
+   this.requestScheduleGroup.controls["id"].setValue(id);
+ }
   }
 
   onSubmit() {
@@ -85,7 +86,7 @@ this.scheduleService.getscedultType()
     this.loading = true;
 
     let formData = {
-      id: this.f.id.value,
+      Sid: this.f.id.value,
       membershipId:this.f.mId.value,
       type:this.f.typeName.value,
       createStatus:false,
@@ -108,7 +109,7 @@ this.scheduleService.getscedultType()
           console.log(error);
         },
         ()=>{
-          location.reload();
+          this.loadNewId();
         }
       )
 

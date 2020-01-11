@@ -32,6 +32,11 @@ export class AuthenticationService {
   // loadSchedule() {
   //   return this.http.get(config.PAPYRUS+`/users/loadSchedule`)
   // }
+
+
+  saveInstrutor(data ,imagePath) {
+    return this.http.post(config.PAPYRUS+`/users/instructor`,data)
+  }
   updateRole(data) {
     return this.http.post(config.PAPYRUS+`/users/updateRole`,data)
   }
@@ -183,6 +188,12 @@ export class AuthenticationService {
        userCreationPub(data): Observable<any> {
         return this.http.post<any>(config.PAPYRUS+ `/users/userCreationPub`, data)
        }
+       SendSupplierMail(mailData): Observable<any>{
+        return this.http.post<any>(config.PAPYRUS+ `/users/supplierMail`, mailData)
+       }
+
+
+
        userCreation(UserCreationParam): Observable<any> {
         // alert("here is the service");
         return this.http.post<any>(config.PAPYRUS+ `/users/UserCreation`, UserCreationParam)

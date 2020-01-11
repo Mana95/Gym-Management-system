@@ -59,7 +59,7 @@ app.use(bodyParser.json());
 /** API path that will upload the files */
 app.post('/upload/:uniqueId', function(req, res) {
 upload(req,res,function(err){
- console.log("This is the api file uploaf" + JSON.stringify(req.file));
+ //console.log("This is the api file uploaf" + JSON.stringify(req.file));
 console.log(req.params.uniqueId);
 
 // console.log(req.path);

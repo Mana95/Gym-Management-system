@@ -12,7 +12,7 @@ router.get('/getAllSchedule' , getAllSchedule);
 router.post('/insertData' , insertData);
 router.get('/getMySchedule/:id' , getMySchedule);
 router.get('/getPendings' , getPendings);
-router.get('/updateRecord/:id' , updateRecord);
+router.post('/updateRecord' , updateRecord);
 router.get('/getAcceptedSchedule' , getAcceptedSchedule);
 router.post('/RejectRecord' , RejectRecord);
 router.get('/loadById/:id' , loadById);
@@ -38,7 +38,7 @@ function getAcceptedSchedule(req,res ,next){
 
 function RejectRecord(req ,res ,next){
     let data = {
-        id:req.body.id,
+        _id:req.body.id,
         rejectStatus:true
     }
     scheduleService.RejectRecord(data)
@@ -46,9 +46,9 @@ function RejectRecord(req ,res ,next){
     .catch(err => next(err));
 }
 function updateRecord(req ,res , next){
-    console.log(req.param.id)
+    console.log(req.body)
     let data = {
-        id:req.params.id,
+        _id:req.body._id,
         acceptStatus:true
     }
     scheduleService.updateRecord(data)

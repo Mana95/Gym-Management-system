@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 
 const schema = new Schema({
-    id: {
+
+    Sid: {
         type: String,
         required: true,
         unique:true
@@ -11,7 +13,7 @@ const schema = new Schema({
     membershipId:{
         type: String,
         required: true,
-        unique:true
+    
     },
     type:{
         type: String,
@@ -42,6 +44,6 @@ const schema = new Schema({
     } 
 });
 
-
-schema.set('toJSON', { virtuals: true });
+//schema.set('toJSON', { virtuals: true });
+schema.plugin(AutoIncrement, {inc_field: 'id'});
 module.exports = mongoose.model('newschedule', schema);

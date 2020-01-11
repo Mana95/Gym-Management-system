@@ -15,6 +15,7 @@ router.post('/register', register);
 router.post('/signUp', signUp);
 router.post('/saveMembershiptypeData', saveMembershiptypeData);
 router.post('/updateStatus' , updateStatus);
+router.post('/supplierMail' ,supplierMail);
 
 router.post('/userCreation', userCreation);
 router.post('/cusCreation' , cusRegister)
@@ -204,6 +205,13 @@ function getAllSchedule(req ,res,next){
 
 function getAllMembershipType(req ,res ,next){
     userService.getMembershiptype()
+    .then(email => res.json(email))
+    .catch(err => next(err));
+}
+
+function supplierMail(req ,res, next){
+    console.log(req.body)
+    userService.loginMail(req.body)
     .then(email => res.json(email))
     .catch(err => next(err));
 }

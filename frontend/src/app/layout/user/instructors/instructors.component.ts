@@ -1,3 +1,4 @@
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { config } from './../../../config/config';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -6,6 +7,8 @@ import { FileUploader } from 'ng2-file-upload';
 import * as moment from "moment";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { NgbDate, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instructors',
@@ -14,7 +17,10 @@ import { Observable } from 'rxjs';
 })
 export class InstructorsComponent implements OnInit {
 
+  hoveredDate: NgbDate;
 
+  fromDate: NgbDate;
+  toDate: NgbDate;
 
   registrationGroup: FormGroup;
   submitted = false;
@@ -28,17 +34,23 @@ export class InstructorsComponent implements OnInit {
   locaionPath:any;
   FormValue:any;
   selectedFile: File
-  
-
- 
-
+  newImage:any;
+  imageData:any;
 
   constructor(
     private cd: ChangeDetectorRef,
     private formBuilder:FormBuilder,
     private authenticationService:AuthenticationService,
     private http: HttpClient,
-  ) { }
+    private bsLocaleService: BsLocaleService,
+    private calendar: NgbCalendar, 
+    public formatter: NgbDateParserFormatter
+  
+  ) { 
+    this.fromDate = calendar.getToday();
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.bsLocaleService.use('pt-br');
+  }
 
   ngOnInit() {
     this.registrationGroup = this.formBuilder.group({
@@ -57,8 +69,7 @@ export class InstructorsComponent implements OnInit {
       description:[''],
       typeName:['',Validators.required],
       fileName:[''],
-      experience: new FormArray([])
-
+      tickets: new FormArray([])
     })
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
     var string_length = 8;
@@ -85,20 +96,57 @@ export class InstructorsComponent implements OnInit {
     )
   }
 
+
+
+
+
+
+
+
+
+
+
+
+  
 public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
 
 
-  get t() {
-    return this.registrationGroup.get('experience') as FormArray
-  }
+  get t() { return this.f.tickets as FormArray; }
   get f() {
-
     return this.registrationGroup.controls;
-
   }
-
+  onClickTickets(e){
+    this.t.push(this.formBuilder.group({
+      name: ['', Validators.required],
+      title: ['', Validators.required],
+      empType:['',Validators.required],
+      startDate:['',Validators.required],
+      endDate:['',Validators.required],
+      detail:['']
+  }));
+  }
+  //formarray method
+  onChangeTickets(e) {
+    const numberOfTickets = e.target.value || 0;
+    if (this.t.length < numberOfTickets) {
+        for (let i = this.t.length; i < numberOfTickets; i++) {
+            this.t.push(this.formBuilder.group({
+                name: ['', Validators.required],
+                title: ['', Validators.required],
+                empType:['',Validators.required],
+                startDate:['',Validators.required],
+                endDate:['',Validators.required],
+                detail:['']
+            }));
+        }
+    } else {
+        for (let i = this.t.length; i >= numberOfTickets; i--) {
+            this.t.removeAt(i);
+        }
+    }
+}
   onReset() {
     // reset whole form back to initial state
     this.submitted = false;
@@ -123,21 +171,7 @@ public uploader: FileUploader = new FileUploader({
     this.t.push(experience);
   }
 
-  onChangeExperince(e) {
-    const numberOfTickets = e.target.value || 0;
-    if (this.t.length < numberOfTickets) {
-        for (let i = this.t.length; i < numberOfTickets; i++) {
-            this.t.push(this.formBuilder.group({
-                name: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]]
-            }));
-        }
-    } else {
-        for (let i = this.t.length; i >= numberOfTickets; i--) {
-            this.t.removeAt(i);
-        }
-    }
-}
+  
 
 
 
@@ -153,12 +187,19 @@ public uploader: FileUploader = new FileUploader({
 
   }
 
-  uploadFile(event) {
   
+  uploadFile(event) {
+
+
+    const fileEvnet = event.target.files[0];
+   
+    console.log(fileEvnet);
+    this.newImage = fileEvnet;
+ 
     const uploadData = new FormData();
     let fileItem = this.uploader.queue;
     // uploadData.append('file', fileItem);
-
+    this.imageData = event.value;
     let reader = new FileReader(); // HTML5 FileReader API
     let file = event.target.files[0];
     this.FormValue = uploadData;
@@ -178,28 +219,58 @@ public uploader: FileUploader = new FileUploader({
       this.cd.markForCheck();
     }
   }
+
+
+
+
+
   onSubmit() {
+
+
+    let instructordata = {
+        isId : this.f.id.value,
+        email:this.f.email.value,
+        firstName:this.f.firstName.value,
+        joinDate:this.f.currnetJoinDate.value,
+        lastName:this.f.lastName.value,
+        username:this.f.username.value,
+        phonenumber:this.f.phonenumber.value,
+        birth:this.f.birth.value,
+        address:this.f.address.value,
+        description:this.f.description.value,
+        typeName:this.f.typeName.value,
+        fileName:this.f.typeName.value,
+       
+        experince:this.f.tickets.value,
+    }
+
+    console.log(instructordata);
    
   this.submitted= true;
-    let data = new FormData();
-   // console.log(data)
-   let fileItem = this.uploader.queue[0]._file;
-   console.log(fileItem);
-   data.append('file', fileItem);
-   data.append('fileSeq', 'seq' + 0);
+  const formData = new FormData();
+    //let fileItem = this.uploader.queue[0]._file;
+
+
+   formData.append('file',  this.newImage);
   // data.append('dataType', this.registrationGroup.controls.type.value);
     this.submitted = true;
     this.loading = true;
     console.log(this.FormValue);
        
-    this.uploadImage(data , this.f.id.value).subscribe(
-      (res) => {
-        console.log(res)
-      //  console.log("This is the reposne " + res);
-         //   this.locaionPath = res.path;
-      
+    this.uploadImage(formData , this.f.id.value).pipe(
+      map(images=>{
+        const image = images[0];
+        return image;
+      }),
+      mergeMap(user=>
+        
+        this.authenticationService.saveInstrutor(instructordata , user.locaionPath)
+        )
+    ).subscribe(
+      post=>{
+        console.log(post);
       }
-            );
+    )
 
 
 

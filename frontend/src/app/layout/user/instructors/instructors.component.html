@@ -161,82 +161,67 @@
                 </div> 
               </div>
             </div>
+            <button type="button" class="btn btn-success" (click)="onClickTickets($event)">Add <i class="fa fa-book" aria-hidden="true"></i></button>
+        
             <div class="form-row">
-              <div class="form-group">
-                <label>Number of Experince</label>
-                <select formControlName="numberOfTickets" class="form-control" (change)="onChangeExperince($event)" [ngClass]="{ 'is-invalid': submitted && f.numberOfTickets.errors }">
-                    <option value=""></option>
-                    <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">{{i}}</option>
-                </select>
-                <div *ngIf="submitted && f.numberOfTickets.errors" class="invalid-feedback">
-                    <div *ngIf="f.numberOfTickets.errors.required">Experience  is required</div>
-                </div>
-            </div>
-            </div>
-            <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
-              <div class="list-group-item">
-                  <h5 class="card-title">Experience {{i + 1}}</h5>
-                  <div [formGroup]="ticket" class="form-row">
-                      <div class="form-group col-3">
-                          <label>Title Name</label>
-                          <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
-                          <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
-                              <div *ngIf="ticket.controls.name.errors.required">Title Name is required</div>
-                          </div>
-                      </div>
-                      <div class="form-group col-3">
-                          <label>Company</label>
-                          <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
-                          <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
-                              <div *ngIf="ticket.controls.name.errors.required">Company Name is required</div>
-                          </div>
-                      </div>
-                      <div class="form-group col-3">
-                        <label>Employment Type</label>
-                        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
+            
+          </div>
+          <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
+            <div class="list-group-item" [formGroup]="ticket">
+                <h5 class="card-title">Experince {{i + 1}}</h5>
+                <div  class="form-row">
+                    <div class="form-group col-6">
+                        <label>Company Name </label>
+                        <input type="text" formControlName="name" class="form-control" placeholder="Ex:Microsoft" [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
                         <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
-                            <div *ngIf="ticket.controls.name.errors.required">Employment Type is required</div>
+                            <div *ngIf="ticket.controls.name.errors.required">Comany Name is required</div>
                         </div>
-                        
                     </div>
                     <div class="form-group col-3">
-                      <label>Exp Years</label>
-                      <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
-                      <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
-                          <div *ngIf="ticket.controls.name.errors.required">Exp Years is required</div>
+                        <label>Title</label>
+                        <input type="text" formControlName="title" placeholder="Ex:Sales Manager ,Drugs Dealer" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.title.errors }" />
+                        <div *ngIf="submitted && ticket.controls.title.errors" class="invalid-feedback">
+                            <div *ngIf="ticket.controls.title.errors.required">Title is required</div>
+                          
+                        </div>
+                    </div>
+                    <div class="form-group col-3">
+                      <label>Employee Type</label>
+                      <input type="text" formControlName="empType" placeholder="Ex:Full Time" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" />
+                      <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                          <div *ngIf="ticket.controls.empType.errors.required">Employee Type is required</div>           
                       </div>
-                     
                   </div>
-                  </div>
-                 
-              </div>
-             
-          </div>
-          <!-- <div class="card-footer text-center">
-            <button type="submit" class="btn btn-primary mr-1">Bu</button>
-            <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
-            <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button>
-        </div> -->
+                </div>
 
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label>Start Date</label>
+                    <input type="date" formControlName="startDate" placeholder="Ex:Full Time" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.startDate.errors }" />
+                      <div *ngIf="submitted && ticket.controls.startDate.errors" class="invalid-feedback">
+                          <div *ngIf="ticket.controls.startDate.errors.required">start Date Type is required</div>           
+                      </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                      <label>Start Date</label>
+                                      <input type="date" formControlName="endDate" placeholder="Ex:Full Time" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.endDate.errors }" />
+                                        <div *ngIf="submitted && ticket.controls.endDate.errors" class="invalid-feedback">
+                                            <div *ngIf="ticket.controls.endDate.errors.required">End Date Type is required</div>           
+                                        </div>
+                                                      </div>
+                </div>
 
-            <div class="form-row" formArrayName="experience">
-              <div class="form-group col-md-3" *ngFor="let phone of registrationGroup.controls; let i=index" 
-              [formGroupName]="i">
-                <label for="inputPassword4">Title</label>
-                <input type="text" class="form-control"  formControlName = "address" placeholder="Apartment, studio, or floor"  [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
-                  
-              </div>
+                <div class="form-row">
+                  <label for="details">Add Detail</label>
+                  <textarea class="form-control" formControlName ="detail" id="detail" rows="3"></textarea>
+               
+                </div>
             </div>
+        </div>
 
 
-
-
-            <!-- <div class="form-group">
-              <label for="exampleFormControlTextarea1">Description</label>
-              <textarea class="form-control" formControlName="description" rows="3"></textarea>
-            </div> -->
-          
-
+         
+<br/>
             <button type="submit" class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
           </form>
         </div>
