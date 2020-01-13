@@ -67,7 +67,9 @@
                   </div>
                   <div class="form-group col-md-3">
                     <label for="lastName"><b>Date of birth</b></label>
-                    <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="birth"
+                    <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="birth"  [readOnly] = "true" *ngIf ="dateFieldValid"
+                      [ngClass]="{ 'is-invalid': submitted && f.birth.errors }">
+                      <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp"  [readOnly] = "true" *ngIf ="!dateFieldValid"
                       [ngClass]="{ 'is-invalid': submitted && f.birth.errors }">
                     <div *ngIf="submitted && f.birth.errors" class="invalid-feedback">
                       <div *ngIf="f.birth.errors.required">Date of birth is required</div>
@@ -120,7 +122,7 @@
                       </div>
                       <div class="form-group col-md-3">
                         <label for="inputPassword4">NIC Number</label>
-                        <input type="text" class="form-control" formControlName = "age" placeholder="Nic Number" [ngClass]="{ 'is-invalid': submitted && f.age.errors }">
+                        <input type="text" class="form-control" (keyup)="onKey($event)" formControlName = "age" placeholder="Nic Number" [ngClass]="{ 'is-invalid': submitted && f.age.errors }">
                       
                         <div *ngIf="submitted && userRegisterFrom.get('age').hasError('required')" class="invalid-feedback">
                           Nic Number is required
@@ -154,7 +156,7 @@
                           </div>
         
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label for="email"><b>Email Address</b></label>
                           <input type="email" class="form-control inputClass" formControlName="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                           <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
@@ -162,6 +164,13 @@
                             <div *ngIf="f.email.errors.email" >Email must be a valid email address</div>
                           </div>
           
+                        </div>
+
+                        <div class="form-group col-md-3">
+                          <label for="lastName">gender</label>
+                          <input type="text" class="form-control" formControlName = "gender" *ngIf ="dateFieldValid" [readOnly] = "true" placeholder="Last Name"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                          <input type="text" class="form-control"  *ngIf ="!dateFieldValid" [readOnly] = "true" placeholder="Fill the NIC Number"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                         
                         </div>
                       </div>
                 <div class="form-group">

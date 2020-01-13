@@ -35,7 +35,7 @@
                 <select class="form-control"  formControlName="years"
                   [ngClass]="{ 'is-invalid': submitted && f.years.errors }">
                   <option selected>Choose...</option>
-                  <option *ngFor="let data of yearArray">{{data}} Years</option>
+                  <option *ngFor="let data of yearArray">{{data}}</option>
                 </select>
                 <div *ngIf="submitted && f.years.errors" class="invalid-feedback">
                   <div *ngIf="f.years.errors.required">Years is required</div>
@@ -46,7 +46,7 @@
                 <select class="form-control"  formControlName="month"
                   [ngClass]="{ 'is-invalid': submitted && f.month.errors }">
                   <option selected>Choose...</option>
-                  <option *ngFor="let data of mounthArray">{{data}} Month</option>
+                  <option *ngFor="let data of mounthArray">{{data}}</option>
                 </select>
                 <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
                   <div *ngIf="f.month.errors.required">Mounth is required</div>

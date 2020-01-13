@@ -42,6 +42,8 @@ export class NewUserComponent implements OnInit {
   newImage:any;
   imageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
   profileUrl :any = '../../../../../../backend/uploads/E_BFZXF5AP/0.jpg';
+  day:any;
+  dateFieldValid = false;
 
   user = new User();
   constructor(
@@ -69,6 +71,7 @@ export class NewUserComponent implements OnInit {
       Emergency: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       address: ['', Validators.required],
       description: [''],
+      gender:[''],
       document:['', Validators.required],
       confirmPassword: ['', Validators.required]
     },
@@ -178,8 +181,115 @@ export class NewUserComponent implements OnInit {
         return false;
     }
 }
+onKey(event){
+
+  let NICNo  = event.target.value;
+  console.log(event.target.value);
+  var dayText = 0;
+  var year = "";
+  var month = "";
+
+  var gender = "";
+
+    // Year
+    if (NICNo.length == 10) {
+      year = "19" + NICNo.substr(0, 2);
+      dayText = parseInt(NICNo.substr(2, 3));
+    //  console.log(year);
+     // console.log(dayText);
+  } else {
+      year = NICNo.substr(0, 4);
+      dayText = parseInt(NICNo.substr(4, 3));
+    //  console.log(year);
+   //   console.log(dayText);
+  }
+    // Gender
+    if (dayText > 500) {
+      gender = "Female";
+      dayText = dayText - 500;
+  } else {
+      gender = "Male";
+  }
+  // Day Digit Validation
+  if (dayText < 1 && dayText > 366) {
+console.log("Invalid ID");
+}else{
+   //Month
+   if (dayText > 335) {
+   this.day = dayText - 335;
+    month = "December";
+   // console.log(month);
+}
+else if (dayText > 305) {
+   this.day = dayText - 305;
+    month = "November";
+}
+else if (dayText > 274) {
+   this.day = dayText - 274;
+    month = "October";
+}
+else if (dayText > 244) {
+   this.day = dayText - 244;
+    month = "September";
+}
+else if (dayText > 213) {
+   this.day = dayText - 213;
+    month = "Auguest";
+}
+else if (dayText > 182) {
+   this.day = dayText - 182;
+    month = "July";
+}
+else if (dayText > 152) {
+   this.day = dayText - 152;
+    month = "June";
+}
+else if (dayText > 121) {
+   this.day = dayText - 121;
+    month = "May";
+}
+else if (dayText > 91) {
+   this.day = dayText - 91;
+    month = "April";
+}
+else if (dayText > 60) {
+   this.day = dayText - 60;
+    month = "March";
+}
+else if (dayText < 32) {
+    month = "January";
+   this.day = dayText;
+}
+else if (dayText > 31) {
+   this.day = dayText - 31;
+    month = "Febuary";
+}
+      //show Details;
+      console.log(gender);
+      console.log(year+ "-" + month + "-" + this.day);
+      if(this.f.age.valid){
+        this.dateFieldValid = true;
+      }else {
+        this.dateFieldValid = false;
+      }
+      let birthday = year+ "-" + month + "-" + this.day
+      this.userRegisterFrom.controls['birth'].setValue(birthday);
+      this.userRegisterFrom.controls['gender'].setValue(gender);
+
+
+}
+  
+}
 
   onSubmit(content ,contentDone) {
+
+
+
+
+
+
+
+
     this.submitted = true;
     this.loading = true;
     const formData = new FormData();
@@ -233,6 +343,7 @@ export class NewUserComponent implements OnInit {
             address: this.f.address.value,
             description: this.f.description.value,
             active: true,
+            gender:this.f.gender.value,
             date: this.CurrentDate
           }
           forkJoin(

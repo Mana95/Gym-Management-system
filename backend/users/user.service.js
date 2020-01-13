@@ -20,6 +20,7 @@ const MembershipType = db.MembershipType;
 const Membership = db.Membership;
 const ScheduleType =db.ScheduleType;
 const Employee = db.Employee;
+const Instructor = db.Instructor;
 
 
 module.exports = {
@@ -60,7 +61,8 @@ module.exports = {
     EmployeeCreation,
     getreleventRoleData,
     updateRole,
-    loginMail
+    loginMail,
+    instructorSave
    
 
 
@@ -168,6 +170,15 @@ async function insertMembership(body) {
         }
     }
 }
+}
+
+
+async function instructorSave(data){
+    const instructorFind = await Instructor.findOne({email:data.email});
+    const instructor  = new Instructor(data);
+    if(!instructorFind){
+        await instructor.save();
+    }
 }
 
 

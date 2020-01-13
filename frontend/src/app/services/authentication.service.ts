@@ -34,7 +34,7 @@ export class AuthenticationService {
   // }
 
 
-  saveInstrutor(data ,imagePath) {
+  saveInstrutor(data) {
     return this.http.post(config.PAPYRUS+`/users/instructor`,data)
   }
   updateRole(data) {

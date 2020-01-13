@@ -73,19 +73,24 @@
                 </div>
               </div>
               <div class="form-group col-md-3">
-                <label for="lastName"><b>Date of birth</b></label>
-                <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="birth"
-                  [ngClass]="{ 'is-invalid': submitted && f.birth.errors }">
-                <div *ngIf="submitted && f.birth.errors" class="invalid-feedback">
-                  <div *ngIf="f.birth.errors.required">Date of birth is required</div>
-                </div>
+                <label for="lastName"><b>Nic Number</b></label>
+                <input type="text" class="form-control" placeholder="Nic Number" name="dp" (keyup)="onKey($event)" formControlName="nicNumber"
+                  [ngClass]="{ 'is-invalid': submitted && f.nicNumber.errors }">
+                  <div *ngIf="submitted && registrationGroup.get('nicNumber').hasError('required')" class="invalid-feedback">
+                    Nic Number is required
+                  </div>
+                  <div *ngIf="registrationGroup.get('nicNumber').hasError('pattern')" class="invalid-feedback">
+                    It is not a valid NIC number.
+                  </div>
 
               </div>
               <div class="form-group col-md-3">
-                <label for="lastName"><b>Age</b></label>
-                <input type="text" class="form-control" formControlName="age" placeholder="Age" [ngClass]="{ 'is-invalid': submitted && f.age.errors }">
-                <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
-                  <div *ngIf="f.age.errors.required">Age is required</div>
+                <label for="lastName"><b>Birthday</b></label>
+                <input type="text" class="form-control" formControlName="birth" [readOnly] = "true" placeholder="Age" [ngClass]="{ 'is-invalid': submitted && f.birth.errors }" *ngIf ="dateFieldValid">
+                <input type="text" class="form-control" [readOnly] = "true" placeholder="birthday" [ngClass]="{ 'is-invalid': submitted && f.birth.errors }" *ngIf ="!dateFieldValid">
+               
+                <div *ngIf="submitted && f.birth.errors" class="invalid-feedback">
+                  <div *ngIf="f.birth.errors.required">Birth is required</div>
                 </div>
 
               </div>
@@ -222,7 +227,9 @@
 
          
 <br/>
-            <button type="submit" class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+
+<button type="submit"   class="btn btn-primary">Submit<i class="fa fa-book" aria-hidden="true"></i></button>
+
           </form>
         </div>
       </div>

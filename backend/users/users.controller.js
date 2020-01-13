@@ -16,6 +16,7 @@ router.post('/signUp', signUp);
 router.post('/saveMembershiptypeData', saveMembershiptypeData);
 router.post('/updateStatus' , updateStatus);
 router.post('/supplierMail' ,supplierMail);
+router.post('/instructor' , instructorSave);
 
 router.post('/userCreation', userCreation);
 router.post('/cusCreation' , cusRegister)
@@ -364,6 +365,12 @@ function userCreationPub(req ,res,next){
         }
     }
     )
+    .catch(err => next(err));
+}
+function instructorSave(req , res ,next){
+    console.log(req.body);
+    userService.instructorSave(req.body)
+    .then(() => res.json({}))
     .catch(err => next(err));
 }
 
