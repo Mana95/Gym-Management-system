@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { NotifierModule, NotifierOptions } from "angular-notifier";
+
 
 @NgModule({
   declarations: [ScheduleComponent],
   imports: [
-    CommonModule ,ScheduleRoutingModule ,ReactiveFormsModule ,NgxPaginationModule
+    CommonModule ,ScheduleRoutingModule ,ReactiveFormsModule ,NgxPaginationModule 
   ]
 })
 export class ScheduleModule { }

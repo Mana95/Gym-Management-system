@@ -42,10 +42,7 @@ const schema = new Schema({
         type:Number,
         required:true
     },
-    address: {
-        type: String,
-        required:true,
-    },
+    
     gender: {
         type:String,
         required:true,
@@ -66,10 +63,7 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    age: {
-        type: String,
-        required: true
-    },
+  
     currnetJoinDate: {
         type: String,
         required: true
@@ -77,6 +71,9 @@ const schema = new Schema({
     typeName: {
         type: String,
         required: true
+    },
+    noteDisaster: {
+        type:String
     },
     amount: {
         type: Number,
@@ -93,6 +90,17 @@ const schema = new Schema({
     status: {
         type: String,
         required: true
+    },
+    BMI: {
+        type:Number,
+    },
+    nicNumber: {
+        type:String,
+        required:true
+    },
+    role: {
+        type:String,
+        required:true,
     },
     createdDate: {
         type: Date,

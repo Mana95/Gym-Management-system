@@ -1,9 +1,10 @@
+
 <div class="card mb-8">
   <div class="card-body table-responsive">
     <div class="col-md-12">
       <div class="card bg-light mb-2">
         <div class="card-header">
-          <h2><b>New Schedule</b></h2>
+          <h2><b> <i class="fa fa-calendar-o" aria-hidden="true"></i> &nbsp;  New Schedule</b></h2>
         </div>
         <div class="card-body">
           <form [formGroup]="ScheduleMakeGroup" (ngSubmit)="onSubmit()">
@@ -62,15 +63,30 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="userID"><b>Instructor Contact</b></label>
-                <input type="text" class="form-control"  [readonly]="true" id="contact" formControlName="height">
+                <input type="text" class="form-control"  [readonly]="true" id="contact" formControlName="contact">
               </div>
               <div class="form-group col-md-3">
                 <label for="userID"><b>Name of the Schedule</b></label>
-                <input type="text" class="form-control"  [readonly]="true" id="nameOfSchedule" formControlName="height">
+                <input type="text" class="form-control"   id="nameOfSchedule" formControlName="nameOfSchedule" [ngClass]="{ 'is-invalid': submitted && f.nameOfSchedule.errors }">
+                <div *ngIf="submitted && f.nameOfSchedule.errors" class="invalid-feedback">
+                  <div *ngIf="f.nameOfSchedule.errors.required">name Of Schedule  is required</div>
               </div>
+              
+              
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Valid Months</b></label>
+                <input type="number" class="form-control" (change)="DateCalculator(this)" id="scend" formControlName="validMonth" [ngClass]="{ 'is-invalid': submitted && f.validMonth.errors }">
+              
+                <div *ngIf="submitted && f.validMonth.errors" class="invalid-feedback">
+                  <div *ngIf="f.validMonth.errors.required">valid Month is required</div>
+              </div>
+              </div>
+
               <div class="form-group col-md-3">
                 <label for="userID"><b>Schedule end</b></label>
-                <input type="text" class="form-control"  [readonly]="true" id="scend" formControlName="height">
+                <input type="text" class="form-control"  [readonly]="true" id="scend" formControlName="endDate">
               </div>
             </div>
 
@@ -82,7 +98,8 @@
                 <hr>
                 <div class="card-header">
                   <div class="form-row">
-                    <h4><b>Arrange Schedule</b></h4>&nbsp;&nbsp;&nbsp;  
+                    <h4><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; 
+                      <b>Schedule Calender</b></h4>&nbsp;&nbsp;&nbsp;  
                     <button type="button" (click)="normalSchduleBoard()" class="btn btn-success"><i class="fa fa-plus"
                       aria-hidden="true"></i></button>
                   </div>
@@ -98,8 +115,8 @@
                       <br />
                       <div class="form-row">
                         <div class="form-group col-6">
-                        <button type="button" class="btn btn-primary" (click)="onClickTickets($event)"><b>Add rows</b>&nbsp;<i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemove($event)"><b>Remove rows</b>&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                        <button type="button" class="btn btn-primary" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemove($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
                       </div>
                       </div>
                   
@@ -136,9 +153,13 @@
                             
                             </div>
                             <div class="form-group col-3">
-                              <label>Action</label>
+                              <label>Delete</label> <br/>
                               <button type="button" class="btn btn-danger" (click)="onClickRemove(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
-                
+                              <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                              <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                            </div>
+                          
+                           
                             </div>
                           </div>
                         </div>
@@ -149,19 +170,84 @@
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Tuesday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four
-                        loko farm-to-table
-                        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                        ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                        helvetica VHS salvia
-                        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                        sustainable jean
-                        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                        tumblr butcher vero
-                        sint qui sapiente accusamus tattooed echo park.</p>
+                    <ng-template ngbTabContent>
+                <!-- asdsadsadsadsadsadsadsad
+                  <br />
+                  <div class="form-row">
+                    <div class="form-group col-6">
+                    <button type="button" class="btn btn-primary" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemove($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                  </div>
+                  </div>
+              
+                  <div *ngFor="let ticket of t.controls; let i = index">
+                    <div [formGroup]="ticket">
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <label>Exersice Name</label>
+                          <input type="text" formControlName="name" class="form-control" placeholder="Leg Press"
+                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
+                          <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
+                            <div *ngIf="ticket.controls.name.errors.required">Exersice Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Reps</label>
+                          <input type="text" formControlName="title"  numbersOnly placeholder="2"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.title.errors }" />
+                          <div *ngIf="submitted && ticket.controls.title.errors" class="invalid-feedback">
+                            <div *ngIf="ticket.controls.title.errors.required">Reps is required</div>
+
+                          </div>
+                        </div>
+                      
+                        <div class="form-group col-3">
+                          <label>Sets</label>
+                          <input type="text" formControlName="empType" numbersOnly placeholder="Ex:Full Time"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" />
+                          <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                            <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                          </div>
+                        
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Delete</label> <br/>
+                          <button type="button" class="btn btn-danger" (click)="onClickRemove(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                          <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                          <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                        </div>
+                      
+                       
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>

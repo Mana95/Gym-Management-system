@@ -7,12 +7,12 @@ const schema = new Schema({
         unique: true,
         required: true
     },
-    user_id:{
-        type: String,
-       
-    },
     firstName: {
         type: String,
+        required:true
+    },
+    nicNumber: {
+        type:String,
         required:true
     },
     lastName: {

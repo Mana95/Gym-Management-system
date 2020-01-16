@@ -62,13 +62,25 @@ module.exports = {
     getreleventRoleData,
     updateRole,
     loginMail,
-    instructorSave
+    instructorSave,
+    findCustomer
    
 
 
 
 
 };
+
+
+async function  findCustomer(data) {
+console.log('Service')
+console.log(data);
+
+
+    return await Customers.find({id:data})
+}
+
+
 async function updateRole(data) {
 
     User.updateOne(
@@ -148,36 +160,51 @@ async function insertMembershipToUser(body) {
 }
 
 async function insertMembership(body) {
+
+    const UserData = body.UserDatabody;
+    const membershipData = body.membershipbody;
+    console.log(body.UserDatabody);
     //Find in collection
-    const membershipfind = await Membership.findOne({ username: body.membershipbody.username });
-    const userFind =await User.findOne({username:body.UserDatabody.username});
-    //create objects
-    const user = new User(body.UserDatabody);
-    const membership = new Membership(body.membershipbody);
-    //convert to pw to hash saveing part
-    if (!membershipfind) {
-        if(!userFind){
-        if (body.membershipbody.password && body.UserDatabody.password) {
-            membership.hash = bcrypt.hashSync(body.membershipbody.password, 10);   
-            user.hash = membership.hash;
-        }     
-        if(await membership.save()){
-            //console.log('Save una');
-            await user.save();
-        }
-        else{
-            throw 'Data doesn;t Saved to the Mongo DB'
-        }
+    const membershipfind1 = await Membership.findOne({ username: body.membershipbody.username});
+    const membershipfind2 = await Membership.findOne({email: body.membershipbody.email});
+    const userFind1 =await User.findOne({username:body.UserDatabody.username});
+    const userFind2 =await User.findOne({email: body.UserDatabody.email});
+   
+     //create objects
+     const user = new User(body.UserDatabody);
+     const membership = new Membership(body.membershipbody);
+    
+     
+   if(!(membershipfind1 && userFind1)){
+    if (body.membershipbody.password && body.UserDatabody.password) {
+        membership.hash = bcrypt.hashSync(body.membershipbody.password, 10);   
+        user.hash = membership.hash;
     }
+    if(await membership.save()){
+        //console.log('Save una');
+        await user.save();
+    } 
+   }else{
+     return 3;
 }
 }
 
 
 async function instructorSave(data){
-    const instructorFind = await Instructor.findOne({email:data.email});
-    const instructor  = new Instructor(data);
-    if(!instructorFind){
+    let userData = data.UserData;
+    let instructorData = data.data;
+    const instructorFind = await Instructor.findOne({email:instructorData.email});
+    const userfind = await User.findOne({email:userData.email});
+    const instructor  = new Instructor(instructorData);
+    const user = new User(userData);
+
+    if(!(instructorFind&&userfind)){
+        user.hash = bcrypt.hashSync(userData.password, 10);  
         await instructor.save();
+        await user.save();
+        return 1;
+    }else{
+        return 3;
     }
 }
 

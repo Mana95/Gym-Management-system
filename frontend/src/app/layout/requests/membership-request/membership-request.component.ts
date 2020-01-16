@@ -16,6 +16,12 @@ export class MembershipRequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.loadTableData();
+   
+  }
+
+  loadTableData() {
     this.authenticationService.getByPendingMembership()
     .subscribe(
       response=>{
@@ -41,7 +47,7 @@ export class MembershipRequestComponent implements OnInit {
     .subscribe(
       response =>{
         console.log(response);
-        location.reload();
+        this.loadTableData();
       }
     )
   }

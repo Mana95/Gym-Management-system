@@ -6,7 +6,8 @@ const db = require('_helpers/db');
 
 const ScheduleType =db.ScheduleType;
 const Schedule = db.Schedule;
-const Membership = db.Membership
+const Membership = db.Membership;
+const Instructor = db.Instructor;
 
 module.exports = {
   
@@ -17,9 +18,14 @@ module.exports = {
     updateRecord,
     RejectRecord,
     getAcceptedSchedule,
-    loadById
+    loadById,
+    loadInstrucotrData
     
 };
+
+async function loadInstrucotrData(id){
+    return await Instructor.find({isId:id})
+}
 
 async function loadById(id){
      console.log('id')
@@ -73,8 +79,8 @@ async function getByMySchedule(id){
 }
 
 async function insertSchData(data){ 
-    const schduleId = await Schedule.findOne({membershipId:data.membershipId , createStatus: true})
-if(schduleId){
+    const schdulefind = await Schedule.findOne({membershipId:data.membershipId , createStatus: false})
+if(!schdulefind){
     const schedule = new Schedule(data);  
     await schedule.save();
     return 1;

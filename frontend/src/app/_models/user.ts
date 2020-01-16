@@ -16,7 +16,8 @@ export class User {
     active:boolean;
     token?: string;
     image: string;
-    role:String  
+    role:string;
+    phonenumber:number; 
 }
 
 export enum UserRegistrationStatus {

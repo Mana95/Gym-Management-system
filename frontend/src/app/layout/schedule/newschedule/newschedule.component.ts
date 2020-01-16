@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-newschedule',
@@ -21,17 +22,22 @@ export class NewscheduleComponent implements OnInit {
   Type:any;
   submitted =false;
   loading = false;
+  showMsg = false;
 
   currentTime:any;
   currentDate:any;
+  private notifier: NotifierService;
+
   constructor(
     private formBuilder:FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private scheduleService : ScheduleService
+    private scheduleService : ScheduleService,
+    notifier: NotifierService 
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.notifier = notifier;;
    }
 
   ngOnInit() {
@@ -51,9 +57,24 @@ export class NewscheduleComponent implements OnInit {
     this.requestScheduleGroup.controls['mId'].setValue(this.currentUserSubject.value.user_id)
     this.requestScheduleGroup.controls['date'].setValue(this.currentDate)
 
-this.scheduleService.getscedultType()
+
+    this.loadNewId();
+    this.displayData();
+  }
+
+ get f() {
+    return this.requestScheduleGroup.controls;
+  }
+
+
+
+
+  displayData(){
+
+    this.scheduleService.getscedultType()
 .subscribe(
   data=>{
+    console.log(data);
    
     this.Type = data;
   }
@@ -62,11 +83,6 @@ this.scheduleService.getscedultType()
 this.requestScheduleGroup.controls["date"].setValue(
   this.currentDate
 );
-    this.loadNewId();
-  }
-
- get f() {
-    return this.requestScheduleGroup.controls;
   }
 
   loadNewId(){
@@ -109,6 +125,14 @@ this.requestScheduleGroup.controls["date"].setValue(
           console.log(error);
         },
         ()=>{
+          this.showMsg = true;
+          let type = 'success';
+          let message = 'Data is Success';
+
+          this.notifier.notify( type, message );
+
+
+
           this.loadNewId();
         }
       )

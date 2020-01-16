@@ -38,6 +38,7 @@ export class InstructorsComponent implements OnInit {
   imageData:any;
   dateFieldValid = false;
   day:any;
+  ADD =false;
   buttonStatus = false;
 
   constructor(
@@ -67,13 +68,14 @@ export class InstructorsComponent implements OnInit {
       phonenumber: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       phonenumber1: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       birth: ["", Validators.required],
-      nicNumber:['' ,[Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
-    
+      nicNumber:['' ,[Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],  
       address: ["", Validators.required],
       description:[''],
       typeName:['',Validators.required],
       fileName:[''],
-      tickets: new FormArray([])
+      tickets: new FormArray([]),
+      skills: new FormArray([]),
+      education: new FormArray([])
     })
    
     this.loadNewId();
@@ -123,8 +125,17 @@ public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
 
+  get E() {
+    return this.f.education as FormArray;
+  }
 
-  get t() { return this.f.tickets as FormArray; }
+  get t() {
+     return this.f.tickets as FormArray;
+     }
+
+  get S() {
+    return this.f.skills as FormArray;
+  }   
   get f() {
     return this.registrationGroup.controls;
   }
@@ -229,19 +240,33 @@ public uploader: FileUploader = new FileUploader({
 
 
 
-
+  onClickEducation(e){
+    this.submitted = false;
+    this.E.push(this.formBuilder.group({
+      level: ['',Validators.required],
+      college: ['',Validators.required],
+      passingyear:['',Validators.required],
+  }))
+  }
 
 
   onClickTickets(e){
+    this.ADD = true;
     this.submitted = false;
     this.t.push(this.formBuilder.group({
       name: ['', Validators.required],
       title: ['', Validators.required],
       empType:['',Validators.required],
-      startDate:['',Validators.required],
-      endDate:['',Validators.required],
+      experinceMonth:['',Validators.required],      
       detail:['']
   }));
+  }
+  onClickSkills(e){
+    this.submitted = false;
+    this.S.push(this.formBuilder.group({
+      skillName:['', Validators.required]
+    }));
+
   }
   //formarray method
   onChangeTickets(e) {
@@ -373,7 +398,7 @@ if(this.f.description.value ==null){
       res=>{
         this.locaionPath = res.destination;
         if(res.destination ==null){
-          alert('hihihih');
+      //    alert('hihihih');
           return;
         }
            
@@ -388,21 +413,23 @@ if(this.f.description.value ==null){
           birth:this.f.birth.value,
           address:this.f.address.value,
           description:this.f.description.value,
-          typeName:this.f.typeName.value,
-          
+          typeName:this.f.typeName.value,     
           nicNumber:this.f.nicNumber.value,
           image:this.locaionPath,
           role: 'Instructor',
           active: true,
           experince:this.f.tickets.value,
+          skils:this.f.skills.value,
+          education:this.f.education.value
       }
       forkJoin(
-        this.authenticationService.saveInstrutor(instructordata)  ,this.authenticationService.userCreationPub(UserData)
+        this.authenticationService.saveInstrutor(instructordata ,UserData)
    
       ).subscribe(
         res=>{
+          console.log(res[0]);
          // this.router.navigate(['/newUser']);
-          this.funcA(res[0] ,res[1]);
+          this.funcA(res[0]);
         },
         error=>{
           console.log(error);
@@ -418,9 +445,10 @@ if(this.f.description.value ==null){
 
   }
 
-  funcA(response1 , response2){
+  funcA(response1){
     this.loadNewId();
-     console.log(response2);
+    console.log("Hello")
+     console.log(response1);
    
    }
 

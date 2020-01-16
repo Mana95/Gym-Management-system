@@ -15,11 +15,11 @@ import { User } from "src/app/_models";
 export class GetmembershipComponent implements OnInit {
   getMembershipGroup: FormGroup;
   display = [{
-    "id" : "Yes"
+    "id": "Yes"
   },
-{
-  "id" :"No"
-}]
+  {
+    "id": "No"
+  }]
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -63,11 +63,10 @@ export class GetmembershipComponent implements OnInit {
       Height: ["", Validators.required],
       Weight: ["", Validators.required],
       birth: ["", Validators.required],
-      address: ["", Validators.required],
+
       disaster: ['', Validators.required],
       description: [""],
       gender: ['', Validators.required],
-      age: ["", Validators.required],
       currnetJoinDate: [""],
       typeName: ["", Validators.required],
       amount: [""],
@@ -75,24 +74,71 @@ export class GetmembershipComponent implements OnInit {
       endDate: [""],
       BMI: [''],
       nicNumber: ['', [Validators.required, Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      noteDisaster: ['']
     },
       {
         validator: this.MustMatch('password', 'confirmPassword')
       });
     this.loadData();
+
+    this.loadFormData();
   }
 
   appearDiscription(event) {
-   //console.log(this.f.disaster.value);
-    if(this.f.disaster.value=='Yes'){
+    //console.log(this.f.disaster.value);
+    if (this.f.disaster.value == 'Yes') {
       this.disaster = true;
-    }else{
+    } else {
       this.disaster = false;
     }
 
   }
 
+
+  loadFormData() {
+    let customerId = this.currentUserSubject.value.user_id;
+    this.authenticationSercive.findCustomer(customerId)
+    .subscribe(
+      data=>{
+        console.log('data');
+        console.log(data);
+        this.getMembershipGroup.controls["firstName"].setValue(
+          data[0].firstName
+        );
+        this.getMembershipGroup.controls["lastName"].setValue(
+          data[0].lastName
+        );
+        this.getMembershipGroup.controls["phonenumber"].setValue(
+          data[0].phonenumber
+        );
+        this.getMembershipGroup.controls["username"].setValue(
+          data[0].username
+        );
+        this.getMembershipGroup.controls["email"].setValue(
+          data[0].email
+        );
+        
+        this.getMembershipGroup.controls["nicNumber"].setValue(
+          data[0].nicNumber
+        );
+       this.onKey();
+
+
+
+
+
+
+
+
+
+
+
+
+
+      }
+    )
+  }
 
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
@@ -115,6 +161,8 @@ export class GetmembershipComponent implements OnInit {
 
   loadData() {
 
+
+
     //Id Gen
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
     var string_length = 8;
@@ -134,27 +182,10 @@ export class GetmembershipComponent implements OnInit {
     this.getMembershipGroup.controls["currnetJoinDate"].setValue(
       this.currentDate
     );
-    console.log("HHHSDS");
-    console.log(this.currentUserSubject.value);
-    this.getMembershipGroup.controls["firstName"].setValue(
-      this.currentUserSubject.value.firstName
-    );
-    this.getMembershipGroup.controls["lastName"].setValue(
-      this.currentUserSubject.value.lastName
-    );
-    this.getMembershipGroup.controls["phonenumber"].setValue(
-      this.currentUserSubject.value.mobileNumber
-    );
-    this.getMembershipGroup.controls["username"].setValue(
-      this.currentUserSubject.value.username
-    );
-    this.getMembershipGroup.controls["email"].setValue(
-      this.currentUserSubject.value.email
-    );
-    this.getMembershipGroup.controls["address"].setValue(
-      this.currentUserSubject.value.address
-    );
-
+    //console.log("HHHSDS");
+    //console.log(this.currentUserSubject.value);
+   
+   
     //get All membershiptype Data
     this.authenticationSercive.getAllMembershipType().subscribe(
       response => {
@@ -175,10 +206,25 @@ export class GetmembershipComponent implements OnInit {
     );
   }
 
-  onKey(event) {
 
-    let NICNo = event.target.value;
-    console.log(event.target.value);
+
+  loadAutoGenId(){
+       //Id Gen
+       var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
+       var string_length = 8;
+       var id = "M_" + "";
+       for (var i = 0; i < string_length; i++) {
+         var rnum = Math.floor(Math.random() * chars.length);
+         id += chars.substring(rnum, rnum + 1);
+         this.getMembershipGroup.controls["membershipId"].setValue(id);
+   
+   
+       }
+  }
+  onKey() {
+
+    let NICNo = this.f.nicNumber.value;
+    //console.log(event.target.value);
     var dayText = 0;
     var year = "";
     var month = "";
@@ -374,9 +420,9 @@ export class GetmembershipComponent implements OnInit {
       Weight: Number(this.f.Weight.value),
       disaster: this.f.disaster.value,
       birth: this.f.birth.value,
-      address: this.f.address.value,
+
       description: this.f.description.value,
-      age: this.f.age.value,
+
       gender: this.f.gender.value,
       BMI: this.f.BMI.value,
       currnetJoinDate: this.f.currnetJoinDate.value,
@@ -386,7 +432,9 @@ export class GetmembershipComponent implements OnInit {
       endDate: this.f.endDate.value,
       status: false,
       nicNumber: this.f.nicNumber.value,
-      role: "Membership"
+      role: "Membership",
+      noteDisaster: this.f.noteDisaster.value
+
     };
     let UserData = {
       user_id: this.f.membershipId.value,
@@ -398,22 +446,17 @@ export class GetmembershipComponent implements OnInit {
       password: this.f.password.value
     };
 
-    console.log(memberShipDetials);
+   
     if (this.getMembershipGroup.valid) {
+      console.log(memberShipDetials);
       this.authenticationSercive
         .saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
-          response => {
-            console.log(response);
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            console.log('Done');
-            this.submitted = false;
+          response => {console.log('response');
+            console.log(response);       
+            this.submitted = false;  
             this.getMembershipGroup.reset();
-
+            this.loadAutoGenId();
           }
         );
     }

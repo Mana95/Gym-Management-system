@@ -16,10 +16,12 @@ export class ScheduleService {
     this.currentUser = this.currentUserSubject.asObservable();
    }
 
-
+   loadInstrucotrData(id) {
+    return this.http.get(config.PAPYRUS+`/shedule/loadInstrucotrData/${id}`)
+   }
 
    loadById(id) {
-     console.log(id)
+     //alert(id);
     return this.http.get(config.PAPYRUS+`/shedule/loadById/${id}`)
    }
 

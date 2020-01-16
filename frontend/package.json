@@ -26,6 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "4.2.1",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
+    "angular-notifier": "^6.0.1",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",
     "devexpress-reporting-angular": "^19.2.5",

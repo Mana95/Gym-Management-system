@@ -41,6 +41,7 @@ router.get('/userRoles/:id' , getuserRole);
 router.get('/allCustomers' , getCustomersData);
 router.get('/allSuppliers', getSupplierData);
 router.get('/subCatGetting/:id' , getReleventCat);
+router.get('/findCustomer/:id' , findCustomer);
 router.get('/getreleventData/:id' , getreleventSupliers);
 router.get('/getreleventCustomerData/:id' , getreleventCustomerData);
 router.get('/getAllMembershipType' , getAllMembershipType);
@@ -72,7 +73,12 @@ async function saveMembershiptypeData(req ,res ,next) {
     .catch(err => next(err));
 }
 
-
+async function findCustomer(req ,res ,next){
+    console.log(req.params.id);
+    userService.findCustomer(req.params.id)
+    .then(customer => res.json(customer))
+    .catch(err => next(err));
+}
 
 async function ValidPasswordToken(req, res) {
     console.log('ValidaPasswordTokern')
@@ -198,7 +204,7 @@ function getAllSchedule(req ,res,next){
  }   
 
  function insertMembership(req ,res ,next){
-     //console.log(req.body.membershipbody);
+    // console.log(req.body.membershipbody);
     userService.insertMembership(req.body)
     .then(membership => res.json(membership))
     .catch(err => next(err));
@@ -368,9 +374,12 @@ function userCreationPub(req ,res,next){
     .catch(err => next(err));
 }
 function instructorSave(req , res ,next){
-    console.log(req.body);
+    //console.log(req.body);
     userService.instructorSave(req.body)
-    .then(() => res.json({}))
+    .then((hh) => 
+    {
+        res.status(200).json({error: 'Valid'});
+    })
     .catch(err => next(err));
 }
 

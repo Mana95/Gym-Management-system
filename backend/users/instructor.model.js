@@ -94,7 +94,24 @@ const schema = new Schema({
                 
             },
 
+        }],
+        skils: [{
+            skillName:{
+                type:String
+            }
+        }],
+        education:[{
+            level:{
+                type:String
+            },
+            college:{
+                type:String
+            },
+            passingyear:{
+                type:String
+            }   
         }]
+
 
 
 

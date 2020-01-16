@@ -11,8 +11,7 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
-            { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-           
+            { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },           
             { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'userRole', loadChildren: () => import('./user/user-role/user-role.module').then(m => m.UserRoleModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'suppliers', loadChildren: () => import('./user/suppliers/suppliers.module').then(m => m.SuppliersModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
@@ -32,13 +31,8 @@ const routes: Routes = [
             { path: 'requestSchedule', loadChildren: () => import('./requests/schedule-request/schedule-request.module').then(m => m.ScheduleRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Instructor] } },
             { path: 'requestMemberShipType', loadChildren: () => import('./requests/membership-request/membership-request.module').then(m => m.MembershipRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User ] } },
            
-            { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },
-         
+            { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Supplier] } },
-          
-
-
-
             { path: 'newUser', loadChildren: () => import('./user/new-user/new-user.module').then(m => m.NewUserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] }  },
              { path: 'userNewRole', loadChildren: () => import('./user/user-role/user-new-role/user-new-role.module').then(m => m.UserNewRoleModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'editUser/:userid', loadChildren: () => import('./user/edit-user/edit-user.module').then(m => m.EditUserModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },

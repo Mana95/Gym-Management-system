@@ -33,9 +33,11 @@ export class AuthenticationService {
   //   return this.http.get(config.PAPYRUS+`/users/loadSchedule`)
   // }
 
-
-  saveInstrutor(data) {
-    return this.http.post(config.PAPYRUS+`/users/instructor`,data)
+  findCustomer(data){
+    return this.http.get(config.PAPYRUS+`/users/findCustomer/${data}`)
+  }
+  saveInstrutor(data ,UserData):Observable<any>{
+    return this.http.post(config.PAPYRUS+`/users/instructor`,{data ,UserData})
   }
   updateRole(data) {
     return this.http.post(config.PAPYRUS+`/users/updateRole`,data)
@@ -177,7 +179,7 @@ export class AuthenticationService {
 
   register(userParam): Observable<any> {
     //methin thamai call karala thiyenne back end ekata 
-    alert(userParam.username);
+   // alert(userParam.username);
           console.log (userParam );
           return this.http.post<any>(config.PAPYRUS+`/users/signUp`, userParam)
           .pipe(map(user => {

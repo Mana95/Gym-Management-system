@@ -16,8 +16,14 @@ router.post('/updateRecord' , updateRecord);
 router.get('/getAcceptedSchedule' , getAcceptedSchedule);
 router.post('/RejectRecord' , RejectRecord);
 router.get('/loadById/:id' , loadById);
+router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
 
 
+function loadInstrucotrData(req ,res ,next){
+    scheduleService.loadInstrucotrData(req.params.id)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 
 function loadById(req,res,next){
     //console.log(req.params.id);
