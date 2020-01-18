@@ -171,165 +171,313 @@
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Tuesday</b></ng-template>
                     <ng-template ngbTabContent>
-                <!-- asdsadsadsadsadsadsadsad
+                
                   <br />
                   <div class="form-row">
                     <div class="form-group col-6">
-                    <button type="button" class="btn btn-primary" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemove($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                    <button type="button" class="btn btn-primary" (click)="onclickTuesday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveTuesday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
                   </div>
                   </div>
               
-                  <div *ngFor="let ticket of t.controls; let i = index">
-                    <div [formGroup]="ticket">
+                  <div *ngFor="let tuesday of T.controls; let i = index">
+                    <div [formGroup]="tuesday">
                       <div class="form-row">
                         <div class="form-group col-3">
                           <label>Exersice Name</label>
-                          <input type="text" formControlName="name" class="form-control" placeholder="Leg Press"
-                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
-                          <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
-                            <div *ngIf="ticket.controls.name.errors.required">Exersice Name is required</div>
+                          <input type="text" formControlName="t_name" class="form-control" placeholder="Leg Press"
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_name.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_name.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_name.errors.required">Exersice Name is required</div>
                           </div>
                         </div>
                         <div class="form-group col-3">
                           <label>Reps</label>
-                          <input type="text" formControlName="title"  numbersOnly placeholder="2"
+                          <input type="text" formControlName="t_title"  numbersOnly placeholder="2"
                             class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.title.errors }" />
-                          <div *ngIf="submitted && ticket.controls.title.errors" class="invalid-feedback">
-                            <div *ngIf="ticket.controls.title.errors.required">Reps is required</div>
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_title.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_title.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_title.errors.required">Reps is required</div>
 
                           </div>
                         </div>
                       
                         <div class="form-group col-3">
                           <label>Sets</label>
-                          <input type="text" formControlName="empType" numbersOnly placeholder="Ex:Full Time"
+                          <input type="text" formControlName="t_empType" numbersOnly placeholder="Ex:Full Time"
                             class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" />
-                          <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
-                            <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_empType.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_empType.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_empType.errors.required">Sets  is required</div>
                           </div>
                         
                         </div>
                         <div class="form-group col-3">
                           <label>Delete</label> <br/>
-                          <button type="button" class="btn btn-danger" (click)="onClickRemove(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
-                          <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
-                          <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
-                        </div>
+                          <button type="button" class="btn btn-danger" (click)="onclickRemoveTuesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                          
                       
                        
                         </div>
                       </div>
                     </div>
-                  </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      
+                  </div>
                     </ng-template>
                   </ngb-tab>
-                  <ngb-tab>
-                    <ng-template ngbTabTitle><b>Tuesday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      dasd
-                    </ng-template>
-                  </ngb-tab>
+                 
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Wednesday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      sada
+                    <ng-template ngbTabContent>  <br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickwednesday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemovewednesday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let wednesday of W.controls; let i = index">
+                        <div [formGroup]="wednesday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="w_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_name.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_name.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="w_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_title.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_title.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="w_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_empType.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_empType.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemovewednesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Thursday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four
-                        loko farm-to-table
-                        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                        ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                        helvetica VHS salvia
-                        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                        sustainable jean
-                        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                        tumblr butcher vero
-                        sint qui sapiente accusamus tattooed echo park.</p>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickThursday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveThursday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let thursday of Th.controls; let i = index">
+                        <div [formGroup]="thursday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="th_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_name.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_name.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="th_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_title.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_title.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="th_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_empType.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_empType.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemovewednesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Friday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four
-                        loko farm-to-table
-                        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                        ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                        helvetica VHS salvia
-                        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                        sustainable jean
-                        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                        tumblr butcher vero
-                        sint qui sapiente accusamus tattooed echo park.</p>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickFriday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveFriday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let friday of Fr.controls; let i = index">
+                        <div [formGroup]="friday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="f_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_name.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_name.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="f_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_title.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_title.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="f_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_empType.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_empType.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemoveFriday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
-                    <ng-template ngbTabTitle><b>Satarday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four
-                        loko farm-to-table
-                        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                        ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                        helvetica VHS salvia
-                        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                        sustainable jean
-                        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                        tumblr butcher vero
-                        sint qui sapiente accusamus tattooed echo park.</p>
+                    <ng-template ngbTabTitle><b>Saturday</b></ng-template>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickSat($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickremoveSta($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let satarday of S.controls; let i = index">
+                        <div [formGroup]="satarday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="s_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_name.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_name.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="s_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_title.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_title.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="s_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_empType.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_empType.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickremoveSta(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Sunday</b></ng-template>
-                    <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                      single-origin coffee squid.
-                      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four
-                        loko farm-to-table
-                        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                        ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                        helvetica VHS salvia
-                        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                        sustainable jean
-                        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-                        tumblr butcher vero
-                        sint qui sapiente accusamus tattooed echo park.</p>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickSunday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickremoveSunday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let sunday of Sun.controls; let i = index">
+                        <div [formGroup]="sunday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="sun_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_name.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_name.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="sun_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_title.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_title.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="sun_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_empType.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_empType.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickremoveSunday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab title="Disabled" [disabled]="true">

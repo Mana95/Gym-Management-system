@@ -147,11 +147,111 @@ export class AcceptedScheduleComponent implements OnInit {
   }
   get t() { return this.f.tickets as FormArray; }
   
+
+  get T() { return this.f.tuesday as FormArray;}
+
+  get W() {return this.f.wednesday as FormArray;}
+
+  get Th() {return this.f.thursday as FormArray;}
+
+  get Fr() { return this.f.friday as FormArray;}
+
+  get S() {return this.f.satarday as FormArray;}
+
+  get Sun() {return this.f.sunday as FormArray;}
+  
   normalSchduleBoard() {
     //alert('hi')
     this.Display = true;
     
+  }  
+  onclickremoveSunday(i){
+    let length = this.Sun.length;
+    // console.log(length);
+     this.Sun.removeAt(i);
   }
+  onclickSunday(e){
+    this.Sun.push(this.formBuilder.group({
+      sun_name: ['', Validators.required],
+      sun_title: ['', Validators.required],
+      sun_empType:['',Validators.required],
+      sun_startDate:['',Validators.required]
+  }));
+  }
+
+  onclickSat(e){
+    this.S.push(this.formBuilder.group({
+      s_name: ['', Validators.required],
+      s_title: ['', Validators.required],
+      s_empType:['',Validators.required],
+      s_startDate:['',Validators.required]
+  }));
+  }
+
+  onclickremoveSta(i){
+    let length = this.S.length;
+    // console.log(length);
+     this.S.removeAt(i);
+  }
+
+  onclickFriday(e){
+    this.Fr.push(this.formBuilder.group({
+      f_name: ['', Validators.required],
+      f_title: ['', Validators.required],
+      f_empType:['',Validators.required],
+      f_startDate:['',Validators.required]
+  }));
+  }
+
+  onclickThursday(e){
+    this.Th.push(this.formBuilder.group({
+      th_name: ['', Validators.required],
+      th_title: ['', Validators.required],
+      th_empType:['',Validators.required],
+      th_startDate:['',Validators.required]
+  }));
+  }
+
+  onclickwednesday(e){
+    this.W.push(this.formBuilder.group({
+      w_name: ['', Validators.required],
+      w_title: ['', Validators.required],
+      w_empType:['',Validators.required],
+      w_startDate:['',Validators.required]
+  }));
+  }
+  onclickTuesday(e){
+    this.T.push(this.formBuilder.group({
+      t_name: ['', Validators.required],
+      t_title: ['', Validators.required],
+      t_empType:['',Validators.required],
+      t_startDate:['',Validators.required]
+  }));
+  }
+
+  onclickRemoveThursday(i){
+    let length = this.Th.length;
+    // console.log(length);
+     this.Th.removeAt(i);
+  }
+
+  onclickRemoveFriday(i){
+    let length = this.Fr.length;
+    // console.log(length);
+     this.Fr.removeAt(i);
+  }
+
+  onclickRemovewednesday(i){
+    let length = this.W.length;
+    // console.log(length);
+     this.W.removeAt(i);
+  }
+  onclickRemoveTuesday(i){
+    let length = this.T.length;
+    // console.log(length);
+     this.T.removeAt(i);
+  }
+
 
   onClickTickets(e){
     this.t.push(this.formBuilder.group({
@@ -172,6 +272,11 @@ export class AcceptedScheduleComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
   //  alert(this.f.ExerciseName.value);
+    let sceduleData = {
+      id:this.f.id.value,
+      
+    }
+
   }
  
 }
