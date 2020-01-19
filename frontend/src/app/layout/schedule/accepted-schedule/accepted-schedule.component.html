@@ -100,17 +100,79 @@
                   <div class="form-row">
                     <h4><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; 
                       <b>Schedule Calender</b></h4>&nbsp;&nbsp;&nbsp;  
-                    <button type="button" (click)="normalSchduleBoard()" class="btn btn-success"><i class="fa fa-plus"
+                    <button type="button" *ngIf ="!buttonDisplay" (click)="begginerScheduleBoard()" class="btn btn-success">Beginner &nbsp;<i class="fa fa-plus"
                       aria-hidden="true"></i></button>
+                      &nbsp; 
+                      <button type="button" *ngIf ="!buttonProDisplay" (click)="normalSchduleBoard()" class="btn btn-info">Pro &nbsp;<i class="fa fa-plus"
+                        aria-hidden="true"></i></button>
                   </div>
                  
                 </div>
                 <hr>
-            
+                <!-- Beginner -->
+                <div class="">
+                  <div class="card-header" *ngIf="begginer">
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                      <button type="button" class="btn btn-primary"  (click)="onClickBeginner($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                    </div>
+                    </div>
+
+                    <div *ngFor="let beginner of B.controls; let i = index">
+                      <div [formGroup]="beginner">
+                        <div class="form-row">
+                          <div class="form-group col-3">
+                            <label>Exersice Name</label>
+                            <input type="text" formControlName="b_name" class="form-control" placeholder="Leg Press"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_name.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_name.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_name.errors.required">Exersice Name is required</div>
+                            </div>
+                          </div>
+                          <div class="form-group col-3">
+                            <label>Reps</label>
+                            <input type="text" formControlName="b_title"  numbersOnly placeholder="2"
+                              class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_title.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_title.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_title.errors.required">Reps is required</div>
+
+                            </div>
+                          </div>
+                        
+                          <div class="form-group col-3">
+                            <label>Sets</label>
+                            <input type="text" formControlName="b_empType" numbersOnly placeholder="Ex:Full Time"
+                              class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_empType.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_empType.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_empType.errors.required">Sets  is required</div>
+                            </div>
+                          
+                          </div>
+                          <div class="form-group col-3">
+                            <label>Delete</label> <br/>
+                            <button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                           
+                        
+                         
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+
+
+                <!-- pro -->
             <div class="">
               <div class="card-header" *ngIf="Display">
                 <ngb-tabset>
-                  <ngb-tab title="Monday">
+                  <ngb-tab title="Day-01">
                     <ng-template ngbTabContent>
                       <br />
                       <div class="form-row">

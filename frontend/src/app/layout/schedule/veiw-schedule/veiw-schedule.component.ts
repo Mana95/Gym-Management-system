@@ -17,6 +17,12 @@ export class VeiwScheduleComponent implements OnInit {
 
   ngOnInit() {
 
+    this.loadAcceptedSchedule();
+
+  
+  }
+
+  loadAcceptedSchedule(){
     this.scheduleService.getAcceptedSchedule()
     .subscribe(
       response=>{

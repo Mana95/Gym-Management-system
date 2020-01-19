@@ -19,15 +19,8 @@ const schema = new Schema({
         type: String,
         required: true,
     },
-    createStatus:{
-        type: Boolean,
-        required: true,
-    },
-    rejectStatus:{
-        type: Boolean,
-    },
-    acceptStatus:{
-        type: Boolean,
+    status:{
+        type: Number,
         required: true,
     },
     date:{

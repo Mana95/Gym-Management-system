@@ -16,6 +16,10 @@ export class ScheduleService {
     this.currentUser = this.currentUserSubject.asObservable();
    }
 
+   createSchedule(data){
+    return this.http.post(config.PAPYRUS+`/shedule/createSchedule` , data);
+   }
+
    loadInstrucotrData(id) {
     return this.http.get(config.PAPYRUS+`/shedule/loadInstrucotrData/${id}`)
    }

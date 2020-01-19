@@ -27,7 +27,8 @@ module.exports = {
     Uplds: require('../uplds/upload.model'),
     Comments: require('../comments/comment.model'),
     Roles: require('../users/roles/role.model'),
-    Groups: require('../users/group.model')
+    Groups: require('../users/group.model'),
+    Schedule_Plan:require('../schedule/schedule-plan.model')
     
 
     

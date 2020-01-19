@@ -15,10 +15,16 @@ router.get('/getPendings' , getPendings);
 router.post('/updateRecord' , updateRecord);
 router.get('/getAcceptedSchedule' , getAcceptedSchedule);
 router.post('/RejectRecord' , RejectRecord);
+router.post('/createSchedule' , createSchedule);
 router.get('/loadById/:id' , loadById);
 router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
 
-
+function createSchedule(req ,res ,next){
+    
+    scheduleService.createSchedule(req.body)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 function loadInstrucotrData(req ,res ,next){
     scheduleService.loadInstrucotrData(req.params.id)
     .then(sch => res.json(sch))

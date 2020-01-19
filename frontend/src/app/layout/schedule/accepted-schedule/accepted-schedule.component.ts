@@ -15,12 +15,13 @@ import * as moment from "moment";
 export class AcceptedScheduleComponent implements OnInit {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  
+  buttonDisplay = false;
   ScheduleMakeGroup:FormGroup;
   submitted = false;
   id:any;
   currentDate:any;
-
+  begginer = false;
+  buttonProDisplay = false;
 
   Display = false;
 
@@ -48,9 +49,9 @@ export class AcceptedScheduleComponent implements OnInit {
       contact:[''],
       endDate:[''],
       nameOfSchedule:['', Validators.required],
-      scend:[''],
+      BMI:[''],
       validMonth:['', Validators.required],
-      numberOfTickets: ['', Validators.required],
+      beginner: new FormArray([]),
       tickets: new FormArray([]),
       tuesday:new FormArray([]),
       wednesday:new FormArray([]),
@@ -159,16 +160,44 @@ export class AcceptedScheduleComponent implements OnInit {
   get S() {return this.f.satarday as FormArray;}
 
   get Sun() {return this.f.sunday as FormArray;}
+
+  get B() {return this.f.beginner as FormArray;}
   
+  begginerScheduleBoard() {
+    this.buttonProDisplay = true;
+    this.Display = false;
+    this.begginer = true;
+   
+  }
+
+
   normalSchduleBoard() {
     //alert('hi')
+    this.buttonDisplay = true;
+    this.begginer = false;
     this.Display = true;
     
+    
   }  
+
+
+
+
   onclickremoveSunday(i){
     let length = this.Sun.length;
     // console.log(length);
      this.Sun.removeAt(i);
+  }
+
+
+  onClickBeginner(e){
+    this.B.push(this.formBuilder.group({
+      b_name: ['', Validators.required],
+      b_title: ['', Validators.required],
+      b_empType:['',Validators.required],
+      b_startDate:['',Validators.required]
+  }));
+  
   }
   onclickSunday(e){
     this.Sun.push(this.formBuilder.group({
@@ -261,7 +290,9 @@ export class AcceptedScheduleComponent implements OnInit {
       startDate:['',Validators.required]
   }));
   }
-
+  onClickRemoveBeginner(i) {
+    this.B.removeAt(i);
+  }
   onClickRemove(i){
     let length = this.t.length;
    // console.log(length);
@@ -271,11 +302,43 @@ export class AcceptedScheduleComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-  //  alert(this.f.ExerciseName.value);
+
     let sceduleData = {
       id:this.f.id.value,
-      
+      type:this.f.type.value,
+      membershipId: this.f.membershipId.value,
+      date:this.f.date.value,
+      memberName:this.f.memberName.value,
+      height:this.f.height.value,
+      weight:this.f.weight.value,
+      gender:this.f.gender.value,
+      BMI:this.f.BMI.value,
+      instructorName:this.f.instructorName.value,
+      contact:this.f.contact.value,
+      endDate:this.f.endDate.value,
+      nameOfSchedule:this.f.nameOfSchedule.value,     
+      validMonth:this.f.validMonth.value,      
+      tickets:this.f.tickets.value,
+      wednesday:this.f.wednesday.value,
+      thursday:this.f.thursday.value,
+      friday:this.f.friday.value,
+      satarday:this.f.satarday.value,
+      sunday:this.f.sunday.value,
+      beginner: this.f.beginner.value
+
     }
+
+    console.log(sceduleData);
+
+    this.scheduleService.createSchedule(sceduleData)
+    .subscribe(
+      response=>{
+        console.log(response);
+      },
+    error=>{
+      console.log(error)
+    }
+    )
 
   }
  

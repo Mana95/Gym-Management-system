@@ -8,6 +8,7 @@ const ScheduleType =db.ScheduleType;
 const Schedule = db.Schedule;
 const Membership = db.Membership;
 const Instructor = db.Instructor;
+const Schedule_Plan = db.Schedule_Plan;
 
 module.exports = {
   
@@ -19,9 +20,15 @@ module.exports = {
     RejectRecord,
     getAcceptedSchedule,
     loadById,
-    loadInstrucotrData
+    loadInstrucotrData,
+    createSchedule
     
 };
+
+async function createSchedule(data) {
+    const schedule_Plan = new Schedule_Plan(data);  
+    await schedule_Plan.save();  
+}
 
 async function loadInstrucotrData(id){
     return await Instructor.find({isId:id})
