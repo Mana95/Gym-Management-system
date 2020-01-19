@@ -118,8 +118,8 @@
                       &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
                     </div>
                     </div>
-
-                    <div *ngFor="let beginner of B.controls; let i = index">
+                      <h3 style="text-align: center;"><b> <i class="fa fa-id-badge" aria-hidden="true"></i>&nbsp;   Beginnner Schedule</b></h3>
+                    <div *ngFor="let beginner of B.controls; let i = index"   style="align-content: center;">
                       <div [formGroup]="beginner">
                         <div class="form-row">
                           <div class="form-group col-3">

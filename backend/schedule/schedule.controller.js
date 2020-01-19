@@ -18,6 +18,15 @@ router.post('/RejectRecord' , RejectRecord);
 router.post('/createSchedule' , createSchedule);
 router.get('/loadById/:id' , loadById);
 router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
+router.get('/getById/:id' ,getById);
+
+function getById(req ,res, next){
+    scheduleService.getById(req.params.id)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
+
 
 function createSchedule(req ,res ,next){
     

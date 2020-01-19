@@ -31,6 +31,11 @@ const routes: Routes = [
             { path: 'requestSchedule', loadChildren: () => import('./requests/schedule-request/schedule-request.module').then(m => m.ScheduleRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Instructor] } },
             { path: 'requestMemberShipType', loadChildren: () => import('./requests/membership-request/membership-request.module').then(m => m.MembershipRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User ] } },
            
+
+            
+
+            { path: 'sales_order_cart', loadChildren: () => import('./salesorder/sales-order-cart/sales-order-cart.module').then(m => m.SalesOrderCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
+         
             { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Supplier] } },
             { path: 'newUser', loadChildren: () => import('./user/new-user/new-user.module').then(m => m.NewUserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] }  },
@@ -46,6 +51,7 @@ const routes: Routes = [
             { path: 'newschedule', loadChildren: () => import('./schedule/newschedule/newschedule.module').then(m => m.NewscheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin  , Role.Membership] } },
             { path: 'viewSchedule', loadChildren: () => import('./schedule/veiw-schedule/veiw-schedule.module').then(m => m.VeiwScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin, Role.Instructor] } },
             { path: 'acceptedSchedule/:id', loadChildren: () => import('./schedule/accepted-schedule/accepted-schedule.module').then(m => m.AcceptedScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Instructor] } },
+            { path: 'schedule_plan/:id', loadChildren: () => import('./schedule/schedule-plan/schedule-plan.module').then(m => m.SchedulePlanModule) },
           
             
             { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Customer] } },

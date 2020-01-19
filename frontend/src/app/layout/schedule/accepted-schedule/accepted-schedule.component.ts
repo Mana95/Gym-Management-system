@@ -329,7 +329,7 @@ export class AcceptedScheduleComponent implements OnInit {
     }
 
     console.log(sceduleData);
-
+  
     this.scheduleService.createSchedule(sceduleData)
     .subscribe(
       response=>{
@@ -339,7 +339,7 @@ export class AcceptedScheduleComponent implements OnInit {
       console.log(error)
     }
     )
-
+  
   }
  
 }

@@ -144,6 +144,11 @@
                 </ul>
             </li>
         </div> 
+        <a [routerLink]="['/sales_order_cart']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+            &nbsp;
+            <span>{{ 'Sales Order Cart' | translate }}</span>
+        </a>
 
         <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
             <i class="fa fa-cogs"></i>&nbsp;

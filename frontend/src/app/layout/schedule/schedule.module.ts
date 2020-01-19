@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NotifierModule, NotifierOptions } from "angular-notifier";
+import { SchedulePlanComponent } from './schedule-plan/schedule-plan.component';
 
 
 @NgModule({

@@ -6,9 +6,11 @@ import { SalesOrderRoutingModule } from './salesorder-routing.moduls';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SalesorderComponent } from './salesorder.component';
+import { SaleOrderItemViewComponent } from './sale-order-item-view/sale-order-item-view.component';
+
 
 @NgModule({
-  declarations: [SalesorderComponent],
+  declarations: [SalesorderComponent, SaleOrderItemViewComponent],
  
   imports: [
     CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule

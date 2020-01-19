@@ -34,4 +34,10 @@ export class ScheduleComponent implements OnInit {
     )
   }
 
+  routePage(data){
+    console.log(JSON.stringify(data));
+    this.router.navigate(['/schedule_plan', data.membershipId]);
+    console.log("Navigate to Edit Group " + data.membershipId);
+  }
+
 }

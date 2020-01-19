@@ -19,7 +19,7 @@ const schema = new Schema({
         },
         date:{
             required:true,
-            type:Date   
+            type:String   
         },
         memberName:{
             required:true,
@@ -46,7 +46,7 @@ const schema = new Schema({
             required: true
           },
           endDate: {
-            type: Date,
+            type: String,
             required: true
           },
           nameOfSchedule: {

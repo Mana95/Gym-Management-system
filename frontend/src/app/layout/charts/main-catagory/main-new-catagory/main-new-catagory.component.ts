@@ -31,19 +31,23 @@ export class MainNewCatagoryComponent implements OnInit {
       catName:['', Validators.required],
       description: ['', Validators.required]
     });
-
-     //Id Gen
-     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
-     var string_length = 8;
-     var id = 'MC_'+'';
-     for (var i=0; i<string_length; i++) {
-       var rnum = Math.floor(Math.random() * chars.length);
-       id += chars.substring(rnum,rnum+1);
-       this.userId = id;
- 
-     }
+this.loadingId();
+  
  
 
+  }
+
+  loadingId(){
+       //Id Gen
+       var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+       var string_length = 8;
+       var id = 'MC_'+'';
+       for (var i=0; i<string_length; i++) {
+         var rnum = Math.floor(Math.random() * chars.length);
+         id += chars.substring(rnum,rnum+1);
+         this.userId = id;
+   
+       }
   }
 
   get mc() {
@@ -94,7 +98,7 @@ if(this.catagoryResgiter.valid) {
     () =>{
       this.submitted = false;
       this.catagoryResgiter.reset();
-      location.reload()
+      this.loadingId();
     });
     
 

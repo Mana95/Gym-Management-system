@@ -105,9 +105,7 @@ this.requestScheduleGroup.controls["date"].setValue(
       Sid: this.f.id.value,
       membershipId:this.f.mId.value,
       type:this.f.typeName.value,
-      createStatus:false,
-      acceptStatus:false,
-      rejectStatus:false,
+      status:1,
       date:this.f.date.value,
       description:this.f.description.value
     }
