@@ -10,7 +10,7 @@ import { SaleOrderItemViewComponent } from './sale-order-item-view/sale-order-it
 
 
 @NgModule({
-  declarations: [SalesorderComponent, SaleOrderItemViewComponent],
+  declarations: [SalesorderComponent],
  
   imports: [
     CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule

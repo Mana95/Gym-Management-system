@@ -19,8 +19,23 @@ module.exports = {
     SaveDataGrn,
     updateStatus,
     salesOrderInsert,
-    getAllDataSo
+    getAllDataSo,
+    getCartItems,
+    routeIdData
 }
+
+async function getCartItems(){
+    return await ItemData.find({});
+}
+
+async function routeIdData(data){
+    return await ItemData.find({_id:data});
+}
+
+
+
+
+
 async function getAllDataSo() {
     return await SalesOrder.find({status:false});
 }

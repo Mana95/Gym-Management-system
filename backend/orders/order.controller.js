@@ -17,13 +17,33 @@ router.post('/insertSalesOrder' , insertSalesOrder);
 router.get('/getPendingPo', getPendingPo);
 router.get('/getProgressPo', getProgress);
 router.get('/getByIdPo/:id' , getById);
+router.get('/routeIdData/:id', routeIdData);
 router.get('/getsId/:id' , getSupplierId);
 router.get('/getAllSo', getAllSo);
+router.get('/getAllCartItems', getAllCartItems);
 
 router.post('/updateStatus', UpdateStatus);
 
+function getAllCartItems(req ,res ,next){
+    orderService.getCartItems()
+    .then(cart => res.json(cart))
+    .catch(err => next(err));
+}
+
+function routeIdData(req ,res ,next){
+    //console.log(req.params.id)
+    orderService.routeIdData(req.params.id)
+    .then(cart => res.json(cart))
+    .catch(err => next(err))
+}
+
+
+
+
+
+
 function insertSalesOrder(req , res, next){
-    console.log('dsdsdsds')
+   // console.log('dsdsdsds')
  
     orderService.salesOrderInsert(req.body)
     .then(grn => res.json(grn))
@@ -38,7 +58,7 @@ function getAllSo(req , res, next){
 
 function updateStatusOfPo(req ,res ,next ){
    
-    console.log('dsdsdsds')
+    //console.log('dsdsdsds')
  
     orderService.updateStatus( req.body)
     .then(grn => res.json(grn))
@@ -48,7 +68,7 @@ function updateStatusOfPo(req ,res ,next ){
 
 function SaveGRNData(req ,res, next){
     let GrnData = req.body;
-    console.log(GrnData)
+ //   console.log(GrnData)
     orderService.SaveDataGrn(GrnData)
     .then(grn => res.json(grn))
     .catch(err => next(err));
@@ -64,7 +84,7 @@ function getSupplierId(req ,res ,next){
 
 function getById(req ,res, next) {
     let id = req.params.id
-    console.log(id);
+    //console.log(id);
     orderService.getByIdPo(id)
     .then(po => res.json(po))
     .catch(err => next(err));
@@ -92,15 +112,15 @@ function getPendingPo(req ,res, next){
 
 
 function updateBydelete(req ,res, next) {
-    console.log(req.body);
+    //console.log(req.body);
     orderService.updateByqantityDelete(req.body)
     .then(item_Data => res.json(item_Data))
     .catch(err => next(err));
 }
 
 function updateByQty(req ,res ,next){
-    console.log('Enwa')
-    console.log(req.body);
+    //console.log('Enwa')
+   // console.log(req.body);
     let quantityData = req.body
     orderService.updateByqantity(quantityData)
     .then(item_Data => res.json(item_Data))
@@ -110,7 +130,7 @@ function updateByQty(req ,res ,next){
 
 
 function savePoData(req ,res ,next){
-    console.log(req.body);
+    //console.log(req.body);
     orderService.InsertData(req.body)
     .then(po_data => res.json(po_data))
     .catch(err => next(err));

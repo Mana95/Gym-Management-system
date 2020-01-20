@@ -44,6 +44,12 @@ export class TablesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.loadData();
+
+  }
+  loadData() {
+
     this.itemGroup = this.formBuilder.group({
       id:[''],
       cat_name: ['', Validators.required],
@@ -104,6 +110,7 @@ export class TablesComponent implements OnInit {
 
 
   }
+
   get f() {
 
     return this.itemGroup.controls;
@@ -171,7 +178,7 @@ export class TablesComponent implements OnInit {
             this.loading = false;
           },
           ()=>{
-            location.reload()
+            this.loadData();
           }
 
         )

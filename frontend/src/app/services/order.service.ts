@@ -9,6 +9,17 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
+  loadNavigateItemDetials(id){
+    //console.log(id);
+    return this.http.get(config.PAPYRUS+`/order/routeIdData/${id}`)
+  }
+  loadCardItems(){
+    return this.http.get(config.PAPYRUS+`/order/getAllCartItems`)
+  }
+
+
+
+
   getAllSo() {
     return this.http.get(config.PAPYRUS+`/order/getAllSo`)
   }
