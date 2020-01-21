@@ -17,8 +17,8 @@
 		  </div>
 		  </div>
 		  </div>-->
-
-
+		  <!-- addToCart -->
+		  <form [formGroup]="viewCartForm"  (ngSubmit)="onSubmit()" >
 		  <div class="card mb-12"  *ngFor =" let data of itemCartData">
 			<div class="row no-gutters">
 			  <div class="col-md-4">
@@ -26,23 +26,31 @@
 			  </div>
 			  <div class="col-md-8">
 				<div class="card-body">
-				  <h2 class="card-title"><b>{{data.item_name}}</b></h2>
-				  <h3 class="card-text"><b>Rs: {{data.selling_price}}</b> </h3>
+				  <h2 class="card-title"><b><label><i class="fa fa-archive" aria-hidden="true"></i> Item Name : </label> {{data.item_name}}</b></h2>
+				 <h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i> Rs: {{data.selling_price}}</b> </h3>
 				<hr/>
-				  <p class="card-text"><small class="text-muted">In stock</small></p> 
+				  <p class="card-text"><small class="text-muted">In stock</small></p> <ngb-alert type = "danger" (close)="closeAlert()" *ngIf="displayAlert">Did not Have much Quantity</ngb-alert>
+				   
 				  <div class="row">
 				  <div class="col-md-3">	 
-				 <input type="number"  class="form-control card-text" >
-				  </div>
+				 <input type="number" min="1" max ={{maxNumber}} (input) ="calculateTotal($event)" formControlName="qty"class="form-control card-text" >
+				 
+				</div>
 				  <div class="col-md-3">
-					<button type="button" class="btn btn-outline-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
- 						Add to cart</button>
+					<button type="submit" class="btn btn-outline-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+						 Add to cart</button>
+						  </div>
+				  <div class="col-md-3">
+					<button type="button" class="btn btn-outline-warning" [routerLink]="['/addToCart']"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> View My Cart</button>
+				 
 				  </div>
 				</div>
 				<hr/>
 				<p class="card-text">
 				Main Category: {{data.cat_name}}	
 				</p>
+				<h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i>Total Rs:{{displayTotal}}</b> </h3>
+			
 				</div>
 			  </div>
 			</div>
@@ -84,3 +92,4 @@
 				</div>
 				</div>	
 		  </div>
+		  </form>

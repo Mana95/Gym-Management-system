@@ -9,6 +9,42 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
+
+  insertItemCart(data){
+   // console.log(data);
+
+    //localStorage.setItem('cartObject', JSON.stringify(data));
+    let cart =  JSON.parse(localStorage.getItem('cartObject'));
+    let isInCart = false;
+    if(cart){
+      console.log('Cart');
+      console.log(cart);
+      isInCart = cart.some(item=>item.id===data.id);
+    }else {
+      cart = [];
+    }
+    if (isInCart) {
+      console.log(isInCart);
+      cart.map(item => {
+        if (item.id === data.id) {
+          console.log('item.id');
+          console.log(item.id);
+          item.qty += data.qty;
+        }
+        return item;
+      });
+    } else {
+      cart.push(data);
+    }
+    localStorage.setItem('cartObject', JSON.stringify(cart)); 
+
+
+
+
+
+  }
+
+
   loadNavigateItemDetials(id){
     //console.log(id);
     return this.http.get(config.PAPYRUS+`/order/routeIdData/${id}`)

@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SalesorderComponent } from './salesorder.component';
 import { SaleOrderItemViewComponent } from './sale-order-item-view/sale-order-item-view.component';
+import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 
 
 @NgModule({
