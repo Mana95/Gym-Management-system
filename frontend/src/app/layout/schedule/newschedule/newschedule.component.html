@@ -1,0 +1,71 @@
+<div class="row"  *ngIf="showMsg">
+  
+    <p class="alert alert-success">
+        <strong>Registration Success!</strong> Please click here to login!.
+
+    </p>
+  
+</div>
+
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b>Request Schedule</b></h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="requestScheduleGroup" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="userID"><b>Schedule ID</b></label>
+                 <input type="text" class="form-control inputClass" formControlName="id" disabled>
+
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Membership Id</b></label>
+                <input type="email" disabled class="form-control inputClass" formControlName="mId" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Emailname is required</div>
+                  <div *ngIf="f.email.errors.email" >Email must be a valid email address</div>
+                </div>
+
+              </div>
+              <div class="form-group co-md-3">
+                <label for="email"><b>Current Join Date</b></label>
+                <input type="text" class="form-control inputClass" disabled formControlName="date"
+                  placeholder="Date">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="firstName"><b>Schedule Type</b></label>
+                <select class="form-control" formControlName="typeName" #data [ngClass]="{ 'is-invalid': submitted && f.typeName.errors }">
+                  <option selected>Choose...</option>
+                  <option *ngFor="let data of Type">{{data.type}}</option>
+                </select>
+                <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.typeName.errors.required">Type name is required</div>
+                </div> 
+
+              </div>
+              <div class="form-group col-md-9">
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Description</label>
+                  <textarea class="form-control" formControlName="description" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-warning"><b>Submit</b> <i class="fa fa-rocket" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

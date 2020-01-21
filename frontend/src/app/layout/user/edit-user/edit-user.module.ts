@@ -7,12 +7,12 @@ import { EditUserRoutingModule } from './edit-user-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePwComponent } from './change-pw/change-pw.component';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [EditUserComponent, EditModalComponent],
+  declarations: [EditUserComponent , EditModalComponent],
   imports: [
-    CommonModule ,PageHeaderModule ,EditUserRoutingModule , FormsModule,
-    ReactiveFormsModule
+    CommonModule ,PageHeaderModule ,EditUserRoutingModule , FormsModule, NgbModule
   ]
 })
 export class EditUserModule { }

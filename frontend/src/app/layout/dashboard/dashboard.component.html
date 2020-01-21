@@ -1,51 +1,35 @@
 <div [@routerTransition]>
-    <hr>
+    <hr> 
     <div class="row">
+            <div class="col-xl-3 col-lg-6">
+        <h2><b>Sales Activity</b></h2>
+        </div>
+    </div>
+    
+    <div class="row">
+        
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
+            <app-stat [bgClass]="'info'" [icon]="'fa-tasks'" [count]="26" [label]="'TO BE PACKED'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
+            <app-stat [bgClass]="'warning'" [icon]="'fa fa-truck'" [count]="12" [label]="'TO BE SHIPPED'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
+            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'TO BE DELIVERED'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
+            <app-stat [bgClass]="'danger'" [icon]="'fa fa-sticky-note-o'" [count]="13" [label]="'TO BE INVOICED'"></app-stat>
         </div>
     </div>
     <hr />
       <hr />
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card card-default">       
+   <div class="col-xl-3 col-lg-6">
+                  
 <br>
 
-         
-<ngb-tabset>
-    <ngb-tab title="itinerary Pendings">
-        <ng-template ngbTabContent>
-            <app-timeline></app-timeline>
-        </ng-template>
-    </ngb-tab>
+ <app-chat></app-chat>
 
-    <ngb-tab title="Agents Pendings">
-        <ng-template ngbTabContent>
-            <app-chat></app-chat>>
-        </ng-template>
-    </ngb-tab>
-
-    <ngb-tab title="Pending Payment">
-        <ng-template ngbTabContent>
-            <app-chat></app-chat>>
-        </ng-template>
-    </ngb-tab>
-
-
-</ngb-tabset>
-
-
-</div>       
         </div>
     </div>
 </div>

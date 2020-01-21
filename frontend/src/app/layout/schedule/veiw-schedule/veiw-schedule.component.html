@@ -1,0 +1,56 @@
+<div class="card mb-12">
+                   
+  <div class="card-body table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>                  
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-7">
+                <h2>
+                  <b><i class="fa fa-envelope-open" aria-hidden="true"></i>  &nbsp; All Accepted Schedules</b>                  
+                </h2>
+                
+        </div>                                      
+            </div>
+            <hr />
+            <br />
+            
+            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
+              <caption>
+                <b>View Accepted Schedules Details</b>
+              </caption>
+              <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">Date</th>
+                  <th style="text-align: center;" scope="col">Schedule Id</th>
+                  <th style="text-align: center;" scope="col">Membership Id</th>
+                  <th style="text-align: center;" scope="col">Schedule Type</th>
+                  <th style="text-align: center;" scope="col">description</th>
+                  <th style="text-align: center;" scope="col">Status</th>         
+                  <th style="text-align: center;" scope="col">Action</th>
+               
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of  AcceptedSchedule | paginate:{ itemsPerPage: 10 ,currentPage: p}">
+                  <td style="text-align: center;">{{data.date}}</td>
+                 <td style="text-align: center;">{{data.id}}</td>  
+                  <td style="text-align: center;">{{data.membershipId}}</td>
+                  <td style="text-align: center;">{{data.type}}</td>
+                  <td style="text-align: center;">{{data.description}}</td>
+                  <td  *ngIf="2 == data.status" style="color:lightgreen; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i><b></b></td>
+                  <td  *ngIf="3 == data.status" style="color:darkgreen; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i><b></b></td>
+                  
+                  <td style="text-align: center;"><button type="button" class="btn btn-warning btn-sm" (click) ="routePage(data)" ><i
+                    class="fa fa-folder-open" aria-hidden="true"></i></button> &nbsp;
+                
+
+
+                </tr>
+
+
+              </tbody>
+            </table>
+              <pagination-controls (pageChange)="p = $event"  style="float:right;"></pagination-controls>
+          </div>

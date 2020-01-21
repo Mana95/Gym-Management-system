@@ -1,0 +1,583 @@
+
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b> <i class="fa fa-calendar-o" aria-hidden="true"></i> &nbsp;  New Schedule</b></h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="ScheduleMakeGroup" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Schedule Id</b></label>
+                <input type="text" class="form-control inputClass" formControlName="id"  [readonly]="true">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Schedule Type</b></label>
+                <input type="email" class="form-control inputClass"  [readonly]="true" formControlName="type">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Membership Id</b></label>
+                <input type="text" class="form-control inputClass"  [readonly]="true" formControlName="membershipId">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Date</b></label>
+                <input type="text" class="form-control inputClass"  [readonly]="true" formControlName="date">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Member Name</b></label>
+                <input type="text" class="form-control inputClass" formControlName="memberName"  [readonly]="true">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Height</b></label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><b>Inch:</b></div>
+                  </div>
+                  <input type="text" class="form-control"  [readonly]="true" id="inlineFormInputGroup" formControlName="height">
+                </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Weight</b></label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><b>Kg:</b></div>
+                  </div>
+                  <input type="text" class="form-control"  [readonly]="true" id="inlineFormInputGroup" formControlName="weight">
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Gender</b></label>
+                <input type="text" class="form-control inputClass" formControlName="gender"  [readonly]="true">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Instructor Name</b></label>
+                <input type="text" class="form-control inputClass" formControlName="instructorName"  [readonly]="true">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Instructor Contact</b></label>
+                <input type="text" class="form-control"  [readonly]="true" id="contact" formControlName="contact">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Name of the Schedule</b></label>
+                <input type="text" class="form-control"   id="nameOfSchedule" formControlName="nameOfSchedule" [ngClass]="{ 'is-invalid': submitted && f.nameOfSchedule.errors }">
+                <div *ngIf="submitted && f.nameOfSchedule.errors" class="invalid-feedback">
+                  <div *ngIf="f.nameOfSchedule.errors.required">name Of Schedule  is required</div>
+              </div>
+              
+              
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Valid Months</b></label>
+                <input type="number" class="form-control" (change)="DateCalculator(this)" id="scend" formControlName="validMonth" [ngClass]="{ 'is-invalid': submitted && f.validMonth.errors }">
+              
+                <div *ngIf="submitted && f.validMonth.errors" class="invalid-feedback">
+                  <div *ngIf="f.validMonth.errors.required">valid Month is required</div>
+              </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Schedule end</b></label>
+                <input type="text" class="form-control"  [readonly]="true" id="scend" formControlName="endDate">
+              </div>
+            </div>
+
+            <div class="form-row">
+
+
+            </div>
+           
+                <hr>
+                <div class="card-header">
+                  <div class="form-row">
+                    <h4><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; 
+                      <b>Schedule Calender</b></h4>&nbsp;&nbsp;&nbsp;  
+                    <button type="button" *ngIf ="!buttonDisplay" (click)="begginerScheduleBoard()" class="btn btn-success">Beginner &nbsp;<i class="fa fa-plus"
+                      aria-hidden="true"></i></button>
+                      &nbsp; 
+                      <button type="button" *ngIf ="!buttonProDisplay" (click)="normalSchduleBoard()" class="btn btn-info">Pro &nbsp;<i class="fa fa-plus"
+                        aria-hidden="true"></i></button>
+                  </div>
+                 
+                </div>
+                <hr>
+                <!-- Beginner -->
+                <div class="">
+                  <div class="card-header" *ngIf="begginer">
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                      <button type="button" class="btn btn-primary"  (click)="onClickBeginner($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                    </div>
+                    </div>
+                      <h3 style="text-align: center;"><b> <i class="fa fa-id-badge" aria-hidden="true"></i>&nbsp;   Beginnner Schedule</b></h3>
+                    <div *ngFor="let beginner of B.controls; let i = index"   style="align-content: center;">
+                      <div [formGroup]="beginner">
+                        <div class="form-row">
+                          <div class="form-group col-3">
+                            <label>Exersice Name</label>
+                            <input type="text" formControlName="b_name" class="form-control" placeholder="Leg Press"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_name.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_name.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_name.errors.required">Exersice Name is required</div>
+                            </div>
+                          </div>
+                          <div class="form-group col-3">
+                            <label>Reps</label>
+                            <input type="text" formControlName="b_title"  numbersOnly placeholder="2"
+                              class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_title.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_title.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_title.errors.required">Reps is required</div>
+
+                            </div>
+                          </div>
+                        
+                          <div class="form-group col-3">
+                            <label>Sets</label>
+                            <input type="text" formControlName="b_empType" numbersOnly placeholder="Ex:Full Time"
+                              class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && beginner.controls.b_empType.errors }" />
+                            <div *ngIf="submitted && beginner.controls.b_empType.errors" class="invalid-feedback">
+                              <div *ngIf="beginner.controls.b_empType.errors.required">Sets  is required</div>
+                            </div>
+                          
+                          </div>
+                          <div class="form-group col-3">
+                            <label>Delete</label> <br/>
+                            <button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                           
+                        
+                         
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+
+
+                <!-- pro -->
+            <div class="">
+              <div class="card-header" *ngIf="Display">
+                <ngb-tabset>
+                  <ngb-tab title="Day-01">
+                    <ng-template ngbTabContent>
+                      <br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onClickRemove($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let ticket of t.controls; let i = index">
+                        <div [formGroup]="ticket">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
+                              <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
+                                <div *ngIf="ticket.controls.name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && ticket.controls.title.errors }" />
+                              <div *ngIf="submitted && ticket.controls.title.errors" class="invalid-feedback">
+                                <div *ngIf="ticket.controls.title.errors.required">Reps is required</div>
+
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" />
+                              <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                                <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onClickRemove(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                              <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
+                              <div *ngIf="ticket.controls.empType.errors.required">Sets  is required</div>
+                            </div>
+                          
+                           
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Tuesday</b></ng-template>
+                    <ng-template ngbTabContent>
+                
+                  <br />
+                  <div class="form-row">
+                    <div class="form-group col-6">
+                    <button type="button" class="btn btn-primary" (click)="onclickTuesday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveTuesday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                  </div>
+                  </div>
+              
+                  <div *ngFor="let tuesday of T.controls; let i = index">
+                    <div [formGroup]="tuesday">
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <label>Exersice Name</label>
+                          <input type="text" formControlName="t_name" class="form-control" placeholder="Leg Press"
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_name.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_name.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_name.errors.required">Exersice Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Reps</label>
+                          <input type="text" formControlName="t_title"  numbersOnly placeholder="2"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_title.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_title.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_title.errors.required">Reps is required</div>
+
+                          </div>
+                        </div>
+                      
+                        <div class="form-group col-3">
+                          <label>Sets</label>
+                          <input type="text" formControlName="t_empType" numbersOnly placeholder="Ex:Full Time"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && tuesday.controls.t_empType.errors }" />
+                          <div *ngIf="submitted && tuesday.controls.t_empType.errors" class="invalid-feedback">
+                            <div *ngIf="tuesday.controls.t_empType.errors.required">Sets  is required</div>
+                          </div>
+                        
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Delete</label> <br/>
+                          <button type="button" class="btn btn-danger" (click)="onclickRemoveTuesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                     
+                          
+                      
+                       
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    </ng-template>
+                  </ngb-tab>
+                 
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Wednesday</b></ng-template>
+                    <ng-template ngbTabContent>  <br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickwednesday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemovewednesday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let wednesday of W.controls; let i = index">
+                        <div [formGroup]="wednesday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="w_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_name.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_name.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="w_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_title.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_title.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="w_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && wednesday.controls.w_empType.errors }" />
+                              <div *ngIf="submitted && wednesday.controls.w_empType.errors" class="invalid-feedback">
+                                <div *ngIf="wednesday.controls.w_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemovewednesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Thursday</b></ng-template>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickThursday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveThursday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let thursday of Th.controls; let i = index">
+                        <div [formGroup]="thursday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="th_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_name.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_name.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="th_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_title.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_title.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="th_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && thursday.controls.th_empType.errors }" />
+                              <div *ngIf="submitted && thursday.controls.th_empType.errors" class="invalid-feedback">
+                                <div *ngIf="thursday.controls.th_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemovewednesday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Friday</b></ng-template>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickFriday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickRemoveFriday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let friday of Fr.controls; let i = index">
+                        <div [formGroup]="friday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="f_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_name.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_name.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="f_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_title.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_title.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="f_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && friday.controls.f_empType.errors }" />
+                              <div *ngIf="submitted && friday.controls.f_empType.errors" class="invalid-feedback">
+                                <div *ngIf="friday.controls.f_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickRemoveFriday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Saturday</b></ng-template>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickSat($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickremoveSta($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let satarday of S.controls; let i = index">
+                        <div [formGroup]="satarday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="s_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_name.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_name.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="s_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_title.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_title.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="s_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && satarday.controls.s_empType.errors }" />
+                              <div *ngIf="submitted && satarday.controls.s_empType.errors" class="invalid-feedback">
+                                <div *ngIf="satarday.controls.s_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickremoveSta(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Sunday</b></ng-template>
+                    <ng-template ngbTabContent><br />
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                        <button type="button" class="btn btn-primary" (click)="onclickSunday($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="onclickremoveSunday($event)"><b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i></button>                     
+                      </div>
+                      </div>
+                  
+                      <div *ngFor="let sunday of Sun.controls; let i = index">
+                        <div [formGroup]="sunday">
+                          <div class="form-row">
+                            <div class="form-group col-3">
+                              <label>Exersice Name</label>
+                              <input type="text" formControlName="sun_name" class="form-control" placeholder="Leg Press"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_name.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_name.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_name.errors.required">Exersice Name is required</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Reps</label>
+                              <input type="text" formControlName="sun_title"  numbersOnly placeholder="2"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_title.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_title.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_title.errors.required">Reps is required</div>
+    
+                              </div>
+                            </div>
+                          
+                            <div class="form-group col-3">
+                              <label>Sets</label>
+                              <input type="text" formControlName="sun_empType" numbersOnly placeholder="Ex:Full Time"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && sunday.controls.sun_empType.errors }" />
+                              <div *ngIf="submitted && sunday.controls.sun_empType.errors" class="invalid-feedback">
+                                <div *ngIf="sunday.controls.sun_empType.errors.required">Sets  is required</div>
+                              </div>
+                            
+                            </div>
+                            <div class="form-group col-3">
+                              <label>Delete</label> <br/>
+                              <button type="button" class="btn btn-danger" (click)="onclickremoveSunday(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>                                               
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Disabled" [disabled]="true">
+                    <ng-template ngbTabContent>
+                      <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam.
+                        Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus
+                        eget tincidunt eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar
+                        arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat
+                        neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod
+                        facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis
+                        parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in
+                        eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
+                    </ng-template>
+                  </ngb-tab>
+                </ngb-tabset>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br /><br />
+            <button type="submit" class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

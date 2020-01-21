@@ -1,0 +1,57 @@
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header"><h3><b><i class="fa fa-users" aria-hidden="true"></i>
+           New Role Record</b></h3></div>
+        <div class="card-body">
+           <form [formGroup]="RoleGroup" (ngSubmit)="onSubmit()">
+              
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Role ID *</label>
+                    <input type="text" class="form-control" disabled formControlName ="id" placeholder="Role ID" >
+                   
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">Role Name</label>
+                    <input type="text" class="form-control" disabled formControlName="role" placeholder="Role Name"  >        
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">User Name</label>
+                    <input type="text" class="form-control" disabled formControlName="name" placeholder="Role Name"  >        
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">Email</label>
+                    <input type="text" class="form-control" disabled formControlName="email" placeholder="Role Name"  >        
+                  </div>
+                </div>
+         
+                <div class="form-row">
+                  <div class="form-group col-md-3" >
+                    <label for="inputPassword4"><b>Change Role</b></label>
+                    <select id="inputState" formControlName= "changeRole" (click) = changeRole($event)  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                      <option selected>Choose...</option>
+                      <option>User</option>
+                      <option>Admin</option>
+                      <option>Customer</option>
+                      <option>Supplier</option>
+                      <option>Instructor</option>
+                    </select>
+                    <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                      <div *ngIf="f.gender.errors.required">Role is required</div>
+                    </div>        
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update<i class="fa fa-book" aria-hidden="true"></i></button>
+              </form>
+                
+            </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -14,6 +14,7 @@ export class UserNewRoleComponent implements OnInit {
   submitted = false;
   loading = false;
   error = '';
+  group_Name: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,10 +24,19 @@ export class UserNewRoleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.authenticationService.getGroupName()
+    .subscribe(
+      res=>{
+        console.log(res);
+        this.group_Name = res;
+      }
+    )
+
     this.roleRegisterForm = this.formBuilder.group({
       roleID: ['', Validators.required],
       roleName: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      groupName:['', Validators.required]
     })
   }
 
@@ -40,9 +50,11 @@ export class UserNewRoleComponent implements OnInit {
     this.loading = true;
     
     let UserRole = {
+      // "_id" :this.roleF.roleName.value,
       "roleID": this.roleF.roleID.value,
       "roleName": this.roleF.roleName.value,
-      "description": this.roleF.description.value
+      "description": this.roleF.description.value,
+      "GroupName":this.roleF.groupName.value
     }
     console.log(JSON.stringify(UserRole));
     if (this.roleRegisterForm.valid) {

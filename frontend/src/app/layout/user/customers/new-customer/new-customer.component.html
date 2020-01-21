@@ -1,0 +1,122 @@
+<div class="card mb-8">
+    <div class="card-body table-responsive">
+      <div class="col-md-12">
+        <div class="card bg-light mb-2">
+          <div class="card-header"><b>Customer New Record</b> 
+            <div style="color:red"> <b>{{errorValue}}</b> </div>
+           </div>
+          <div class="card-body">
+              <form [formGroup] = "cusRegister" (ngSubmit)="onSubmit()">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Customer Id</label>
+                  <input type="text" class="form-control" formControlName ="id"  disabled #userID>
+                     </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" formControlName = "email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">emailname is required</div>
+                      <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="firstName">First Name</label>
+                      <input type="text" class="form-control" formControlName ="firstName"  placeholder="First Name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">Firstname is required</div>
+                    </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" formControlName = "lastName" placeholder="Last Name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                          <div *ngIf="f.lastName.errors.required">LastName is required</div>
+                      </div>
+                      </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="phonenumber">Contact No</label>
+                      <input matInput class="form-control" maxlength="10"  formControlName = "phonenumber" placeholder="Phone Number"  [ngClass]="{ 'is-invalid': submitted && f.phonenumber.errors }">
+                          <div *ngIf="submitted && cusRegister.get('phonenumber').hasError('required')" class="invalid-feedback">
+                            Phone Number is required
+                          </div>
+                          <div *ngIf="cusRegister.get('phonenumber').hasError('pattern')" class="invalid-feedback">
+                            It is not a valid mobile number.
+                          </div>
+                    </div>
+                  
+                    <div class="form-group col-md-6">
+                      <label for="emergencyNumber">Emergency Number</label>
+                      <input matInput class="form-control" maxlength="10"  formControlName = "emergencyNumber" placeholder="Emergency Number"  [ngClass]="{ 'is-invalid': submitted && f.emergencyNumber.errors }">
+                          <div *ngIf="submitted && cusRegister.get('emergencyNumber').hasError('required')" class="invalid-feedback">
+                           Emergency Phone Number is required
+                          </div>
+                          <div *ngIf="cusRegister.get('emergencyNumber').hasError('pattern')" class="invalid-feedback">
+                            It is not a valid Emergency number.
+                          </div>
+                    </div>
+              </div>
+              <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">NIC Number</label>
+                <input type="text" class="form-control" (keyup)="onKey($event)" formControlName = "nicNumber" placeholder="Nic Number" [ngClass]="{ 'is-invalid': submitted && f.nicNumber.errors }">
+              
+                <div *ngIf="submitted && cusRegister.get('nicNumber').hasError('required')" class="invalid-feedback">
+                  Nic Number is required
+                </div>
+                <div *ngIf="cusRegister.get('nicNumber').hasError('pattern')" class="invalid-feedback">
+                  It is not a valid NIC number.
+                </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="firstName">Gender</label>
+                <input type="text" class="form-control" formControlName = "gender" *ngIf ="dateFieldValid" [readOnly] = "true" placeholder="Last Name"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                <input type="text" class="form-control"  *ngIf ="!dateFieldValid" [readOnly] = "true" placeholder="Fill the NIC Number"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">          
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">User Name</label>
+                <input type="text" class="form-control" formControlName = "username" placeholder="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required">username is required</div>
+              </div>
+              </div>
+
+
+           
+             
+
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="firstName">Address</label>
+                <input type="text" class="form-control" formControlName ="address"  placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                  <div *ngIf="f.address.errors.required">Firstname is required</div>
+              </div>
+              </div>
+            </div>
+            <div class="form-row">
+              
+              <div class="form-group col-md-12">
+               <label>Description</label>
+               <textarea rows="3" class="form-control" placeholder="Description" formControlName="description"></textarea>
+                   
+           </div>
+
+                </div>
+                      <button type="submit" class="btn btn-primary">Register <i class="fa fa-book" aria-hidden="true"></i></button>
+           
+                </form>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+              
+              

@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -12,7 +13,9 @@ import { SignupComponent } from './signup.component';
     TranslateModule,
     SignupRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgbDropdownModule
+    
   ],
   declarations: [SignupComponent]
 })

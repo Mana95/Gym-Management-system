@@ -7,6 +7,7 @@ export class User {
     lastName: string;
     assignRole: string;
     email: string;
+    user_id:string;
     address: string;
     city: string;
     state:string;
@@ -14,5 +15,13 @@ export class User {
     description:string;
     active:boolean;
     token?: string;
-    image: string;  
+    image: string;
+    role:string;
+    phonenumber:number; 
+}
+
+export enum UserRegistrationStatus {
+    SUCCESS = 1,
+    FAILED = 2,
+    DUPLICATEUSER = 3,
 }

@@ -1,266 +1,168 @@
-<div [@routerTransition]>
-    <app-page-header [heading]="'Bootstrap Grid'" [icon]="'fa-wrench'"></app-page-header>
-
-    <div class="row">
-        <div class="col-xl-12 text-xs-center">
-            <div class="card mb-3">
+<div class="card mb-8">
+    <div class="card-body table-responsive">
+        <div class="col-md-12">
+            <div class="card bg-light mb-2">
+                <div class="card-header">
+                    <h2><b>Good Received Note</b></h2>
+                </div>
                 <div class="card-body">
-                    .col-xl-12
+                    <form [formGroup]="grnGroup" (ngSubmit)="onSubmit()">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_Id">GRN Id</label>
+                                <input class="form-control" formControlName="grnId" type="text" readonly
+                                    id="example-date-input" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Current date</label>
+                                <input type="text" formControlName="date" readonly class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6" (change)="getPurchaseOrderValue(data)">
+                                <label for="Supplier_Id">Purchase Order ID</label>
+                                <select class="form-control" #data formControlName="purchaseOrderId">
+                                    <option selected>Choose...</option>
+                                    <option *ngFor="let data of poId">{{
+                                        data.purchaseOrderId
+                                    }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Supplier ID</label>
+                                <input type="text" formControlName="supplierId" readonly class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Purchase order date</label>
+                                <input type="text" formControlName="purchaseOrderDate" readonly class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Supplier Name</label>
+                                <input type="text" formControlName="supplierName" readonly class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Category Name</label>
+                                <input type="text" readonly formControlName="categoryName" class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="Supplier_name">Supplier Address</label>
+                                <input type="text" readonly formControlName="supplierAdress" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="exampleFormControlTextarea1">Note</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                    formControlName="note"></textarea>
+                            </div>
+                        </div>
+
+                        <br />
+                        <table class="table table-striped table-hover table-bordered table-sm" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;" scope="col">
+                                        Item Id
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Item Name
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Quantity
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Buying Price Rs:
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Amount Rs:
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Status
+                                    </th>
+                                    <th style="text-align: center;" scope="col">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr formArrayName="credentials"
+                                    *ngFor="let creds of grnGroup.controls.credentials?.value;trackBy: onTrackById; let i = index">
+                                    <td style="text-align: center;" [formGroupName]="i">
+                                        <b>{{creds.itemId }} </b>
+                                    </td>
+                                    <td style="text-align: center;" [formGroupName]="i">
+                                        <b>{{ creds.itemName }}</b>
+                                    </td>
+                                    <td style="text-align: center;" [formGroupName]="i">
+                                        <b>{{ creds.qty }}</b>
+                                    </td>
+                                    <td style="text-align: center;" [formGroupName]="i">
+                                      
+                                            <input type="text"  appTwoDigitDecimaNumber formControlName ="price" class="form-control" size="5" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+                                            <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                                                <div *ngIf="f.price.errors.required">Price is Required</div>
+                                              </div>
+                                        </td>
+                                   
+                                    <td style="text-align: center;" [formGroupName]="i">
+                                        <b>{{ creds.amount }}</b>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="'Pending' == creds.status"
+                                        style="color:Gold; text-align: center; ">
+                                        <i class="fa fa-spinner" aria-hidden="true"></i>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="'Approved' == creds.status"
+                                        style="color:green; text-align: center; ">
+                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    </td>
+                                    <td style="text-align: center;" [formGroupName]="i" >
+                                        <button type="button" class="btn btn-success btn-sm"
+                                            (click)="pushValue( i)">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="form-group col-md-3">
+                                    <label for="Supplier_Id"><b>Total</b></label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                          <div class="input-group-text"><b>Rs:</b></div>
+                                        </div>
+                                        <input type="text" class="form-control" appTwoDigitDecimaNumber  id="inlineFormInputGroup"  placeholder="00.00" formControlName="totalAmount">
+ 
+                                    </div>
+                                    <!-- <input type="text" formControlName="totalAmount" placeholder="Total Amount" readonly
+                                        class="form-control" appTwoDigitDecimaNumber size="1"
+                                        id="inlineFormInputGroup" /> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                &nbsp;Generate Good Received Note
+                            </button>
+                            &nbsp;
+                            <button type="button" class="btn btn-danger">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                &nbsp;Cancel
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-6 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-6
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-6
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-4 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-4
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-4
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-4
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-2
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-1 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-1
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-8 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-8
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-4
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-6
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 text-xs-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    .col-xl-3
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
 </div>

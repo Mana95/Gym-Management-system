@@ -7,11 +7,28 @@ module.exports = {
 
     User: require('../users/user.model'),
     Job: require('../jobs/job.model'),
+    Catagory: require('../catagory/catagory.model'),
+    SubCatagory: require('../catagory/subcatagory.model'),
+    Customers: require('../users/customer.model'),
+    Supplier:require('../users/supplier.model'),
+    PurchaseOrder:require('../orders/poOrder.model'),
+    GRN:require('../orders/GRN.model'),
+    passwordResetToken:require('../users/resettoken'),
+    MembershipType: require('../users/membership-type.model'),
+    Membership: require('../users/membership.model'),
+    ScheduleType: require('../users/ScheduleType.model'),
+    Employee: require('../users/employee.model'),
+    SalesOrder:require('../orders/soOrder.model'),
+    Schedule: require('../schedule/newschedule.model'),
+    Instructor:require('../users/instructor.model'),
+   
+    ItemData: require('../catagory/item.model'),
     //Now added
     Uplds: require('../uplds/upload.model'),
     Comments: require('../comments/comment.model'),
     Roles: require('../users/roles/role.model'),
-    Groups: require('../users/group.model')
+    Groups: require('../users/group.model'),
+    Schedule_Plan:require('../schedule/schedule-plan.model')
     
 
     

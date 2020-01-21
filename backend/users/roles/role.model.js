@@ -14,6 +14,9 @@ const schema = new Schema({
     description: {
         type:String,
         required:true
+    },
+    GroupName:{
+        type:String
     }
 });
 

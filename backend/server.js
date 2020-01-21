@@ -17,6 +17,11 @@ app.use(bodyParser.json());
 
 //http  every controller 
     app.use('/users', require('./users/users.controller'));
+    app.use('/catagory', require('./catagory/catagory.controller'));
+    app.use('/order', require('./orders/order.controller'));
+    app.use('/shedule', require('./schedule/schedule.controller'));
+
+
      app.use('/uplds', require('./uplds/upload.controller'));
     app.use('/jobs', require('./jobs/jobs.controller'));
     app.use('/comments', require('./comments/comment.controller'));
@@ -28,8 +33,7 @@ app.use(bodyParser.json());
     
 
 
-
-    var storage = multer.diskStorage({ //multers disk storage settings
+  var storage = multer.diskStorage({ //multers disk storage settings
 
         //Pass function that will generate destination path
         destination: function (req, file, cb) {
@@ -49,25 +53,27 @@ app.use(bodyParser.json());
     });
 
     var upload = multer({ //multer settings
-                    storage: storage
-                }).single('file');
+        storage: storage
+    }).single('file');
 
-    /** API path that will upload the files */
-    app.post('/upload/:uniqueId', function(req, res) {
-        upload(req,res,function(err){
-         
-            if(err){
-                 res.json({error_code:1,err_desc:err});
-                 return;
-            }else {
-                    var fileDetails = req.file;
-                return res.json(req.file);
-            }
-             
-             
-        });
-    });
+/** API path that will upload the files */
+app.post('/upload/:uniqueId', function(req, res) {
+upload(req,res,function(err){
+ //console.log("This is the api file uploaf" + JSON.stringify(req.file));
+console.log(req.params.uniqueId);
 
+// console.log(req.path);
+if(err){
+     res.json({error_code:1,err_desc:err});
+     return;
+}else {
+        var fileDetails = req.file;
+    return res.json(req.file);
+}
+ 
+ 
+});
+});
     app.listen('4000', function(){
         console.log('running on 4000...');
 

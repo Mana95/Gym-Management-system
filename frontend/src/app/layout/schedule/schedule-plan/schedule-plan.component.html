@@ -1,0 +1,117 @@
+<!-- 
+  <div class="card-body table-responsive">
+    <div class="card-header alignment">
+     <h2><b><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>My Schedule Plan</b></h2>
+    </div>
+    <br>
+    <div class="col">
+      <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="userID"><b>Instructor Name: {{displayData.instructorName}} </b></label>
+        </div>
+          <div class="form-group col-md-3">
+            <label for="userID"><b>Instructor Contact Number: {{displayData.contact}}</b></label>
+            </div>
+    </div>
+<hr/>
+<table class="table table-borderless">
+  <thead>
+    <tr>
+      <th scope="col-md-4">Exercise Name</th>
+      <th scope="col-md-4">Reps</th>
+      <th scope="col-md-4">Sets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor ="let data of tableData">
+      <td  >{{data.b_name}}</td>
+      <td >{{data.b_title}}</td>
+      <td>{{data.b_empType}}</td>
+    </tr>
+  </tbody>
+</table>
+  </div> 
+  </div>
+ -->
+ <div class="card-body table-responsive" #pdfTable>
+  <div class="card-header alignment">
+    <h2><b><i class="fa fa-trophy" aria-hidden="true"></i>My Schedule Plan</b></h2>
+   </div>
+   <br/>
+   <div class="container-fluid">
+
+      <div class="row ">
+      <div class="col-sm">
+       <b><label>Instructor Name :</label></b>
+        {{displayData.instructorName}}
+      </div>
+      <div class="col-sm">
+        <b><label>Instructor Contact :</label></b>
+        0{{displayData.contact}}
+      </div>
+      <div class="col-sm">
+        <b><label>Membership Id :</label></b>
+        {{displayData.membershipId}}
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-sm">
+       <b><label>Shcedule Id :</label></b>
+        {{displayData.id}}
+      </div>
+      <div class="col-sm">
+        <b><label>Shcedule Name :</label></b>
+        {{displayData.nameOfSchedule}}
+      </div>
+      <div class="col-sm">
+        <b><label>Created Date :</label></b>
+        2019-12-05
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-sm">
+        <b><label>End Date :</label></b>
+        2018/07/07
+      </div>
+
+      <div class="col-sm">
+        <b><label>Gender :</label></b>
+       <p *ngIf="'Male'==displayData.gender"><i class="fa fa-mars" aria-hidden="true"></i></p> 
+       <p *ngIf="'Female'==displayData.gender"><i class="fa fa-venus" aria-hidden="true"></i></p> 
+      </div>
+
+      <div class="col-sm">
+        <b><label>Birthday :</label></b>
+        1995/2/3
+      </div>
+
+    </div>
+   </div>
+<hr/>
+<div class="card-header alignment">
+  <h2><b><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>Exercises</b></h2>
+ </div>
+<br/>
+ <table class="table table-dark">
+  <thead>
+    <tr>
+      <th  style="text-align: center;" scope="col">Exercise Name</th>
+      <th  style="text-align: center;" scope="col">Sets</th>
+      <th  style="text-align: center;" scope="col">Rounds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of tableData">
+<td style="text-align: center;">{{data.b_name}}</td>
+<td style="text-align: center;">{{data.b_title}}</td>
+<td style="text-align: center;">{{data.b_empType}}</td>
+    </tr>
+ </table>
+
+ </div>
+
+ <button type="button" class="btn btn-primary btn-sm" (click)="downloadAsPDF()">Export as PDF</button>
+
+

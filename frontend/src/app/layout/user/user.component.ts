@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user',
@@ -8,20 +9,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  
+  page = 1;
+  pageSize = 4;
   userview: any;
+  p: number = 1;
+  searchText;
+  profileUrl:any = '../../../../../../backend/uploads/';
   loading = false;
   error = '';
   refresh:false;
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
-
+public getSantizeUrl(url : string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+}
   ngOnInit() {
     this.authenticationService.getAllUsers()
     .subscribe(
       data => {
        this.userview = data
+       this.userview
         console.log(data);
       }
     );
@@ -41,11 +52,12 @@ export class UserComponent implements OnInit {
 
     console.log(data._id);
     let idData = {
-      "id" : data._id
+      "id" : data._id,
+     "EmpId":data.id
     }
     this.authenticationService.deleteRecord(idData)
     .subscribe(data => {
-      console.log(data);
+      console.log(data.message);
       refresh:true;
     },
     error => {

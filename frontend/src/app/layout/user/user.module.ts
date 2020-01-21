@@ -1,19 +1,22 @@
+import { FileUploadModule } from 'ng2-file-upload';
 import { UserComponent } from './user.component';
 import { UserRoutingModule } from './user-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeaderModule } from './../../shared';
-import { NewUserComponent } from './new-user/new-user.component';
-import { UserGroupComponent } from './user-group/user-group.component';
-import { UserRoleComponent } from './user-role/user-role.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditUserComponent } from './edit-user/edit-user.component';
+import { MembershiptypeComponent } from './membershiptype/membershiptype.component';
+import { ScheduleTypeComponent } from './schedule-type/schedule-type.component';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
  
   imports: [
     CommonModule  , UserRoutingModule ,PageHeaderModule ,   FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule ,FileUploadModule ,NgbModule, NgxPaginationModule ,Ng2SearchPipeModule
   ],
   declarations: [UserComponent]
 })
