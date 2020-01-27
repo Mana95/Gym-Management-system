@@ -57,7 +57,7 @@ const routes: Routes = [
             { path: 'schedule_plan/:id', loadChildren: () => import('./schedule/schedule-plan/schedule-plan.module').then(m => m.SchedulePlanModule) },
           
             
-            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Customer] } },
+            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Customer] } },
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             

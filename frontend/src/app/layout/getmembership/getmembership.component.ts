@@ -29,8 +29,9 @@ export class GetmembershipComponent implements OnInit {
   dateFieldValid = false;
   BMIField = false;
   disaster = false;
+  alertDisplay = false;
   error = "";
-
+  showMsg = false;
   currentTime: any;
   day: any;
   currentDate: any;
@@ -63,7 +64,7 @@ export class GetmembershipComponent implements OnInit {
       Height: ["", Validators.required],
       Weight: ["", Validators.required],
       birth: ["", Validators.required],
-
+      customerID:[''],
       disaster: ['', Validators.required],
       description: [""],
       gender: ['', Validators.required],
@@ -103,6 +104,9 @@ export class GetmembershipComponent implements OnInit {
       data=>{
         console.log('data');
         console.log(data);
+        this.getMembershipGroup.controls["customerID"].setValue(
+          data[0].id
+        );
         this.getMembershipGroup.controls["firstName"].setValue(
           data[0].firstName
         );
@@ -420,7 +424,7 @@ export class GetmembershipComponent implements OnInit {
       Weight: Number(this.f.Weight.value),
       disaster: this.f.disaster.value,
       birth: this.f.birth.value,
-
+      customerID : this.f.customerID.value,
       description: this.f.description.value,
 
       gender: this.f.gender.value,
@@ -453,10 +457,18 @@ export class GetmembershipComponent implements OnInit {
         .saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
           response => {console.log('response');
-            console.log(response);       
-            this.submitted = false;  
-            this.getMembershipGroup.reset();
-            this.loadAutoGenId();
+            if(response==1){
+              this.alertDisplay = false;
+              this.showMsg = true;
+              this.submitted = false; 
+              this.submitted = false;  
+              this.getMembershipGroup.reset();
+              this.loadAutoGenId(); 
+            }    else {
+              this.showMsg = false;
+              this.alertDisplay = true;
+            }   
+          
           }
         );
     }

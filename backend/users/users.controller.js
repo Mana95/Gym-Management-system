@@ -74,14 +74,14 @@ async function saveMembershiptypeData(req ,res ,next) {
 }
 
 async function findCustomer(req ,res ,next){
-    console.log(req.params.id);
+ //   console.log(req.params.id);
     userService.findCustomer(req.params.id)
     .then(customer => res.json(customer))
     .catch(err => next(err));
 }
 
 async function ValidPasswordToken(req, res) {
-    console.log('ValidaPasswordTokern')
+    //console.log('ValidaPasswordTokern')
     if (!req.body.resettoken) {
     return res
     .status(500)
@@ -217,7 +217,7 @@ function getAllMembershipType(req ,res ,next){
 }
 
 function supplierMail(req ,res, next){
-    console.log(req.body)
+    //console.log(req.body)
     userService.loginMail(req.body)
     .then(email => res.json(email))
     .catch(err => next(err));
@@ -274,7 +274,7 @@ userService.getCustomerData()
 }
 
 function cusRegister(req ,res ,next){
-    console.log(req.body);
+    //console.log(req.body);
     let cusData = req.body;
     userService.cusRegister(cusData)
     .then(customer => res.json(customer))
@@ -284,7 +284,7 @@ function cusRegister(req ,res ,next){
 
 
 function getuserRole(req,res, next) {
-    console.log("contorller" + req.params.id)
+    //console.log("contorller" + req.params.id)
     let roleValue = req.params.id
     userService.getDetailUsers(roleValue)
     .then(users => res.json(users))
@@ -292,14 +292,14 @@ function getuserRole(req,res, next) {
 }
 
 function getGroupByName(req, res, next){
-    console.log(res.body)
+    //console.log(res.body)
     userService.getGroupNames()
     .then(users => res.json(users))
     .catch(err => next(err));
 }
 
 function getGroupById (req,res,next){
-    console.log("Controller:" +req.params.id)
+   // console.log("Controller:" +req.params.id)
     userService.loadByID(req.params.id)
     .then(user => user ? res.json(user) : res.sendStatus(404))
     .catch(err => next(err));
@@ -308,7 +308,7 @@ function getGroupById (req,res,next){
 
 
 function UpdateUser(req, res, next){
-    console.log("Controller:" + JSON.stringify(req.body));
+    //console.log("Controller:" + JSON.stringify(req.body));
     userService.UpdateUserService(req.body)
      .then(() => res.json({}))
     .catch(err => next(err));
@@ -317,7 +317,7 @@ function UpdateUser(req, res, next){
 function deleteRecord(req,res,next){
 
   //  console.log(req.method);
-    console.log(req.body);
+    //console.log(req.body);
 
     userService.delete(req.body)
     .then(() => res.json({}))
@@ -328,7 +328,7 @@ function deleteRecord(req,res,next){
 
 
 function groupCreation(req,res,next){
-    console.log(req.body);
+   // console.log(req.body);
     userService.groupinsertion(req.body)
     .then(users => res.json- (users))
     .catch(err => next(err));
@@ -341,7 +341,7 @@ function getAllRoles(req,res,next){
 }
 
 function getAllGroups(req, res , next){
-    console.log("hey there");
+    //console.log("hey there");
     userService.getGroups()
     .then(users => res.json(users))
     .catch(err => next(err));
@@ -384,7 +384,7 @@ function instructorSave(req , res ,next){
 }
 
 function userCreation (req, res , next) {
-    console.log(req.body);
+    //console.log(req.body);
     userService.creationUser(req.body)
     .then(() => res.json({}))
     .catch(err => next(err));
@@ -392,7 +392,7 @@ function userCreation (req, res , next) {
 
 function signUp(req, res, next){
     let currentUser = req.body.firstName
-    console.log('SIGNUp'+ currentUser);
+   // console.log('SIGNUp'+ currentUser);
     userService.signUpUser(req.body)
         .then(user =>{
             if(user){
@@ -407,7 +407,7 @@ function signUp(req, res, next){
 }
 
 function authenticate(req, res, next) {
-    console.log(req.body)
+  //  console.log(req.body)
     userService.authenticate(req.body)
         .then(user => {
             user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' 
@@ -418,7 +418,7 @@ function authenticate(req, res, next) {
 
 function register(req, res, next) {
 
-    console.log(req.body);
+    //console.log(req.body);
     userService.create(req.body)
         .then((user) => res.json({}))
         .catch(err => next(err));
@@ -443,7 +443,7 @@ function getCurrent(req, res, next) {
 }
 
 function getById(req, res, next) {
-    console.log("getByid method in controller" + req.params.id)
+   // console.log("getByid method in controller" + req.params.id)
     
     userService.getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
@@ -457,7 +457,7 @@ function update(req, res, next) {
 }
 
 function _delete(req, res, next) {
-    console.log(req.body)
+    //console.log(req.body)
     userService.delete(req.params.id)
         .then(() => res.json({}))
         .catch(err => next(err));

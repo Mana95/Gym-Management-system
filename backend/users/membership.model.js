@@ -7,6 +7,11 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    customerID: {
+        type: String,
+        required: true
+   
+    },
     email: {
 
         type: String,

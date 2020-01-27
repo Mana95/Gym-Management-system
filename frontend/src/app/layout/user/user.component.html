@@ -44,14 +44,14 @@
                                 <tbody>
                                   <tr *ngFor="let data of  userview | paginate:{ itemsPerPage: 10 ,currentPage: p} | filter:searchText ">
                                     <td style="text-align: center;">{{data.date}}</td>
-                                    <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]=getSantizeUrl(data.imagePath)/></td>
+                                     <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]="data.imagePath"/></td>
                                     <td style="text-align: center;">{{data.id}}</td>  
                                     <td style="text-align: center;">{{data.firstName}} {{data.LastName}}</td>
                                     <td style="text-align: center;">{{data.phonenumber}}</td>
                                     <td style="text-align: center;">{{data.email}}</td>
-                                    <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
+                                    <td style="text-align: center;"><button type="button"   (click)="routePage(data)" class="btn btn-primary btn-sm"><i
                                           class="fa fa-pencil" aria-hidden="true"></i></button> &nbsp;
-                                      <button type="button" class="btn btn-danger btn-sm"(click)="deleteRecord(data)" ><i class="fa fa-trash-o"
+                                      <button type="button" (click)="deleteRecord(data)" class="btn btn-danger btn-sm"(click)="deleteRecord(data)" ><i class="fa fa-trash-o"
                                           aria-hidden="true"></i></button></td>
                   
                                   </tr>

@@ -121,7 +121,7 @@ onSubmit(userID) {
 //alert("This is the Submit Form");
 let idData = this.userId;
 let cusId = this.cusId;
-console.log(idData);
+//console.log(idData);
 
 let cusParam = {
     "id": cusId,
@@ -138,7 +138,7 @@ let cusParam = {
       "active" : "true"
 
 }
-console.log(cusParam)
+//console.log(cusParam)
 //main table is user
 let userParam = {
     "user_id": idData,
@@ -158,26 +158,26 @@ let userParam = {
 
 
 
-console.log(cusParam)
+//console.log(cusParam)
 
 if(this.registerForm.valid){
 //inserting to the user table
 this.authenticationService.register(userParam)
 .subscribe(
     data=> {
-        console.log('data');
-        console.log(data);
+     //   console.log('data');
+      //  console.log(data);
         this.customerData = true;
        
         if(data == UserRegistrationStatus.DUPLICATEUSER ){
             this.active = true;
             this.errorValue = 'User Name is available';
-            console.log(this.errorValue);
+          console.log(this.errorValue);
         }
        // setTimeout(function(){  this.active =false; }, 2000);
     },
     error => {
-        console.log('error');
+     //   console.log('error');
         console.log(error)
         this.loading = false;
        

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const db = require('_helpers/db');
 
 const schema = new Schema({
 
@@ -7,15 +8,15 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    firstName:{
+    firstName: {
         type: String,
         required: true
     },
-    username:{
+    username: {
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true
     },
@@ -26,7 +27,6 @@ const schema = new Schema({
     active: {
         type: Boolean,
     },
-   
     role: {
         type: String,
         required: true
@@ -35,9 +35,23 @@ const schema = new Schema({
         type: Date,
         default: Date.now
 
-    }  
+    }
 });
 
-schema.set('toJSON', { virtuals: true });
 
+
+
+
+schema.set('toJSON', { virtuals: true });
 module.exports = mongoose.model('User', schema);
+
+// const pipeline = [
+//     { $match: { expire_date: {$lt: Date.now()} } },
+//     { $set: { active: false } }
+//   ];
+//   const collection =  mongoose.model('User', schema);
+//   const changeStream = collection.watch(pipeline);
+//   rs.initiate(collection);
+//   changeStream.on('change', next => {
+//     // process next document
+//   });

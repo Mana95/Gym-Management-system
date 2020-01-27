@@ -29,6 +29,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
         
 
     ],
+    
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
 })
 export class LayoutModule {}

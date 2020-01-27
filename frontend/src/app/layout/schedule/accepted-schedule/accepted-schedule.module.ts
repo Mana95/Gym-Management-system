@@ -55,7 +55,7 @@ const customNotifierOptions: NotifierOptions = {
 
 
 @NgModule({
-  declarations: [AcceptedScheduleComponent ,NumberDirective],
+  declarations: [AcceptedScheduleComponent],
   imports: [
     CommonModule ,AcceptedScheduleRoutingModule, ReactiveFormsModule ,NgbModule , NotifierModule.withConfig(customNotifierOptions)
   ]

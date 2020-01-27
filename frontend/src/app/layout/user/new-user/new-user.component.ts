@@ -12,6 +12,7 @@ import * as moment from "moment";
 import { Observable, merge, forkJoin } from 'rxjs';
 import { switchMap, map, catchError, flatMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-new-user',
@@ -47,6 +48,7 @@ export class NewUserComponent implements OnInit {
 
   user = new User();
   constructor(
+    private sanitizer:DomSanitizer,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -55,9 +57,27 @@ export class NewUserComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private modalService: NgbModal
   ) { }
-
+  Url:any;
+  pdfSrc : '/backend/uploads/E_P3IB1U2R'
   ngOnInit() {
+
+
+    this.loadData();
     //let Phonenumber = "^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$"
+    this.Url = this.sanitizer.bypassSecurityTrustUrl(this.pdfSrc);
+  }
+  //validation the phone number
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+
+    }
+
+  }
+
+  loadData() {
     this.userRegisterFrom = this.formBuilder.group({
       id: [''],
       email: ['', [Validators.required, Validators.email]],
@@ -93,16 +113,6 @@ export class NewUserComponent implements OnInit {
       this.userRegisterFrom.controls["id"].setValue(id);
 
     }
-  }
-  //validation the phone number
-  _keyPress(event: any) {
-    const pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-
-    }
-
   }
 
 
@@ -350,22 +360,28 @@ else if (dayText > 31) {
             this.authenticationService.userCreationPub(UserData),this.authenticationService.EmployeeCreate(UserCreationParam)
           ).subscribe(
             res=>{
-              this.router.navigate(['/newUser']);
+              
+              
+              //this.router.navigate(['/newUser']);
               this.funcA(res[0], res[1] ,content ,contentDone);
             },
             error=>{
               console.log(error);
+            },
+            ()=>{
+              this.submitted = false;
+              this.userRegisterFrom.reset();
+              this.loadData();
+
             }
           )
           
           },
       );
-    }
+    }   
 
   }
   funcA(response1 , resonse2 ,content ,contentDone){
-   // console.log(namee)
-    //console.log('dsadsadas');
     if(response1 ==UserRegistrationStatus.DUPLICATEUSER){
       this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
     }else if(resonse2 ==UserRegistrationStatus.DUPLICATEUSER){

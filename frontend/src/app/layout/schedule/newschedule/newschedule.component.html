@@ -1,10 +1,19 @@
 <div class="row"  *ngIf="showMsg">
   
     <p class="alert alert-success">
-        <strong>Registration Success!</strong> Please click here to login!.
+        <strong>Shcedule request Successfully Send!</strong>
 
     </p>
   
+</div>
+
+<div class="row"  *ngIf="alertDisplay">
+  
+  <p class="alert alert-danger">
+      <strong>You were already send a request!</strong>
+
+  </p>
+
 </div>
 
 <div class="card mb-8">

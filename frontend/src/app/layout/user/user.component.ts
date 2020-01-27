@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
+
 export class UserComponent implements OnInit {
   
   page = 1;
@@ -28,6 +29,13 @@ public getSantizeUrl(url : string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
 }
   ngOnInit() {
+
+
+
+    this.loadTableData();
+  
+  }
+  loadTableData() {
     this.authenticationService.getAllUsers()
     .subscribe(
       data => {
@@ -37,7 +45,6 @@ public getSantizeUrl(url : string) {
       }
     );
   }
-
   routePage(data) {
 
    // alert(data.userId)
@@ -50,14 +57,14 @@ public getSantizeUrl(url : string) {
 
   deleteRecord(data) {
 
-    console.log(data._id);
+  //  console.log(data._id);
     let idData = {
       "id" : data._id,
      "EmpId":data.id
     }
     this.authenticationService.deleteRecord(idData)
     .subscribe(data => {
-      console.log(data.message);
+      // console.log(data.message);
       refresh:true;
     },
     error => {
@@ -65,7 +72,7 @@ public getSantizeUrl(url : string) {
       this.loading = false;
 
     });
-    location.reload();
+    this.loadTableData();
   }
 
 }

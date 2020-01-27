@@ -1,3 +1,6 @@
+import { NumberDirective } from './../../_directives/numbers-only.directive';
+import { SanitizeHtmlDirective } from './../../_directives/sanitize-html.directive';
+import { TwoDigitDecimaNumberDirective } from './../../_directives/twodigitdecimalnumber.directive';
 import { BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +9,7 @@ import '../../config/ngx-bootstrap.config';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [],
+  declarations: [TwoDigitDecimaNumberDirective ,SanitizeHtmlDirective ,NumberDirective],
   imports: [
     CommonModule,
     NgbModule,
@@ -14,7 +17,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   exports: [
     CommonModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    TwoDigitDecimaNumberDirective,
+    NumberDirective,
+    SanitizeHtmlDirective
   ]
 })
 export class SharedModule {

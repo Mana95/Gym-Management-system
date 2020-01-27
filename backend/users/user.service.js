@@ -166,6 +166,7 @@ async function insertMembership(body) {
     console.log(body.UserDatabody);
     //Find in collection
     const membershipfind1 = await Membership.findOne({ username: body.membershipbody.username});
+    const checkStatus = await Membership.findOne({ customerID: body.membershipbody.customerID , status :"false"});
     const membershipfind2 = await Membership.findOne({email: body.membershipbody.email});
     const userFind1 =await User.findOne({username:body.UserDatabody.username});
     const userFind2 =await User.findOne({email: body.UserDatabody.email});
@@ -174,7 +175,8 @@ async function insertMembership(body) {
      const user = new User(body.UserDatabody);
      const membership = new Membership(body.membershipbody);
     
-     
+     if(!checkStatus){
+        
    if(!(membershipfind1 && userFind1)){
     if (body.membershipbody.password && body.UserDatabody.password) {
         membership.hash = bcrypt.hashSync(body.membershipbody.password, 10);   
@@ -183,9 +185,13 @@ async function insertMembership(body) {
     if(await membership.save()){
         //console.log('Save una');
         await user.save();
+        return 1;
     } 
    }else{
      return 3;
+}
+}else{
+    return 4;
 }
 }
 

@@ -1,3 +1,5 @@
+import { SharedModule } from 'src/app/shared/shared/shared.module';
+import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { FileUploadModule } from 'ng2-file-upload';
 import { UserComponent } from './user.component';
 import { UserRoutingModule } from './user-routing.module';
@@ -16,7 +18,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
  
   imports: [
     CommonModule  , UserRoutingModule ,PageHeaderModule ,   FormsModule,
-    ReactiveFormsModule ,FileUploadModule ,NgbModule, NgxPaginationModule ,Ng2SearchPipeModule
+    ReactiveFormsModule ,FileUploadModule ,NgbModule, NgxPaginationModule ,Ng2SearchPipeModule ,SharedModule
   ],
   declarations: [UserComponent]
 })

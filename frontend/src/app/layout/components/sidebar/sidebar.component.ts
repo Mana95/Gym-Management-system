@@ -35,8 +35,8 @@ export class SidebarComponent implements OnInit {
             }
         });
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-        console.log('Constructor');
-        console.log(this.currentUser.role)
+        //console.log('Constructor');
+      //  console.log(this.currentUser.role)
     }
 
     ngOnInit() {
@@ -46,23 +46,23 @@ export class SidebarComponent implements OnInit {
         this.showMenu = '';
         this.showMenuCat = '';
         this.pushRightClass = 'push-right';
-        console.log('ROLE')
-        console.log(Role);
+     //   console.log('ROLE')
+      //  console.log(Role);
         this.authenticationService.getAllRole()
         .subscribe(
             response=>{
-                console.log('RESPONSE ABOUT ROLES');
+              //  console.log('RESPONSE ABOUT ROLES');
                 // console.log(response[0]);
                 // console.log(response[0].roleName)
                 let i=0;
                 while(this.currentUser.role ==response[i].roleName ){
                    
-                    console.log('CURRUNT ROLENAME')
-                    console.log(response[i].roleName)
+                //    console.log('CURRUNT ROLENAME')
+                //    console.log(response[i].roleName)
                     if(this.currentUser.role ==response[i].roleName ){
-                        console.log('While Loop')
+                     //   console.log('While Loop')
                         this.role_name_array.push(response[i].roleName );
-                        console.log(this.role_name_array);
+                     //   console.log(this.role_name_array);
                     }
                     i++;
                 }
@@ -102,14 +102,10 @@ export class SidebarComponent implements OnInit {
     }
 
     get Membership () {
-        if(this.currentUser.role === Role.Admin){
-            return this.currentUser && this.currentUser.role === Role.Admin 
-        }
-        else if(this.currentUser.role === Role.Customer){
-
+        if(this.currentUser.role === Role.Customer){
             return this.currentUser && this.currentUser.role === Role.Customer;
         }
-        
+      
     }
     // get Schedule() {
 

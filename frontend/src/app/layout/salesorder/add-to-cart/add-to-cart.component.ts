@@ -4,7 +4,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Cart } from 'src/app/_models/cart';
 
@@ -16,8 +16,9 @@ import { Cart } from 'src/app/_models/cart';
 export class AddToCartComponent implements OnInit {
   private currentCartSubject: BehaviorSubject<Cart>;
   public currentCart: Observable<Cart>;
-
+  viewCartForm:FormGroup
   cartData :any;
+  totalValue:any;
 
 
   constructor(
@@ -28,10 +29,7 @@ export class AddToCartComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder
   ) {
-    this.currentCartSubject = new BehaviorSubject<Cart>(
-      JSON.parse(localStorage.getItem("cartObject"))
-    );
-    this.currentCart = this.currentCartSubject.asObservable();
+    
       //console.log('constructor');
      // console.log(this.currentCartSubject.value);
   }
@@ -41,6 +39,62 @@ export class AddToCartComponent implements OnInit {
   }
 
   loadDataCart() {
+    this.currentCartSubject = new BehaviorSubject<Cart>(
+      JSON.parse(localStorage.getItem("cartObject"))
+    );
+    this.currentCart = this.currentCartSubject.asObservable();
       this.cartData = this.currentCartSubject.value;
+  }
+
+  changeValue(inputNumber ,data) {
+  
+    this.changeCartData(inputNumber.value ,data)
+    this.loadDataCart();
+  }
+
+
+  changeCartData(inputNumber , data) {
+    //localStorage.setItem('cartObject', JSON.stringify(data));
+   
+    let cart =  JSON.parse(localStorage.getItem('cartObject'));
+    let isInCart = false;
+    if(cart){
+      console.log('Cart');
+      console.log(cart);
+      isInCart = cart.some(item=>item.id===data.id);
+    }else {
+      cart = [];
+    }
+   
+    if(isInCart){
+     cart.map(item => {
+       if (item.id === data.id) {
+         if(item.qty>inputNumber){
+           item.qty = inputNumber;
+           let newTotal =  inputNumber* item.sellingPrice;
+           item.totalPrice = newTotal;
+           console.log(data.qty)
+           this.loadDataCart();
+         }
+           else{
+        
+         item.qty = Number(inputNumber);
+         let newTotal =  Number(inputNumber)* item.sellingPrice;
+           item.totalPrice = newTotal;
+           this.totalValue = newTotal;
+         this.loadDataCart();
+       }
+       }
+       return item;
+     });
+    }else {
+     cart.push(data);
+   }
+    localStorage.setItem('cartObject', JSON.stringify(cart)); 
+    return
+     }
+
+  onSubmit() {
+
   }
 }

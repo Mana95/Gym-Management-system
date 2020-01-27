@@ -241,6 +241,7 @@ export class AuthenticationService {
         logout(): void {
           // remove user from local storage to log user out
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('cartObject');
           this.currentUserSubject.next(null);
         }
       

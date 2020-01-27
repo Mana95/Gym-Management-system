@@ -23,6 +23,7 @@ export class NewscheduleComponent implements OnInit {
   submitted =false;
   loading = false;
   showMsg = false;
+  alertDisplay = false;
 
   currentTime:any;
   currentDate:any;
@@ -118,12 +119,20 @@ this.requestScheduleGroup.controls["date"].setValue(
       .subscribe(
         response=>{
           console.log(response);
+         
+          if(response == 1){
+            this.alertDisplay = false;
+            this.showMsg = true;
+          }else{
+            this.showMsg = false;
+            this.alertDisplay = true;
+          }
         },
         error=>{
           console.log(error);
         },
         ()=>{
-          this.showMsg = true;
+          
           let type = 'success';
           let message = 'Data is Success';
 
