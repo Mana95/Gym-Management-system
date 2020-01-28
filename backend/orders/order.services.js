@@ -40,7 +40,7 @@ async function getAllDataSo() {
     return await SalesOrder.find({status:false});
 }
 async function salesOrderInsert(data){
-    console.log('SAVE WENNAI YANNE');
+    //console.log('SAVE WENNAI YANNE');
 
     const salesOrder = new SalesOrder(data);
     //console.log(itemData);
@@ -48,7 +48,7 @@ async function salesOrderInsert(data){
 }
 
 async function updateStatus(data){
-    console.log(data)
+    //console.log(data)
         let val = {
             id:data.id,
             status:'Approved'
@@ -70,7 +70,7 @@ async function updateStatus(data){
 }
 
 async function SaveDataGrn(data){
-    console.log('SAVE WENNAI YANNE');
+  //  console.log('SAVE WENNAI YANNE');
 
     const grn = new GRN(data);
     //console.log(itemData);
@@ -110,11 +110,11 @@ async function getPending() {
 }
 
 async function updateByqantityDelete(data) {
-    console.log('delete')
-    console.log(data);
+   // console.log('delete')
+   // console.log(data);
     var query = {id : data.id}
     var x = data.quantity;
-   console.log(x);
+  // console.log(x);
         ItemData.updateOne({id:data.id},
              {
                  $inc:{quantity: -x}
@@ -127,7 +127,7 @@ async function updateByqantityDelete(data) {
 }
 
 async function updateByqantity(quantity) {
-    console.log(quantity);
+   // console.log(quantity);
     var x = quantity.quantity
     ItemData.updateOne({id:quantity.id},
         {
@@ -154,7 +154,7 @@ async function updateByqantity(quantity) {
 }
 
 async function InsertData(data){
-    console.log('SERVICE');
+   // console.log('SERVICE');
     const purcahseOrder = new PurchaseOrder(data);
     //console.log(itemData);
     await purcahseOrder.save();

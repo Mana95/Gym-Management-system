@@ -43,21 +43,21 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
       
-  console.log('Here is the Login method');
+  //console.log('Here is the Login method');
    this.submitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
-    console.log(this.f.username.value);
+   // console.log(this.f.username.value);
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
 
       .pipe(first())
       .subscribe(
         data => {
-         console.log(data)
+         //console.log(data)
          this.router.navigate(['/dashboard']);
        //   console.log(gat)
         //  this.router.navigate([]);

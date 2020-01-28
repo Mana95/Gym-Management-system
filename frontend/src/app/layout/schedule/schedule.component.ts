@@ -24,6 +24,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.loadTableData();
+    
+  }
+  loadTableData() {
     let userId = this.currentUserSubject.value.user_id
     this.scheduleService.getMySchedule(userId)
     .subscribe(
@@ -33,7 +38,6 @@ export class ScheduleComponent implements OnInit {
       }
     )
   }
-
   routePage(data){
     console.log(JSON.stringify(data));
     this.router.navigate(['/schedule_plan', data.membershipId]);

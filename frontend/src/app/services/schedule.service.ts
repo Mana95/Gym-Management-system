@@ -40,14 +40,14 @@ export class ScheduleService {
   }
 
    RejectRecord(id){
-     console.log(id);
+     //console.log(id);
      let data = {
        id:id
      }
     return this.http.post(config.PAPYRUS+`/shedule/RejectRecord` , data);
    }
    updateRecord(data) {
-     console.log(data);
+    // console.log(data);
      return this.http.post(config.PAPYRUS+`/shedule/updateRecord` , data);
     
    }

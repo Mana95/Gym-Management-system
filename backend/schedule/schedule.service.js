@@ -34,7 +34,7 @@ async function  getById(id){
 async function createSchedule(data) {
        let updateData = {
             membershipId: data.membershipId,
-            status: 3
+            status: 4
         }
     const schedule_Plan = new Schedule_Plan(data);  
     if(await schedule_Plan.save()){
@@ -116,7 +116,7 @@ async function updateRecord(data){
 }
 
 async function PendingSchedule() {
-    return await Schedule.find({acceptStatus:false})
+    return await Schedule.find({status:1})
 }
 
 async function getByMySchedule(id){

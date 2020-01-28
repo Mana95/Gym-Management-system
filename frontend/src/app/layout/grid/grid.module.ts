@@ -1,5 +1,5 @@
-import { TwoDigitDecimaNumberDirective } from './../../_directives/twodigitdecimalnumber.directive';
-import { NumberDirective } from './../../_directives/numbers-only.directive';
+import { SharedModule } from 'src/app/shared/shared/shared.module';
+
 import { FormModule } from './../form/form.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -10,7 +10,7 @@ import { GridComponent } from './grid.component';
 import { PageHeaderModule } from './../../shared';
 
 @NgModule({
-    imports: [CommonModule, GridRoutingModule, PageHeaderModule, ReactiveFormsModule,FormModule],
+    imports: [CommonModule, GridRoutingModule, PageHeaderModule, ReactiveFormsModule,FormModule ,SharedModule],
     declarations: [GridComponent]
 })
 export class GridModule {}

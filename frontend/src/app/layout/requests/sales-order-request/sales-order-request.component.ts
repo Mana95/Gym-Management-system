@@ -11,18 +11,22 @@ export class SalesOrderRequestComponent implements OnInit {
   constructor(   private orderService : OrderService) { }
 
   ngOnInit() {
-this.orderService.getAllSo()
-.subscribe(
-  response=>{
-    console.log(response)
-    this.salesOrderData = response
-  }
-)
+
+    this.loadTableData();
+
 
     
   }
-  process(data){
 
+  loadTableData() {
+    this.orderService.getAllSo()
+    .subscribe(
+      response=>{
+        console.log(response)
+        this.salesOrderData = response
+      }
+    )
   }
+ 
 }
 

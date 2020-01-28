@@ -24,7 +24,7 @@ router.delete('/deleteRec/:id', deleteData);
 
 
 function getByName(req,res,next) {
-    console.log(req.params.id);
+   // console.log(req.params.id);
    
     catService.getByItemName(req.params.id)
     .then(item => res.json(item))
@@ -33,7 +33,7 @@ function getByName(req,res,next) {
 
 
 function getitemsNames(req,res,next){
-    console.log(req.params.id)
+   // console.log(req.params.id)
     catService.getItemrelventItems(req.params.id)
     .then(item => res.json(item))
     .catch(err => next(err));
@@ -47,7 +47,7 @@ function getItemDetails(req ,res, next){
 }
 
 function insertItemData(req ,res ,next) {
-    console.log(req.body)
+   // console.log(req.body)
     catService.insertItData(req.body)
     .then(item => res.json(item))
     .catch(err => next(err));
@@ -63,8 +63,8 @@ function getReleventCat(req ,res ,next){
 
 
 function insertSubCat(req ,res ,next) {
-    console.log('Controller');
-    console.log(req.body);
+    //console.log('Controller');
+    //console.log(req.body);
     catService.insertSubCat(req.body)
     .then(() => res.json({}))
     .catch(err => next(err));
@@ -99,7 +99,7 @@ function getCatName (req ,res ,next) {
 
 
 function insertCatData (req, res ,next) {
-    console.log(req.body)
+    //console.log(req.body)
     let data = req.body;
     catService.insertCat(data)
     .then(cat_data => res.json(cat_data))

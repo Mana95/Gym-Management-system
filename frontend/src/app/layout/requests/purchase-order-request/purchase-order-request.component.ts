@@ -14,7 +14,11 @@ export class PurchaseOrderRequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadTableData();
+   
 
+  }
+  loadTableData() {
     this.orderService.getPendingPo()
     .subscribe(
       response=> {
@@ -23,9 +27,7 @@ export class PurchaseOrderRequestComponent implements OnInit {
         this.poData = response
       }
     )
-
   }
-
   process(data) {
     let val= {
       id:data._id,
@@ -35,6 +37,7 @@ export class PurchaseOrderRequestComponent implements OnInit {
     .subscribe(
       response=>{
         console.log(response);
+        this.loadTableData(); 
       }
     )
 

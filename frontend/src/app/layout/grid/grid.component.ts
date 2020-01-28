@@ -67,44 +67,56 @@ export class GridComponent implements OnInit {
     }
 
     ngOnInit() {
-this.grnGroup = this.formBuilder.group({
-    grnId:[''],
-    date:[''],
-    purchaseOrderId:['',Validators.required],
-    supplierId:[''],
-    supplierName:[''],
-    purchaseOrderDate:[''],
-    categoryName:[''],
-    grnStatus:[''],
-    supplierAdress:[''],
-    note:['',Validators.required],
-    totalAmount:[''],
-    credentials: this.formBuilder.array([]),
-}) 
 
- //Id Gen
- var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
- var string_length = 8;
- var id = 'GRN_' + '';
- for (var i = 0; i < string_length; i++) {
-   var rnum = Math.floor(Math.random() * chars.length);
-   id += chars.substring(rnum, rnum + 1);
-   this.grnGroup.controls['grnId'].setValue(id);
-
-    this.orderService.getProgressPo()
-    .subscribe(
-        response=>{
-         //   console.log(response);
-            this.poId =response;
-        }
-    )
-
- }
- this.currentDate = moment().subtract(10, 'days').calendar();
- this.grnGroup.controls['date'].setValue(this.currentDate);
+        this.loadFormData();
 
     }
 
+    loadFormData() {
+        this.grnGroup = this.formBuilder.group({
+            grnId:[''],
+            date:[''],
+            purchaseOrderId:['',Validators.required],
+            supplierId:[''],
+            supplierName:[''],
+            purchaseOrderDate:[''],
+            categoryName:[''],
+            grnStatus:[''],
+            supplierAdress:[''],
+            note:['',Validators.required],
+            totalAmount:[''],
+            credentials: this.formBuilder.array([]),
+            TableArray:new FormArray([])
+        }) 
+        
+         //Id Gen
+         var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+         var string_length = 8;
+         var id = 'GRN_' + '';
+         for (var i = 0; i < string_length; i++) {
+           var rnum = Math.floor(Math.random() * chars.length);
+           id += chars.substring(rnum, rnum + 1);
+           this.grnGroup.controls['grnId'].setValue(id);
+        
+            this.orderService.getProgressPo()
+            .subscribe(
+                response=>{
+                 //   console.log(response);
+                    this.poId =response;
+                }
+            )
+        
+         }
+         this.currentDate = moment().subtract(10, 'days').calendar();
+         this.grnGroup.controls['date'].setValue(this.currentDate);
+        
+    }
+
+
+
+
+
+    
     createItem() {
         return this.formBuilder.group({
             itemId: [''],
@@ -112,27 +124,70 @@ this.grnGroup = this.formBuilder.group({
             qty:[''],
             amount:[''],
             status:[''],
-            price:['',Validators.required]
+            price: new FormArray([])
         })
       }
+      get getTable() {
+        return this.f.TableArray as FormArray;
+      }
+      changesubTotal(event){
+          
+          let qty = event.value.qty;
+          let buyingPrice = Number(event.value.buyingPrice);
+          let Total = qty*buyingPrice
+          event.value.subTotal = Total;
+          let arrayData = this.f.TableArray.value
+        //   this.grnGroup.controls['date'].setValue(this.currentDate);
+        let totAmount = 0;
+        for(var i=0 ; i <arrayData.length ; i++){
+          if(arrayData[i].itemId == event.value.itemId ){
 
+             //assiging a value to formData
+             const faControl = (<FormArray>this.grnGroup.controls['TableArray']).at(i);
+             faControl['controls'].subTotal.setValue(Total);
+            
+ 
+
+          }
+          totAmount+=arrayData[i].subTotal
+        }
+        this.grnGroup.controls['totalAmount'].setValue(totAmount);
+        
+        
+        // this.getTable.controls['subTotal'].setValue(Total);
+         //this.getTable[i].controls['subTotal'].setValue(Total);
+   
+      }
 
     getPurchaseOrderValue(poData) {
         const control = <FormArray>this.grnGroup.controls['credentials'];
         for(let i = control.length-1; i >= 0; i--) {
             control.removeAt(i)
-    }
+        }
         this.itemTableArray.length = 0;
         let id = poData.value;
         this.orderService.getByIdPo(id)
         .subscribe(
             data=>{
-            let supplierId = data[0].supplierId;
+            //Iniialize the Formtabe Data
+                let ItemArray = data[0].ItemDataValues;
+                for(var x =0 ; x<ItemArray.length ;x++){
+                    this.getTable.push(this.formBuilder.group({
+                        itemId: [ItemArray[x].itemId],
+                        itemName: [ItemArray[x].itemName],
+                        qty:[ItemArray[x].qty],
+                        status:['Done'],      
+                        buyingPrice:['', Validators.required],
+                        subTotal:['']
+                    }));
+                }
+
+                let supplierId = data[0].supplierId;
             //getting data
             this.orderService.getSupplieraddress(supplierId)
             .subscribe(
                 response1 =>{
-                    console.log(response1);
+                   // console.log(response1);
                     this.grnGroup.controls['supplierAdress'].setValue(response1[0].sup_address);
                 }
                 //End

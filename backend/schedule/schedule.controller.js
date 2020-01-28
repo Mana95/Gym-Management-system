@@ -60,7 +60,7 @@ function getAcceptedSchedule(req,res ,next){
 function RejectRecord(req ,res ,next){
     let data = {
         _id:req.body.id,
-        rejectStatus:true
+        status:2
     }
     scheduleService.RejectRecord(data)
     .then(sch => res.json(sch))
@@ -70,7 +70,7 @@ function updateRecord(req ,res , next){
     console.log(req.body)
     let data = {
         _id:req.body._id,
-        acceptStatus:true
+        status:3
     }
     scheduleService.updateRecord(data)
     .then(sch => res.json(sch))

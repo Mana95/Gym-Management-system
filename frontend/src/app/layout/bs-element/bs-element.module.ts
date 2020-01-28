@@ -1,5 +1,4 @@
-import { TwoDigitDecimaNumberDirective } from './../../_directives/twodigitdecimalnumber.directive';
-import { NumberDirective } from './../../_directives/numbers-only.directive';
+
 
 
 import { FormModule } from './../form/form.module';
@@ -14,6 +13,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [CommonModule, BsElementRoutingModule, PageHeaderModule, NgbModule , ReactiveFormsModule,FormModule],
-    declarations: [BsElementComponent,NumberDirective]
+    declarations: [BsElementComponent]
 })
 export class BsElementModule {}

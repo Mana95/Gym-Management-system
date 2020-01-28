@@ -40,7 +40,7 @@ function jobAssignUser(req, res, next) {
 
 function jobUpdateTemp(req, res, next) {
 
-    console.log( "This is the jobcontroller.js " + req.body);
+   // console.log( "This is the jobcontroller.js " + req.body);
     
     jobService.updateJobTemp(req.body)
         .then(() => res.json({}))
@@ -51,7 +51,7 @@ function jobUpdateTemp(req, res, next) {
 //New Job insert method
 function uploadJob(req, res, next) {
 
-    console.log(req.body);
+    //console.log(req.body);
     jobService.insertJob(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
@@ -62,7 +62,7 @@ function uploadJob(req, res, next) {
 
 //getting the database data
 function getJobs(req, res, next) {
-    console.log("hi");
+    //console.log("hi");
     //Calling the get all method
     jobService.getAll()
         .then(jobs => res.json(jobs))
@@ -70,7 +70,7 @@ function getJobs(req, res, next) {
 }
 
 function getJobsById(req, res, next) {
-    console.log("this is the getJobById" + id);
+    //console.log("this is the getJobById" + id);
     jobService.getJobsById(req.params.id)
         .then(jobs => res.json(jobs))
         .catch(err => next(err));

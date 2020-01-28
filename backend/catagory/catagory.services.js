@@ -38,9 +38,9 @@ async function getItemData(){
 }
 
 async function insertItData(data){
-    console.log('SERVICE');
+   // console.log('SERVICE');
     const itemData = new ItemData(data);
-    console.log(itemData);
+    //console.log(itemData);
     await itemData.save();
 }
 
@@ -50,7 +50,7 @@ async function getCatDataRelevent(id){
 
 
 async function getCatName() {
-    console.log('getCatagoryName')
+    //console.log('getCatagoryName')
     return await Catagory.find({} , {cat_name:1 , _id:0})
 }
 
@@ -59,14 +59,14 @@ async function getAllSub() {
 }
 
 async function insertSubCat(data) {
-    console.log(data)
+  //  console.log(data)
     const subcat = new SubCatagory(data);
-    console.log(subcat);
+  //  console.log(subcat);
     await subcat.save();
 }
 
 async function deleteData (id){
-    console.log(id)
+    //console.log(id)
     await Catagory.deleteOne({"_id": id});
 }
 async function getAll(){
@@ -74,9 +74,9 @@ async function getAll(){
 }
 
 async function insertCat(data){
-    console.log(data)
+   // console.log(data)
     const cat = new Catagory(data);
-    console.log(cat);
+   // console.log(cat);
    
     // save user
     await cat.save();

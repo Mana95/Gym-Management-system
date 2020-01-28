@@ -73,6 +73,11 @@
     <span>{{ 'Accepted Schedule' | translate }}</span>
 </a>
 
+<a [routerLink]="['/viewSchedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
+    <i class="fa fa-cutlery"></i>&nbsp;
+    <span>{{ 'Diet Plan' | translate }}</span>
+</a>
+
 
 <!-- Catagory -->
 <div class="nested-menu" *ngIf ="category">

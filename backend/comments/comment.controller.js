@@ -14,7 +14,7 @@ router.get('/jobById/:id', getJobsById);
 
 
 function getJobsById(req, res, next) {
-    console.log("This is the Commetts"+ req.params.id);
+    //console.log("This is the Commetts"+ req.params.id);
     commentServices.getJobsById(req.params.id)
         .then(jobs => res.json(jobs))
         .catch(err => next(err));
@@ -25,14 +25,14 @@ function getJobsById(req, res, next) {
 
 function commentInsert(req, res, next) {
 
-    console.log(req.body);
+    //console.log(req.body);
     commentServices.create(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function getAll(req, res, next) {
-    console.log("hi");
+    //console.log("hi");
     //Calling the get all method
     commentServices.getAllComments()
         .then(jobs => res.json(jobs))

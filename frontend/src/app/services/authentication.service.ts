@@ -160,16 +160,16 @@ export class AuthenticationService {
 
 
   login(firstName: string, password: string): Observable<any> {
-    console.log('Authentication' + firstName + password);
+   // console.log('Authentication' + firstName + password);
    return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { firstName, password })
      .pipe(map(user => {
        // login successfull if there is a jwt token in the response
        if (user && user.token) {
          // store user details and jwt token in local storage to keep user logged in between page refreshes
          localStorage.setItem('currentUser', JSON.stringify(user));
-         console.log('LOGIN')
-         console.log(user);
-         console.log(this.currentUser)
+        // console.log('LOGIN')
+        // console.log(user);
+         //console.log(this.currentUser)
          this.currentUserSubject.next(user);
        }
 
@@ -180,7 +180,7 @@ export class AuthenticationService {
   register(userParam): Observable<any> {
     //methin thamai call karala thiyenne back end ekata 
    // alert(userParam.username);
-          console.log (userParam );
+        //  console.log (userParam );
           return this.http.post<any>(config.PAPYRUS+`/users/signUp`, userParam)
           .pipe(map(user => {
             // register successfull if there is a jwt token in the response
