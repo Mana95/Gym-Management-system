@@ -36,14 +36,25 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     this.loadDataCart();
+    console.log('dsa');
+    for(var x =0 ; x < this.cartData.length ; x++){
+        let atyNumer = this.cartData[x].totalPrice
+        console.log(atyNumer);
+        this.totalValue += atyNumer; 
+    }
   }
 
   loadDataCart() {
     this.currentCartSubject = new BehaviorSubject<Cart>(
       JSON.parse(localStorage.getItem("cartObject"))
     );
+    
+
     this.currentCart = this.currentCartSubject.asObservable();
       this.cartData = this.currentCartSubject.value;
+    
+
+        
   }
 
   changeValue(inputNumber ,data) {
@@ -59,8 +70,8 @@ export class AddToCartComponent implements OnInit {
     let cart =  JSON.parse(localStorage.getItem('cartObject'));
     let isInCart = false;
     if(cart){
-      console.log('Cart');
-      console.log(cart);
+      //console.log('Cart');
+     // console.log(cart);
       isInCart = cart.some(item=>item.id===data.id);
     }else {
       cart = [];

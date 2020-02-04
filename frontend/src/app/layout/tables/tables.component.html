@@ -4,7 +4,7 @@
 
       <ng-template #content let-modal>
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title"><b>New Item</b></h4>
+          <h4 class="modal-title" id="modal-basic-title"><b><i class="fa fa-gift" aria-hidden="true"></i> New Item</b></h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -26,7 +26,7 @@
                   </div>
                 </div>
                 <!-- Submit Button -->
-                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">Upload
+                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()"><i class="fa fa-upload" aria-hidden="true"></i> Upload
                   Image</button>
               </div>
             </div>
@@ -38,6 +38,23 @@
                 <input type="text" class="form-control"formControlName="id" disabled>
 
               </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Item Type</label>
+                <label for="inputState">State</label>
+      <select id="inputState" class="form-control" formControlName=itemType [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
+        <option selected>Choose...</option>
+        <option>Normal Item</option>
+        <option>Cart Items</option>
+      </select>
+                <div *ngIf="submitted && f.itemType.errors" class="invalid-feedback">
+                  <div *ngIf="f.itemType.errors.required">Item Type is required</div>
+                </div>
+              </div>
+             
+            </div>
+
+            <!-- 2nd Row -->
+            <div class="form-row">
               <div class="form-group col-md-6" (change)="getSubCatValue(data)">
                 <label for="inputPassword4">Main Catagory Name</label>
                 <select class="form-control" #data formControlName=cat_name
@@ -48,10 +65,6 @@
                   <div *ngIf="f.cat_name.errors.required">Main Catagory is required</div>
                 </div>
               </div>
-            </div>
-
-            <!-- 2nd Row -->
-            <div class="form-row">
               <div class="form-group col-md-6" *ngIf="active">
                 <label for="inputquantity4">Sub Catagory</label>
                 <select class="form-control" formControlName="sub_cat"
@@ -69,7 +82,7 @@
                 </select>
 
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-12">
                 <label for="inputPassword4">Item Name</label>
                 <input type="text" class="form-control" formControlName="item_name" placeholder="Item Name"
                   [ngClass]="{ 'is-invalid': submitted && f.item_name.errors }">
@@ -146,11 +159,11 @@
 
 
 
-            <button type="submit" class="btn btn-primary">Submit<i class="fa fa-book" aria-hidden="true"></i></button>
+            <button type="submit" class="btn btn-primary"> Submit <i class="fa fa-book" aria-hidden="true"></i></button>
           </form>
         </div>
       </ng-template>
-      <button type="button" class="btn btn-primary btn-sm" (click)="open(content)"><b>New</b></button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="open(content)"><b><i class="fa fa-plus" aria-hidden="true"></i> New</b></button>
 
 
       <!-- TableDetails -->

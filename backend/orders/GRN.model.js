@@ -50,6 +50,10 @@ const schema = new Schema({
     note:{
         type: String
     },
+    totalAmount: {
+        type: String
+    },
+
     ItemGrnTable: [{
         itemId :{
             type : String,
@@ -67,7 +71,7 @@ const schema = new Schema({
             type: String,
             required:true
         },
-        price: {
+        buyingPrice: {
             type: Number,
             required:true
         }

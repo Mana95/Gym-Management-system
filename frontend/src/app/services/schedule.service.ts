@@ -28,6 +28,11 @@ export class ScheduleService {
     return this.http.get(config.PAPYRUS+`/shedule/loadInstrucotrData/${id}`)
    }
 
+   loadInstructor() {
+    return this.http.get(config.PAPYRUS+`/shedule/loadInstructor`)
+   }
+
+
    loadById(id) {
      //alert(id);
     return this.http.get(config.PAPYRUS+`/shedule/loadById/${id}`)

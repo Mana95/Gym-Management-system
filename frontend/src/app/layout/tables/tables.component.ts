@@ -56,6 +56,7 @@ export class TablesComponent implements OnInit {
       item_name: ['', Validators.required],
       quantity: [null, Validators.required],
       description: [''],
+      itemType:['',Validators.required],
       sub_cat: ['', Validators.required],
       selling_price: ['', Validators.required],
       importCountry:['' , Validators.required],
@@ -162,6 +163,7 @@ export class TablesComponent implements OnInit {
         selling_price: Number(selValue),
         Importered_Country: this.f.importCountry.value,
         image: this.imageUrl,
+        itemType: this.f.itemType.value,
         manuDate:this.f.manuDate.value,
         expDate:this.f.expDate.value
 

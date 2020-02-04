@@ -22,9 +22,16 @@ module.exports = {
     loadById,
     loadInstrucotrData,
     createSchedule,
-    getById
+    getById,
+    loadInstructor
     
 };
+
+
+
+async function  loadInstructor(id){
+    return await Instructor.find({})
+}
 
 async function  getById(id){
     return await Schedule_Plan.find({membershipId:id})
@@ -124,24 +131,40 @@ async function getByMySchedule(id){
 }
 
 async function insertSchData(data){ 
-    
-    const schdulefind = await Schedule.find({membershipId:data.membershipId , status: 3})
-    const schdulefindId = await Schedule.find({membershipId:data.membershipId});
-    if(schdulefind){
-    console.log('awa')
-    const schedule = new Schedule(data);  
-    await schedule.save();
-    return 1;
-    }else if(!schdulefindId) {
+    const schduleFind = await Schedule.findOne({membershipId:data.membershipId , status:1})
+
+    if(!schduleFind){
+        console.log('ehama ekak na')
         const schedule = new Schedule(data);  
         await schedule.save();
-    return 1;
-    }else{
+        return 1;
+    }else {
+        console.log('ehama ekak thiyenwa')
         return 3;
-    
     }
-const schedule = new Schedule(data);  
-    await schedule.save();
+
+
+
+
+
+
+    // const schdulefind = await Schedule.find({membershipId:data.membershipId , status: 3})
+    // const schdulefindId = await Schedule.find({membershipId:data.membershipId});
+    // if(schdulefind){
+    // console.log('awa')
+    // const schedule = new Schedule(data);  
+    // await schedule.save();
+    // return 1;
+    // }else if(!schdulefindId) {
+    //     const schedule = new Schedule(data);  
+    //     await schedule.save();
+    // return 1;
+    // }else{
+    //     return 3;
+    
+    // }
+// const schedule = new Schedule(data);  
+//     await schedule.save();
 
 }
 

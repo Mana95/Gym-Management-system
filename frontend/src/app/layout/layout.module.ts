@@ -12,6 +12,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SalesorderComponent } from './salesorder/salesorder.component';
 import { GetmembershipComponent } from './getmembership/getmembership.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { DietPlanComponent } from './diet-plan/diet-plan.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 

@@ -119,9 +119,9 @@ function updateBydelete(req ,res, next) {
 }
 
 function updateByQty(req ,res ,next){
-    //console.log('Enwa')
-   // console.log(req.body);
+  
     let quantityData = req.body
+    //console.log(req.body);
     orderService.updateByqantity(quantityData)
     .then(item_Data => res.json(item_Data))
     .catch(err => next(err));

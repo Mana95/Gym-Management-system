@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [EditUserComponent , EditModalComponent],
   imports: [
-    CommonModule ,PageHeaderModule ,EditUserRoutingModule , FormsModule, NgbModule
+    CommonModule ,PageHeaderModule ,EditUserRoutingModule , FormsModule, NgbModule ,ReactiveFormsModule
   ]
 })
 export class EditUserModule { }

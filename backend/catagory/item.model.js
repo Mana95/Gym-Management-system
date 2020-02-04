@@ -16,6 +16,10 @@ const schema = new Schema({
         type: String,
         required:true
     },
+    itemType: {
+        type: String,
+        required:true
+    },
     item_name: {
         type: String,
         required:true

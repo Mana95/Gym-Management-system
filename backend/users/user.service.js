@@ -413,7 +413,7 @@ async function getGroups() {
     return await Groups.find({});
 }
 async function EmployeeCreation(data){
-   console.log(data);
+  // console.log(data);
     if (await  Employee.findOne({username:data.username})) {
         // throw 'User name is already existent'; 
         //console.log('HI')

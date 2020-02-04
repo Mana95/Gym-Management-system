@@ -48,7 +48,7 @@ const routes: Routes = [
             //  { path: 'editGroup/:groupId', loadChildren: () => import('./user/user-group/edit-group/edit-group.module').then(m => m.EditGroupModule) },
             { path: 'editRole/:roleId', loadChildren: () => import('./user/user-role/edit-role/edit-role.module').then(m => m.EditRoleModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'newMainCat', loadChildren: () => import('./charts/main-catagory/main-new-catagory/main-new-catagory.module').then(m => m.MainNewCatagoryModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User] } },
-              { path: 'schedule', loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
+            { path: 'schedule', loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
             
             
             { path: 'newschedule', loadChildren: () => import('./schedule/newschedule/newschedule.module').then(m => m.NewscheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin  , Role.Membership] } },
@@ -61,6 +61,10 @@ const routes: Routes = [
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             
+
+            { path: 'profile/:id', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard]},
+          
+
 
             { path: 'brands', loadChildren: () => import('./charts/charts.module').then(m => m.ChartsModule) },
               { path: 'stores', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },

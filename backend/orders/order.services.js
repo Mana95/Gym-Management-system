@@ -48,10 +48,10 @@ async function salesOrderInsert(data){
 }
 
 async function updateStatus(data){
-    //console.log(data)
+   // console.log(data);
         let val = {
             id:data.id,
-            status:'Approved'
+            status:'completed'
         }
 
     PurchaseOrder.updateOne(
@@ -127,29 +127,22 @@ async function updateByqantityDelete(data) {
 }
 
 async function updateByqantity(quantity) {
-   // console.log(quantity);
-    var x = quantity.quantity
-    ItemData.updateOne({id:quantity.id},
+    console.log('QTY');
+    var qtyArray = quantity;
+    // console.log(qtyArray[0]);
+    for(var x = 0 ; x < qtyArray.length ; x ++) {
+    ItemData.updateOne(
+        {id:qtyArray[x].itemId},
         {
-            $inc:{quantity: x}
+            $inc:{quantity: qtyArray[x].qty}
            },  {new: true } , function (err, responses) {
                if (err) {
                    console.log(err);
                    
                }
            })
-
-    // ItemData.updateOne(
-    //     {
-    //         id: quantity.id
-    //     },
-    //     {
-    //         $set: quantity
-    //     }, function (err, responses) {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //     }  );
+    }
+    
 
 }
 

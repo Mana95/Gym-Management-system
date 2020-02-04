@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "src/app/_models";
+import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 
 @Component({
   selector: "app-getmembership",
@@ -127,11 +128,6 @@ export class GetmembershipComponent implements OnInit {
           data[0].nicNumber
         );
        this.onKey();
-
-
-
-
-
 
 
 

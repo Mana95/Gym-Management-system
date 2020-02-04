@@ -67,11 +67,6 @@ export class OrderService {
 
   updatequantity(val) {
     console.log(val)
-    // let qty = {
-    //   id:val.itemId,
-    //   quantity:val.qty
-    // }
-    //console.log(qty);
     return this.http.post(config.PAPYRUS+`/order/updateByQuantity`, val)
   }
 
@@ -108,8 +103,7 @@ export class OrderService {
   }
 
   saveGrnValues(data) {
-    console.log('save')
-    console.log(data);
+   
     return this.http.post(config.PAPYRUS+`/order/saveGRN/`,data)
 
   }

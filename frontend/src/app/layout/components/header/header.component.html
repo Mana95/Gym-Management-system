@@ -117,7 +117,7 @@
                     <i class="fa fa-user"></i>{{currentUser.firstName}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
-                    <a class="dropdown-item" href="javascript:void(0)">
+                    <a (click)="profilePageLoad()" class="dropdown-item" href="javascript:void(0)">
                         <i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}
                     </a>
                     <a class="dropdown-item" href="javascript:void(0)">

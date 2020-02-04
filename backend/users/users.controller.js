@@ -351,7 +351,7 @@ function EmployeeCreation(req ,res ,next){
     .then(user =>{
         if(user){
         //    console.log('USER')
-            console.log(user)
+         //   console.log(user)
             res.json(user)
           
         }

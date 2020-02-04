@@ -19,6 +19,16 @@ router.post('/createSchedule' , createSchedule);
 router.get('/loadById/:id' , loadById);
 router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
 router.get('/getById/:id' ,getById);
+router.get('/loadInstructor' ,loadInstructor);
+
+
+
+function loadInstructor(req ,res, next){
+    scheduleService.loadInstructor()
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
 
 function getById(req ,res, next){
     scheduleService.getById(req.params.id)

@@ -292,14 +292,6 @@ else if (dayText > 31) {
 }
 
   onSubmit(content ,contentDone) {
-
-
-
-
-
-
-
-
     this.submitted = true;
     this.loading = true;
     const formData = new FormData();
@@ -319,21 +311,11 @@ else if (dayText > 31) {
       active: true,
       password: this.f.password.value
     };
-    //console.log(JSON.stringify(UserCreationParam));
-   
-  
       if(this.userRegisterFrom.valid){
-    //    alert('Hey');
-        // forkJoin(
-        //   this.uploadImage(formData, this.f.id.value), this.authenticationService.EmployeeCreate(UserCreationParam)
-        // ).subscribe((res) => {
-        //  console.log(res[0]);
-        // });
-
       this.uploadImage(formData, this.f.id.value).subscribe(
         (res) => {
-          console.log(res)
-          console.log("This is the reposne " + JSON.stringify(res));
+     
+       
           this.locaionPath = res.destination;
        //Insertion of Employee
           let UserCreationParam = {
@@ -349,7 +331,7 @@ else if (dayText > 31) {
             phonenumber: this.f.phonenumber.value,
             Emergency: this.f.Emergency.value,
             role: 'User',
-            imagePath: this.locaionPath,
+            imagePath: this.imageUrl,
             address: this.f.address.value,
             description: this.f.description.value,
             active: true,
@@ -357,11 +339,11 @@ else if (dayText > 31) {
             date: this.CurrentDate
           }
           forkJoin(
-            this.authenticationService.userCreationPub(UserData),this.authenticationService.EmployeeCreate(UserCreationParam)
+            this.authenticationService.userCreationPub(UserData),
+            this.authenticationService.EmployeeCreate(UserCreationParam)
           ).subscribe(
             res=>{
-              
-              
+
               //this.router.navigate(['/newUser']);
               this.funcA(res[0], res[1] ,content ,contentDone);
             },

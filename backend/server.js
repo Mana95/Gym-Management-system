@@ -11,8 +11,8 @@ var express = require('express');
 
     app.use(cors());
     
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json({ limit: '100mb' }));
 
 
 //http  every controller 
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
     No cors required */
     app.use(express.static('../client'));
     
-
+ 
 
   var storage = multer.diskStorage({ //multers disk storage settings
 

@@ -75,4 +75,8 @@ public getSantizeUrl(url : string) {
     this.loadTableData();
   }
 
+  sanitizeUrl(url) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
 }

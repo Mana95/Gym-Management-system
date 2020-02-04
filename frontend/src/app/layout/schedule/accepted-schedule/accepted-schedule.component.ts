@@ -1,11 +1,13 @@
 import { User } from './../../../_models/user';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, merge } from 'rxjs';
 import { ScheduleService } from './../../../services/schedule.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from "moment";
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-accepted-schedule',
@@ -13,8 +15,11 @@ import * as moment from "moment";
   styleUrls: ['./accepted-schedule.component.scss']
 })
 export class AcceptedScheduleComponent implements OnInit {
+  formatter = (result: string) => result.toUpperCase();
+
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+
   buttonDisplay = false;
   ScheduleMakeGroup:FormGroup;
   submitted = false;
@@ -22,11 +27,14 @@ export class AcceptedScheduleComponent implements OnInit {
   currentDate:any;
   begginer = false;
   buttonProDisplay = false;
-
   Display = false;
+  arrayData :any;
+  states  = [];
+  maxNumber :any;
+
 
   constructor(
-     private router: Router,
+    private router: Router,
     private route: ActivatedRoute,
     private formBuilder:FormBuilder,
     private scheduleService:ScheduleService) {
@@ -69,6 +77,7 @@ export class AcceptedScheduleComponent implements OnInit {
 
   
   }
+  
 
   DateCalculator() {
     let dm = moment();
@@ -102,6 +111,10 @@ export class AcceptedScheduleComponent implements OnInit {
 
 
   }
+  //did not input minze Value
+  get myInput(): AbstractControl {
+    return this.ScheduleMakeGroup.controls['validMonth'];
+}
 
   loadFormUniqueId() {
   var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
@@ -110,14 +123,14 @@ export class AcceptedScheduleComponent implements OnInit {
     for (var i = 0; i < string_length; i++) {
       var rnum = Math.floor(Math.random() * chars.length);
       id += chars.substring(rnum, rnum + 1);
-      this.ScheduleMakeGroup.controls["id"].setValue(id);
-
-     
-
-
-      
-      
+      this.ScheduleMakeGroup.controls["id"].setValue(id);  
     }
+
+     //Did not input "-" Vaues
+     this.myInput.valueChanges 
+     .subscribe(() => {
+         this.myInput.setValue(Math.abs(this.myInput.value), {emitEvent: false});
+     });
   }
 
   loadFormData() {
@@ -142,6 +155,22 @@ export class AcceptedScheduleComponent implements OnInit {
       }
 
     )
+
+      this.scheduleService.loadInstructor()
+      .subscribe(
+        response=>{
+         this.arrayData = response;
+        
+          for(var x =0; x < this.arrayData.length ; x++)
+          {
+              this.states.push(this.arrayData[x].firstName)
+          }
+        // this.states = Response.firstName
+        }
+      )
+      // states
+
+
   }
   get f() {
     return this.ScheduleMakeGroup.controls;
@@ -341,5 +370,15 @@ export class AcceptedScheduleComponent implements OnInit {
     )
   
   }
+
+
+
+  search = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(term => term === '' ? []
+      : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+  )
  
 }
