@@ -9,6 +9,7 @@ import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmat
 })
 export class ScheduleRequestComponent implements OnInit {
   pendingSchedule:any;
+  showMsg = false;
   constructor(
     private scheduleService:ScheduleService,
     private confirmationDialogService: ConfirmationDialogService
@@ -42,7 +43,12 @@ export class ScheduleRequestComponent implements OnInit {
     .subscribe(
       response=>{
         console.log(response);
-        this.loadSchedules();
+        this.showMsg = true;
+        setTimeout(()=>{ 
+          this.showMsg = false;
+          this.loadSchedules();
+        }, 2000);
+        
       }
     )
   }

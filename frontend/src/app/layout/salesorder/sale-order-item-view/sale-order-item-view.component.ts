@@ -45,6 +45,7 @@ export class SaleOrderItemViewComponent implements OnInit {
        mainCategory:[''],
        totalPrice:[''],
        avlableQty:[''],
+       image:['']
 
     })
 
@@ -66,6 +67,7 @@ export class SaleOrderItemViewComponent implements OnInit {
         this.viewCartForm.controls['sellingPrice'].setValue(data[0].selling_price);
         this.viewCartForm.controls['avlableQty'].setValue(data[0].quantity);
         this.viewCartForm.controls['mainCategory'].setValue(data[0].cat_name);
+        this.viewCartForm.controls['image'].setValue(data[0].image);
       }
     )
   }
@@ -109,11 +111,14 @@ routePage() {
 }
 
   onSubmit() {
+console.log(this.itemCart.image.value);
+
     this.submitted = true;
       let itemCartData = {
         id: this.itemCart.id.value,
         itemName:this.itemCart.itemName.value,
         qty:this.itemCart.qty.value,
+        image:this.itemCart.image.value,
         sellingPrice:this.itemCart.sellingPrice.value,
         mainCategory:this.itemCart.mainCategory.value,
         totalPrice:this.itemCart.totalPrice.value,

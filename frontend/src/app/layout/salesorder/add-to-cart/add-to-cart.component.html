@@ -1,68 +1,80 @@
 <div class="container">
 	<table id="cart" class="table table-hover table-condensed">
-    				<thead>
-						<tr>
-							<th style="width:35%">Product</th>
-							<th style="width:10%">Price</th>
-							<th style="width:8%">Quantity</th>
-							<th style="width:14%" class="text-center">Input Value</th>
-							<th style="width:22%" class="text-center">Subtotal</th>
-							<th style="width:22%">Action</th>
-						</tr>
-					</thead>
-					<tbody *ngFor="let data of cartData">
-						<tr>
-							<td data-th="Product">
-								<div class="row">
-									<div class="col-sm-10">
-										<h4 class="nomargin">{{data.itemName}}</h4>
-												</div>
-								</div>
-							</td>
-							<td data-th="Price">{{data.sellingPrice}}</td>
-							<td data-th="Quantity">
-								{{data.qty}}
-							</td>
-							<td data-th="Quantity">
-								
-								<input type="text" numbersOnly  #inputNumber  class="form-control text-center">
-							</td>
-							<td data-th="Subtotal" class="text-center">{{data.totalPrice}}</td>
-							<td class="actions" data-th="">
-								<button class="btn btn-info btn-sm" (click)="changeValue(inputNumber , data)"><i class="fa fa-refresh"></i></button>
-								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
-							</td>
-						</tr>
-					</tbody>
-					
-				</table>
-				
+		<thead>
+			<tr>
+				<th style="width:10%">Image</th>
+				<th style="width:20%">Product</th>
+				<th style="width:10%">Price</th>
+				<th style="width:8%">Quantity</th>
+				<th style="width:14%" class="text-center">Input Value</th>
+				<th style="width:22%" class="text-center">Subtotal</th>
+				<th style="width:35%">Action</th>
+			</tr>
+		</thead>
+		<tbody *ngFor="let data of cartData">
+			<tr>
+				<td data-th="Price">
+					<img width="50" height="50" class="avatar" [src]="data.image" />
+				</td>
 
-				<div class="alignment">
-						  <h2>Cart totals</h2>
-				<div class="card" style="width: 18rem; ">
-					<div class="card-header">
-					  <h2>Cart totals</h2>
+				<td data-th="Product">
+					<div class="row">
+						<div class="col-sm-10">
+							<h4 class="nomargin">{{ data.itemName }}</h4>
+						</div>
 					</div>
-					<ul class="list-group list-group-flush">
-					  <li class="list-group-item">
-						  <div class="row">
-							<h5>Total :</h5> {{totalValue}} 
-						  </div></li>
-					</ul>
+				</td>
+				<td data-th="Price">{{ data.sellingPrice }}</td>
+				<td data-th="Quantity">
+					{{ data.qty }}
+				</td>
+				<td data-th="Quantity">
+					<input type="text" numbersOnly #inputNumber class="form-control text-center" />
+				</td>
+				<td data-th="Subtotal" class="text-center">
+					{{ data.totalPrice }}
+				</td>
+				<td class="actions" data-th="">
+					<button class="btn btn-info btn-sm" (click)="changeValue(inputNumber, data)">
+						<i class="fa fa-refresh"></i>
+					</button>
+					<button class="btn btn-danger btn-sm">
+						<i class="fa fa-trash-o"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
-				  </div>
-				  <br/>
-				  <tfoot>
-					<tr>
-						<td><a [routerLink]="['/sales_order_cart']" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-						<td colspan="2" class="hidden-xs"></td>
-						&nbsp;&nbsp;
-						<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
-					</tr>
-				</tfoot>
-				</div>
-
-
-
+	<div class="alignment">
+		<h2>Cart totals</h2>
+		<div class="card" style="width: 18rem; ">
+			<div class="card-header">
+				<h2>Cart totals</h2>
+			</div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div class="row">
+						<h5>Total :</h5>
+						{{ totalValue }}
+					</div>
+				</li>
+			</ul>
+		</div>
+		<br />
+		<tfoot>
+			<tr>
+				<td>
+					<a [routerLink]="['/sales_order_cart']" class="btn btn-warning"><i class="fa fa-angle-left"></i>
+						Continue Shopping</a>
+				</td>
+				<td colspan="2" class="hidden-xs"></td>
+				&nbsp;&nbsp;
+				<td>
+					<a (click)="onSubmit()" class="btn btn-success btn-block">Checkout <i
+							class="fa fa-angle-right"></i></a>
+				</td>
+			</tr>
+		</tfoot>
+	</div>
 </div>

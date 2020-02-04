@@ -13,56 +13,56 @@ export class CatagoryService {
    ) { }
 
    getSubCatNames(catName) {
-     console.log('CATAGORY')
-     console.log(catName)
-     return this.http.get<any>(config.PAPYRUS +`/catagory/getNames/${catName}`)
+     console.log('CATAGORY');
+     console.log(catName);
+     return this.http.get<any>(config.PAPYRUS + `/catagory/getNames/${catName}`);
    }
    getItemsDetails(item) {
-    return this.http.get<any>(config.PAPYRUS +`/catagory/getByItemName/${item}`)
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getByItemName/${item}`);
    }
    getchoosenItems(catagory) {
-    return this.http.get<any>(config.PAPYRUS +`/catagory/getitemsNames/${catagory}`)
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getitemsNames/${catagory}`);
    }
 
    insertItemData(data) {
-     console.log('SERVICE'+ data)
-    return this.http.post<any>(config.PAPYRUS+`/catagory/insertItemData`, data)
+     console.log('SERVICE' + data);
+    return this.http.post<any>(config.PAPYRUS + `/catagory/insertItemData`, data);
    }
 
    getCatNames() {
 
-    return this.http.get<any>(config.PAPYRUS+`/catagory/getCatName`)
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getCatName`);
 
    }
    insertSubCat(data) {
-    return this.http.post<any>(config.PAPYRUS+`/catagory/insertSubCat`, data)
+    return this.http.post<any>(config.PAPYRUS + `/catagory/insertSubCat`, data);
    }
 
-   getItemDetials(){
-    return this.http.get<any>(config.PAPYRUS+`/catagory/getItemDetails`)
+   getItemDetials() {
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getItemDetails`);
    }
 
 
    deleteRecord(idData) {
 
-    let recordId = idData.id
-              alert(recordId)
-      return this.http.delete<any>(config.PAPYRUS +`/catagory/deleteRec/${recordId}`)
+    const recordId = idData.id;
+              alert(recordId);
+      return this.http.delete<any>(config.PAPYRUS + `/catagory/deleteRec/${recordId}`);
    }
    getAll() {
 
-    return this.http.get<any>(config.PAPYRUS+`/catagory/getAll`)
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getAll`);
 
    }
 
    getSubCat() {
-    return this.http.get<any>(config.PAPYRUS+`/catagory/getAllSub`)
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getAllSub`);
    }
 
   insertMainCat(catData) {
-console.log(catData)
+console.log(catData);
 
-return this.http.post<any>(config.PAPYRUS+`/catagory/insertCat`, catData)
+return this.http.post<any>(config.PAPYRUS + `/catagory/insertCat`, catData);
 
   }
 

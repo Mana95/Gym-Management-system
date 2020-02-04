@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./sales-order-cart.component.scss']
 })
 export class SalesOrderCartComponent implements OnInit {
-  cartData:any;
-  
+  cartData: any;
+
   constructor(
-    private orderService: OrderService, 
+    private orderService: OrderService,
     private router: Router,
     private authenticationService: AuthenticationService,
     private catagoryService: CatagoryService,
@@ -28,20 +28,20 @@ export class SalesOrderCartComponent implements OnInit {
     this.loadCartTable();
   }
 
-routePage(data){
-  let id =  data._id
+routePage(data) {
+  const id =  data._id;
   this.router.navigate(['/ItemCartView', data._id]);
 
 }
-  //loading the cart Data
+  // loading the cart Data
   loadCartTable() {
     this.orderService.loadCardItems()
     .subscribe(
-      response=>{
+      response => {
         console.log(response);
         this.cartData = response;
       }
-    )
+    );
   }
 
 }

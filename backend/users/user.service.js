@@ -413,25 +413,172 @@ async function getGroups() {
     return await Groups.find({});
 }
 async function EmployeeCreation(data){
-  // console.log(data);
+  
     if (await  Employee.findOne({username:data.username})) {
-        // throw 'User name is already existent'; 
-        //console.log('HI')
+        
         let message = 3
         return message;
 
     }
     else if(await Employee.findOne({email:data.email})){
-        console.log('Else If HI')
+     //   console.log('Else If HI')
         let message = 3
         return message;
-    }
-    //console.log('If eken eliye')
+    }else {
     const employee = new Employee(data);
         if (data.password) {
             employee.hash = bcrypt.hashSync(data.password, 10);
         }
         await employee.save(); 
+        if(await employee.save()) {
+
+
+            var transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                port: 465,
+                auth: {
+                    user: 'manaalex3@gmail.com',
+                    pass: 'QAZ(*&jker":'
+                }
+            });
+            let mailOption ={
+                from: '"Gym Managment Admin"', // sender address
+                to: data.email, // list of receivers
+                subject: 'Employee invitation',
+                text: 'Hello world?', // plain text body
+                html:` <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+              
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                </head>
+                <body style="margin: 0; padding: 0;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%"> 
+                        <tr>
+                            <td style="padding: 10px 0 30px 0;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; border-collapse: collapse;">
+                                    <tr>
+                                        <td align="center" bgcolor="#2b2424" style="padding: 10px 0 10px 0; color: #153643; font-size: 28px; font-weight: bold; font-family: Arial, sans-serif;">
+                                            <img src="https://www.precor.com/sites/default/files/community/_S1_2736_0.jpg" alt="Creating Email Magic" width="600" height="300" style="display: block;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;" align = "center">
+                                                        <b>Employee Login Invitation
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                      Hi Manoj,
+                                                      <br/><br/>
+                                                      Worm Welcome! You are now Employee of MAXOUT ,We're glad to have you. Here are your account Details,
+                                                      
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; ">
+                                                <b>Employee Id : </b> ` + data.id + ` <br>
+                                            </td>
+                                            <br>
+                                                </tr>
+                                                <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                <b>Name : </b> ` + data.firstName  +  ` <br>
+                                            </td>
+                                                </tr>
+                                                <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                <b>Role : </b> ` + data.role + ` <br>
+                                            </td>
+                                                </tr>
+                                                <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                <b>Sender Mail Address : </b> ` + data.createdDate + ` <br>
+                                            </td>
+                                                </tr>
+                                                    <tr>
+                                                    <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                      Please follow the link 'http://localhost:4200/response-reset-password/' and here is your username and password
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; ">
+                                                <b>User Name : </b> ` + data.username + ` <br>
+                                            </td>
+                                            <br>
+                                                </tr>
+                                                 <tr>
+                                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; ">
+                                                <b>Password : </b> ` `Use your Nic Number` ` <br>
+                                            </td>
+                                            <br>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td width="260" valign="top">
+                                                                  
+                                                                </td>
+                                                                <td style="font-size: 0; line-height: 0;" width="20">
+                                                                    &nbsp;
+                                                                </td>                                                       
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#FF8C00" style="padding: 30px 30px 30px 30px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td style="color: #2b2424; font-family: Arial, sans-serif; font-size: 14px;" width="75%">
+                                                        &reg; Gym Managment, more details  2019<br/>
+                                                        <a href="#" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this Description instantly
+                                                    </td>
+                                                    <td align="right" width="25%">
+                                                        <table border="0" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html> `,// html body
+        
+            
+                 
+            };
+            transporter.sendMail(mailOption, (err, info) => {
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+    }
     
 }
 
@@ -532,8 +679,7 @@ async function getAll() {
 
 
 async function getById(id) {
-    console.log("This is the service " + id)
-    return await User.findById(id);
+    return await Employee.find({"_id":id});
 }
 
 async function getbyrole(role) {

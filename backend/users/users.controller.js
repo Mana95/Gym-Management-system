@@ -350,8 +350,6 @@ function EmployeeCreation(req ,res ,next){
     userService.EmployeeCreation(req.body)
     .then(user =>{
         if(user){
-        //    console.log('USER')
-         //   console.log(user)
             res.json(user)
           
         }

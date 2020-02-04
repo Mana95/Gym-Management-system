@@ -19,6 +19,8 @@ module.exports = {
     ScheduleType: require('../users/ScheduleType.model'),
     Employee: require('../users/employee.model'),
     SalesOrder:require('../orders/soOrder.model'),
+    Cart:require('../orders/cart.model'),
+
     Schedule: require('../schedule/newschedule.model'),
     Instructor:require('../users/instructor.model'),
    

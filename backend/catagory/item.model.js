@@ -45,10 +45,6 @@ const schema = new Schema({
         type: String,
         
     },
-    manuDate: {
-        type: String,
-        
-    },
     expDate: {
         type: String,
         

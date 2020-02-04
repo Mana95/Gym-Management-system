@@ -296,11 +296,7 @@ else if (dayText > 31) {
     this.loading = true;
     const formData = new FormData();
     //let fileItem = this.uploader.queue[0]._file;
-
-
    formData.append('file',  this.newImage);
-
-   console.log(this.newImage.destination);
 
     let UserData = {
       user_id: this.f.id.value,
@@ -311,39 +307,36 @@ else if (dayText > 31) {
       active: true,
       password: this.f.password.value
     };
+    //Insertion of Employee
+    let UserCreationParam = {
+      id: this.f.id.value,
+      image: this.newImage.name,
+      email: this.f.email.value,
+      birth: this.f.birth.value,
+      age: this.f.age.value,
+      firstName: this.f.firstName.value,
+      username: this.f.username.value,
+      lastName: this.f.lastName.value,
+      password: this.f.password.value,
+      phonenumber: this.f.phonenumber.value,
+      Emergency: this.f.Emergency.value,
+      role: 'User',
+      imagePath: this.imageUrl,
+      address: this.f.address.value,
+      description: this.f.description.value,
+      active: true,
+      gender:this.f.gender.value,
+      date: this.CurrentDate
+    }
       if(this.userRegisterFrom.valid){
       this.uploadImage(formData, this.f.id.value).subscribe(
         (res) => {
-     
        
-          this.locaionPath = res.destination;
-       //Insertion of Employee
-          let UserCreationParam = {
-            id: this.f.id.value,
-            image: this.newImage.name,
-            email: this.f.email.value,
-            birth: this.f.birth.value,
-            age: this.f.age.value,
-            firstName: this.f.firstName.value,
-            username: this.f.username.value,
-            lastName: this.f.lastName.value,
-            password: this.f.password.value,
-            phonenumber: this.f.phonenumber.value,
-            Emergency: this.f.Emergency.value,
-            role: 'User',
-            imagePath: this.imageUrl,
-            address: this.f.address.value,
-            description: this.f.description.value,
-            active: true,
-            gender:this.f.gender.value,
-            date: this.CurrentDate
-          }
           forkJoin(
             this.authenticationService.userCreationPub(UserData),
             this.authenticationService.EmployeeCreate(UserCreationParam)
           ).subscribe(
             res=>{
-
               //this.router.navigate(['/newUser']);
               this.funcA(res[0], res[1] ,content ,contentDone);
             },

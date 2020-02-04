@@ -42,9 +42,8 @@
                 <label for="inputPassword4">Item Type</label>
                 <label for="inputState">State</label>
       <select id="inputState" class="form-control" formControlName=itemType [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
-        <option selected>Choose...</option>
-        <option>Normal Item</option>
-        <option>Cart Items</option>
+        <option *ngFor="let data of ArraySelectOption">{{data}}</option>
+     
       </select>
                 <div *ngIf="submitted && f.itemType.errors" class="invalid-feedback">
                   <div *ngIf="f.itemType.errors.required">Item Type is required</div>
@@ -94,36 +93,6 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputPassword4">Manufacture Date</label>
-                <input type="date" class="form-control" formControlName="manuDate" placeholder="Manifactured Date"
-                [ngClass]="{ 'is-invalid': submitted && f.manuDate.errors }">
-                <div *ngIf="submitted && f.manuDate.errors" class="invalid-feedback">
-                  <div *ngIf="f.manuDate.errors.required">M Date is required</div>
-                </div>
-
-
-              </div>   
-              <div class="form-group col-md-6">
-                <label for="inputPassword4">Exp Date</label>
-                <input type="date" class="form-control" formControlName="expDate" placeholder="Manifactured Date"
-                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }">
-                <div *ngIf="submitted && f.expDate.errors" class="invalid-feedback">
-                  <div *ngIf="f.expDate.errors.required">Exp Date is required</div>
-                </div>
-
-
-              </div>   
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-2">
-                <label for="quantity">Quantity</label>
-                <input type="text" class="form-control" numbersOnly formControlName="quantity" placeholder="Qty"
-                  [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
-                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
-                  <div *ngIf="f.quantity.errors.required">Qty is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-5">
                 <label for="quantity">Selling Price</label>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
@@ -137,19 +106,38 @@
                   <div *ngIf="f.selling_price.errors.required">Selling Price is required</div>
                 </div>
               </div>
+              </div> 
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Expire Date</label>
+                <input type="date" class="form-control" formControlName="expDate" placeholder="Manifactured Date"
+                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }">
+                <div *ngIf="submitted && f.expDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.expDate.errors.required">Exp Date is required</div>
+                </div>
+
+
+              </div>   
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="quantity">Quantity</label>
+                <input type="text" class="form-control" numbersOnly formControlName="quantity" placeholder="Qty"
+                  [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
+                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                  <div *ngIf="f.quantity.errors.required">Qty is required</div>
+                </div>
               </div>
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-8">
                 <label for="quantity">Importered Country</label>
-                <input type="text"  class="form-control"  formControlName="importCountry"
-                  placeholder="Importered Country" [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }">
+                <input id="typeahead-format" formControlName="importCountry" type="text"  [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }" class="form-control"  [ngbTypeahead]="search" [resultFormatter]="formatter" />
                 <div *ngIf="submitted && f.importCountry.errors" class="invalid-feedback">
                   <div *ngIf="f.importCountry.errors.required">Importered Country is required</div>
                 </div>
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-md-10">
+              <div class="form-group col-md-12">
                 <label for="exampleForsubControlTextarea1">Description</label>
                 <textarea class="form-control" placeholder="Description" formControlName="description"
                   rows="3"></textarea>

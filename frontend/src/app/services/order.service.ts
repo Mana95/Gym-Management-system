@@ -10,19 +10,21 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
 
- 
+  saveCartData(data) {
+    return this.http.post(config.PAPYRUS + `/order/saveCartData`, data);
+  }
 
-  insertItemCart(data){
+  insertItemCart(data) {
    // console.log(data);
 
-    //localStorage.setItem('cartObject', JSON.stringify(data));
+    // localStorage.setItem('cartObject', JSON.stringify(data));
     let cart =  JSON.parse(localStorage.getItem('cartObject'));
     let isInCart = false;
-    if(cart){
+    if (cart) {
       console.log('Cart');
       console.log(cart);
-      isInCart = cart.some(item=>item.id===data.id);
-    }else {
+      isInCart = cart.some(item => item.id === data.id);
+    } else {
       cart = [];
     }
     if (isInCart) {
@@ -38,7 +40,7 @@ export class OrderService {
     } else {
       cart.push(data);
     }
-    localStorage.setItem('cartObject', JSON.stringify(cart)); 
+    localStorage.setItem('cartObject', JSON.stringify(cart));
 
 
 
@@ -47,73 +49,73 @@ export class OrderService {
   }
 
 
-  loadNavigateItemDetials(id){
-    //console.log(id);
-    return this.http.get(config.PAPYRUS+`/order/routeIdData/${id}`)
+  loadNavigateItemDetials(id) {
+    // console.log(id);
+    return this.http.get(config.PAPYRUS + `/order/routeIdData/${id}`);
   }
-  loadCardItems(){
-    return this.http.get(config.PAPYRUS+`/order/getAllCartItems`)
+  loadCardItems() {
+    return this.http.get(config.PAPYRUS + `/order/getAllCartItems`);
   }
 
 
 
 
   getAllSo() {
-    return this.http.get(config.PAPYRUS+`/order/getAllSo`)
+    return this.http.get(config.PAPYRUS + `/order/getAllSo`);
   }
   savePurchaseOrderData(purchaseOrderData) {
-    return this.http.post<any>(config.PAPYRUS+`/order/savePurchaseOrderData`, purchaseOrderData)
+    return this.http.post<any>(config.PAPYRUS + `/order/savePurchaseOrderData`, purchaseOrderData);
   }
 
   updatequantity(val) {
-    console.log(val)
-    return this.http.post(config.PAPYRUS+`/order/updateByQuantity`, val)
+    console.log(val);
+    return this.http.post(config.PAPYRUS + `/order/updateByQuantity`, val);
   }
 
 
   insertSalesOrder(data) {
-    return this.http.post(config.PAPYRUS+`/order/insertSalesOrder`, data)
+    return this.http.post(config.PAPYRUS + `/order/insertSalesOrder`, data);
   }
 
   updaterowDataquantity(dataVal) {
-    //alert("DATAVAL")
-    console.log('DATAVAL')
-    console.log(dataVal)
-    return this.http.post(config.PAPYRUS+`/order/updateBydeleteQuantity`, dataVal)
+    // alert("DATAVAL")
+    console.log('DATAVAL');
+    console.log(dataVal);
+    return this.http.post(config.PAPYRUS + `/order/updateBydeleteQuantity`, dataVal);
   }
 
 
   getPendingPo() {
-    return this.http.get(config.PAPYRUS+`/order/getPendingPo`)
+    return this.http.get(config.PAPYRUS + `/order/getPendingPo`);
   }
 
   updateStatus(val) {
     console.log(val);
-    return this.http.post(config.PAPYRUS+`/order/updateStatus`,val)
+    return this.http.post(config.PAPYRUS + `/order/updateStatus`, val);
   }
 
   getProgressPo() {
-    return this.http.get(config.PAPYRUS+`/order/getProgressPo`)
+    return this.http.get(config.PAPYRUS + `/order/getProgressPo`);
   }
   getByIdPo(poId) {
-    return this.http.get(config.PAPYRUS+`/order/getByIdPo/${poId}`)
+    return this.http.get(config.PAPYRUS + `/order/getByIdPo/${poId}`);
   }
   getSupplieraddress(sid) {
-    return this.http.get(config.PAPYRUS+`/order/getsId/${sid}`)
+    return this.http.get(config.PAPYRUS + `/order/getsId/${sid}`);
   }
 
   saveGrnValues(data) {
-   
-    return this.http.post(config.PAPYRUS+`/order/saveGRN/`,data)
+
+    return this.http.post(config.PAPYRUS + `/order/saveGRN/`, data);
 
   }
 
-  updatepoStatus(poid){
-    let updateVal = {
-      id:poid
-    }
-    console.log('SERVICE')
-    return this.http.post(config.PAPYRUS+`/order/updateStatusOfPO/`,updateVal)
+  updatepoStatus(poid) {
+    const updateVal = {
+      id: poid
+    };
+    console.log('SERVICE');
+    return this.http.post(config.PAPYRUS + `/order/updateStatusOfPO/`, updateVal);
   }
 
 

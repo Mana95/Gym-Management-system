@@ -1,5 +1,6 @@
-import { TwoDigitDecimaNumberDirective } from './twodigitdecimalnumber.directive';
-import { NumberDirective } from './numbers-only.directive';
+import { SharedModule } from './../../shared/shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { FormModule } from './../form/form.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +14,10 @@ import { NgxPopoverImageModule } from 'ngx-popover-image';
 
 
 @NgModule({
-    imports: [CommonModule, TablesRoutingModule, PageHeaderModule ,ReactiveFormsModule , FormModule ,NgxPopoverImageModule],
-    declarations: [TablesComponent ,NumberDirective , TwoDigitDecimaNumberDirective]
+    imports: [CommonModule, TablesRoutingModule, PageHeaderModule,
+              ReactiveFormsModule , SharedModule, FormModule , NgbModule ,
+               NgxPopoverImageModule
+    ],
+    declarations: [TablesComponent]
 })
 export class TablesModule {}

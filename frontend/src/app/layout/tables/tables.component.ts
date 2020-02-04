@@ -5,8 +5,9 @@ import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
-import { distinct } from 'rxjs/operators';
+import { distinct, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import {NgxPopoverImageModule} from 'ngx-popover-image';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tables',
@@ -15,22 +16,33 @@ import {NgxPopoverImageModule} from 'ngx-popover-image';
   animations: [routerTransition()]
 })
 export class TablesComponent implements OnInit {
-  itemData: any;
-  closeResult: string;
-  itemGroup: FormGroup;
-  submitted = false;
-  loading = false;
-  mainCat: any;
-  subcat: any;
-  userId: any;
-  active = false;
-  error = '';
-  imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
-  editFile: boolean = true;
-  removeUpload: boolean = false;
-  image:any;
+
+	itemData: any;
+	closeResult: string;
+	itemGroup: FormGroup;
+	submitted = false;
+	loading = false;
+	mainCat: any;
+	subcat: any;
+	userId: any;
+	active = false;
+// tslint:disable-next-line:member-ordering
+error = '';
+imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+editFile = true;
+removeUpload = false;image: any;
+  
+	states = ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda',
+	'Argentina',  'Armenia','Aruba','Australia','Austria','Azerbaijan',
+	 // tslint:disable-next-line:indent
+	 'Bahamas (the)','Bahrain','Bangladesh','Barbados','Belarus',
+	 'Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia (Plurinational State of)',
+	 'Bonaire, Sint Eustatius and Saba','Bosnia and Herzegovina',
+	 
+ ];
 
 
+ ArraySelectOption = ['Normal Item' , 'Cart Items'];
 
   constructor(
     private modalService: NgbModal,
@@ -43,25 +55,45 @@ export class TablesComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) { }
 
+  get f() {
+
+    return this.itemGroup.controls;
+
+  }
+
+ 
+
+
+  formatter = (result: string) => result.toUpperCase();
+
   ngOnInit() {
 
     this.loadData();
 
   }
+
+
+  search = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(term => term === '' ? []
+      : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+  )
+
   loadData() {
 
     this.itemGroup = this.formBuilder.group({
-      id:[''],
+      id: [''],
       cat_name: ['', Validators.required],
       item_name: ['', Validators.required],
       quantity: [null, Validators.required],
       description: [''],
-      itemType:['',Validators.required],
+      itemType: ['', Validators.required],
       sub_cat: ['', Validators.required],
       selling_price: ['', Validators.required],
-      importCountry:['' , Validators.required],
-      manuDate:[''],
-      expDate:['']
+      importCountry: ['' , Validators.required],
+      expDate: ['']
     });
 
     const qty = this.itemGroup.get('quantity');
@@ -79,14 +111,14 @@ export class TablesComponent implements OnInit {
 
     this.catagoryService.getItemDetials()
     .subscribe(
-      data=>{
-        console.log(data)
-        this.itemData=data;
+      data => {
+        console.log(data);
+        this.itemData = data;
       },
-      error=> {
-        console.log(error)
+      error => {
+        console.log(error);
       }
-    )
+    );
 
 
     this.catagoryService.getCatNames()
@@ -95,13 +127,13 @@ export class TablesComponent implements OnInit {
           //  console.log(data)
           this.mainCat = data;
         }
-      )
-    //Id Gen
-    var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
-    var string_length = 8;
-    var id = 'IT_' + '';
-    for (var i = 0; i < string_length; i++) {
-      var rnum = Math.floor(Math.random() * chars.length);
+      );
+    // Id Gen
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
+    const string_length = 8;
+    let id = 'IT_' + '';
+    for (let i = 0; i < string_length; i++) {
+      const rnum = Math.floor(Math.random() * chars.length);
       id += chars.substring(rnum, rnum + 1);
       this.userId = id;
       this.itemGroup.controls['id'].setValue(id);
@@ -112,16 +144,10 @@ export class TablesComponent implements OnInit {
 
   }
 
-  get f() {
-
-    return this.itemGroup.controls;
-
-  }
-
   uploadFile(event) {
     console.log(this.imageUrl);
-    let reader = new FileReader(); // HTML5 FileReader API
-    let file = event.target.files[0];
+    const reader = new FileReader(); // HTML5 FileReader API
+    const file = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
 
@@ -133,7 +159,7 @@ export class TablesComponent implements OnInit {
         });
         this.editFile = false;
         this.removeUpload = true;
-      }
+      };
       // ChangeDetectorRef since file is loading outside the zone
       this.cd.markForCheck();
     }
@@ -141,19 +167,16 @@ export class TablesComponent implements OnInit {
 
 
   onSubmit(data) {
-    console.log(data.value)
+    console.log(data.value);
     this.submitted = true;
     this.loading = true;
-    // var selValue = this.f.selling_price.value.toFixed(2);
-    
-    // console.log(typeof selValue);
-  
-   
-    if (this.itemGroup.valid) {
-      var selValue = this.f.selling_price.value.toFixed(2);
-    
 
-      let itemData = {
+
+    if (this.itemGroup.valid) {
+      const selValue = this.f.selling_price.value.toFixed(2);
+
+
+      const itemData = {
         id: this.f.id.value,
         cat_name: this.f.cat_name.value,
         item_name: this.f.item_name.value,
@@ -164,10 +187,9 @@ export class TablesComponent implements OnInit {
         Importered_Country: this.f.importCountry.value,
         image: this.imageUrl,
         itemType: this.f.itemType.value,
-        manuDate:this.f.manuDate.value,
-        expDate:this.f.expDate.value
+        expDate: this.f.expDate.value
 
-      }
+      };
 
       console.log(itemData);
       this.catagoryService.insertItemData(itemData)
@@ -179,22 +201,23 @@ export class TablesComponent implements OnInit {
             this.error = error;
             this.loading = false;
           },
-          ()=>{
+          () => {
             this.loadData();
           }
 
-        )
+        );
       this.submitted = false;
     }
 
   }
 
   getSubCatValue(data) {
-    console.log('TS')
-    let catName = data.value;
-    console.log(catName)
+    console.log('TS');
+    const catName = data.value;
+    console.log(catName);
     this.autenticationService.getSubCatNames(catName)
       .subscribe(
+        // tslint:disable-next-line:no-shadowed-variable
         data => {
           this.subcat = data;
           console.log(data);
@@ -204,7 +227,7 @@ export class TablesComponent implements OnInit {
           console.log(error);
         });
 
-    this.active = true
+    this.active = true;
   }
 
 

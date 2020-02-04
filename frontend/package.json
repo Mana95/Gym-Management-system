@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --p rod",
     "gitbuild": "ng build --prod --base-href /start-angular/SB-Admin-BS4-Angular-7/master/dist/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
@@ -27,6 +27,7 @@
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
     "angular-notifier": "^6.0.1",
+    "angularx-social-login": "^2.2.1",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",
     "devexpress-reporting-angular": "^19.2.5",

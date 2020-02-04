@@ -6,6 +6,7 @@ const ItemData = db.ItemData;
 const Supplier =db.Supplier;
 const GRN = db.GRN;
 const SalesOrder = db.SalesOrder
+const Cart = db.Cart
 
 module.exports = {
     InsertData,
@@ -21,11 +22,19 @@ module.exports = {
     salesOrderInsert,
     getAllDataSo,
     getCartItems,
-    routeIdData
+    routeIdData,
+    saveCartData
+}
+
+
+async function saveCartData(data){
+    const cart = new Cart(data);
+    //console.log(itemData);
+    await cart.save();
 }
 
 async function getCartItems(){
-    return await ItemData.find({});
+    return await ItemData.find({"itemType": "Cart Items"});
 }
 
 async function routeIdData(data){

@@ -22,7 +22,18 @@ router.get('/getsId/:id' , getSupplierId);
 router.get('/getAllSo', getAllSo);
 router.get('/getAllCartItems', getAllCartItems);
 
+router.post('/saveCartData', saveCartData);
+
+
 router.post('/updateStatus', UpdateStatus);
+
+function saveCartData(req ,res ,next){
+    orderService.saveCartData(req.body)
+    .then(cart => res.json(cart))
+    .catch(err => next(err));
+}
+
+
 
 function getAllCartItems(req ,res ,next){
     orderService.getCartItems()
