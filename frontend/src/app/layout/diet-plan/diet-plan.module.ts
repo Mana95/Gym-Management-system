@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DietPlanComponent } from './diet-plan.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DietPlanCreationComponent } from './diet-plan-creation/diet-plan-creation.component';
 
 @NgModule({
   declarations: [DietPlanComponent],

@@ -16,7 +16,7 @@ export class EditUserComponent implements OnInit {
   loading = false;
   removeUpload = false;
   editFile = true;
-  buttonStatus = false;
+  buttonStatus = true;
   formData: User;
   userRole: any;
   imageData: any;
@@ -144,7 +144,7 @@ console.log(PO_id);
 
   onSubmit() {
 
-
+alert('submit');
 const editUserDetails = {
   id: this.f.id.value,
   image: this.newImage.name,
@@ -166,15 +166,15 @@ const editUserDetails = {
 
  };
 console.log(editUserDetails);
- // this.authenticationService.updateUser(editUserDetails)
-// .subscribe(data => {
+ this.authenticationService.updateUser(editUserDetails)
+.subscribe(data => {
 
-//   console.log(data);
-//   this.openConfirmationDialog();
-// },error=> {
-//   this.error = error;
-//   this.loading = false;
-// })
+  console.log(data);
+  this.openConfirmationDialog();
+},error=> {
+  this.error = error;
+  this.loading = false;
+})
 
 
 //     console.log("Update"+JSON.stringify(editUserDetails));

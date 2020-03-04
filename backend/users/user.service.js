@@ -63,13 +63,16 @@ module.exports = {
     updateRole,
     loginMail,
     instructorSave,
-    findCustomer
+    findCustomer,
+    savememberData
    
 
 
 
 
 };
+
+
 
 
 async function  findCustomer(data) {
@@ -193,6 +196,28 @@ async function insertMembership(body) {
 }else{
     return 4;
 }
+}
+
+//Insert member to Database
+async function savememberData(data){
+  
+   if(await User.findOne({email: data.email})){
+    return 'Email "' + data.email + '" is already taken';
+       
+   }else if(await User.findOne({username:data.username})){
+    return 'UserName "' + data.username + '" is already taken';
+    
+   }
+   const user = new User(data);
+    // hash password
+    if (data.password) {
+        user.hash = bcrypt.hashSync(data.password, 10);
+    }
+    // save user
+    if(await user.save()){
+        return 1;
+    }
+    
 }
 
 
@@ -646,6 +671,12 @@ async function signUpUser(data) {
 async function authenticate({ firstName, password }) {
     console.log('Authentication service')
    
+    if(await User.findOne({ username: firstName , active:false })){
+        return 'Username is not Activated please contact admin department';
+    }else if(!(await User.findOne({ username: firstName}))){
+        return 'There is no sufficient user in the system';
+    }
+
     const user = await User.findOne({ firstName });
     const userActive = await User.findOne({})
     console.log(user);
@@ -661,13 +692,6 @@ async function authenticate({ firstName, password }) {
         };
     }
 }
-else if(user.active == false) {
-    throw 'That user is not Active';
-}
-else{
-    throw 'There is no such User';
-}
-
 }
 
 //Get data

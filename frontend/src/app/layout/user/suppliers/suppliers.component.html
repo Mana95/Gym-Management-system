@@ -1,5 +1,17 @@
 
-          
+     <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to Delete the Employee?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()">
+          Yes</button>&nbsp;
+        <button type="button" class="btn btn-primary" (click)="decline()">
+          No
+        </button>
+      </div>
+    </ng-template>
+    
+    
+    
           <div class="card mb-3">
               <div class="card-header"><p><b>Supplier</b>&nbsp; <button type="button"  [routerLink] = "['/new_sup']" class="btn btn-success  btn-sm">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
               </div>  

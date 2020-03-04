@@ -58,7 +58,7 @@
             </li>
         </div> 
         <!-- End UserModule -->
-        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item"*ngIf ="Membership" >
+        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item" >
             <i class="fa fa-handshake-o"></i>&nbsp;
             <span>{{ 'Get Membership' | translate }}</span>
         </a>
@@ -73,7 +73,7 @@
     <span>{{ 'Accepted Schedule' | translate }}</span>
 </a>
 
-<a [routerLink]="['/viewSchedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
+<a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
     <i class="fa fa-cutlery"></i>&nbsp;
     <span>{{ 'Diet Plan' | translate }}</span>
 </a>

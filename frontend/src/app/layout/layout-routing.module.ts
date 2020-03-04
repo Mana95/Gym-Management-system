@@ -33,12 +33,11 @@ const routes: Routes = [
            
 
             
-
             { path: 'sales_order_cart', loadChildren: () => import('./salesorder/sales-order-cart/sales-order-cart.module').then(m => m.SalesOrderCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'ItemCartView/:id', loadChildren: () => import('./salesorder/sale-order-item-view/sale-order-item-view.module').then(m => m.SaleOrderItemViewModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'addToCart', loadChildren: () => import('./salesorder/add-to-cart/add-to-cart.module').then(m => m.AddToCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
-         
-          
+        
+            
             { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Supplier] } },
             { path: 'newUser', loadChildren: () => import('./user/new-user/new-user.module').then(m => m.NewUserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] }  },
@@ -56,8 +55,9 @@ const routes: Routes = [
             { path: 'acceptedSchedule/:id', loadChildren: () => import('./schedule/accepted-schedule/accepted-schedule.module').then(m => m.AcceptedScheduleModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Instructor] } },
             { path: 'schedule_plan/:id', loadChildren: () => import('./schedule/schedule-plan/schedule-plan.module').then(m => m.SchedulePlanModule) },
           
-            
-            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Customer] } },
+            { path: 'diet_plan', loadChildren: () => import('./diet-plan/diet-plan.module').then(m => m.DietPlanModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
+           { path: 'diet_creation' , loadChildren: ()=> import('./diet-plan/diet-plan-creation/diet-plan-creation.module').then(m=> m.DietPlanCreationModule),canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
+            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Customer , Role.Member] } },
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             

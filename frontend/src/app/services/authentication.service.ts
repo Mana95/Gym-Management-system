@@ -28,10 +28,16 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+  autoUpdateStatus() {
+    return this.http.get(config.PAPYRUS+`/users/autoUpdate`)
+  }
 
-  // loadSchedule() {
-  //   return this.http.get(config.PAPYRUS+`/users/loadSchedule`)
-  // }
+  saveMembership(data){
+    console.log(data);
+    return this.http.post(config.PAPYRUS+`/users/savemember`,data)
+  }
+
+
 
   findCustomer(data){
     return this.http.get(config.PAPYRUS+`/users/findCustomer/${data}`)
@@ -222,7 +228,7 @@ export class AuthenticationService {
 
         //Update user
         updateUser(UserParamUpdate): Observable<any> {
-          console.log("New Data" + UserParamUpdate);
+        
           return this.http.post<User>(config.PAPYRUS+`/users/userUpdate`, UserParamUpdate)
         }
 

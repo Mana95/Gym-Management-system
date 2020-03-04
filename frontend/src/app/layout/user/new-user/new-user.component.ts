@@ -339,6 +339,7 @@ else if (dayText > 31) {
             res=>{
               //this.router.navigate(['/newUser']);
               this.funcA(res[0], res[1] ,content ,contentDone);
+              this.userRegisterFrom.reset();
             },
             error=>{
               console.log(error);

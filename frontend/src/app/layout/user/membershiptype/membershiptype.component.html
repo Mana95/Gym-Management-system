@@ -1,4 +1,4 @@
-<div class="card mb-12">
+<div class="card mb-12"></div>
   <div class="card-header">
     <p><b>New Membership</b> &nbsp;
       <ng-template #content let-modal>
@@ -8,7 +8,6 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-
         <div class="modal-body">
           <form [formGroup]="membershipGroup" (ngSubmit)="onSubmit()">
             <div class="form-group">
@@ -18,8 +17,17 @@
               <div class="form-group col-md-6">
                 <label for="inputquantity4">Membership type Id*</label>
                 <input type="text" class="form-control" formControlName="membership_type_id" disabled >
-
               </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Type Name</label>
+                <input type="text" class="form-control"   id="inlineFormInputGroup"  placeholder="Type Name" formControlName="typeName"
+                [ngClass]="{ 'is-invalid': submitted && f.typeName.errors }">
+                <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.typeName.errors.required">Type Name is required</div>
+                </div>
+              </div>
+
+
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Type Name</label>
                 <input type="text" class="form-control"   id="inlineFormInputGroup"  placeholder="Type Name" formControlName="typeName"
@@ -52,11 +60,6 @@
                   <div *ngIf="f.month.errors.required">Mounth is required</div>
                 </div>
 </div>
-
-
-
-
-
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">

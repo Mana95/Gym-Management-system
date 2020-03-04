@@ -106,20 +106,6 @@ export class InstructorsComponent implements OnInit {
       }
     )
      }
-
-
-     
-
-
-
-
-
-
-
-
-
-
-
   
 public uploader: FileUploader = new FileUploader({
     isHTML5: true
@@ -446,6 +432,7 @@ if(this.f.description.value ==null){
   }
 
   funcA(response1){
+    this.registrationGroup.reset();
     this.loadNewId();
     console.log("Hello")
      console.log(response1);

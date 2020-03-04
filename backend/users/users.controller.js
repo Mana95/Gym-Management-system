@@ -14,6 +14,7 @@ router.post('/authenticate', authenticate);
 router.post('/register', register);
 router.post('/signUp', signUp);
 router.post('/saveMembershiptypeData', saveMembershiptypeData);
+router.post('/savemember', savemember);
 router.post('/updateStatus' , updateStatus);
 router.post('/supplierMail' ,supplierMail);
 router.post('/instructor' , instructorSave);
@@ -158,6 +159,17 @@ async function NewPassword(req, res) {
 //     .then(membership => res.json(membership))
 //     .catch(err => next(err));
 // }
+
+
+
+
+function savemember(req ,res ,next){
+    console.log(req.body)
+    userService.savememberData(req.body)
+    .then(member => res.json(member))
+    .catch(err => next(err));
+}
+
 
 function updateRole(req ,res ,next){
     userService.updateRole(req.body)
@@ -308,7 +320,7 @@ function getGroupById (req,res,next){
 
 
 function UpdateUser(req, res, next){
-    //console.log("Controller:" + JSON.stringify(req.body));
+    
     userService.UpdateUserService(req.body)
      .then(() => res.json({}))
     .catch(err => next(err));
@@ -407,10 +419,7 @@ function signUp(req, res, next){
 function authenticate(req, res, next) {
   //  console.log(req.body)
     userService.authenticate(req.body)
-        .then(user => {
-            user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' 
-        })
-    })
+        .then(user => res.json(user))
         .catch(err => next(err));
 }
 

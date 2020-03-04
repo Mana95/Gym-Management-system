@@ -13,6 +13,7 @@ import { first } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    backendMessage:any;
     loading = false;
     submitted = false;
     returnUrl: string;
@@ -47,9 +48,9 @@ export class LoginComponent implements OnInit {
    this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
+    if (this.loginForm.valid) {
+     
+
    // console.log(this.f.username.value);
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
@@ -57,6 +58,8 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          console.log(data);
+          this.backendMessage = data;
          //console.log(data)
          this.router.navigate(['/dashboard']);
        //   console.log(gat)
@@ -69,7 +72,7 @@ export class LoginComponent implements OnInit {
          // alert(error.error.message)
 
         });
-
+      }
         
       
 

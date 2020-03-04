@@ -25,4 +25,12 @@ export class SuppliersComponent implements OnInit {
     )
   }
 
+  confirm(){
+
+  }
+
+  decline() {
+    
+  }
+
 }

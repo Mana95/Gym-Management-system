@@ -1,3 +1,4 @@
+import { ModalModule } from 'ngx-bootstrap';
 import { SuppliersComponent } from './suppliers.component';
 import { FormModule } from './../../form/form.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +12,7 @@ import { NewSuppliersComponent } from './new-suppliers/new-suppliers.component';
 @NgModule({
   declarations: [SuppliersComponent],
   imports: [
-    CommonModule, SuppliersRoutingModule ,PageHeaderModule , ReactiveFormsModule,FormModule
+    CommonModule, SuppliersRoutingModule ,PageHeaderModule , ReactiveFormsModule,FormModule,   ModalModule.forRoot(),
   ]
 })
 export class SuppliersModule { }

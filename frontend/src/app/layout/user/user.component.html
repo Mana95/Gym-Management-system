@@ -1,63 +1,128 @@
-             <div class="card mb-12">
-                    <div class="card-header">
-                      <p><b>New Employee</b> &nbsp;<button type="button" [routerLink]="['/newUser']"class="btn btn-success  btn-sm">New &nbsp;<i class="fa fa-plus-square"></i></button></p>            
-                    </div>                  
-                    <div class="card-body table-responsive">
-                      <table class="table table-hover table-striped">
-                        <thead>                  
-                          <div class="row">
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-md-7">
-                                  <h2>
-                                    <b>All Employee Type Status</b>                  
-                                  </h2>
-                                  
-       <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
-        </div>
-        
-        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Type To Search">
-    </div>
-                                </div>                                      
-                              </div>
-                              <hr />
-                              <br />
-                              
-                              <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
-                                <caption>
-                                  <b>View Employee Details</b>
-                                </caption>
-                                <thead>
-                                  <tr>
-                                    <th style="text-align: center;" scope="col">Join Date</th>
-                                    <th style="text-align: center;" scope="col">Image</th>
-                                    <th style="text-align: center;" scope="col">Employee ID</th>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to Delete the Employee?</p>
+    <button type="button" class="btn btn-danger" (click)="confirm()">
+      Yes</button>&nbsp;
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
+  </div>
+</ng-template>
 
-                                    <th style="text-align: center;" scope="col">Employee Name</th>
-                                    <th style="text-align: center;" scope="col">Contact Number</th>
-                                    <th style="text-align: center;" scope="col">Email </th>
-                                    <th style="text-align: center;" scope="col">Action</th>
-                                  </tr>
-                                </thead>   
-                                <tbody>
-                                  <tr *ngFor="let data of  userview | paginate:{ itemsPerPage: 10 ,currentPage: p} | filter:searchText ">
-                                    <td style="text-align: center;">{{data.date}}</td>
-                                     <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]="data.imagePath"/></td>
-                                    <td style="text-align: center;">{{data.id}}</td>  
-                                    <td style="text-align: center;">{{data.firstName}} {{data.LastName}}</td>
-                                    <td style="text-align: center;">{{data.phonenumber}}</td>
-                                    <td style="text-align: center;">{{data.email}}</td>
-                                    <td style="text-align: center;"><button type="button"   (click)="routePage(data)" class="btn btn-primary btn-sm"><i
-                                          class="fa fa-pencil" aria-hidden="true"></i></button> &nbsp;
-                                      <button type="button" (click)="deleteRecord(data)" class="btn btn-danger btn-sm"(click)="deleteRecord(data)" ><i class="fa fa-trash-o"
-                                          aria-hidden="true"></i></button></td>
-                  
-                                  </tr>
-                  
-                  
-                                </tbody>
-                              </table>
-                                <pagination-controls (pageChange)="p = $event"  style="float:right;"></pagination-controls>
-                            </div>
+<ng-template #templateEdit>
+  <div class="modal-body text-center">
+    <p>Do you want to edit the Employee?</p>
+    <button type="button" class="btn btn-success" (click)="confirmEdit()">
+      Yes</button>&nbsp;
+    <button type="button" class="btn btn-danger" (click)="decline()">
+      No
+    </button>
+  </div>
+</ng-template>
+<div class="card mb-12">
+  <div class="card-header">
+    <p>
+      <b>New Employee</b> &nbsp;<button type="button" [routerLink]="['/newUser']" class="btn btn-success  btn-sm">
+        New &nbsp;<i class="fa fa-plus-square"></i>
+      </button>
+    </p>
+  </div>
+  <div class="card-body table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-7">
+                <h2>
+                  <b>All Employee Type Status</b>
+                </h2>
+
+              
+              </div>
+            </div>
+            <hr />
+            <br />
+
+            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
+              <caption>
+                <b>View Employee Details</b>
+              </caption>
+              <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">
+                    Join Date
+                  </th>
+                  <th style="text-align: center;" scope="col">
+                    Image
+                  </th>
+                  <th style="text-align: center;" scope="col">
+                    Employee ID
+                  </th>
+
+                  <th style="text-align: center;" scope="col">
+                    Employee Name
+                  </th>
+                  <th style="text-align: center;" scope="col">
+                    Contact Number
+                  </th>
+                  <th style="text-align: center;" scope="col">
+                    Email
+                  </th>
+                  <th style="text-align: center;" scope="col">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                                        let data of userview
+                                            | paginate
+                                                : {
+                                                      itemsPerPage: 10,
+                                                      currentPage: p
+                                                  }
+                                            | filter: searchText
+                                    ">
+                  <td style="text-align: center;">
+                    {{ data.date }}
+                  </td>
+                  <td style="text-align: center;">
+                    <img width="50" height="50" class="avatar" [src]="data.imagePath" />
+                  </td>
+                  <td style="text-align: center;">
+                    {{ data.id }}
+                  </td>
+                  <td style="text-align: center;">
+                    {{ data.firstName }} {{ data.LastName }}
+                  </td>
+                  <td style="text-align: center;">
+                    {{ data.phonenumber }}
+                  </td>
+                  <td style="text-align: center;">
+                    {{ data.email }}
+                  </td>
+                  <td style="text-align: center;">
+                    <button type="button" (click)="
+                                                openModalEdit(
+                                                    data,
+                                                    templateEdit
+                                                )
+                                            " class="btn btn-primary btn-sm">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                    &nbsp;
+                    <button type="button" (click)="openModal(data, template)" class="btn btn-danger btn-sm">
+                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event" style="float:right;"></pagination-controls>
+          </div>
+        </div>
+      </thead>
+    </table>
+  </div>
+</div>

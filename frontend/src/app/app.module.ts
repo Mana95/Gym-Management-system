@@ -14,6 +14,7 @@ import { PasswordchangeComponent } from './passwordchange/passwordchange.compone
 import { ResponseresetpasswordComponent } from './responseresetpassword/responseresetpassword.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { WebpageComponent } from './webpage/webpage.component';
+import { MemberLoginComponent } from './member-login/member-login.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,6 @@ import { WebpageComponent } from './webpage/webpage.component';
         NgbModule,
         FormsModule,
         ReactiveFormsModule,
-
     ],
     declarations: [AppComponent, PasswordchangeComponent, ResponseresetpasswordComponent],
     providers: [AuthGuard],

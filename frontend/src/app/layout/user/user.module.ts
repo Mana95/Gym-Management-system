@@ -14,12 +14,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+import { ModalModule } from 'ngx-bootstrap';
+
 @NgModule({
  
   imports: [
     CommonModule  , UserRoutingModule ,PageHeaderModule ,   FormsModule,
-    ReactiveFormsModule ,FileUploadModule ,NgbModule, NgxPaginationModule ,Ng2SearchPipeModule ,SharedModule
+    ReactiveFormsModule ,FileUploadModule ,
+    NgbModule, NgxPaginationModule ,Ng2SearchPipeModule ,SharedModule,
+    ModalModule.forRoot(),
   ],
-  declarations: [UserComponent]
+  declarations: [UserComponent],
+  
 })
 export class UserModule { }

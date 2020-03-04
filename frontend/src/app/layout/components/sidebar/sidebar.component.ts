@@ -100,12 +100,21 @@ export class SidebarComponent implements OnInit {
             return this.currentUser && this.currentUser.role === Role.Admin;
         }
     }
+    
 
     get Membership () {
         if(this.currentUser.role === Role.Customer){
             return this.currentUser && this.currentUser.role === Role.Customer;
         }
       
+    }
+
+    get MembershipRequest() {
+        if(this.currentUser.role === Role.Customer){
+            return this.currentUser && this.currentUser.role === Role.Customer;
+        }else if(this.currentUser.role === Role.Member){
+            return this.currentUser && this.currentUser.role === Role.Member;
+        }
     }
     // get Schedule() {
 

@@ -7,16 +7,16 @@
           <form [formGroup]="loginForm" (ngSubmit)= "onSubmit()">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" formControlName = "username" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="{{ 'Username' | translate }}">
-                        <div *ngIf="submitted && !!f.username.errors" class="invalid-feedback">
-                            <div *ngIf="!!f.username.errors.required"><b>Username is required</b></div> 
+                        <input type="text" formControlName = "username" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="{{ 'Username' | translate }}" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                            <div *ngIf="f.username.errors.required"  class="input-lg"><b>Username is required</b></div> 
                      </div>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" formControlName = "password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}">
-                        <div *ngIf="submitted && !!f.password.errors" class="invalid-feedback">
-                            <div *ngIf="!!f.password.errors.required"><b>Password is required</b></div>
+                        <input type="password" formControlName = "password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required"  class="input-lg"><b>Password is required</b></div>
 
 </div> 
 <div class="form-group">
@@ -24,14 +24,13 @@
 </div>
                     </div>
                 </div>
-
-                
-               
+                <div  style="color: red;" class="input-lg"><b>{{backendMessage}}</b></div>
                 <button type = "submit" class = "btn rounded-btn">Login</button>&nbsp; 
                 <!-- <a class="btn rounded-btn" [routerLink]="['/']" (click)="onLoggedin()">{{ 'Log in' | translate }}</a>
                 &nbsp; -->
-                <a class="btn rounded-btn" [routerLink]="['/signup']">{{ 'Register' | translate }}</a>
+                <a class="btn rounded-btn" [routerLink]="['/memberSignup']">{{ 'Register' | translate }}</a>
             <div *ngIf="error" style="color: red;" class="input-lg"><b>{{error}}</b></div>
+            
             </form>
         </div>
     </div>
