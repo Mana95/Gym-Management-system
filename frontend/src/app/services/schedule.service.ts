@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models';
 import { config } from '../config/config.js';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +72,11 @@ export class ScheduleService {
   insertScheduleData(data){
     return this.http.post(config.PAPYRUS+`/shedule/insertData` , data);
   
+  }
+  checkDateAvalabilty(id ,currentDate){
+    return this.http.get(config.PAPYRUS+`/shedule/checkAvalibility/${id},${currentDate}`)
+    .pipe(map(data=>{
+      return data;
+    }))
   }
 }

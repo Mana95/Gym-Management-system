@@ -17,7 +17,7 @@ export class NewscheduleComponent implements OnInit {
   requestScheduleGroup:FormGroup;
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-
+ 
   
   Type:any;
   submitted =false;
@@ -101,7 +101,6 @@ this.requestScheduleGroup.controls["date"].setValue(
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-
     let formData = {
       Sid: this.f.id.value,
       membershipId:this.f.mId.value,
@@ -110,11 +109,13 @@ this.requestScheduleGroup.controls["date"].setValue(
       date:this.f.date.value,
       description:this.f.description.value
     }
-
+    
+      const memberId = this.f.mId.value;
+      const currentDate = this.f.date.value
       console.log(formData);
 
     if(this.requestScheduleGroup.valid){
-
+     // this.ValidationCheckDate(memberId , currentDate);
       this.scheduleService.insertScheduleData(formData)
       .subscribe(
         response=>{
@@ -146,6 +147,15 @@ this.requestScheduleGroup.controls["date"].setValue(
 
     }
 
+  }
+  ValidationCheckDate(memberId ,currentDate) {
+
+     this.scheduleService.checkDateAvalabilty(memberId,currentDate)
+     .subscribe(
+       response=>console.log(response),error=>console.log(error)
+      
+     )
+    
   }
 
 }

@@ -1,6 +1,7 @@
 ﻿    require('rootpath')();
     const cors = require('cors');
- 
+   
+
     var express = require('express');
     var app = express();
     var bodyParser = require('body-parser');
@@ -9,6 +10,10 @@
     const path = require('path');
     const shell = require('shelljs');
     const db = require('_helpers/db');
+
+
+    
+
     app.use(cors());
     
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,9 +37,12 @@
     No cors required */
     app.use(express.static('../client'));
     
- 
+//define the membership collection 
+const Membership = db.Membership;
 
-  var storage = multer.diskStorage({ //multers disk storage settings
+
+
+ var storage = multer.diskStorage({ //multers disk storage settings
 
         //Pass function that will generate destination path
         destination: function (req, file, cb) {

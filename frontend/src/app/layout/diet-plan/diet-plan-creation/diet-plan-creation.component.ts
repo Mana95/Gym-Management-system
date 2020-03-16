@@ -19,7 +19,6 @@ import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
-
 const colors: any = {
   red: {
     primary: '#ad2121',

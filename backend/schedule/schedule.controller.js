@@ -18,10 +18,17 @@ router.post('/RejectRecord' , RejectRecord);
 router.post('/createSchedule' , createSchedule);
 router.get('/loadById/:id' , loadById);
 router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
+router.get('/checkAvalibility/:id', checkDateAvl);
 router.get('/getById/:id' ,getById);
 router.get('/loadInstructor' ,loadInstructor);
 
 
+function checkDateAvl (req ,res ,next){
+    const id = req.params.id;
+    scheduleService.checkAvl(id)
+    .then(id => res.json(id))
+    .catch(err => next(err));
+}
 
 function loadInstructor(req ,res, next){
     scheduleService.loadInstructor()

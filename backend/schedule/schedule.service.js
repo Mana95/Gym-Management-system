@@ -2,7 +2,7 @@ const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
-
+const moment = require('moment');
 
 const ScheduleType =db.ScheduleType;
 const Schedule = db.Schedule;
@@ -23,11 +23,34 @@ module.exports = {
     loadInstrucotrData,
     createSchedule,
     getById,
-    loadInstructor
+    loadInstructor,
+    checkAvl
     
 };
 
+async function checkAvl(id) {
+   //current month
+    const currentMonth = moment().format('M');
+      
+    const getDate = await Schedule.findOne({membershipId:id},
+        function(error , responses){
+            //getmonth
+            const getDate = responses.createdDate;
+           const AvlMonth = 1 +getDate.getMonth();
+            const totalDate = Number(AvlMonth) + Number(currentMonth);
+            console.log(totalDate);
+            if(totalDate=>2){
+                console.log("Month is greater than 3")
+                
+            }else {
+                console.log('lesthen 3month');
+            }
 
+        })
+
+    const checkDate = await Schedule.find({membershipId:id , })
+ 
+}
 
 async function  loadInstructor(id){
     return await Instructor.find({})
