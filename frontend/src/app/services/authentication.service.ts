@@ -5,13 +5,11 @@ import { User } from '../_models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+  
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -229,7 +227,7 @@ export class AuthenticationService {
         //Update user
         updateUser(UserParamUpdate): Observable<any> {
         
-          return this.http.post<User>(config.PAPYRUS+`/users/userUpdate`, UserParamUpdate)
+          return this.http.put<User>(config.PAPYRUS+`/users/userUpdate`, UserParamUpdate)
         }
 
         //Get Group data by id 
@@ -245,6 +243,11 @@ export class AuthenticationService {
           localStorage.removeItem('currentUser');
           localStorage.removeItem('cartObject');
           this.currentUserSubject.next(null);
+        }
+
+        loadProfileData(id) {
+      
+          return this.http.get<any>(config.PAPYRUS+`/users/loadProfileData/${id}`);
         }
       
 

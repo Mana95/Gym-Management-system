@@ -1,0 +1,1 @@
+export const states = ['Mens' , 'Ladies' , 'Student', 'Couples'];

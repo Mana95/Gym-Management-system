@@ -103,7 +103,7 @@ removeUpload = false;image: any;
     qty.valueChanges
       .pipe(distinct())
       .subscribe(value => qty.setValue(+value || 0));
-
+``
     sellingPrice.valueChanges
       .pipe(distinct())
       .subscribe(value => sellingPrice.setValue(+value || 0));

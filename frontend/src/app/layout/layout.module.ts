@@ -14,10 +14,8 @@ import { GetmembershipComponent } from './getmembership/getmembership.component'
 import { ScheduleComponent } from './schedule/schedule.component';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
 import { ProfileComponent } from './profile/profile.component';
-
-
-
-
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
     imports: [
@@ -27,9 +25,7 @@ import { ProfileComponent } from './profile/profile.component';
         NgbDropdownModule,
         ReactiveFormsModule,
         FormsModule,
-        
-        
-
+       
     ],
     
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent]

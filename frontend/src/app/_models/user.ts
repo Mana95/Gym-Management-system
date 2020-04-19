@@ -25,6 +25,8 @@ export enum UserRegistrationStatus {
     FAILED = 2,
     DUPLICATEUSER = 3,
     ALREADYSENDMEMBERSHIPREQUEST = 4,
+    DUPLICATEEMAIL = 5,
+    
     
 
 }

@@ -1,3 +1,5 @@
+import { states } from './../../_models/common';
+
 import { AuthenticationService } from "./../../services/authentication.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -15,6 +17,8 @@ import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 })
 export class GetmembershipComponent implements OnInit {
   getMembershipGroup: FormGroup;
+  states =states
+
   display = [{
     "id": "Yes"
   },
@@ -86,7 +90,9 @@ export class GetmembershipComponent implements OnInit {
 
     this.loadFormData();
   }
+  dayToDayMembership() {
 
+  }
   appearDiscription(event) {
     //console.log(this.f.disaster.value);
     if (this.f.disaster.value == 'Yes') {

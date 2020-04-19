@@ -5,6 +5,7 @@ import { CatagoryService } from 'src/app/services/catagory.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { distinct } from 'rxjs/operators';
+import { states } from 'src/app/_models/common';
 
 @Component({
   selector: 'app-membershiptype',
@@ -16,8 +17,18 @@ export class MembershiptypeComponent implements OnInit {
   submitted = false;
   loading = false;
   membershipGroup:FormGroup;
+  states = states;
   mounthArray = [1,2,3,4,5,6,7,8,9,10,11,12];
-  yearArray = [1,2,3,4,5,6,7,8,9,10];
+  dayArrays = [1,7,14];
+  periodType = ['Month to month' , 'year to year' , 'day to day'];
+//PeriodTypes
+  monthToMonth = false ;
+  yearToyear = false;
+  dayToDay = false;
+
+  Week1 = false;
+  Week2 = false;
+
   closeResult: string;
   values:any;
 
@@ -35,11 +46,21 @@ this.membershipGroup = this.formBuilder.group({
   membership_type_id:[''],
   typeName:['',Validators.required],
   month:['',Validators.required],
+  membershipCatagory : ['' , Validators.required],
   years:[''],
+  days:[''],
   amount:['', Validators.required],
   note:['', Validators.required]
 
 });
+
+this.AssignData();
+
+  }
+  AssignData() {
+
+    
+
 const amount = this.membershipGroup.get('amount');
 const years = this.membershipGroup.get('years');
 const month = this.membershipGroup.get('month');
@@ -61,7 +82,7 @@ this.autenticationService.getAllMembershipType()
 )
 
 
- //Id Gen
+   //Id Gen
  var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
  var string_length = 8;
  var id = 'MT_' + '';
@@ -71,25 +92,66 @@ this.autenticationService.getAllMembershipType()
   
     this.membershipGroup.controls['membership_type_id'].setValue(id);
  }
+  }
+//popup warning message
+  identifyWeeks(event) {
 
-
-
-
-
-
-
-
-
+    const weekTitle = Number(event.target.value);
+   console.log(weekTitle);
+    switch(weekTitle){
+      case this.dayArrays[0]:
+        this.Week2 = false;
+        this.Week1 = false;
+            break
+      case this.dayArrays[1]:
+      this.Week1 = true;
+      this.Week2  = false;
+        break;
+        case this.dayArrays[2]:
+      this.Week2 = true;
+      this.Week1 = false;
+          break
+    }
 
   }
-
+  
   get f() {
 
     return this.membershipGroup.controls;
 
   }
+  onChangeCategory(event) {
+    const currentValue = event.target.value;
 
-  onSubmit() {
+        switch(currentValue){
+          case this.periodType[0]:
+
+            this.yearToyear = false;
+            this.dayToDay = false;
+            this.monthToMonth = true;
+            
+            break;
+            case this.periodType[1]:
+              this.dayToDay = false;
+              this.monthToMonth = false;
+            this.yearToyear = true;
+    
+            break;
+            case this.periodType[2]:
+              this.yearToyear = false;      
+            this.monthToMonth = false;
+            this.dayToDay = true;
+            break;
+        }
+
+  
+  
+  
+  
+  
+  }
+
+onSubmit() {
     this.submitted = true;
     this.loading = true;
     var amount =  this.f.amount.value.toFixed(2);
@@ -97,6 +159,7 @@ this.autenticationService.getAllMembershipType()
     let typeData = {
       membership_type_id: this.f.membership_type_id.value,
       typeName:this.f.typeName.value,
+      membershipCatagory : this.f.membershipCatagory.value,
       amount:Number(amount),
       note:this.f.note.value,
       years:this.f.years.value,
@@ -118,7 +181,8 @@ this.autenticationService.getAllMembershipType()
        console.log("Your Membership Data is succesfully inserted into Mongodb Collection");
        this.submitted = false;
        this.membershipGroup.reset();
-       location.reload();
+       this.AssignData();
+      
      }
 
    )

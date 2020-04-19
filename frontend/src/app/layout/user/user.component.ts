@@ -74,6 +74,7 @@ export class UserComponent implements OnInit {
     this.authenticationService.deleteRecord(idData)
       .subscribe(data => {
         this.modalRef.hide();
+        this.loadTableData();
       },
         error => {
           this.error = error;

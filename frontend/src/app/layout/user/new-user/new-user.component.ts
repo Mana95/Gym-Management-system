@@ -24,6 +24,10 @@ export class NewUserComponent implements OnInit {
   userRegisterFrom: FormGroup;
 
 
+  //Alert message
+  alertDisplayUser = false;
+  alertDisplay = false;
+
   submitted = false;
   loading = false;
   removeUpload: boolean = false;
@@ -194,7 +198,7 @@ export class NewUserComponent implements OnInit {
 onKey(event){
 
   let NICNo  = event.target.value;
-  console.log(event.target.value);
+  ///console.log(event.target.value);
   var dayText = 0;
   var year = "";
   var month = "";
@@ -222,7 +226,7 @@ onKey(event){
   }
   // Day Digit Validation
   if (dayText < 1 && dayText > 366) {
-console.log("Invalid ID");
+//onsole.log("Invalid ID");
 }else{
    //Month
    if (dayText > 335) {
@@ -275,8 +279,8 @@ else if (dayText > 31) {
     month = "Febuary";
 }
       //show Details;
-      console.log(gender);
-      console.log(year+ "-" + month + "-" + this.day);
+      //console.log(gender);
+     // console.log(year+ "-" + month + "-" + this.day);
       if(this.f.age.valid){
         this.dateFieldValid = true;
       }else {
@@ -328,6 +332,8 @@ else if (dayText > 31) {
       gender:this.f.gender.value,
       date: this.CurrentDate
     }
+
+    //When for validation save data
       if(this.userRegisterFrom.valid){
       this.uploadImage(formData, this.f.id.value).subscribe(
         (res) => {
@@ -338,16 +344,17 @@ else if (dayText > 31) {
           ).subscribe(
             res=>{
               //this.router.navigate(['/newUser']);
-              this.funcA(res[0], res[1] ,content ,contentDone);
-              this.userRegisterFrom.reset();
+              this.funcA(res[0] ,content ,contentDone);
+              
             },
             error=>{
               console.log(error);
+             // this.userRegisterFrom.reset();
             },
             ()=>{
               this.submitted = false;
-              this.userRegisterFrom.reset();
-              this.loadData();
+             // this.userRegisterFrom.reset();
+             // this.loadData();
 
             }
           )
@@ -357,19 +364,20 @@ else if (dayText > 31) {
     }   
 
   }
-  funcA(response1 , resonse2 ,content ,contentDone){
-    if(response1 ==UserRegistrationStatus.DUPLICATEUSER){
-      this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
-    }else if(resonse2 ==UserRegistrationStatus.DUPLICATEUSER){
-      this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
-    }else if(resonse2 !==UserRegistrationStatus.DUPLICATEUSER){
-      console.log('DINEDSDSD');
-      this.modalService.open(contentDone, {backdropClass: 'light-blue-backdrop'});
-    //  location.reload();
-    }
-  
-    
-  
+
+  //response function for the API
+  funcA(response1  ,content ,contentDone){
+      if(response1 == UserRegistrationStatus.DUPLICATEEMAIL){
+        this.alertDisplayUser = false; 
+        this.alertDisplay = true;
+         
+      }else if(response1 == UserRegistrationStatus.DUPLICATEUSER){
+        this.alertDisplay = false;
+        this.alertDisplayUser = true;
+      }else if(response1 == UserRegistrationStatus.SUCCESS){
+        alert('done');
+        this.userRegisterFrom.reset();
+      }
   }
 
   

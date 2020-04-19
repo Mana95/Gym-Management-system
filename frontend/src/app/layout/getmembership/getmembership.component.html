@@ -5,7 +5,8 @@
       <div class="card bg-light mb-2">
         <div class="card-header">
           <h2><b> <i class="fa fa-handshake-o" aria-hidden="true"></i>
-             Get Membership Request</b></h2>
+             Get Membership Request</b></h2>  
+             <button type="button" class="btn btn-primary btn-sm" (click)="dayToDayMembership()">Day to Day Membership</button>
         </div>
         <div class="card-body">
           <form [formGroup]="getMembershipGroup" (ngSubmit)="onSubmit()">

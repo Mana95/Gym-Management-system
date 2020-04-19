@@ -199,11 +199,30 @@
                 </div> -->
                 <button type="submit" *ngIf ="buttonStatus"   class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
                 <button type="submit" *ngIf ="!buttonStatus" disabled  class="btn btn-primary">Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+               
               </form>
+              <br/>
+              <div class="row"  *ngIf="alertDisplay">
+                <p class="alert alert-warning">
+                    <strong>Email is already available!!</strong>
+                </p>
+              </div>
+              <div class="row"  *ngIf="alertDisplayUser">
+                <p class="alert alert-warning">
+                    <strong>User is already available!!</strong>
+                </p>
+              </div>
+              <div class="row"  *ngIf="alertDisplayUser">
+                <p class="alert alert-Success">
+                    <strong><h2>Employee Register successfully</h2></strong>
+                </p>
+              </div>
         </div>
       </div>
     </div>
-
+   
+    
+    
 
 
   </div>

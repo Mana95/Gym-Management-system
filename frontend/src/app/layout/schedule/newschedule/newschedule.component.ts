@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models';
-import { NotifierService } from 'angular-notifier';
+
 
 @Component({
   selector: 'app-newschedule',
@@ -27,18 +27,18 @@ export class NewscheduleComponent implements OnInit {
 
   currentTime:any;
   currentDate:any;
-  private notifier: NotifierService;
+
 
   constructor(
     private formBuilder:FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private scheduleService : ScheduleService,
-    notifier: NotifierService 
+  
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-    this.notifier = notifier;;
+
    }
 
   ngOnInit() {
@@ -137,7 +137,7 @@ this.requestScheduleGroup.controls["date"].setValue(
           let type = 'success';
           let message = 'Data is Success';
 
-          this.notifier.notify( type, message );
+        
 
 
 
