@@ -28,15 +28,6 @@ function uploadAll(req, res, next) {
 
 }
 
-// function uploadJobs(req, res, next) {
-
-//     console.log(req.body);
-//     uploadService.jobinsert(req.body)
-//         .then(() => res.json({}))
-//         .catch(err => next(err));
-        
-
-// }
 function downloadFile (req, res , next){
 
   console.log("Here is the download");

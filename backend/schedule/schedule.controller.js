@@ -23,6 +23,36 @@ router.get('/getById/:id' ,getById);
 router.get('/loadInstructor' ,loadInstructor);
 
 
+router.get('/getmembershipDetais/:id' ,getmembershipDetais);
+router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
+router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
+
+
+function getmembershipcheckUsernameAvailable (req ,res , next){
+    const username = req.params.id;
+    scheduleService.getmembershipcheckUsernameAvailable(username)
+    .then(email => res.json(email))
+    .catch(err => next(err));
+}
+function getmembershipcheckEmailAvailable(req ,res ,next) {
+    console.log('HI')
+    const email = req.params.id;
+    scheduleService.getmembershipcheckEmailAvailable(email)
+    .then(email => res.json(email))
+    .catch(err => next(err));
+}
+
+
+
+
+function getmembershipDetais(req , res ,next){
+    const id = req.params.id;
+    scheduleService.getmembershipDetais(id)
+    .then(id => res.json(id))
+    .catch(err => next(err));
+}
+
+
 function checkDateAvl (req ,res ,next){
     const id = req.params.id;
     scheduleService.checkAvl(id)

@@ -1,4 +1,7 @@
-import { states } from './../../_models/common';
+
+import { MembershipService } from './../../services/membership.service';
+import { states ,periodArray } from './../../_models/common';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 import { AuthenticationService } from "./../../services/authentication.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
@@ -7,8 +10,11 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from "rxjs";
-import { User } from "src/app/_models";
+import { User, UserRegistrationStatus } from "src/app/_models";
 import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
+import { membershipPeriodType ,NicCheck, AlertMessages } from 'src/app/_models/schedule-status';
+import { map } from 'rxjs/operators';
+import { usernameStrengthVaidate } from 'src/app/_models/usernamValidation';
 
 @Component({
   selector: "app-getmembership",
@@ -17,7 +23,12 @@ import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 })
 export class GetmembershipComponent implements OnInit {
   getMembershipGroup: FormGroup;
-  states =states
+
+  states =states;
+  peridType : any;
+  periodArray = periodArray;
+  indexId :any;
+  usernameValue :any;
 
   display = [{
     "id": "Yes"
@@ -28,7 +39,6 @@ export class GetmembershipComponent implements OnInit {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-
   submitted = false;
   loading = false;
   dateFieldValid = false;
@@ -43,12 +53,16 @@ export class GetmembershipComponent implements OnInit {
   Type: any;
   currentTypeArray = [];
   ArrayValueType = [];
+  userID :any;
+
+  valueType: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private authenticationSercive: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private membershipService : MembershipService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
@@ -62,14 +76,12 @@ export class GetmembershipComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
-      password: ["", [Validators.required, Validators.minLength(6)]],
-      username: ["", Validators.required],
       phonenumber: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       phonenumber1: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       Height: ["", Validators.required],
       Weight: ["", Validators.required],
       birth: ["", Validators.required],
-      customerID:[''],
+      memberId:[''],
       disaster: ['', Validators.required],
       description: [""],
       gender: ['', Validators.required],
@@ -80,21 +92,82 @@ export class GetmembershipComponent implements OnInit {
       endDate: [""],
       BMI: [''],
       nicNumber: ['', [Validators.required, Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
-      confirmPassword: ['', Validators.required],
       noteDisaster: ['']
-    },
-      {
-        validator: this.MustMatch('password', 'confirmPassword')
-      });
-    this.loadData();
+    });
 
+    this.loadData();
     this.loadFormData();
+
   }
   dayToDayMembership() {
 
   }
+
+  validUsername(){
+    const username = this.f.username.value;
+    this.membershipService.checkUsernameAvailable(username)
+    .subscribe(
+      response=>{
+        console.log(response);
+        if(response ==1){
+          Swal.fire('Oops...', 'username is Already inserted', 'error')
+        }
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+      return null;
+
+  }
+
+  
+  
+  opensweetalert()
+  {
+    Swal.fire({
+        text: 'Membership Request success',
+        icon: 'success'
+      });
+  }
+
+
+  opensweetalertcst(){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success'
+      )
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+      }
+    })
+  }
+  opensweetalertdng(data:any) {
+
+    let recivedMessage = data
+  
+    Swal.fire('Oops...', `${recivedMessage}`, 'error')
+  }
+
+
   appearDiscription(event) {
-    //console.log(this.f.disaster.value);
+    
     if (this.f.disaster.value == 'Yes') {
       this.disaster = true;
     } else {
@@ -105,45 +178,27 @@ export class GetmembershipComponent implements OnInit {
 
 
   loadFormData() {
-    let customerId = this.currentUserSubject.value.user_id;
-    this.authenticationSercive.findCustomer(customerId)
-    .subscribe(
-      data=>{
-        console.log('data');
-        console.log(data);
-        this.getMembershipGroup.controls["customerID"].setValue(
-          data[0].id
-        );
-        this.getMembershipGroup.controls["firstName"].setValue(
-          data[0].firstName
-        );
-        this.getMembershipGroup.controls["lastName"].setValue(
-          data[0].lastName
-        );
-        this.getMembershipGroup.controls["phonenumber"].setValue(
-          data[0].phonenumber
-        );
-        this.getMembershipGroup.controls["username"].setValue(
-          data[0].username
-        );
-        this.getMembershipGroup.controls["email"].setValue(
-          data[0].email
-        );
-        
-        this.getMembershipGroup.controls["nicNumber"].setValue(
-          data[0].nicNumber
-        );
-       this.onKey();
-
-
-
-
-
-
-
-
-      }
-    )
+    let memberId = this.currentUserSubject.value.user_id;
+    let email = this.currentUserSubject.value.email;
+    let firstName = this.currentUserSubject.value.firstName;
+    let username = this.currentUserSubject.value.username;
+     this.indexId = this.currentUserSubject.value._id;
+     this.usernameValue = this.currentUserSubject.value.username;
+     this.userID = this.currentUserSubject.value.user_id;
+    this.getMembershipGroup.controls["memberId"].setValue(
+      memberId
+          );
+ 
+          
+    //       this.getMembershipGroup.controls["email"].setValue(
+    //         email
+    //             );
+    //             this.getMembershipGroup.controls["firstName"].setValue(
+    //               firstName
+    //                   );
+    //                   this.getMembershipGroup.controls["username"].setValue(
+    //                     username
+    //                         );
   }
 
   MustMatch(controlName: string, matchingControlName: string) {
@@ -188,30 +243,59 @@ export class GetmembershipComponent implements OnInit {
     this.getMembershipGroup.controls["currnetJoinDate"].setValue(
       this.currentDate
     );
-    //console.log("HHHSDS");
-    //console.log(this.currentUserSubject.value);
+    
    
    
     //get All membershiptype Data
     this.authenticationSercive.getAllMembershipType().subscribe(
       response => {
-        this.Type = response;
-        console.log(this.Type);
+        this.Type = response; 
         this.currentTypeArray.push(response);
-
-        for (var i = 0; i < this.Type.length; i++) {
-          console.log("ARRAY");
-          console.log(this.Type[i].typeName);
-          this.ArrayValueType.push(this.Type[i].typeName);
+        for (var i = 0; i < this.Type.length; i++) {        
+          this.ArrayValueType.push(this.Type[i].membershipName);
         }
-        console.log(this.ArrayValueType);
-      },
+      
+      }, 
       error => {
         console.log(error);
       }
     );
   }
 
+  //check there is smillar email were avalible in the database
+  CheckUniquenessEmail() {
+    const emailAddress = this.f.email.value;
+    this.membershipService.checkEmailAvailable(emailAddress)
+    .subscribe(
+      response=>{
+        console.log(response);
+        if(response ==1){
+          Swal.fire('Oops...', 'Email is Already inserted', 'error')
+        }
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+
+  }
+ //check there is smillar username were avalible in the database
+
+  CheckUniquenessUsername(){
+    const username = this.f.username.value;
+    this.membershipService.checkUsernameAvailable(username)
+    .subscribe(
+      response=>{
+        console.log(response);
+        if(response ==1){
+          Swal.fire('Oops...', 'username is Already inserted', 'error')
+        }
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+  }
 
 
   loadAutoGenId(){
@@ -321,9 +405,15 @@ export class GetmembershipComponent implements OnInit {
       let birthday = year + "-" + month + "-" + this.day
       this.getMembershipGroup.controls['birth'].setValue(birthday);
       this.getMembershipGroup.controls['gender'].setValue(gender);
-
-
     }
+    // this.authenticationSercive.checkNICNumber(this.f.nicNumber.value)
+    // .subscribe(
+    //   response=>{
+    //     if (NicCheck.INVALIDSTATUS == response){
+    //       Swal.fire('Oops...', 'NIC Number is already inserted!', 'error')
+    //     }
+    //   }
+    // )
 
   }
   bmiCalculator(this) {
@@ -359,57 +449,61 @@ export class GetmembershipComponent implements OnInit {
 
   }
 
-  displayAmount(data) {
-    //alert(data.value);
+//Membership Type dropdownchange
 
-
+  displayAmount(event) {
+  //console.log(data.value);
+  const membershipName = event.value;
+  let dm = moment();
     let month = "";
     const date1 = new Date(this.f.currnetJoinDate.value);
-    var mm = date1.getMonth() + 2;
-    var year = date1.getFullYear();
-
-    for (var i = 0; i < this.Type.length; i++) {
-      //console.log(this.Type[0].typeName);
-      if (this.Type[i].typeName == data.value) {
-
-        month = this.Type[i].month;
-        this.getMembershipGroup.controls["amount"].setValue(this.Type[i].amount);
-        this.getMembershipGroup.controls["VMonth"].setValue(this.Type[i].month);
-
-
-        //SETUP THE ENDDATE
-        let dm = moment();
-        let todayDate = dm.format('L');
-        let MonthAsNumber = Number(month);
-        let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-        for (var x = 0; x < arr.length; x++) {
-          if (MonthAsNumber == arr[x]) {
-            // alert(MonthAsNumber);
-            let addDays = dm.add(MonthAsNumber, 'months');
-            let convertDate = addDays.format('L');
-
-            this.getMembershipGroup.controls['endDate'].setValue(convertDate);
-            return;
-          } else {
-
-          }
+    this.membershipService.getMembershipttypeData(membershipName)
+    .subscribe(
+      response=>{
+      
+        this.getMembershipGroup.controls['amount'].setValue(response[0].amount);
+        this.getMembershipGroup.controls['VMonth'].setValue(response[0].YMDValue);
+   
+        this.peridType =  response[0].periodType
+        const assginValue =this.f.VMonth.value;
+        switch(this.peridType) {
+          case membershipPeriodType.MONTHTOMONTH:     
+            const withmonths = dm.add(assginValue, 'months')
+            let todayDate = withmonths.format('L');
+            this.getMembershipGroup.controls['endDate'].setValue(todayDate);
+            break;
+            case membershipPeriodType.YEARTOYEAR:
+              const withYears = dm.add(assginValue, 'years');
+              let years = withYears.format('L');
+              this.getMembershipGroup.controls['endDate'].setValue(years);
+            break;
+              case membershipPeriodType.DAYTODAY:
+                const withDays = dm.add(assginValue, 'days');
+                let days = withDays.format('L');
+                this.getMembershipGroup.controls['endDate'].setValue(days);
+                break;
         }
-
-      } else if ("Choose..." == data.value) {
-        this.getMembershipGroup.controls["amount"].setValue("");
-        this.getMembershipGroup.controls["VMonth"].setValue("");
-        this.getMembershipGroup.controls['endDate'].setValue("")
-        //return
       }
+    )
+    let todayDate = dm.format('L');
+
+      if(this.valueType !=='Choose'){
+      
+    }else{
+      this.getMembershipGroup.controls["amount"].setValue("");
+      this.getMembershipGroup.controls["VMonth"].setValue("");
+      this.getMembershipGroup.controls['endDate'].setValue("")
     }
   }
   get f() {
     return this.getMembershipGroup.controls;
   }
 
+
+
   onSubmit() {
 
+  
     this.submitted = true;
     this.loading = true;
 
@@ -418,17 +512,15 @@ export class GetmembershipComponent implements OnInit {
       email: this.f.email.value,
       firstName: this.f.firstName.value,
       lastName: this.f.lastName.value,
-      password: this.f.password.value,
-      username: this.f.username.value,
+      username: this.usernameValue,
       phonenumber: this.f.phonenumber.value,
       phonenumber1: this.f.phonenumber1.value,
       Height: Number(this.f.Height.value),
       Weight: Number(this.f.Weight.value),
       disaster: this.f.disaster.value,
       birth: this.f.birth.value,
-      customerID : this.f.customerID.value,
+      customerID : this.f.memberId.value,
       description: this.f.description.value,
-
       gender: this.f.gender.value,
       BMI: this.f.BMI.value,
       currnetJoinDate: this.f.currnetJoinDate.value,
@@ -442,38 +534,46 @@ export class GetmembershipComponent implements OnInit {
       noteDisaster: this.f.noteDisaster.value
 
     };
+    console.log(memberShipDetials)
     let UserData = {
-      user_id: this.f.membershipId.value,
-      username: this.f.username.value,
-      firstName: this.f.username.value,
-      role: "Membership",
+      _id : this.indexId,
+      user_id: this.userID,
+      username: this.usernameValue,
+      firstName: this.usernameValue,
+      role: "Member",
       email: this.f.email.value,
-      active: false,
-      password: this.f.password.value
+      membershipStatus: 'false',
+      active: true,
+      
     };
-
-   
+    console.log(UserData)
+    
     if (this.getMembershipGroup.valid) {
-      console.log(memberShipDetials);
-      this.authenticationSercive
-        .saveInsertMembershipDetails(memberShipDetials, UserData)
+      this.authenticationSercive.saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
-          response => {console.log('response');
-            if(response==1){
-              this.alertDisplay = false;
-              this.showMsg = true;
-              this.submitted = false; 
-              this.submitted = false;  
+          response => {
+              if(UserRegistrationStatus.SUCCESS == response){
+              this.opensweetalert();
+              this.submitted = false;
               this.getMembershipGroup.reset();
-              this.loadAutoGenId(); 
-            }    else {
-              this.showMsg = false;
-              this.alertDisplay = true;
-            }   
-          
+              this.loadAutoGenId();     
+            }else if(response == UserRegistrationStatus.DUPLICATEID){
+              console.log('HI heo helo')
+              this.opensweetalertdng(AlertMessages.DUPLICATEIDMEMBERSHIP);
+            }
+          },
+          error=>{
+            console.log(error);
           }
         );
-    }
+          }else {
+          
+            this.opensweetalertdng(AlertMessages.ERRORMESSAGEFORFORMVALIDATION);
+          }
 
-  }
+
+
+        }
+    
+  
 }

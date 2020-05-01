@@ -30,12 +30,13 @@ router.post('/saveScheduleType', saveScheduleType);
 router.post('/userCreationPub' , userCreationPub);
 router.post('/EmployeeCreation' , EmployeeCreation);
 router.post('/updateRole' , updateRole);
+router.post('/checkNIC' , checkNIC);
 
 
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
-router.post('/userUpdate', UpdateUser);
+router.put('/userUpdate', UpdateUser);
 router.get('/getId/:id' , getGroupById);
 router.get('/groupNames' , getGroupByName);
 router.get('/userRoles/:id' , getuserRole);
@@ -49,15 +50,13 @@ router.get('/getAllMembershipType' , getAllMembershipType);
 router.get('/pendingMembership' , pendingMembership);
 router.get('/getAllSchedule', getAllSchedule);
 router.get('/getreleventRoleData/:id', getreleventRoleData);
-
-
-
-
-
-
 router.get('/roles', getAllRoles);
 router.get('/current', getCurrent);
 router.get('/userById/:id', getById);
+router.get('/loadProfileData/:id' , loadProfileData);
+
+
+
 router.put('/:id', update);
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
@@ -67,6 +66,22 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
+ function checkNIC(req ,res ,next){
+    const numberId = req.body;
+    console.log(numberId);
+    userService.checktheNICNumber(numberId)
+    .then((data) => res.json(data))
+    .catch(err => next(err));
+}
+
+
+
+
+async function loadProfileData(req ,res ,next){
+    userService.loadProfileData(req.params.id)
+    .then((data) => res.json(data))
+    .catch(err => next(err));
+}
 
 async function saveMembershiptypeData(req ,res ,next) {
     userService.insertMembershipType(req.body)
@@ -216,6 +231,7 @@ function getAllSchedule(req ,res,next){
  }   
 
  function insertMembership(req ,res ,next){
+   
     // console.log(req.body.membershipbody);
     userService.insertMembership(req.body)
     .then(membership => res.json(membership))
@@ -319,8 +335,7 @@ function getGroupById (req,res,next){
 }
 
 
-function UpdateUser(req, res, next){
-    
+function UpdateUser(req, res, next){     
     userService.UpdateUserService(req.body)
      .then(() => res.json({}))
     .catch(err => next(err));
@@ -384,14 +399,12 @@ function userCreationPub(req ,res,next){
     .catch(err => next(err));
 }
 function instructorSave(req , res ,next){
-    //console.log(req.body);
     userService.instructorSave(req.body)
-    .then((hh) => 
-    {
-        res.status(200).json({error: 'Valid'});
-    })
+    .then(user => res.json(user))
     .catch(err => next(err));
+
 }
+   // res.status(200).json({data});
 
 function userCreation (req, res , next) {
     //console.log(req.body);

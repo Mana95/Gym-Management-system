@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { ScheduleService } from './../../../services/schedule.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -67,6 +68,13 @@ export class NewscheduleComponent implements OnInit {
     return this.requestScheduleGroup.controls;
   }
 
+  opensweetalert()
+  {
+    Swal.fire({
+        text: 'Membership Request success',
+        icon: 'success'
+      });
+  }
 
 
 
@@ -122,9 +130,14 @@ this.requestScheduleGroup.controls["date"].setValue(
           console.log(response);
          
           if(response == 1){
+            Swal.fire({
+              text: 'Shedule Request success',
+              icon: 'success'
+            });
             this.alertDisplay = false;
             this.showMsg = true;
           }else{
+            Swal.fire('Oops...', `Already send a Schedule Request`, 'error')
             this.showMsg = false;
             this.alertDisplay = true;
           }

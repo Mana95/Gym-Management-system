@@ -86,27 +86,6 @@ if(err){
 });
 });
 
-
-//checking for updates
-// app.use(function(){
-//     console.log('awa')
-//     //checkuser Table
-//         const useUpdate =  User.find({"createdDate": {$lte : new Date()}})
-//         if(useUpdate) {
-//             console.log(useUpdate.Query)
-//         }else {
-//             console.log('Wrong')
-//         }
-//     //
-
-
-
-
-// })
-
-
-
-
     app.listen('4000', function(){
         console.log('running on 4000...');
 

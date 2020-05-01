@@ -1,45 +1,44 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-
     membership_type_id: {
         type: String,
-        required: true
+        required: true,
     },
-    typeName: {
-
+    membershipName: {
         type: String,
-        required: true
-
+        required: true,
     },
-    note: {
+    membershipCatagory: {
         type: String,
-        required: true
-    },
-    years: {
-        type: String,
-      
-    },
-    month: {
-        type: String,
-        
+        required: true,
     },
     amount: {
         type: Number,
-        required: true
+        required: true,
+    },
+    periodType: {
+        type: String,
+        required: true,
+    },
+    YMDValue: {
+        type: Number,
+        required: true,
+    },
+    note: {
+        type: String,
+        required: true,
     },
     status: {
-        type: Boolean,
+        type:Boolean
     },
     createdDate: {
         type: Date,
-        default: Date.now
-
-    }
-
+        default: Date.now,
+    },
 });
 
-schema.set('toJSON', { virtuals: true });
+schema.set("toJSON", { virtuals: true });
 
-module.exports = mongoose.model('membershiptype', schema);
+module.exports = mongoose.model("membershiptype", schema);

@@ -26,8 +26,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export class SharedModule {
 
   constructor(
+  
     private bsLocaleService: BsLocaleService
   ) {
+    console.log('HIIIIIII SHARED')
     this.bsLocaleService.use('pt-br');
   }
  }

@@ -26,7 +26,5 @@ export enum UserRegistrationStatus {
     DUPLICATEUSER = 3,
     ALREADYSENDMEMBERSHIPREQUEST = 4,
     DUPLICATEEMAIL = 5,
-    
-    
-
+    DUPLICATEID =8
 }

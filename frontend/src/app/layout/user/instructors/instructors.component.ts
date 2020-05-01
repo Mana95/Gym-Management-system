@@ -1,3 +1,4 @@
+import { AlertMessages } from 'src/app/_models/schedule-status';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { config } from './../../../config/config';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -9,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { map, mergeMap } from 'rxjs/operators';
+
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-instructors',
@@ -102,7 +105,7 @@ export class InstructorsComponent implements OnInit {
     .subscribe(
       response=>{
         this.Type = response
-        console.log(response);
+       
       }
     )
      }
@@ -129,7 +132,7 @@ public uploader: FileUploader = new FileUploader({
   onKey(event){
 
     let NICNo  = event.target.value;
-    console.log(event.target.value);
+   
     var dayText = 0;
     var year = "";
     var month = "";
@@ -155,7 +158,7 @@ public uploader: FileUploader = new FileUploader({
     }
     // Day Digit Validation
     if (dayText < 1 && dayText > 366) {
-  console.log("Invalid ID");
+ 
   }else{
      //Month
      if (dayText > 335) {
@@ -208,8 +211,8 @@ public uploader: FileUploader = new FileUploader({
       month = "Febuary";
   }
         //show Details;
-        console.log(gender);
-        console.log(year+ "-" + month + "-" + this.day);
+       
+       
         if(this.f.nicNumber.valid){
           this.dateFieldValid = true;
         }else {
@@ -224,7 +227,19 @@ public uploader: FileUploader = new FileUploader({
     
   }
 
-
+  get deleteRow() {
+    return this.registrationGroup.get('tickets') as FormArray
+  }
+  onClickTicketsRemove(index){
+    
+    this.t.removeAt(index);
+  }
+  onClickSkillsRemove(index){
+    this.S.removeAt(index);
+  }
+  onClickEducationRemove(index){
+    this.E.removeAt(index);
+  }
 
   onClickEducation(e){
     this.submitted = false;
@@ -235,6 +250,19 @@ public uploader: FileUploader = new FileUploader({
   }))
   }
 
+//clear all data inside the array;
+  emptyAllArrayFields(){
+    while ( this.E.length !== 0) {
+      this.E.removeAt(0)
+    }
+    while ( this.t.length !== 0) {
+      this.t.removeAt(0)
+    }
+    while (  this.S.length !== 0) {
+      this.S.removeAt(0)
+    }
+  
+  }
 
   onClickTickets(e){
     this.ADD = true;
@@ -298,11 +326,6 @@ public uploader: FileUploader = new FileUploader({
     this.t.push(experience);
   }
 
-  
-
-
-
-  
 
   _keyPress(event: any) {
     const pattern = /[0-9]/;
@@ -353,83 +376,80 @@ public uploader: FileUploader = new FileUploader({
 
 
   onSubmit() {
-this.loadNewId();
-    let UserData = {
-      user_id: this.f.id.value,
-      username: this.f.username.value,
-      firstName: this.f.username.value,
-      role: "Instructor",
-      email: this.f.email.value,
-      active: true,
-      password: this.f.password.value
-    };
-    
-if(this.f.description.value ==null){
-  alert('hihihih')
-}
-   
-   
-  this.submitted= true;
-  const formData = new FormData();
-    //let fileItem = this.uploader.queue[0]._file;
+ 
+  //define two relevent objects
 
-
-   formData.append('file',  this.newImage);
-  // data.append('dataType', this.registrationGroup.controls.type.value);
-    this.submitted = true;
-    this.loading = true;
-    console.log(this.FormValue);
-       
-    this.uploadImage(formData , this.f.id.value).subscribe(
-      res=>{
-        this.locaionPath = res.destination;
-        if(res.destination ==null){
-      //    alert('hihihih');
-          return;
-        }
-           
-        let instructordata = {
-          isId : this.f.id.value,
-          email:this.f.email.value,
-          firstName:this.f.firstName.value,
-          joinDate:this.f.currnetJoinDate.value,
-          lastName:this.f.lastName.value,
-          username:this.f.username.value,
-          phonenumber:this.f.phonenumber.value,
-          birth:this.f.birth.value,
-          address:this.f.address.value,
-          description:this.f.description.value,
-          typeName:this.f.typeName.value,     
-          nicNumber:this.f.nicNumber.value,
-          image:this.locaionPath,
-          role: 'Instructor',
-          active: true,
-          experince:this.f.tickets.value,
-          skils:this.f.skills.value,
-          education:this.f.education.value
-      }
-      forkJoin(
-        this.authenticationService.saveInstrutor(instructordata ,UserData)
-   
-      ).subscribe(
-        res=>{
-          console.log(res[0]);
-         // this.router.navigate(['/newUser']);
-          this.funcA(res[0]);
-        },
-        error=>{
-          console.log(error);
-        }
-      )
-      }
-    )
-
-      
-
-
-
-
+  let UserData = {
+    user_id: this.f.id.value,
+    username: this.f.username.value,
+    firstName: this.f.username.value,
+    role: "Instructor",
+    email: this.f.email.value,
+    nicNumber:this.f.nicNumber.value,
+    active: true,
+    password: this.f.password.value
   }
+
+  let instructordata = {
+    isId : this.f.id.value,
+    email:this.f.email.value,
+    firstName:this.f.firstName.value,
+    joinDate:this.f.currnetJoinDate.value,
+    lastName:this.f.lastName.value,
+    username:this.f.username.value,
+    phonenumber:this.f.phonenumber.value,
+    birth:this.f.birth.value,
+    address:this.f.address.value,
+    description:this.f.description.value,
+    typeName:this.f.typeName.value,     
+    nicNumber:this.f.nicNumber.value,
+    image: this.imageUrl,
+    role: 'Instructor',
+    active: true,
+    experince:this.f.tickets.value,
+    skils:this.f.skills.value,
+    education:this.f.education.value
+}
+
+this.submitted= true;
+const formData = new FormData();
+formData.append('file',  this.newImage);
+if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png')){
+ const postsImage =  this.uploadImage(formData , this.f.id.value);
+ const saveInstrutor = this.authenticationService.saveInstrutor(instructordata ,UserData);
+
+ forkJoin([postsImage , saveInstrutor])
+ .subscribe(
+   result=>{
+     console.log(result[1]);
+     if(result[1] == 1){
+    this.imageUrl = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
+    Swal.fire({
+      text: 'Instructor Registered successfully',
+      icon: 'success'
+    });
+  this.submitted = false;
+  this.registrationGroup.reset();
+  this.emptyAllArrayFields();
+  this.loadNewId();
+  }else {
+    if(result[1].length ==1){
+      Swal.fire('Oops...', `${result[1][0]} Already inserted `, 'error');
+    }else if(result[1].length ==2)
+{
+  Swal.fire('Oops...', `${result[1][0]} ,${result[1][1]}  Already inserted `, 'error');
+}else if(result[1].length ==3)  {  
+  Swal.fire('Oops...', `${result[1][0]} ,${result[1][1]} , ${result[1][2]} Already inserted `, 'error');
+}  }
+   }
+ )
+}else {
+  Swal.fire('Oops...', `${AlertMessages.ERRORMESSAGEFORFORMVALIDATION}`, 'error');
+}
+  }
+
+
+
 
   funcA(response1){
     this.registrationGroup.reset();
@@ -438,10 +458,10 @@ if(this.f.description.value ==null){
      console.log(response1);
    
    }
-
+   
   uploadImage(data:FormData ,uniqueId): Observable<any> {
     // tslint:disable-next-line:no-debugger
-  alert("This is the "+ data);
+ // alert("This is the "+ data);
     return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
     
 

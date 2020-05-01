@@ -1,6 +1,10 @@
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
+
 import { AuthenticationService } from './../../../services/authentication.service';
 import { FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-membership-request',
@@ -35,6 +39,7 @@ export class MembershipRequestComponent implements OnInit {
   }
 
   updateStatus(rowData) {
+
   console.log(rowData)
 
   let updatesData = {
@@ -46,7 +51,16 @@ export class MembershipRequestComponent implements OnInit {
     this.authenticationService.updateStatus(updatesData)
     .subscribe(
       response =>{
-        console.log(response);
+       
+        if(response == 1 ){
+          Swal.fire({  text: 'Membership Registered done!',
+          icon: 'success'
+        }
+        );
+        }else{
+          Swal.fire('Oops...', `Something went wrong`, 'error')
+        }
+       
         this.loadTableData();
       }
     )

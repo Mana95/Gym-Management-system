@@ -5,17 +5,20 @@ const schema = new Schema({
 
     membershipId: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     customerID: {
         type: String,
-        required: true
+        required: true,
+        unique:true
    
     },
     email: {
 
         type: String,
-        required: true
+        required: true,
+      
 
     },
     firstName: {
@@ -25,16 +28,6 @@ const schema = new Schema({
     lastName: {
         type: String,
       
-    },
-    hash: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required:true,
-        unique:true
-        
     },
     phonenumber: {
         type: String,
@@ -101,7 +94,8 @@ const schema = new Schema({
     },
     nicNumber: {
         type:String,
-        required:true
+        required:true,
+        
     },
     role: {
         type:String,

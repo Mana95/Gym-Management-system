@@ -7,11 +7,13 @@ const moment = require('moment');
 const ScheduleType =db.ScheduleType;
 const Schedule = db.Schedule;
 const Membership = db.Membership;
+const MembershipType = db.MembershipType;
 const Instructor = db.Instructor;
 const Schedule_Plan = db.Schedule_Plan;
+const User = db.User;
 
 module.exports = {
-  
+    
     getByName,
     insertSchData,
     getByMySchedule,
@@ -24,9 +26,38 @@ module.exports = {
     createSchedule,
     getById,
     loadInstructor,
-    checkAvl
-    
+    checkAvl,
+    getmembershipDetais,
+    getmembershipcheckEmailAvailable,
+    getmembershipcheckUsernameAvailable
+
 };
+
+async function getmembershipcheckUsernameAvailable(username){
+   
+    const findUsername =  await User.findOne({username: username});
+    
+   if(findUsername.username == username){
+       return 1;
+   }else {
+       return 'hari';
+   } 
+}
+async function getmembershipcheckEmailAvailable(email){
+    
+     const findUserEmail =  await User.findOne({email: email});
+     console.log(findUserEmail)
+    if(findUserEmail.email == email){
+        return 1;
+    }else {
+        return 'hari';
+    }
+
+}
+
+async function getmembershipDetais(id){
+    return await MembershipType.find({membershipName: id});
+}
 
 async function checkAvl(id) {
    //current month

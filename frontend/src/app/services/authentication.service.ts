@@ -82,6 +82,7 @@ export class AuthenticationService {
   }
 
 
+  
   getAllMembershipType() {
     return this.http.get(config.PAPYRUS+`/users/getAllMembershipType`)
   }
@@ -161,6 +162,10 @@ export class AuthenticationService {
   registerSupplier (data):Observable<any> {
     return this.http.post<any>(config.PAPYRUS+ `/users/supCreation`, data)
   }
+
+  checkNICNumber(nicNo: string): Observable<any>{
+    return this.http.post<any>(config.PAPYRUS+`/users/checkNIC`,{nicNo})
+ }
 
 
   login(firstName: string, password: string): Observable<any> {

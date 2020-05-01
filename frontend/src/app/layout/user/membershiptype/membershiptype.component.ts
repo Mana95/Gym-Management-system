@@ -47,8 +47,9 @@ this.membershipGroup = this.formBuilder.group({
   typeName:['',Validators.required],
   month:['',Validators.required],
   membershipCatagory : ['' , Validators.required],
-  years:[''],
-  days:[''],
+  periodType:['',Validators.required],
+  YMDValue: ['' , Validators.required],  
+
   amount:['', Validators.required],
   note:['', Validators.required]
 
@@ -143,12 +144,6 @@ this.autenticationService.getAllMembershipType()
             this.dayToDay = true;
             break;
         }
-
-  
-  
-  
-  
-  
   }
 
 onSubmit() {
@@ -158,12 +153,12 @@ onSubmit() {
    
     let typeData = {
       membership_type_id: this.f.membership_type_id.value,
-      typeName:this.f.typeName.value,
+      membershipName:this.f.typeName.value,
       membershipCatagory : this.f.membershipCatagory.value,
       amount:Number(amount),
+      periodType:this.f.periodType.value,
       note:this.f.note.value,
-      years:this.f.years.value,
-      month:this.f. month.value,
+      YMDValue: this.f.YMDValue.value,  
       status:true
 
     }

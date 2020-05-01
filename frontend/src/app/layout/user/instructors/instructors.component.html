@@ -176,6 +176,7 @@
               <h4 class="card-title"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;<b>Skills</b> 
               </h4>&nbsp;&nbsp;
               <button type="button" class="btn btn-success" (click)="onClickSkills($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>       
+              &nbsp;&nbsp;     <button type="button" class="btn btn-danger" (click)="onClickSkillsRemove($event)"><i class="fa fa-minus" aria-hidden="true"></i></button>
             </div>   
           </div>
           <div *ngFor="let skills of S.controls; let i = index" class="list-group list-group-flush">
@@ -201,7 +202,9 @@
             <div class="form-row">
               <h4 class="card-title"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;<b>Experience</b> 
               </h4>&nbsp;&nbsp;
-              <button type="button" class="btn btn-success" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>       
+              <button type="button" class="btn btn-success" (click)="onClickTickets($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+              &nbsp;&nbsp;     <button type="button" class="btn btn-danger" (click)="onClickTicketsRemove($event)"><i class="fa fa-minus" aria-hidden="true"></i></button>       
+               
             </div>          
           </div>
          
@@ -244,8 +247,10 @@
                 </div>
                 <div class="form-group col-3">
                   <label>Experience in Months</label>
-                  <input type="number" formControlName="experinceMonth" placeholder="Experience in Months" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.experinceMonth.errors }" />
-                    
+                  <input type="number"  min="1" formControlName="experinceMonth" placeholder="Experience in Months" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.experinceMonth.errors }" />
+                  <div *ngIf="submitted && ticket.controls.experinceMonth.errors" class="invalid-feedback">
+                    <div *ngIf="ticket.controls.experinceMonth.errors.required">Experience Months is required</div>           
+                </div>
                 </div>
                 </div>
 
@@ -258,6 +263,8 @@
             </b> 
             </h4>&nbsp;&nbsp;
             <button type="button" class="btn btn-success" (click)="onClickEducation($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            &nbsp;&nbsp;     <button type="button" class="btn btn-danger" (click)="onClickEducationRemove($event)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+           
           </div>   
         </div>
         <div *ngFor="let education of E.controls; let i = index" class="list-group list-group-flush">
@@ -279,7 +286,7 @@
                 </div>
                 <div class="form-group col-3">
                   <label>Passing year</label>
-                          <input type="text" formControlName="passingyear" class="form-control" placeholder="Passing year" [ngClass]="{ 'is-invalid': submitted && education.controls.passingyear.errors }" />
+                          <input type="text" numbersOnly formControlName="passingyear" class="form-control" placeholder="Passing year" [ngClass]="{ 'is-invalid': submitted && education.controls.passingyear.errors }" />
                           <div *ngIf="submitted && education.controls.passingyear.errors" class="invalid-feedback">
                               <div *ngIf="education.controls.passingyear.errors.required">Passing year is required</div>
                           </div>

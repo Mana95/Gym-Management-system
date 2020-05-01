@@ -41,7 +41,7 @@
                                                 submitted &&
                                                 f.membershipCatagory.errors
                                         }">
-                    <option selected>Choose...</option>
+                   
                     <option *ngFor="let data of states">{{
                                             data
                                         }}</option>
@@ -84,31 +84,31 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputPassword4">Period Type</label>
-                  <select class="form-control" formControlName="years" [ngClass]="{
+                  <select class="form-control" formControlName="periodType" [ngClass]="{
                                             'is-invalid':
-                                                submitted && f.years.errors
+                                                submitted && f.periodType.errors
                                         }"  (change) = "onChangeCategory($event)"  >
-                    <option selected>Choose...</option>
+                   
                     <option *ngFor="let data of periodType">{{ data }}</option>
                   </select>
-                  <div *ngIf="submitted && f.years.errors" class="invalid-feedback">
-                    <div *ngIf="f.years.errors.required">
-                      Years is required
+                  <div *ngIf="submitted && f.periodType.errors" class="invalid-feedback">
+                    <div *ngIf="f.periodType.errors.required">
+                      Period Type is required
                     </div>
                   </div>
                 </div>
                 <!-- Month -->
                 <div class="form-group col-md-6" *ngIf="monthToMonth">
                   <label for="inputPassword4">Month</label>
-                  <select class="form-control" formControlName="month" [ngClass]="{
+                  <select class="form-control" formControlName="YMDValue" [ngClass]="{
                                             'is-invalid':
-                                                submitted && f.month.errors
+                                                submitted && f.YMDValue.errors
                                         }">
-                    <option selected>Choose...</option>
+                   
                     <option *ngFor="let data of mounthArray">{{ data }}</option>
                   </select>
-                  <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
-                    <div *ngIf="f.month.errors.required">
+                  <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
+                    <div *ngIf="f.YMDValue.errors.required">
                       Mounth is required
                     </div>
                   </div>
@@ -116,15 +116,15 @@
 <!-- Years -->
 <div class="form-group col-md-6" *ngIf="yearToyear">
   <label for="inputPassword4">Year</label>
-  <select class="form-control" formControlName="year" [ngClass]="{
+  <select class="form-control" formControlName="YMDValue" [ngClass]="{
                             'is-invalid':
-                                submitted && f.year.errors
+                                submitted && f.YMDValue.errors
                         }">
-    <option selected>Choose...</option>
+   
     <option *ngFor="let data of mounthArray">{{ data }}</option>
   </select>
-  <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-    <div *ngIf="f.year.errors.required">
+  <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
+    <div *ngIf="f.YMDValue.errors.required">
       Year is required
     </div>
   </div>
@@ -134,15 +134,15 @@
 
 <div class="form-group col-md-6" *ngIf="dayToDay">
   <label for="inputPassword4">Days</label>
-  <select class="form-control" formControlName="days" [ngClass]="{
+  <select class="form-control" formControlName="YMDValue" [ngClass]="{
                             'is-invalid':
-                                submitted && f.days.errors
+                                submitted && f.YMDValue.errors
                         }"    (change) = "identifyWeeks($event)">
-    <option selected>Choose...</option>
+   
     <option *ngFor="let data of dayArrays">{{ data }}</option>
   </select>
-  <div *ngIf="submitted && f.days.errors" class="invalid-feedback">
-    <div *ngIf="f.days.errors.required">
+  <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
+    <div *ngIf="f.YMDValue.errors.required">
       Days is required
     </div>
   </div>
@@ -224,7 +224,13 @@
                   Category
                 </th>
                 <th style="text-align: center;" scope="col">
-                  Amount
+                  Perion type
+                </th>
+                <th style="text-align: center;" scope="col">
+                  Valid untill
+                </th>
+                <th style="text-align: center;" scope="col">
+                  Amount <b>(Rs:)</b>
                 </th>
                 <th style="text-align: center;" scope="col">
                   Action
@@ -239,10 +245,16 @@
                   {{ data.membership_type_id }}
                 </td>
                 <td style="text-align: center;">
-                  {{ data.typeName }}
+                  {{ data.membershipName }}
                 </td>
                 <td style="text-align: center;">
                   {{ data.membershipCatagory }}
+                </td>
+                <td style="text-align: center;">
+                  {{ data.periodType }}
+                </td>
+                <td style="text-align: center;">
+                  <b>{{ data.YMDValue }}</b>
                 </td>
                 <td style="text-align: center;">
                   {{ data.amount }}

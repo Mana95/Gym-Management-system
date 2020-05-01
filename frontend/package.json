@@ -51,6 +51,7 @@
     "ngx-popover-image": "^0.2.1",
     "pdfmake": "^0.1.63",
     "rxjs": "6.5.2",
+    "sweetalert2": "^9.10.12",
     "tslib": "^1.9.0",
     "yarn": "1.16.0",
     "zone.js": "~0.9.1"
