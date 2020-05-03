@@ -1,3 +1,6 @@
+//import 'flatpickr/dist/flatpickr.css'; // you may need to adjust the css import depending on your build tool
+
+import { FlatpickrModule } from 'angularx-flatpickr';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -15,6 +18,9 @@ import { ResponseresetpasswordComponent } from './responseresetpassword/response
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { WebpageComponent } from './webpage/webpage.component';
 import { MemberLoginComponent } from './member-login/member-login.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 
 @NgModule({
     imports: [
@@ -27,6 +33,12 @@ import { MemberLoginComponent } from './member-login/member-login.component';
         NgbModule,
         FormsModule,
         ReactiveFormsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+          }),
+          FlatpickrModule.forRoot()
+         
     ],
     declarations: [AppComponent, PasswordchangeComponent, ResponseresetpasswordComponent],
     providers: [AuthGuard],

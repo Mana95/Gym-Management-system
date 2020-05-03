@@ -27,7 +27,7 @@ router.post('/valid-password-token' , ValidPasswordToken);
 router.post('/insertMembership' , insertMembership);
 router.post('/insertMembershipUser', insertMembershipUser);
 router.post('/saveScheduleType', saveScheduleType);
-router.post('/userCreationPub' , userCreationPub);
+
 router.post('/EmployeeCreation' , EmployeeCreation);
 router.post('/updateRole' , updateRole);
 router.post('/checkNIC' , checkNIC);
@@ -52,6 +52,8 @@ router.get('/getAllSchedule', getAllSchedule);
 router.get('/getreleventRoleData/:id', getreleventRoleData);
 router.get('/roles', getAllRoles);
 router.get('/current', getCurrent);
+router.get('/responseAllInstructorData', responseAllInstructorData);
+
 router.get('/userById/:id', getById);
 router.get('/loadProfileData/:id' , loadProfileData);
 
@@ -74,7 +76,11 @@ module.exports = router;
     .catch(err => next(err));
 }
 
-
+function responseAllInstructorData(req ,res,next){
+    userService.responseAllInstructorData()
+    .then((data) => res.json(data))
+    .catch(err => next(err));
+}
 
 
 async function loadProfileData(req ,res ,next){
@@ -384,20 +390,7 @@ function EmployeeCreation(req ,res ,next){
     )
     .catch(err => next(err));
 }
-function userCreationPub(req ,res,next){
-   
-    userService.creationUserPub(req.body)
-    .then(user =>{
-        if(user){
-        //    console.log('USER')
-            console.log(user)
-            res.json(user)
-          
-        }
-    }
-    )
-    .catch(err => next(err));
-}
+
 function instructorSave(req , res ,next){
     userService.instructorSave(req.body)
     .then(user => res.json(user))

@@ -26,6 +26,13 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+
+  responseAllInstructorData() {
+    return this.http.get(config.PAPYRUS+`/users/responseAllInstructorData`)
+  }
+
+
+
   autoUpdateStatus() {
     return this.http.get(config.PAPYRUS+`/users/autoUpdate`)
   }
@@ -159,8 +166,8 @@ export class AuthenticationService {
     return this.http.post<any>(config.PAPYRUS+ `/users/cusCreation`, data)
     
   }
-  registerSupplier (data):Observable<any> {
-    return this.http.post<any>(config.PAPYRUS+ `/users/supCreation`, data)
+  registerSupplier (sup_data ,UserData ,mailData ):Observable<any> {
+    return this.http.post<any>(config.PAPYRUS+ `/users/supCreation`,{sup_data ,UserData ,mailData})
   }
 
   checkNICNumber(nicNo: string): Observable<any>{

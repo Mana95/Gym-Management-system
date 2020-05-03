@@ -31,7 +31,8 @@ const routes: Routes = [
             { path: 'requestSchedule', loadChildren: () => import('./requests/schedule-request/schedule-request.module').then(m => m.ScheduleRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Instructor] } },
             { path: 'requestMemberShipType', loadChildren: () => import('./requests/membership-request/membership-request.module').then(m => m.MembershipRequestModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User ] } },
            
-
+            { path: 'instructor-view', loadChildren: () => import('./user/instructors/instructors-view/instructors-view.module').then(m => m.InstructorsViewModule), canActivate: [AuthGuard]},
+        
             
             { path: 'sales_order_cart', loadChildren: () => import('./salesorder/sales-order-cart/sales-order-cart.module').then(m => m.SalesOrderCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'ItemCartView/:id', loadChildren: () => import('./salesorder/sale-order-item-view/sale-order-item-view.module').then(m => m.SaleOrderItemViewModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        

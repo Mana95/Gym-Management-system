@@ -158,6 +158,11 @@ export class SidebarComponent implements OnInit {
        
     }
 
+    get onlyMembers(){
+        if(this.currentUser.role === Role.Membership){
+            return this.currentUser && this.currentUser.role === Role.Membership 
+        } 
+    }
     get requestSchedule() {
         if(this.currentUser.role === Role.Admin){
             return this.currentUser && this.currentUser.role === Role.Admin 

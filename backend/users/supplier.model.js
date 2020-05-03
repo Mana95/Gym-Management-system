@@ -20,7 +20,10 @@ const schema = new Schema({
         type:String,
         required:true
     },
-
+    sup_category:{
+        type:String,
+        required:true
+    },
     sup_nicNumber: {
         type:String,
         required:true

@@ -9,6 +9,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 
+
 @NgModule({
   declarations: [InstructorsComponent],
   imports: [

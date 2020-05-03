@@ -53,7 +53,6 @@ module.exports = {
   savescheduleType,
   getAllSchedule,
   getreleventCustomer,
-  creationUserPub,
   EmployeeCreation,
   getreleventRoleData,
   updateRole,
@@ -62,10 +61,13 @@ module.exports = {
   findCustomer,
   savememberData,
   loadProfileData,
-  checktheNICNumber
+  checktheNICNumber,
+  responseAllInstructorData
 };
 
-
+async function responseAllInstructorData() {
+  return await Instructor.find({});
+}
 async function checktheNICNumber(data){
   
  const nicFind = await Membership.findOne({nicNumber: data.nicNo},function(error , res){
@@ -454,16 +456,67 @@ async function getSuppliers() {
 }
 
 async function supRegister(data) {
-  console.log("SERVICE");
-  const supplier = await Supplier.findOne({ sup_email: data.sup_email });
-  if (!supplier) {
-    const supplier = new Supplier(data);
-    console.log(supplier);
-    await supplier.save();
-    return 1;
-  } else {
-    return 3;
-  }
+
+
+
+  
+  //define the variable
+  const userData = data.UserData;
+  const supplierData = data.sup_data;
+  const emailData = data.mailData;
+  //define the array
+  let supplierArray = [];
+  supplierArray.length = 0;
+  
+  //    //define object
+  const supplier = new Supplier(supplierData);
+  const user = new User(userData);
+
+  //    //finding relevent data
+  await User.findOne({ email: userData.email },
+    function(error, res){
+      if(res!==null){
+       
+        supplierArray.push('email');
+      }
+    }
+    );
+   // return errorArray;
+   await User.findOne({ username: userData.username },
+    function(error, res){
+      if(res!==null){
+    
+        supplierArray.push('username');
+      }
+    });
+  await User.findOne({ nicNumber: userData.nicNumber },
+    function(error, res){
+     
+      if(res!==null){
+        supplierArray.push('Nic Number');
+      }
+    });
+
+    if(supplierArray.length == 0){
+      user.hash = bcrypt.hashSync(userData.password, 10);
+      await supplier.save();
+      await user.save();
+      return 1;
+    }else if(supplierArray.length ==1){
+    return(supplierArray);
+   }
+  else if(supplierArray.length ==2){
+      return(supplierArray);
+    }
+    else if(supplierArray.length ==3){
+      return(supplierArray);
+   }
+
+
+
+
+
+
 }
 
 async function getCustomerData() {
@@ -549,28 +602,7 @@ async function EmployeeCreation(data) {
   }
 }
 
-//SAVING EMPLOYEE DATA TO USER COLLECTION
-async function creationUserPub(data) {
-  console.log("USer ");
-  //  console.log(data);
-  const user = new User(data);
-  const userfind = await User.findOne({ username: data.username });
-  const userEmail = await User.findOne({ email: data.email });
-  // console.log(data);
-  if (userEmail) {
-    //RETURN IF USEREMAIL IS AVAILABLE
-    return 5;
-  } else if (userfind) {
-    //RETURN IF USERNAME IS AVAILABLE
-    return 3;
-  } else {
-    if (data.password) {
-      user.hash = bcrypt.hashSync(data.password, 10);
-    }
-    await user.save();
-    return 1;
-  }
-}
+
 
 async function creationUser(userData) {
   console.log("creationUser");

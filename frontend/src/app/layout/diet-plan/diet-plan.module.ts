@@ -1,4 +1,5 @@
-import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
@@ -6,11 +7,13 @@ import { DietPlanRoutingModule } from './diet-plan-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DietPlanComponent } from './diet-plan.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DietPlanCreationComponent } from './diet-plan-creation/diet-plan-creation.component';
 
-import {DayPilotModule} from "daypilot-pro-angular";
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { SchedulerModule } from 'angular-calendar-scheduler';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [DietPlanComponent],
@@ -18,10 +21,15 @@ import { CalendarModule } from 'angular-calendar';
     CommonModule ,DietPlanRoutingModule ,ReactiveFormsModule ,
      SharedModule , 
      NgbModule,
-     DayPilotModule,
-     
+     FormsModule,
+     CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    FlatpickrModule.forRoot()
     
-     FullCalendarModule // for FullCalendar!
+     
+   
   ]
 })
 export class DietPlanModule { }

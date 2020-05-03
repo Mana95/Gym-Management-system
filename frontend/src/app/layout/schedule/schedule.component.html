@@ -23,9 +23,9 @@
               </caption>
               <thead>
                 <tr>
-                  <th style="text-align: center;" scope="col">Join Date</th>
-                  <th style="text-align: center;" scope="col">Schedule ID</th>
+                  <th style="text-align: center;" scope="col">Join Date</th>   
                   <th style="text-align: center;" scope="col">Membership Id</th>
+                  <th style="text-align: center;" scope="col">Schdule Id</th>
                   <th style="text-align: center;" scope="col">Schedule Type Number</th>
                   <th style="text-align: center;" scope="col">Status</th>
             
@@ -34,8 +34,10 @@
               <tbody>
                 <tr *ngFor= "let data of schedule">
                   <td style="text-align: center;" >{{data.date}}</td>
-                  <td style="text-align: center;">{{data.id}}</td>  
-                  <td style="text-align: center;">{{data.membershipId}}</td>
+                  <td style="text-align: center;">{{data.membershipId}}</td>  
+                  <td style="text-align: center;">{{data.Sid}}</td>
+                
+                
                   <td style="text-align: center;">{{data.type}}</td>
                   <td  *ngIf="2 == data.status" style="color:Gold; text-align: center; ">
                     <i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>

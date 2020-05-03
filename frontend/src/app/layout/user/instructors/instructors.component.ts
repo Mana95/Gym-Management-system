@@ -373,8 +373,6 @@ public uploader: FileUploader = new FileUploader({
   }
 
 
-
-
   onSubmit() {
  
   //define two relevent objects

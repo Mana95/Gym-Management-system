@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" [routerLink]="['/instructor']" [routerLinkActive]="['router-link-active']" >
+                        <a href="javascript:void(0)" [routerLink]="['/instructor-view']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-user-secret"></i>&nbsp;
                             <span>{{ 'Instructors' | translate }}</span>
                         </a>
@@ -58,7 +58,7 @@
             </li>
         </div> 
         <!-- End UserModule -->
-        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item" >
+        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf="onlyMembers" >
             <i class="fa fa-handshake-o"></i>&nbsp;
             <span>{{ 'Get Membership' | translate }}</span>
         </a>
