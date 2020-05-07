@@ -29,9 +29,14 @@ module.exports = {
     checkAvl,
     getmembershipDetais,
     getmembershipcheckEmailAvailable,
-    getmembershipcheckUsernameAvailable
+    getmembershipcheckUsernameAvailable,
+    loadSchedule
 
 };
+
+async function loadSchedule(id){
+    return await Schedule.find({_id:id});
+}
 
 async function getmembershipcheckUsernameAvailable(username){
    
@@ -88,13 +93,16 @@ async function  loadInstructor(id){
 }
 
 async function  getById(id){
-    return await Schedule_Plan.find({membershipId:id})
+   
+    return await Schedule_Plan.find({ScheduleId:id}, function(error , response){
+        
+    })
 }
 
 
 async function createSchedule(data) {
        let updateData = {
-            membershipId: data.membershipId,
+        Sid: data.ScheduleId,
             status: 4
         }
     const schedule_Plan = new Schedule_Plan(data);  
@@ -102,7 +110,7 @@ async function createSchedule(data) {
      
         Schedule.updateOne(
             {
-                membershipId: updateData.membershipId
+                Sid: updateData.Sid
             },
             {
                 $set: updateData
@@ -111,8 +119,10 @@ async function createSchedule(data) {
                     console.log(err);
                 }
             });
-
-    }  
+        return 1;
+    } else{
+        return 2
+    }
 
 
 
@@ -125,8 +135,8 @@ async function loadInstrucotrData(id){
 
 async function loadById(id){
     //  console.log('id')
-    // console.log(id);
-    return await Membership.find({membershipId:id})
+     console.log(id);
+    return await Membership.find({customerID:id})
 }
 
 

@@ -34,9 +34,9 @@ export class VeiwScheduleComponent implements OnInit {
 
   routePage(data) {
     console.log(JSON.stringify(data));
-    this.router.navigate(['/acceptedSchedule', data.membershipId]);
+    this.router.navigate(['/acceptedSchedule', data._id]);
     // this.router.navigate(['/schedule_plan', data.membershipId]);
-    console.log("Navigate to Edit Group " + data.membershipId);
+    
   }
 
 }

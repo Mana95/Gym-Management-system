@@ -73,1181 +73,1115 @@
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Instructor Name</b></label>
-                                <input id="typeahead-format" formControlName="instructorName" type="text"
+                                <input id="typeahead-format" placeholder="Kevin Fernando" formControlName="instructorName" type="text"
                                     class="form-control" [ngbTypeahead]="search" [resultFormatter]="formatter" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Instructor Contact</b></label>
-                                <input type="text" class="form-control" id="contact" formControlName="contact" />
+                                <input type="text" class="form-control" placeholder="0758665666" id="contact" formControlName="contact" />
                             </div>
+                           
                             <div class="form-group col-md-3">
-                                <label for="userID"><b>Name of the Schedule</b></label>
-                                <input type="text" class="form-control" id="nameOfSchedule"
-                                    formControlName="nameOfSchedule" [ngClass]="{
-                                        'is-invalid':
-                                            submitted && f.nameOfSchedule.errors
-                                    }" />
-                                <div *ngIf="submitted && f.nameOfSchedule.errors" class="invalid-feedback">
-                                    <div *ngIf="f.nameOfSchedule.errors.required">
-                                        name Of Schedule is required
+                                <label for="userID"><b>Months/Day Status</b></label>
+                                <select class="custom-select" (change)="changeStatus($event)" formControlName="changeStatus" [ngClass]="{'is-invalid': submitted && f.changeStatus.errors}">
+                                    <option value="">Choose your selection</option>
+                                    <option *ngFor="let selection of selections" [ngValue]="selection">{{selection}}</option>
+                                 </select>
+                                 <div *ngIf="submitted && f.changeStatus.errors" class="invalid-feedback">
+                                    <div *ngIf="f.changeStatus.errors.required">
+                                        Months/Day Status is required
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="form-group col-md-3">
-                                <label for="userID"><b>Valid Months</b></label>
-                                <input type="number" class="form-control" min="0" (change)="DateCalculator(this)"
-                                    id="scend" formControlName="validMonth" [ngClass]="{
+                            <div class="form-group col-md-3" *ngIf ="commonStatus">
+                                <label for="userID" *ngIf ="dayawise"><b>No of Days</b></label>
+                                <label for="userID"  *ngIf ="monthwise"><b>Valid Months</b></label>
+                                <input type="number"  (keyup)="preventInput($event)"  placeholder="00" class="form-control" [min]="0" [max]="7" (change)="DateCalculator(this)"
+                                    id="scend" formControlName="validMonthDay" [ngClass]="{
                                         'is-invalid':
-                                            submitted && f.validMonth.errors
+                                            submitted && f.validMonthDay.errors
                                     }" />
 
-                                <div *ngIf="submitted && f.validMonth.errors" class="invalid-feedback">
-                                    <div *ngIf="f.validMonth.errors.required">
+                                <div *ngIf="submitted && f.validMonthDay.errors" class="invalid-feedback">
+                                    <div *ngIf="f.validMonthDay.errors.required && dayawise ">
                                         valid Month is required
                                     </div>
+                                    <div *ngIf="f.validMonthDay.errors.required && dayawise">
+                                        valid Days is required
+                                    </div>
                                 </div>
                             </div>
+                    
+                        </div>
+                            <!--  -->
+                            <div class="form-row">
+                           
 
-                            <div class="form-group col-md-3">
+
+                            
+                            <div class="form-group col-md-3" >
                                 <label for="userID"><b>Schedule end</b></label>
-                                <input type="text" class="form-control" [readonly]="true" id="scend"
+                                <input type="text" placeholder="06/07/2020" class="form-control" [readonly]="true" id="scend"
                                     formControlName="endDate" />
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="userID"><b>Schedule Name</b></label>
+                                <input type="text" placeholder="6 Days Work plan/2 Month Work plan" class="form-control"  id="scend"
+                                    formControlName="scheduleName"  [ngClass]="{'is-invalid':submitted && f.scheduleName.errors}" />
+                                    <div *ngIf="submitted && f.scheduleName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.scheduleName.errors.required">
+                                            name Of Schedule is required
+                                        </div>
+                                    </div>
                             </div>
                         </div>
 
-                        <div class="form-row"></div>
+            
 
                         <hr />
                         <div class="card-header">
                             <div class="form-row">
                                 <h4>
-                                    <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; <b>Schedule Calender</b>
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; <b>Schedule Table</b>
                                 </h4>
-                                &nbsp;&nbsp;&nbsp;
-                                <button type="button" *ngIf="!buttonDisplay" (click)="begginerScheduleBoard()"
-                                    class="btn btn-success">
-                                    Beginner &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                &nbsp;
+                                <div class="form-group col-md-4" >
+                                <select class="custom-select" (change)="changeScheduleCategoryType($event)" formControlName="scheduleCategoryType" [ngClass]="{'is-invalid': submitted && f.scheduleCategoryType.errors}">
+                                    <option value="">Choose your Schedule Category</option>
+                                    <option *ngFor="let selection of ScheduleCategories" [ngValue]="selection">{{selection}}</option>
+                                 </select>
+                                 <div *ngIf="submitted && f.scheduleCategoryType.errors" class="invalid-feedback">
+                                    <div *ngIf="f.scheduleCategoryType.errors.required">
+                                        Schedule categoryType is required !
+                                    </div>
+                                </div> 
+                            </div> &nbsp;&nbsp;
+                            <div *ngIf="begginer">
+                                <button type="button" class="btn btn-primary" (click)="onClickBeginner($event)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
-                                <button type="button" *ngIf="!buttonProDisplay" (click)="normalSchduleBoard()"
-                                    class="btn btn-info">
-                                    Pro &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
+                                <button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)">
+                                            <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                                        </button>
+                            </div>
+
+                            <div *ngIf="Display">
+                               
+                                <button type="button" class="btn btn-primary" (click)="onClickTickets($event)">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                        &nbsp;<button type="button" class="btn btn-danger"(click)=" onClickRemove( $event )">
+                            <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                        </button>
+                                </div>
                             </div>
                         </div>
                         <hr />
-                        <!-- Beginner -->
-                        <div class="">
-                            <div class="card-header" *ngIf="begginer">
-                                <div class="form-row">
-                                    <div class="form-group col-6">
-                                        <button type="button" class="btn btn-primary" (click)="onClickBeginner($event)">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="
-                                                onClickRemoveBeginner($event)
-                                            ">
-                                            <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                        </button>
+                        <!-- cALENDER deTAILS -->
+                        <div *ngIf="begginer">
+                                <div *ngFor = " let normal of normalSch.controls; let i =index"  class="list-group list-group-flush">
+                                    <div  class="list-group-item" [formGroup]="normal">
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <input type="text" formControlName="normalExerciseName" class="form-control"  placeholder="Exersice Name"
+                                                [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseName.errors}"/>
+                                                <div *ngIf="submitted && normal.controls.normalExerciseName.errors" class="invalid-feedback">
+                                                    <div *ngIf="normal.controls.normalExerciseName.errors.required">Skill Name is required</div>
+                                                </div>
+                                                </div>
+                                                
+                                                <div class="form-group col-2">
+                                                    <input type="text" formControlName="normalExerciseRepetition" class="form-control"  placeholder="Repetition No"
+                                                    [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRepetition.errors}"/>
+                                                    <div *ngIf="submitted && normal.controls.normalExerciseRepetition.errors" class="invalid-feedback">
+                                                        <div *ngIf="normal.controls.normalExerciseRepetition.errors.required">Repetition Number is required</div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="form-group col-2">
+                                                        <input type="text" formControlName="normalExerciseRounds" class="form-control"  placeholder="Rounds"
+                                                        [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRounds.errors}"/>
+                                                        <div *ngIf="submitted && normal.controls.normalExerciseRounds.errors" class="invalid-feedback">
+                                                            <div *ngIf="normal.controls.normalExerciseRounds.errors.required">Rounds Number is required</div>
+                                                        </div>
+                                                        </div>
+                                                        <div class="form-group col-2">
+                                                            <button type="button" class="btn btn-danger" (click)="
+                                                            onClickRemoveBeginner(i)
+                                                        ">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                  
+                                    </div>
+<!-- <--PRO--> 
+
+
+
+
+
+<div class="card-header" *ngIf="Display">
+    <ngb-tabset>
+        <ngb-tab title="Day-01">
+            <ng-template ngbTabContent>
+                <br>
+                <div *ngFor="let ticket of t.controls; let i = index" >
+                    <div [formGroup]="ticket">
+                        <div class="form-row">
+                            <div class="form-group col-3">
+                                
+                                <input type="text" formControlName="normalExerciseName"
+                                    class="form-control" placeholder="Exerxise Name" [ngClass]="{
+                                        'is-invalid':
+                                            submitted &&
+                                            ticket
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                    }" />
+                                <div *ngIf="
+                                        submitted &&
+                                        ticket
+                                            .controls
+                                            .normalExerciseName
+                                            .errors
+                                    " class="invalid-feedback">
+                                    <div *ngIf="
+                                            ticket
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                                .required
+                                        ">
+                                        Exersice
+                                        Name is
+                                        required
                                     </div>
                                 </div>
-                                <h3 style="text-align: center;">
-                                    <b>
-                                        <i class="fa fa-id-badge" aria-hidden="true"></i>&nbsp; Beginnner Schedule</b>
-                                </h3>
-                                <div *ngFor="
-                                        let beginner of B.controls;
-                                        let i = index
-                                    " style="align-content: center;">
-                                    <div [formGroup]="beginner">
-                                        <div class="form-row">
-                                            <div class="form-group col-3">
-                                                <label>Exersice Name</label>
-                                                <input type="text" formControlName="b_name" class="form-control"
-                                                    placeholder="Leg Press" [ngClass]="{
-                                                        'is-invalid':
-                                                            submitted &&
-                                                            beginner.controls
-                                                                .b_name.errors
-                                                    }" />
-                                                <div *ngIf="
-                                                        submitted &&
-                                                        beginner.controls.b_name
-                                                            .errors
-                                                    " class="invalid-feedback">
-                                                    <div *ngIf="
-                                                            beginner.controls
-                                                                .b_name.errors
-                                                                .required
-                                                        ">
-                                                        Exersice Name is
-                                                        required
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-3">
-                                                <label>Reps</label>
-                                                <input type="text" formControlName="b_title" numbersOnly placeholder="2"
-                                                    class="form-control" [ngClass]="{
-                                                        'is-invalid':
-                                                            submitted &&
-                                                            beginner.controls
-                                                                .b_title.errors
-                                                    }" />
-                                                <div *ngIf="
-                                                        submitted &&
-                                                        beginner.controls
-                                                            .b_title.errors
-                                                    " class="invalid-feedback">
-                                                    <div *ngIf="
-                                                            beginner.controls
-                                                                .b_title.errors
-                                                                .required
-                                                        ">
-                                                        Reps is required
-                                                    </div>
-                                                </div>
-                                            </div>
+                            </div>
+                            <div class="form-group col-3">
+                             
+                                <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                    placeholder="Repetition" class="form-control" [ngClass]="{
+                                        'is-invalid':
+                                            submitted &&
+                                            ticket
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                    }" />
+                                <div *ngIf="
+                                        submitted &&
+                                        ticket
+                                            .controls
+                                            .normalExerciseRepetition
+                                            .errors
+                                    " class="invalid-feedback">
+                                    <div *ngIf="
+                                            ticket
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                                .required
+                                        ">
+                                        Reps is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
 
-                                            <div class="form-group col-3">
-                                                <label>Sets</label>
-                                                <input type="text" formControlName="b_empType" numbersOnly
-                                                    placeholder="Ex:Full Time" class="form-control" [ngClass]="{
-                                                        'is-invalid':
-                                                            submitted &&
-                                                            beginner.controls
-                                                                .b_empType
-                                                                .errors
-                                                    }" />
-                                                <div *ngIf="
-                                                        submitted &&
-                                                        beginner.controls
-                                                            .b_empType.errors
-                                                    " class="invalid-feedback">
-                                                    <div *ngIf="
-                                                            beginner.controls
-                                                                .b_empType
-                                                                .errors.required
-                                                        ">
-                                                        Sets is required
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-3">
-                                                <label>Delete</label> <br />
-                                                <button type="button" class="btn btn-danger" (click)="
-                                                        onClickRemoveBeginner(i)
-                                                    ">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
+                            <div class="form-group col-3">
+                                <!-- <label>Sets</label> -->
+                                <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                    placeholder="Repetition" class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted &&
+                                            ticket
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                    }" />
+                                <div *ngIf="
+                                        submitted &&
+                                        ticket
+                                            .controls
+                                            .normalExerciseRounds
+                                            .errors
+                                    " class="invalid-feedback">
+                                    <div *ngIf="
+                                            ticket
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                                .required
+                                        ">
+                                        Sets is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                             
+                                <button type="button" class="btn btn-danger" (click)="
+                                        onClickRemove(
+                                            i
+                                        )
+                                    ">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              
+                            </div>
+                        </div>
+                        </div>
+                </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Day-02</b></ng-template>
+                <ng-template ngbTabContent>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickTuesday(
+                                        $event
+                                    )
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickRemoveTuesday(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngFor="
+                            let tuesday of T.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="tuesday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            tuesday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            tuesday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            tuesday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                tuesday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickRemoveTuesday(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Day-03</b></ng-template>
+                <ng-template ngbTabContent>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickwednesday(
+                                        $event
+                                    )
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickRemovewednesday(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                        <!-- pro -->
-                        <div class="">
-                            <div class="card-header" *ngIf="Display">
-                                <ngb-tabset>
-                                    <ngb-tab title="Day-01">
-                                        <ng-template ngbTabContent>
-                                            <br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onClickTickets(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onClickRemove(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                    <div *ngFor="
+                            let wednesday of W.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="wednesday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            wednesday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            wednesday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
 
-                                            <div *ngFor="
-                                                    let ticket of t.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="ticket">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        ticket
-                                                                            .controls
-                                                                            .name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    ticket
-                                                                        .controls
-                                                                        .name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        ticket
-                                                                            .controls
-                                                                            .name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        ticket
-                                                                            .controls
-                                                                            .title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    ticket
-                                                                        .controls
-                                                                        .title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        ticket
-                                                                            .controls
-                                                                            .title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        ticket
-                                                                            .controls
-                                                                            .empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    ticket
-                                                                        .controls
-                                                                        .empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        ticket
-                                                                            .controls
-                                                                            .empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onClickRemove(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    ticket
-                                                                        .controls
-                                                                        .empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        ticket
-                                                                            .controls
-                                                                            .empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-02</b></ng-template>
-                                        <ng-template ngbTabContent>
-                                            <br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickTuesday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickRemoveTuesday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let tuesday of T.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="tuesday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="t_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    tuesday
-                                                                        .controls
-                                                                        .t_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="t_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    tuesday
-                                                                        .controls
-                                                                        .t_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="t_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    tuesday
-                                                                        .controls
-                                                                        .t_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        tuesday
-                                                                            .controls
-                                                                            .t_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickRemoveTuesday(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-03</b></ng-template>
-                                        <ng-template ngbTabContent>
-                                            <br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickwednesday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickRemovewednesday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let wednesday of W.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="wednesday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="w_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    wednesday
-                                                                        .controls
-                                                                        .w_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="w_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    wednesday
-                                                                        .controls
-                                                                        .w_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="w_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    wednesday
-                                                                        .controls
-                                                                        .w_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        wednesday
-                                                                            .controls
-                                                                            .w_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickRemovewednesday(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-04</b></ng-template>
-                                        <ng-template ngbTabContent><br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickThursday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickRemoveThursday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let thursday of Th.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="thursday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="th_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    thursday
-                                                                        .controls
-                                                                        .th_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="th_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    thursday
-                                                                        .controls
-                                                                        .th_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="th_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    thursday
-                                                                        .controls
-                                                                        .th_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        thursday
-                                                                            .controls
-                                                                            .th_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickRemovewednesday(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-05</b></ng-template>
-                                        <ng-template ngbTabContent><br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickFriday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickRemoveFriday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let friday of Fr.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="friday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="f_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        friday
-                                                                            .controls
-                                                                            .f_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    friday
-                                                                        .controls
-                                                                        .f_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        friday
-                                                                            .controls
-                                                                            .f_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="f_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        friday
-                                                                            .controls
-                                                                            .f_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    friday
-                                                                        .controls
-                                                                        .f_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        friday
-                                                                            .controls
-                                                                            .f_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="f_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        friday
-                                                                            .controls
-                                                                            .f_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    friday
-                                                                        .controls
-                                                                        .f_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        friday
-                                                                            .controls
-                                                                            .f_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickRemoveFriday(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-06</b></ng-template>
-                                        <ng-template ngbTabContent><br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickSat($event)
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickremoveSta(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let satarday of S.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="satarday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="s_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    satarday
-                                                                        .controls
-                                                                        .s_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="s_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    satarday
-                                                                        .controls
-                                                                        .s_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="s_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    satarday
-                                                                        .controls
-                                                                        .s_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        satarday
-                                                                            .controls
-                                                                            .s_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickremoveSta(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle><b>Day-07</b></ng-template>
-                                        <ng-template ngbTabContent><br />
-                                            <div class="form-row">
-                                                <div class="form-group col-6">
-                                                    <button type="button" class="btn btn-primary" (click)="
-                                                            onclickSunday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                                        (click)="
-                                                            onclickremoveSunday(
-                                                                $event
-                                                            )
-                                                        ">
-                                                        <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div *ngFor="
-                                                    let sunday of Sun.controls;
-                                                    let i = index
-                                                ">
-                                                <div [formGroup]="sunday">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-3">
-                                                            <label>Exersice
-                                                                Name</label>
-                                                            <input type="text" formControlName="sun_name"
-                                                                class="form-control" placeholder="Leg Press" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        sunday
-                                                                            .controls
-                                                                            .sun_name
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    sunday
-                                                                        .controls
-                                                                        .sun_name
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        sunday
-                                                                            .controls
-                                                                            .sun_name
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Exersice
-                                                                    Name is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Reps</label>
-                                                            <input type="text" formControlName="sun_title" numbersOnly
-                                                                placeholder="2" class="form-control" [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        sunday
-                                                                            .controls
-                                                                            .sun_title
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    sunday
-                                                                        .controls
-                                                                        .sun_title
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        sunday
-                                                                            .controls
-                                                                            .sun_title
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Reps is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-3">
-                                                            <label>Sets</label>
-                                                            <input type="text" formControlName="sun_empType" numbersOnly
-                                                                placeholder="Ex:Full Time" class="form-control"
-                                                                [ngClass]="{
-                                                                    'is-invalid':
-                                                                        submitted &&
-                                                                        sunday
-                                                                            .controls
-                                                                            .sun_empType
-                                                                            .errors
-                                                                }" />
-                                                            <div *ngIf="
-                                                                    submitted &&
-                                                                    sunday
-                                                                        .controls
-                                                                        .sun_empType
-                                                                        .errors
-                                                                " class="invalid-feedback">
-                                                                <div *ngIf="
-                                                                        sunday.controls
-                                                                            .sun_empType
-                                                                            .errors
-                                                                            .required
-                                                                    ">
-                                                                    Sets is
-                                                                    required
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-3">
-                                                            <label>Delete</label>
-                                                            <br />
-                                                            <button type="button" class="btn btn-danger" (click)="
-                                                                    onclickremoveSunday(
-                                                                        i
-                                                                    )
-                                                                ">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </ngb-tab>
-                                  
-                                </ngb-tabset>
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            wednesday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                wednesday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickRemovewednesday(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab >
+                <ng-template ngbTabTitle ><div ><b>Day-04</b></div></ng-template>
+                <ng-template ngbTabContent><br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickThursday(
+                                        $event
+                                    )
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickRemoveThursday(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
 
+                    <div *ngFor="
+                            let thursday of Th.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="thursday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            thursday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            thursday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            thursday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                thursday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickRemovewednesday(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Day-05</b></ng-template>
+                <ng-template ngbTabContent><br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickFriday(
+                                        $event
+                                    )
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickRemoveFriday(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngFor="
+                            let friday of Fr.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="friday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                friday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            friday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                friday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                friday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            friday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                friday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                friday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            friday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                friday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickRemoveFriday(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Day-06</b></ng-template>
+                <ng-template ngbTabContent><br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickSat($event)
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickremoveSta(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngFor="
+                            let satarday of S.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="satarday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            satarday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            satarday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            satarday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                satarday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickremoveSta(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Day-07</b></ng-template>
+                <ng-template ngbTabContent><br />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <button type="button" class="btn btn-primary" (click)="
+                                    onclickSunday(
+                                        $event
+                                    )
+                                ">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
+                                (click)="
+                                    onclickremoveSunday(
+                                        $event
+                                    )
+                                ">
+                                <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngFor="
+                            let sunday of Sun.controls;
+                            let i = index
+                        ">
+                        <div [formGroup]="sunday">
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label>Exersice
+                                        Name</label>
+                                    <input type="text" formControlName="normalExerciseName"
+                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                sunday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            sunday
+                                                .controls
+                                                .normalExerciseName
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                sunday
+                                                    .controls
+                                                    .normalExerciseName
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Exersice
+                                            Name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Reps</label>
+                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
+                                        placeholder="2" class="form-control" [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                sunday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            sunday
+                                                .controls
+                                                .normalExerciseRepetition
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                sunday
+                                                    .controls
+                                                    .normalExerciseRepetition
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Reps is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label>Sets</label>
+                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
+                                        placeholder="Ex:Full Time" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                submitted &&
+                                                sunday
+                                                    .controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                        }" />
+                                    <div *ngIf="
+                                            submitted &&
+                                            sunday
+                                                .controls
+                                                .normalExerciseRounds
+                                                .errors
+                                        " class="invalid-feedback">
+                                        <div *ngIf="
+                                                sunday.controls
+                                                    .normalExerciseRounds
+                                                    .errors
+                                                    .required
+                                            ">
+                                            Sets is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Delete</label>
+                                    <br />
+                                    <button type="button" class="btn btn-danger" (click)="
+                                            onclickremoveSunday(
+                                                i
+                                            )
+                                        ">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+              
+        </ngb-tabset>
+    </div>
+
+                               
                         <br /><br />
                         <button type="submit" class="btn btn-primary">
                             Submit <i class="fa fa-book" aria-hidden="true"></i>

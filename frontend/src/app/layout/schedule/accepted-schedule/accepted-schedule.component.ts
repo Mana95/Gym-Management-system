@@ -6,8 +6,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from "moment";
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, mergeMap } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-accepted-schedule',
@@ -19,7 +20,7 @@ export class AcceptedScheduleComponent implements OnInit {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-
+  ScheduleId :any;
   buttonDisplay = false;
   ScheduleMakeGroup:FormGroup;
   submitted = false;
@@ -27,12 +28,16 @@ export class AcceptedScheduleComponent implements OnInit {
   currentDate:any;
   begginer = false;
   buttonProDisplay = false;
+  monthwise = false;
+  dayawise =  false
   Display = false;
   arrayData :any;
   states  = [];
   maxNumber :any;
-
-
+  selections = ['Months wise' , 'Day wise'];
+  commonStatus =  false;
+  ScheduleCategories = ['Normal' , 'Advanced'];
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -55,11 +60,13 @@ export class AcceptedScheduleComponent implements OnInit {
       gender:[''],
       instructorName:[''],
       contact:[''],
-      endDate:[''],
-      nameOfSchedule:['', Validators.required],
+      endDate:[''], 
+      scheduleCategoryType:['' , Validators.required],
+      scheduleName:['', Validators.required],
+      changeStatus:['' , Validators.required],
       BMI:[''],
-      validMonth:['', Validators.required],
-      beginner: new FormArray([]),
+      validMonthDay:['', Validators.max(7)],
+      normal :new FormArray([]),
       tickets: new FormArray([]),
       tuesday:new FormArray([]),
       wednesday:new FormArray([]),
@@ -68,40 +75,112 @@ export class AcceptedScheduleComponent implements OnInit {
       satarday:new FormArray([]),
       sunday:new FormArray([]),
     })
-
-
     this.loadFormUniqueId();
     this.loadFormData();
     this.loadinstructor();
-
-
-  
   }
+
+  get normalSch(){return this.f.normal as FormArray;}
+  get f() {
+    return this.ScheduleMakeGroup.controls;
+  }
+  get t() { return this.f.tickets as FormArray; }
+  get T() { return this.f.tuesday as FormArray;}
+  get W() {return this.f.wednesday as FormArray;}
+  get Th() {return this.f.thursday as FormArray;}
+  get Fr() { return this.f.friday as FormArray;}
+  get S() {return this.f.satarday as FormArray;}
+  get Sun() {return this.f.sunday as FormArray;}
+  get B() {return this.f.beginner as FormArray;}
   
+  preventInput(event){
+    let value=event.target.value;
+    if(value>=7){
+      event.preventDefault();
+    this.ScheduleMakeGroup.controls['validMonthDay'].setValue(7);
+    }
+  }
+  changetheButton(data){
+    console.log(data);
+    for(let x =0 ; x<=7 ; x++){
+      switch(data){
+        case `Day-${x}`:
+
+          break;
+
+      }
+    }
+      
+
+
+  }
+
+  changeStatusDayWise() {
+    
+  }
+
+  changeStatus(event) {
+    
+    let selectedValue = event.target.value;
+    switch(selectedValue){
+      case '1: Months wise':
+        this.commonStatus =true;
+        this.dayawise = false;
+        this.monthwise = true;
+      break;
+      case '2: Day wise':
+        this.commonStatus =true;
+        this.monthwise = false;
+      this.dayawise = true;
+        break;
+        default:
+           this.commonStatus =false;
+          this.dayawise = false;
+          this.monthwise = false;
+
+    }
+  }
 
   DateCalculator() {
+
+    const dateWiseValue = this.f.changeStatus.value;
     let dm = moment();
     let todayDate = dm.format('L');
-    let MonthAsNumber = this.f.validMonth.value
-    console.log(MonthAsNumber);
-    let addDays = dm.add(MonthAsNumber, 'months');
-    let convertDate = addDays.format('L');
-    this.ScheduleMakeGroup.controls['endDate'].setValue(convertDate);
+    switch(dateWiseValue){
+      case 'Months wise':
+        let MonthAsNumber = this.f.validMonthDay.value;
+        let addDays = dm.add(MonthAsNumber, 'months');
+        let convertDate = addDays.format('L');
+        this.ScheduleMakeGroup.controls['endDate'].setValue(convertDate);
+      break;
+      case 'Day wise':
+        let DayAsNumber = this.f.validMonthDay.value;
+        let addDaysby = dm.add(DayAsNumber, 'days');
+        let convertCurrentDate = addDaysby.format('L');
+        this.ScheduleMakeGroup.controls['endDate'].setValue(convertCurrentDate);
+        break;
+       
+    }
+
+
+
+
+
+
+ 
   }
 
 
-
+//loading instructor
   loadinstructor() {
     let data1 = this.currentUserSubject.value;
-  // alert(data._id);
         this.scheduleService.loadInstrucotrData(data1.user_id)
         .subscribe(
           data=>{
-            console.log('dadsadsa');
-            console.log(data);
+           
             this.ScheduleMakeGroup.controls['instructorName'].setValue(data[0].firstName);
             this.ScheduleMakeGroup.controls['contact'].setValue(data[0].phonenumber);
-            this.ScheduleMakeGroup.controls['nameOfSchedule'].setValue(data[0].typeName);
+          
           }
         )
       
@@ -113,7 +192,7 @@ export class AcceptedScheduleComponent implements OnInit {
   }
   //did not input minze Value
   get myInput(): AbstractControl {
-    return this.ScheduleMakeGroup.controls['validMonth'];
+    return this.ScheduleMakeGroup.controls['validMonthDay'];
 }
 
   loadFormUniqueId() {
@@ -142,12 +221,24 @@ export class AcceptedScheduleComponent implements OnInit {
    // let currentUser = this.currentUserSubject.value.username;
     this.id = (this.route.snapshot.paramMap.get('id'));
     console.log(this.id);
-    this.scheduleService.loadById(this.id)
-    .subscribe(
+
+//Loading relevent
+    this.scheduleService.getReleventSchdule(this.id).pipe(
+      map(datas=>{
+        const data = datas[0];
+        this.ScheduleMakeGroup.controls['type'].setValue(data.type);
+        this.ScheduleId = data.Sid;
+        return data;
+      }),
+      mergeMap(
+        data=>this.scheduleService.loadById(data.membershipId)
+      )
+    ).subscribe(
       response=>{
+        console.log('load weyan');
         console.log(response);
         this.ScheduleMakeGroup.controls['membershipId'].setValue(response[0].membershipId);
-        this.ScheduleMakeGroup.controls['type'].setValue(response[0].membershipId);
+        // this.ScheduleMakeGroup.controls['type'].setValue(response[0].membershipId);
         this.ScheduleMakeGroup.controls['memberName'].setValue(response[0].firstName);
         this.ScheduleMakeGroup.controls['height'].setValue(response[0].Height);
         this.ScheduleMakeGroup.controls['weight'].setValue(response[0].Weight);
@@ -172,42 +263,101 @@ export class AcceptedScheduleComponent implements OnInit {
 
 
   }
-  get f() {
-    return this.ScheduleMakeGroup.controls;
-  }
-  get t() { return this.f.tickets as FormArray; }
-  
 
-  get T() { return this.f.tuesday as FormArray;}
-
-  get W() {return this.f.wednesday as FormArray;}
-
-  get Th() {return this.f.thursday as FormArray;}
-
-  get Fr() { return this.f.friday as FormArray;}
-
-  get S() {return this.f.satarday as FormArray;}
-
-  get Sun() {return this.f.sunday as FormArray;}
-
-  get B() {return this.f.beginner as FormArray;}
-  
-  begginerScheduleBoard() {
-    this.buttonProDisplay = true;
-    this.Display = false;
-    this.begginer = true;
-   
+  clearTabData(){
+    let arr1 = <FormArray>this.ScheduleMakeGroup.controls['tickets'];
+    arr1.clear();
+    let arr2 = <FormArray>this.ScheduleMakeGroup.controls['normal'];
+    arr2.clear();
+    let arr3 = <FormArray>this.ScheduleMakeGroup.controls['tuesday'];
+    arr3.clear();
+    let arr4 = <FormArray>this.ScheduleMakeGroup.controls['wednesday'];
+    arr4.clear();
+    let arr5 = <FormArray>this.ScheduleMakeGroup.controls['thursday'];
+    arr5.clear();
+    let arr6 = <FormArray>this.ScheduleMakeGroup.controls['friday'];
+    arr6.clear();
+    let arr7 = <FormArray>this.ScheduleMakeGroup.controls['satarday'];
+    arr7.clear();
+    let arr8 = <FormArray>this.ScheduleMakeGroup.controls['sunday'];
+    arr8.clear();
+ 
+     
   }
 
+  changeScheduleCategoryType(event) {
+    let sheduleCat = event.target.value;
+    switch(sheduleCat){
+      case '1: Normal':
+        this.begginer = true;
+        this.Display = false;
+        while ( this.t.length !== 0) {
+          this.t.removeAt(0)
+        }
+        while (this.T.length !== 0) {
+          this.T.removeAt(0)
+        }
+        while (this.W.length !== 0) {
+          this.W.removeAt(0)
+        }
+        while (this.Th.length !== 0) {
+          this.Th.removeAt(0)
+        }
+        while (this.Fr.length !== 0) {
+          this.Fr.removeAt(0)
+        }
+        while (this.S.length !== 0) {
+          this.S.removeAt(0)
+        }
+        while (this.Sun.length !== 0) {
+          this.Sun.removeAt(0)
+        }
+        while (this.B.length !== 0) {
+          this.B.removeAt(0)
+        }
+        break;
+        case '2: Advanced':
+          this.begginer = false;
+          this.Display = true;
+          while ( this.normalSch.length !== 0) {
+            this.normalSch.removeAt(0)
+          }
+        break;
+        default:
+          this.begginer = false;
+          this.Display = false;
+          while ( this.t.length !== 0) {
+            this.t.removeAt(0)
+          }
+          while (this.T.length !== 0) {
+            this.T.removeAt(0)
+          }
+          while (this.W.length !== 0) {
+            this.W.removeAt(0)
+          }
+          while (this.Th.length !== 0) {
+            this.Th.removeAt(0)
+          }
+          while (this.Fr.length !== 0) {
+            this.Fr.removeAt(0)
+          }
+          while (this.S.length !== 0) {
+            this.S.removeAt(0)
+          }
+          while (this.Sun.length !== 0) {
+            this.Sun.removeAt(0)
+          }
+          while (this.B.length !== 0) {
+            this.B.removeAt(0)
+          }
+          while ( this.normalSch.length !== 0) {
+            this.normalSch.removeAt(0)
+          }
+    }
+  }
 
-  normalSchduleBoard() {
-    //alert('hi')
-    this.buttonDisplay = true;
-    this.begginer = false;
-    this.Display = true;
-    
-    
-  }  
+  
+ 
 
 
 
@@ -220,28 +370,29 @@ export class AcceptedScheduleComponent implements OnInit {
 
 
   onClickBeginner(e){
-    this.B.push(this.formBuilder.group({
-      b_name: ['', Validators.required],
-      b_title: ['', Validators.required],
-      b_empType:['',Validators.required],
-      b_startDate:['',Validators.required]
+    this.submitted = false;
+    this.normalSch.push(this.formBuilder.group({
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition :['',Validators.required],
+      normalExerciseRounds : ['',Validators.required]
+   
   }));
   
   }
   onclickSunday(e){
     this.Sun.push(this.formBuilder.group({
-      sun_name: ['', Validators.required],
-      sun_title: ['', Validators.required],
-      sun_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       sun_startDate:['',Validators.required]
   }));
   }
 
   onclickSat(e){
     this.S.push(this.formBuilder.group({
-      s_name: ['', Validators.required],
-      s_title: ['', Validators.required],
-      s_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       s_startDate:['',Validators.required]
   }));
   }
@@ -254,39 +405,46 @@ export class AcceptedScheduleComponent implements OnInit {
 
   onclickFriday(e){
     this.Fr.push(this.formBuilder.group({
-      f_name: ['', Validators.required],
-      f_title: ['', Validators.required],
-      f_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       f_startDate:['',Validators.required]
   }));
   }
 
   onclickThursday(e){
     this.Th.push(this.formBuilder.group({
-      th_name: ['', Validators.required],
-      th_title: ['', Validators.required],
-      th_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       th_startDate:['',Validators.required]
   }));
   }
 
   onclickwednesday(e){
     this.W.push(this.formBuilder.group({
-      w_name: ['', Validators.required],
-      w_title: ['', Validators.required],
-      w_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       w_startDate:['',Validators.required]
   }));
   }
   onclickTuesday(e){
     this.T.push(this.formBuilder.group({
-      t_name: ['', Validators.required],
-      t_title: ['', Validators.required],
-      t_empType:['',Validators.required],
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
       t_startDate:['',Validators.required]
   }));
   }
-
+  onClickTickets(e){
+    this.t.push(this.formBuilder.group({
+      normalExerciseName: ['', Validators.required],
+      normalExerciseRepetition: ['', Validators.required],
+      normalExerciseRounds:['',Validators.required],
+      startDate:['',Validators.required]
+  }));
+  }
   onclickRemoveThursday(i){
     let length = this.Th.length;
     // console.log(length);
@@ -311,16 +469,9 @@ export class AcceptedScheduleComponent implements OnInit {
   }
 
 
-  onClickTickets(e){
-    this.t.push(this.formBuilder.group({
-      name: ['', Validators.required],
-      title: ['', Validators.required],
-      empType:['',Validators.required],
-      startDate:['',Validators.required]
-  }));
-  }
+  
   onClickRemoveBeginner(i) {
-    this.B.removeAt(i);
+    this.normalSch.removeAt(i);
   }
   onClickRemove(i){
     let length = this.t.length;
@@ -345,24 +496,42 @@ export class AcceptedScheduleComponent implements OnInit {
       instructorName:this.f.instructorName.value,
       contact:this.f.contact.value,
       endDate:this.f.endDate.value,
-      nameOfSchedule:this.f.nameOfSchedule.value,     
-      validMonth:this.f.validMonth.value,      
+      nameOfSchedule:this.f.scheduleName.value,    
+      changeStatus:this.f.changeStatus.value, 
+      validMonthDay:this.f.validMonthDay.value,      
       tickets:this.f.tickets.value,
+      tuesday: this.f.tuesday.value,
       wednesday:this.f.wednesday.value,
       thursday:this.f.thursday.value,
       friday:this.f.friday.value,
       satarday:this.f.satarday.value,
       sunday:this.f.sunday.value,
-      beginner: this.f.beginner.value
+      ScheduleId:this.ScheduleId,
+     
+      scheduleCategoryType:this.f.scheduleCategoryType.value,
+      normal: this.f.normal.value
 
     }
 
     console.log(sceduleData);
-  
+      
     this.scheduleService.createSchedule(sceduleData)
     .subscribe(
       response=>{
         console.log(response);
+        if(response==1){
+          Swal.fire({
+            text: 'Schedule Plan successfully Created',
+            icon: 'success'
+          });
+         
+          this.submitted = false;
+          this.ScheduleMakeGroup.reset();
+          this.loadFormUniqueId();
+          this.clearTabData();
+          this.router.navigate(['/dashboard']);
+         
+        }
       },
     error=>{
       console.log(error)

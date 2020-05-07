@@ -22,11 +22,17 @@ router.get('/checkAvalibility/:id', checkDateAvl);
 router.get('/getById/:id' ,getById);
 router.get('/loadInstructor' ,loadInstructor);
 
-
+router.get('/loadSchedule/:id' ,loadSchedule);
 router.get('/getmembershipDetais/:id' ,getmembershipDetais);
 router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
 
+
+function loadSchedule(req ,res ,next){
+    scheduleService.loadSchedule(req.params.id)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 
 function getmembershipcheckUsernameAvailable (req ,res , next){
     const username = req.params.id;

@@ -1,5 +1,5 @@
 
-
+import 'flatpickr/dist/flatpickr.css'; // you may need to adjust the css import depending on your build tool
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
@@ -11,7 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DietPlanCreationComponent } from './diet-plan-creation/diet-plan-creation.component';
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { SchedulerModule } from 'angular-calendar-scheduler';
+
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 

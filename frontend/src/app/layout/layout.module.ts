@@ -1,3 +1,4 @@
+import { AccordionModule } from 'ngx-accordion';
 // import '../../../../flatpickr/dist/flatpickr.css';
 
 
@@ -30,6 +31,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
         NgbDropdownModule,
         ReactiveFormsModule,
         FormsModule,
+        AccordionModule,
       
         CalendarModule.forRoot({
             provide: DateAdapter,

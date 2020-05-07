@@ -9,9 +9,17 @@ const schema = new Schema({
             required:true,
             type:String
         }, 
+        ScheduleId: {
+          required:true,
+          type:String 
+        },
         type:{
             required:true,
             type:String 
+        },
+        scheduleCategoryType:{
+          required:true,
+          type:String 
         },
         membershipId:{
             required:true,
@@ -53,124 +61,124 @@ const schema = new Schema({
             type: String,
             required: true
           },
-          validMonth: {
+          validMonthDay: {
             type: Number,
             required: true
           },
           BMi:{
               type:Number
           },
-          beginner:[{
-            b_name: {
+          changeStatus:{
+            type: String,
+          },
+          normal:[{
+            normalExerciseName: {
                 type: String,
               
             },
-            b_title:{
+            normalExerciseRepetition:{
                 type: String,
                 
             },
-            b_empType:{
+            normalExerciseRounds:{
                 type: String,
                 
             }
           }],
           tickets:[{
-            name:{
-                type: String,
-               
-            },
-            title:{
-                type: String,
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
               
-            },
-            empType:{
-                type: String,
-               
+          },
+          normalExerciseRounds:{
+              type: String,
             }
           }
           ],
           tuesday:[{
-            t_name:{
+            normalExerciseName:{
                 type: String,
               
             },
-            t_title:{
+            normalExerciseRepetition:{
                 type: String,
                 
             },
-            t_empType:{
+            normalExerciseRounds:{
                 type: String,
                 
             }
           }],
           wednesday:[{
-            w_name:{
-                type: String,
-                 
-            },
-            w_title:{
-                type: String,
-                
-            },
-            w_empType:{
-                type: String,
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
+              
+          },
+          normalExerciseRounds:{
+              type: String,
                 
             }
           }],
           thursday:[{
-            t_name:{
-                type: String,
-                  
-            },
-            t_title:{
-                type: String,
-                
-            },
-            t_empType:{
-                type: String,
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
+              
+          },
+          normalExerciseRounds:{
+              type: String,
                
             }
           }],
           friday:[{
-            f_name:{
-                type: String,
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
               
-            },
-            f_title:{
-                type: String,
-              
-            },
-            f_empType:{
-                type: String,
-              
+          },
+          normalExerciseRounds:{
+              type: String,
             }
           }],
           satarday:[{
-            s_name:{
-                type: String,
-                 
-            },
-            s_title:{
-                type: String,
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
               
-            },
-            s_empType:{
-                type: String,
+          },
+          normalExerciseRounds:{
+              type: String,
                
             }  
           }],
           sunday:[{
-            sun_name:{
-                type: String,
-               
-            },
-            sun_title:{
-                type: String,
-                
-            },
-            sun_empType:{
-                type: String,
-                
+            normalExerciseName: {
+              type: String,
+            
+          },
+          normalExerciseRepetition:{
+              type: String,
+              
+          },
+          normalExerciseRounds:{
+              type: String,
             } 
           }], 
         createdDate: {

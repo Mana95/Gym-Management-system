@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleService } from './../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,6 +19,7 @@ export class ScheduleComponent implements OnInit {
     private scheduleService:ScheduleService,
     private router: Router,
     private route: ActivatedRoute,
+    private modal: NgbModal
   ) { 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -39,9 +41,9 @@ export class ScheduleComponent implements OnInit {
     )
   }
   routePage(data){
-    console.log(JSON.stringify(data));
-    this.router.navigate(['/schedule_plan', data.membershipId]);
-    console.log("Navigate to Edit Group " + data.membershipId);
+ 
+    this.router.navigate(['/schedule_plan', data.Sid]);
+ 
   }
 
 }

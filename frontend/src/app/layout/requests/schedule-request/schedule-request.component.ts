@@ -2,6 +2,8 @@ import { ScheduleService } from './../../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmation-dialog.service';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
   selector: 'app-schedule-request',
   templateUrl: './schedule-request.component.html',
@@ -44,6 +46,13 @@ export class ScheduleRequestComponent implements OnInit {
       response=>{
         console.log(response);
         this.showMsg = true;
+
+        Swal.fire({
+          text: 'Schedule Approved Successfully !',
+          icon: 'success'
+        });
+
+
         setTimeout(()=>{ 
           this.showMsg = false;
           this.loadSchedules();

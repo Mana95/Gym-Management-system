@@ -22,17 +22,26 @@ export class SchedulePlanComponent implements OnInit {
   tableData:any;
   createdDate:any;
   Enddate:any;
+  tabDisplayTable = false;
+
+  tableDataDisplayArray = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder:FormBuilder,
-    private scheduleService:ScheduleService
+    private scheduleService:ScheduleService,
+  
   ) { }
 
   ngOnInit() {
 
     this.loadCurrentData();
   }
+  log(event: boolean) {
+    console.log(`Accordion has been ${event ? 'opened' : 'closed'}`);
+  }
+
 
   loadCurrentData() {
     this.id = (this.route.snapshot.paramMap.get('id'));
@@ -40,12 +49,42 @@ export class SchedulePlanComponent implements OnInit {
     this.scheduleService.getById(this.id)
     .subscribe(
       get=>{
-       // console.log(get);
-        this.displayData = get[0];
-        this.tableData = get[0].beginner;
-        this.createdDate = get[0].date;
-        this.Enddate = get[0].endDate;
-        console.log(this.createdDate.date.getFullYear());
+        this.displayData = get
+        if(get[0].scheduleCategoryType == 'Normal' ){
+          this.tabDisplayTable = false;
+          this.tableData = get[0].normal;
+          this.createdDate = get[0].date;
+          this.Enddate = get[0].endDate;
+        }else{
+          // push data to tableDataDisplayArray
+          console.log(get);
+       
+          this.createdDate = get[0].date;
+          this.Enddate = get[0].endDate;
+          if(get[0].tickets.length !==0){
+            this.tableDataDisplayArray.push(get[0].tickets);
+            if(get[0].tuesday.length !==0){
+              this.tableDataDisplayArray.push(get[0].tuesday);
+            } if(get[0].wednesday.length !==0){
+              this.tableDataDisplayArray.push(get[0].wednesday);
+            }if(get[0].thursday.length !==0){
+              this.tableDataDisplayArray.push(get[0].thursday);
+            }if(get[0].friday.length !==0){
+              this.tableDataDisplayArray.push(get[0].friday);
+            } if(get[0].satarday.length !==0){
+              this.tableDataDisplayArray.push(get[0].satarday);
+            } if(get[0].sunday.length !==0){
+              this.tableDataDisplayArray.push(get[0].sunday);
+            }
+          }
+
+          console.log(this.tableDataDisplayArray);
+          this.tabDisplayTable = true;
+        }
+     
+      
+
+      
       }
     )
 

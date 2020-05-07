@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-
+import { Component, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import {
   startOfDay,
   endOfDay,
@@ -19,8 +18,6 @@ import {
   CalendarView,
 } from 'angular-calendar';
 
-
-
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -37,6 +34,7 @@ const colors: any = {
 };
 @Component({
   selector: 'app-diet-plan',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './diet-plan.component.html',
   styleUrls: ['./diet-plan.component.scss']
 })
@@ -116,11 +114,10 @@ export class DietPlanComponent implements OnInit {
   ];
 
   activeDayIsOpen: boolean = true;
-  constructor(private modal: NgbModal) { }
 
-  ngOnInit() {
-  }
-
+  constructor(private modal: NgbModal) {}
+  ngOnInit() {}
+  
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -186,4 +183,6 @@ export class DietPlanComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
+  
 }

@@ -39,7 +39,7 @@ export class ScheduleService {
     return this.http.get(config.PAPYRUS+`/shedule/loadById/${id}`)
    }
 
-
+  
 
    getAcceptedSchedule() {
     return this.http.get(config.PAPYRUS+`/shedule/getAcceptedSchedule`)
@@ -78,5 +78,9 @@ export class ScheduleService {
     .pipe(map(data=>{
       return data;
     }))
+  }
+
+  getReleventSchdule(id){
+    return this.http.get(config.PAPYRUS+`/shedule/loadSchedule/${id}`)
   }
 }

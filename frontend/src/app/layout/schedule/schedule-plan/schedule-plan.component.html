@@ -38,31 +38,30 @@
     <h2><b><i class="fa fa-trophy" aria-hidden="true"></i>My Schedule Plan</b></h2>
    </div>
    <br/>
-   <div class="container-fluid">
-
+   <div class="container-fluid" *ngFor="let data of displayData">
       <div class="row ">
       <div class="col-sm">
        <b><label>Instructor Name :</label></b>
-        {{displayData.instructorName}}
+       {{data.instructorName}}
       </div>
       <div class="col-sm">
         <b><label>Instructor Contact :</label></b>
-        0{{displayData.contact}}
+        0{{data.contact}}
       </div>
       <div class="col-sm">
         <b><label>Membership Id :</label></b>
-        {{displayData.membershipId}}
+        {{data.membershipId}}
       </div>
     </div>
 
     <div class="row ">
       <div class="col-sm">
        <b><label>Shcedule Id :</label></b>
-        {{displayData.id}}
+       {{data.ScheduleId}}
       </div>
       <div class="col-sm">
         <b><label>Shcedule Name :</label></b>
-        {{displayData.nameOfSchedule}}
+        {{data.nameOfSchedule}}
       </div>
       <div class="col-sm">
         <b><label>Created Date :</label></b>
@@ -76,12 +75,7 @@
         2018/07/07
       </div>
 
-      <div class="col-sm">
-        <b><label>Gender :</label></b>
-       <p *ngIf="'Male'==displayData.gender"><i class="fa fa-mars" aria-hidden="true"></i></p> 
-       <p *ngIf="'Female'==displayData.gender"><i class="fa fa-venus" aria-hidden="true"></i></p> 
-      </div>
-
+  
       <div class="col-sm">
         <b><label>Birthday :</label></b>
         1995/2/3
@@ -94,21 +88,58 @@
   <h2><b><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>Exercises</b></h2>
  </div>
 <br/>
- <table class="table table-dark">
+ <table class="table table-dark" *ngIf="!tabDisplayTable">
   <thead>
     <tr>
-      <th  style="text-align: center;" scope="col">Exercise Name</th>
-      <th  style="text-align: center;" scope="col">Sets</th>
-      <th  style="text-align: center;" scope="col">Rounds</th>
+      <th   scope="col">Exercise Name</th>
+      <th   scope="col">Sets</th>
+      <th   scope="col">Rounds</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of tableData">
-<td style="text-align: center;">{{data.b_name}}</td>
-<td style="text-align: center;">{{data.b_title}}</td>
-<td style="text-align: center;">{{data.b_empType}}</td>
+<td >{{data.normalExerciseName}}</td>
+<td >{{data.normalExerciseRepetition}}</td>
+<td >{{data.normalExerciseRounds}}</td>
     </tr>
  </table>
+ <div *ngIf="tabDisplayTable">
+ 
+  <ngb-tabset>
+    <ngb-tab *ngFor="let tabsValues of tableDataDisplayArray; let i = index">
+    <ng-template ngbTabTitle ><b>Day-{{i+1}}</b></ng-template>
+  <ng-template ngbTabContent>
+    <br>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th  scope="col">Exercise Name</th>
+          <th   scope="col">Repetitions</th>
+          <th   scope="col">Rounds</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor= "let dataValue of tabsValues">
+    <td >{{dataValue.normalExerciseName}}</td>
+    <td >{{dataValue.normalExerciseRepetition}}</td>
+    <td >{{dataValue.normalExerciseRounds}}</td>
+        </tr>
+     </table>
+    </ng-template>
+    </ngb-tab>
+ </ngb-tabset>
+</div>
+ <!-- <accordion>
+  <accordion-group heading="Group without isOpenChange event listener">
+    <p>Some content</p>
+  </accordion-group>
+  <accordion-group heading="Group with isOpenChange event listener" (isOpenChange)="log($event)">
+    <p>Some content</p>
+  </accordion-group>
+  <accordion-group heading="Group with isOpenChange event listener" (isOpenChange)="log($event)">
+    <p>Some content</p>
+  </accordion-group>
+</accordion> -->
 
  </div>
 

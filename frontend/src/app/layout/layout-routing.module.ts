@@ -15,7 +15,7 @@ const routes: Routes = [
             { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'userRole', loadChildren: () => import('./user/user-role/user-role.module').then(m => m.UserRoleModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin]  } },
             { path: 'suppliers', loadChildren: () => import('./user/suppliers/suppliers.module').then(m => m.SuppliersModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
-            { path: 'customers', loadChildren: () => import('./user/customers/customers.module').then(m => m.CustomersModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
+            { path: 'Membership', loadChildren: () => import('./user/customers/customers.module').then(m => m.CustomersModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Membership] } },
             { path: 'instructor', loadChildren: () => import('./user/instructors/instructors.module').then(m => m.InstructorsModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'schedultType', loadChildren: () => import('./user/schedule-type/schedule-type.module').then(m => m.ScheduleTypeModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'membershiptype', loadChildren: () => import('./user/membershiptype/membershiptype.module').then(m => m.MembershiptypeModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
@@ -58,7 +58,7 @@ const routes: Routes = [
           
             { path: 'diet_plan', loadChildren: () => import('./diet-plan/diet-plan.module').then(m => m.DietPlanModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
            { path: 'diet_creation' , loadChildren: ()=> import('./diet-plan/diet-plan-creation/diet-plan-creation.module').then(m=> m.DietPlanCreationModule),canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
-            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Customer , Role.Member] } },
+            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Member] } },
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             

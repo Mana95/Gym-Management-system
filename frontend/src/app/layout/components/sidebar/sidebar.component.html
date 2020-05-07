@@ -31,9 +31,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" >
+                        <a href="javascript:void(0)" [routerLink]="['/Membership']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-address-book"></i>&nbsp;
-                            <span>{{ 'Customers' | translate }}</span>
+                            <span>{{ 'Membership' | translate }}</span>
                         </a>
                     </li>
                     <li>
@@ -56,7 +56,28 @@
                     </li>
                 </ul>
             </li>
-        </div> 
+        </div>
+        
+
+
+        <!-- <div class="nested-menu" >
+            <a  class="list-group-item" (click)="addExpandClass('pages')"  *ngIf = "isAdmin" >
+                <i class="fa fa-user-plus"></i>&nbsp;
+                <span>{{ 'Member' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'" *ngIf = "isAdmin" >
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                            <i class="fa fa-user"></i>&nbsp;
+                            <span>{{ 'Employees' | translate }}</span>
+                        </a>
+                   
+                </ul>
+            </li>
+        </div>
+         -->
+        
         <!-- End UserModule -->
         <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf="onlyMembers" >
             <i class="fa fa-handshake-o"></i>&nbsp;
@@ -152,13 +173,13 @@
         <a [routerLink]="['/sales_order_cart']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
             <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
             &nbsp;
-            <span>{{ 'Sales Order Cart' | translate }}</span>
+            <span>{{ 'Equipment/Nutrition' | translate }}</span>
         </a>
 
-        <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
+        <!-- <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
-        </a>
+        </a> -->
 
         <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="PurchaseOrder" >
             <i class="fa fa-cogs"></i>&nbsp;

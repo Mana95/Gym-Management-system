@@ -49,6 +49,7 @@
     "ng2-charts": "2.3.0",
     "ng2-file-upload": "^1.4.0",
     "ng2-search-filter": "^0.5.1",
+    "ngx-accordion": "0.0.17",
     "ngx-bootstrap-datetime-popup": "^5.0.2",
     "ngx-pagination": "^5.0.0",
     "ngx-popover-image": "^0.2.1",
