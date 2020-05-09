@@ -18,10 +18,15 @@
                               </div>
                                   <div class="col-md-6">
                                           <div class="form-group">
-                                                  <input type="text" class="form-control input-underline input-lg " formControlName ="username"  placeholder="User Name" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
-                                                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                                          <div *ngIf="f.username.errors.required" class="input-lg"><b>User Name is required</b></div>
-                                                      </div>   </div>
+                                                  <input type="text" class="form-control input-underline input-lg " formControlName ="nicNumber"  placeholder="NIC Number" [ngClass]="{ 'is-invalid': submitted && f.nicNumber.errors }">
+                                                  <div *ngIf="submitted && memberGroup.get('nicNumber').hasError('required')" class="input-lg nicColor">
+                                                    Nic Number is required
+                                                  </div>
+                                                  <div *ngIf="memberGroup.get('nicNumber').hasError('pattern')" class="input-lg nicColor">
+                                                    It is not a valid NIC number.
+                                                  </div>
+                                               
+                                                    </div>
                       </div>
                   </div>
                   <div class="row">

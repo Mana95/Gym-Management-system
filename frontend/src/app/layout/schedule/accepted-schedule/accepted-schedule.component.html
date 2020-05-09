@@ -10,7 +10,7 @@
                     </h2>
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="ScheduleMakeGroup" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="ScheduleMakeGroup">
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Schedule Id</b></label>
@@ -137,6 +137,11 @@
                                     </div>
                             </div>
                         </div>
+
+                    <div class="form-row">
+                        <label for="Note"><b>Note</b></label>
+                        <textarea class="form-control" id="note" placeholder="Note" formControlName = "note" rows="3"></textarea>
+                    </div>
 
             
 
@@ -1181,12 +1186,135 @@
         </ngb-tabset>
     </div>
 
-                               
-                        <br /><br />
-                        <button type="submit" class="btn btn-primary">
+                      <hr/>         
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                            <small class="text-muted">If you want to create diet plan to this schedule, click the checkbox</small>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" formControlName="dietPlan" (click) ="viewDietPlan($event)" name="dietPlan" [value]="dietPlan" id="dietPlan">
+                                <label class="form-check-label"   for="dietPlan"><b>Add Diet Plan</b></label>
+                              </div>  
+                   
+                        </div> 
+                          </div>
+                        <button type="button" class="btn btn-primary"  *ngIf="!displaySubmitbutton" (click)="onSubmit()">
                             Submit <i class="fa fa-book" aria-hidden="true"></i>
                         </button>
+                        <hr/>
+
+                        <div class="form-row">
+                            <div class="form-group col-3">
+
+</div>
+ </div>
+
+
+
                     </form>
+
+                    
+                    <form  [formGroup]="DietPlanGroup" (ngSubmit)="onSubmitDietPlan()"   *ngIf="displayDietPlan">
+                    <div class="card-header">
+                        <div class="form-row">
+                            <h4>
+                                <i class="fa fa-cutlery" aria-hidden="true"></i>&nbsp; <b>Diet Meal Plan</b>
+                            </h4>
+</div>
+                    </div>
+                    <hr />
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="userID"><b>Meal diet plan Id</b></label>
+                                <input type="text" class="form-control inputClass" [readonly] = "true" formControlName="dietPlanId"
+                                     />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="email"><b>Diet Plan Name</b></label>
+                                <input type="email" class="form-control inputClass"  placeholder="300 muscle diet"
+                                    formControlName="type" />
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="email"><b>Add intervals</b></label>
+                                <button type="button" (click) ="addIntervals()" class="form-control btn btn-success">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>  
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="email"><b>Remove All</b></label>
+                                    <button type="button" (click) ="removeIntervals($event)" [disabled] ="disaledButton" class="form-control btn btn-danger">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>  
+                                    </div>
+
+                        </div>
+                        <div class="form-row">
+                            <label for="Note"><b>Note</b></label>
+                            <textarea class="form-control" id="note" placeholder="Note" formControlName = "dietPlanNote" rows="3"></textarea>
+                        </div>
+                        
+                        <div *ngFor = "let dietPlan of DietPlanGroup.get('intervalNames').controls; let i =index"  class="list-group list-group-flush">
+                            <div  class="list-group-item" [formGroup]="dietPlan">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <button type="button" (click) ="pushValuetoTable(dietPlan.controls.intervalItemArray)" class="btn btn-success">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>  
+                                    &nbsp;
+                                    <button type="button" (click) ="popValuetoTable(i , dietPlan.controls.intervalItemArray)" class="btn btn-danger">
+                                       <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>  
+                                </div>
+                            <div class="form-group col-md-6">
+                                    <input type="text" formControlName="intervalName" class="form-control"  placeholder="Interval Name"
+                                    [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.controls.intervalName.errors}"/>
+                                    <div *ngIf="dietSubmitted && dietPlan.controls.intervalName.errors" class="invalid-feedback">
+                                        <div *ngIf="dietPlan.controls.intervalName.errors.required">Skill Name is required</div>
+                                    </div>
+                            </div>
+                         
+                            </div>
+                            <div *ngFor="let data of dietPlan.get('intervalItemArray').controls; let i = index">
+                                <div  class="list-group-item" [formGroup]="data">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <input type="text" formControlName="foodItemName" class="form-control"  placeholder="Food item Name" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.foodItemName.errors}"/>
+                                            <div *ngIf="dietSubmitted && data.controls.foodItemName.errors" class="invalid-feedback">
+                                                <div *ngIf="data.controls.foodItemName.errors.required">Food item Name is required</div>
+                                            </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" formControlName="quantity" numbersOnly class="form-control"  placeholder="Quanity Number" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.quantity.errors}"/>
+                                                <div *ngIf="dietSubmitted && data.controls.quantity.errors" class="invalid-feedback">
+                                                    <div *ngIf="data.controls.quantity.errors.required">Quanity Number is required</div>
+                                                </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" formControlName="mearurmentUnit"   class="form-control"  placeholder="mearurment Unit" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.mearurmentUnit.errors}"/>
+                                                    <div *ngIf="dietSubmitted && data.controls.mearurmentUnit.errors" class="invalid-feedback">
+                                                        <div *ngIf="data.controls.mearurmentUnit.errors.required">Mearurement Number is required</div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                    <button type="button" (click) ="popSubValuetoTable(i)" class="btn btn-danger">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                     </button>  
+                                                     </div>
+
+                                        </div>
+                        
+                            </div> 
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" *ngIf = "displaySubmitbutton" (click)="onSubmit()">
+                            Submit <i class="fa fa-book" aria-hidden="true"></i>
+                        </button>
+                </form>
                 </div>
             </div>
         </div>

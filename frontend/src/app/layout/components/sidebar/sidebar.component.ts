@@ -91,6 +91,10 @@ export class SidebarComponent implements OnInit {
 
             return this.currentUser && this.currentUser.role === Role.Instructor;
         }
+        else if(this.currentUser.role === Role.Membership){
+
+            return this.currentUser && this.currentUser.role === Role.Membership;
+        }
     }
     get OnlyMembership() {
         if(this.currentUser.role === Role.Membership){
@@ -116,38 +120,6 @@ export class SidebarComponent implements OnInit {
             return this.currentUser && this.currentUser.role === Role.Member;
         }
     }
-    // get Schedule() {
-
-    //     if(this.currentUser.role == Role.Admin){
-            
-    //         return this.currentUser && this.currentUser.role === Role.Admin;
-    //     } else if(this.currentUser.role == Role.Membership) {
-    //         return this.currentUser && this.currentUser.role === Role.Membership;
-    //     }
-    // }
-    // get CurrentRole(){
-
-    //     if(this.currentUser.role == Role.Admin){
-            
-    //         return this.currentUser && this.currentUser.role === Role.Admin;
-    //     }
-    //     else if(this.currentUser.role == Role.Customer) {
-    //         return this.currentUser && this.currentUser.role === Role.Customer;
-    //     }
-    //     else if(this.currentUser.role == Role.Supplier) {
-    //         return this.currentUser && this.currentUser.role === Role.Supplier;
-    //     }else if(this.currentUser.role == Role.Supplier) {
-    //         return this.currentUser && this.currentUser.role === Role.User;
-    //     }
-        
-
-
-
-       
-    //         let x =this.currentUser && this.currentUser.role === Role.Admin;
-    //         return x ;
-    // }
-
     get isAdmin() {
 
         return this.currentUser && this.currentUser.role === Role.Admin;

@@ -28,7 +28,7 @@ export class MemberLoginComponent implements OnInit {
     this.genrateUserID();
     //setup the formControls
     this.memberGroup = this.formBuilder.group({
-      username:['' , Validators.required],
+      nicNumber:['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       firstName:['', Validators.required],
       email:['',[ Validators.required , Validators.email]],
       password:['',Validators.required],
@@ -84,7 +84,7 @@ export class MemberLoginComponent implements OnInit {
 
     let memberData = {
       user_id: this.user_id ,
-      username:this.f.username.value,
+      nicNumber:this.f.nicNumber.value,
       firstName:this.f.firstName.value,
       email:this.f.email.value,
       password:this.f.password.value,
@@ -92,7 +92,7 @@ export class MemberLoginComponent implements OnInit {
       active : true
     }
 
-    //console.log(memberData);
+    console.log(memberData);
 
       if(this.memberGroup.valid){
         this.authenticationService.saveMembership(memberData)

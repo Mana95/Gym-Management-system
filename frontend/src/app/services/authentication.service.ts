@@ -175,9 +175,9 @@ export class AuthenticationService {
  }
 
 
-  login(firstName: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<any> {
    // console.log('Authentication' + firstName + password);
-   return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { firstName, password })
+   return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { email, password })
      .pipe(map(user => {
        // login successfull if there is a jwt token in the response
        if (user && user.token) {

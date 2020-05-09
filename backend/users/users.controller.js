@@ -258,7 +258,7 @@ function supplierMail(req ,res, next){
 }
 
 function requestMail(req ,res, next){
-    console.log(req.body)
+   
     userService.ResetPassword(req.body)
     .then(email => res.json(email))
     .catch(err => next(err));

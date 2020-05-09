@@ -23,6 +23,15 @@ export class AcceptedScheduleComponent implements OnInit {
   ScheduleId :any;
   buttonDisplay = false;
   ScheduleMakeGroup:FormGroup;
+
+  DietPlanGroup :FormGroup;
+  dietSubmitted = false;
+  displayDietPlan = false;
+  displaySubmitbutton = false;
+  disaledButton = true;
+  dietPlanStatus = false;
+
+
   submitted = false;
   id:any;
   currentDate:any;
@@ -61,10 +70,12 @@ export class AcceptedScheduleComponent implements OnInit {
       instructorName:[''],
       contact:[''],
       endDate:[''], 
+      dietPlan:[''],
       scheduleCategoryType:['' , Validators.required],
       scheduleName:['', Validators.required],
       changeStatus:['' , Validators.required],
       BMI:[''],
+      note:[''],
       validMonthDay:['', Validators.max(7)],
       normal :new FormArray([]),
       tickets: new FormArray([]),
@@ -75,6 +86,17 @@ export class AcceptedScheduleComponent implements OnInit {
       satarday:new FormArray([]),
       sunday:new FormArray([]),
     })
+
+    this.DietPlanGroup = this.formBuilder.group({
+        dietPlanId :[''],
+        dietPlanName:['',Validators.required],
+        membershipId:['',Validators.required],
+        memberName:['',Validators.required],
+        CreatedName :['',Validators.required],
+        createdContact:['', Validators.required],
+        dietPlanNote:[''],
+        intervalNames:new FormArray([]),
+    })
     this.loadFormUniqueId();
     this.loadFormData();
     this.loadinstructor();
@@ -84,6 +106,11 @@ export class AcceptedScheduleComponent implements OnInit {
   get f() {
     return this.ScheduleMakeGroup.controls;
   }
+
+  get dietPlan() {
+    return this.DietPlanGroup.controls;
+  }
+
   get t() { return this.f.tickets as FormArray; }
   get T() { return this.f.tuesday as FormArray;}
   get W() {return this.f.wednesday as FormArray;}
@@ -92,7 +119,49 @@ export class AcceptedScheduleComponent implements OnInit {
   get S() {return this.f.satarday as FormArray;}
   get Sun() {return this.f.sunday as FormArray;}
   get B() {return this.f.beginner as FormArray;}
+
+  get intervalArray() {return this.dietPlan.intervalNames as FormArray;}
   
+ 
+  
+
+
+  addIntervals() {
+    this.disaledButton = false;
+    this.intervalArray.push(this.formBuilder.group({
+      intervalName:['' , Validators.required],
+      intervalItemArray: this.formBuilder.array([this.getEmbeddedData()])
+  }));
+   
+  console.log(this.dietPlan.intervalNames.value);
+
+  }
+pushValuetoTable(controls){
+
+  controls.push(
+      this.formBuilder.group({
+        foodItemName :['' , Validators.required],
+        quantity:['' , Validators.required],
+        mearurmentUnit :['']
+      })
+    )
+    console.log(this.dietPlan.intervalNames.value);
+}
+
+  getEmbeddedData() {
+    return this.formBuilder.group({
+      foodItemName :['' , Validators.required],
+      quantity:['' , Validators.required],
+      mearurmentUnit :['',Validators.required]
+    })
+  }
+
+  viewDietPlan(event){
+    console.log(event.target.value);
+    this.displayDietPlan = true;
+    this.displaySubmitbutton = true;
+  }
+
   preventInput(event){
     let value=event.target.value;
     if(value>=7){
@@ -110,17 +179,13 @@ export class AcceptedScheduleComponent implements OnInit {
 
       }
     }
-      
-
-
   }
 
   changeStatusDayWise() {
     
   }
 
-  changeStatus(event) {
-    
+  changeStatus(event) {  
     let selectedValue = event.target.value;
     switch(selectedValue){
       case '1: Months wise':
@@ -142,7 +207,6 @@ export class AcceptedScheduleComponent implements OnInit {
   }
 
   DateCalculator() {
-
     const dateWiseValue = this.f.changeStatus.value;
     let dm = moment();
     let todayDate = dm.format('L');
@@ -161,15 +225,7 @@ export class AcceptedScheduleComponent implements OnInit {
         break;
        
     }
-
-
-
-
-
-
- 
   }
-
 
 //loading instructor
   loadinstructor() {
@@ -183,12 +239,6 @@ export class AcceptedScheduleComponent implements OnInit {
           
           }
         )
-      
-      
-  
-
-
-
   }
   //did not input minze Value
   get myInput(): AbstractControl {
@@ -199,11 +249,18 @@ export class AcceptedScheduleComponent implements OnInit {
   var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
     var string_length = 8;
     var id = "NS_" + "";
+    var did = "DM_" + "";
     for (var i = 0; i < string_length; i++) {
       var rnum = Math.floor(Math.random() * chars.length);
       id += chars.substring(rnum, rnum + 1);
       this.ScheduleMakeGroup.controls["id"].setValue(id);  
     }
+    for (var i = 0; i < string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      did += chars.substring(rnum, rnum + 1);
+      this.DietPlanGroup.controls["dietPlanId"].setValue(did);  
+    }
+
 
      //Did not input "-" Vaues
      this.myInput.valueChanges 
@@ -259,9 +316,7 @@ export class AcceptedScheduleComponent implements OnInit {
         // this.states = Response.firstName
         }
       )
-      // states
-
-
+      // state
   }
 
   clearTabData(){
@@ -280,9 +335,7 @@ export class AcceptedScheduleComponent implements OnInit {
     let arr7 = <FormArray>this.ScheduleMakeGroup.controls['satarday'];
     arr7.clear();
     let arr8 = <FormArray>this.ScheduleMakeGroup.controls['sunday'];
-    arr8.clear();
- 
-     
+    arr8.clear();  
   }
 
   changeScheduleCategoryType(event) {
@@ -355,12 +408,6 @@ export class AcceptedScheduleComponent implements OnInit {
           }
     }
   }
-
-  
- 
-
-
-
 
   onclickremoveSunday(i){
     let length = this.Sun.length;
@@ -467,9 +514,6 @@ export class AcceptedScheduleComponent implements OnInit {
     // console.log(length);
      this.T.removeAt(i);
   }
-
-
-  
   onClickRemoveBeginner(i) {
     this.normalSch.removeAt(i);
   }
@@ -478,11 +522,63 @@ export class AcceptedScheduleComponent implements OnInit {
    // console.log(length);
     this.t.removeAt(i);
   }
+  popSubValuetoTable(i ,data){
+    
+  }
+   
+  popValuetoTable(i){
 
+      console.log(this.intervalArray.length);
+    if(this.intervalArray.length == 1){
+      this.disaledButton = true;
+    }
+    this.intervalArray.removeAt(i);
+  }
+
+  removeIntervals(index){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success'
+      )
+      let arr1 = <FormArray>this.DietPlanGroup.controls['intervalNames'];
+      arr1.clear();
+      this.disaledButton = true;
+    
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+      }
+    })
+   
+    // console.log(index)
+    // this.intervalArray.removeAt(index);
+  }
 
   onSubmit() {
-    this.submitted = true;
 
+
+    if(this.displayDietPlan == true){
+      //dekama save wenna ona ne
+      this.submitted = true;
+      this.dietSubmitted = true;
+      
+
+    }else{
+      //normal form eka submitwenwa dietPlanStatus
+    this.submitted = true;
     let sceduleData = {
       id:this.f.id.value,
       type:this.f.type.value,
@@ -496,6 +592,8 @@ export class AcceptedScheduleComponent implements OnInit {
       instructorName:this.f.instructorName.value,
       contact:this.f.contact.value,
       endDate:this.f.endDate.value,
+      note: this.f.note.value,
+      dietPlan:this.dietPlanStatus,
       nameOfSchedule:this.f.scheduleName.value,    
       changeStatus:this.f.changeStatus.value, 
       validMonthDay:this.f.validMonthDay.value,      
@@ -507,14 +605,13 @@ export class AcceptedScheduleComponent implements OnInit {
       satarday:this.f.satarday.value,
       sunday:this.f.sunday.value,
       ScheduleId:this.ScheduleId,
-     
       scheduleCategoryType:this.f.scheduleCategoryType.value,
       normal: this.f.normal.value
 
     }
 
     console.log(sceduleData);
-      
+ 
     this.scheduleService.createSchedule(sceduleData)
     .subscribe(
       response=>{
@@ -537,7 +634,7 @@ export class AcceptedScheduleComponent implements OnInit {
       console.log(error)
     }
     )
-  
+  }
   }
 
 
@@ -549,5 +646,8 @@ export class AcceptedScheduleComponent implements OnInit {
     map(term => term === '' ? []
       : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
   )
- 
+  onSubmitDietPlan() {
+    this.dietSubmitted = true;
+
+  }
 }

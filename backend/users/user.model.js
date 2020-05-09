@@ -14,7 +14,6 @@ const schema = new Schema({
     },
     username: {
         type: String,
-        required: true
     },
     email: {
         type: String,
@@ -51,12 +50,3 @@ const schema = new Schema({
 
 schema.set('toJSON', { virtuals: true });
 module.exports = mongoose.model('User', schema);
-
-// const pipeline = [ { 
-//     $match: { createdDate: {$lt: Date.now()} 
-// } },
-//  { $set: { active: false } } ];
-//   const collection = mongoose.model('User', schema);
-//    const changeStream = collection.watch(pipeline);
-//     changeStream.on('change', next => { 
-//         // process next document });

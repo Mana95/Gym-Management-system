@@ -238,6 +238,9 @@ public uploader: FileUploader = new FileUploader({
     this.S.removeAt(index);
   }
   onClickEducationRemove(index){
+
+  
+    console.log(index);
     this.E.removeAt(index);
   }
 

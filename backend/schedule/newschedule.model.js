@@ -15,6 +15,9 @@ const schema = new Schema({
         required: true,
     
     },
+    dietPlan:{
+        type:Boolean
+      },
     type:{
         type: String,
         required: true,

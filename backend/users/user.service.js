@@ -249,13 +249,13 @@ else{
 
 //Insert member to Database
 async function savememberData(data) {
-
+ 
 
   
   if (await User.findOne({ email: data.email })) {
     return 'Email "' + data.email + '" is already taken';
-  } else if (await User.findOne({ username: data.username })) {
-    return 'UserName "' + data.username + '" is already taken';
+  } else if (await User.findOne({ nicNumber: data.nicNumber })) {
+    return 'UserName "' + data.nicNumber + '" is already taken';
   }
   const user = new User(data);
   // hash password
@@ -410,15 +410,19 @@ async function ResetPassword(values) {
       .find({ _userId: user._id, resettoken: { $ne: resettoken.resettoken } })
       .remove()
       .exec();
-
-    var transporter = nodemailer.createTransport({
-      service: "Gmail",
-      port: 465,
-      auth: {
-        user: "manaalex3@gmail.com",
-        pass: 'QAZ(*&jker":',
-      },
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: "manaalex3@gmail.com",
+        pass: 'traffic(*&p123',
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
     });
+
     var mailOptions = {
       to: user.email,
       from: "your email",
@@ -432,7 +436,11 @@ async function ResetPassword(values) {
         "If you did not request this, please ignore this email and your password will remain unchanged.\n" +
         "<br>Thank You.\n",
     };
-    transporter.sendMail(mailOptions, (err, info) => {});
+    transporter.sendMail(mailOptions, (err, info) => {
+      if(err){
+        console.log(err);
+      }
+    });
   });
 }
 
@@ -638,18 +646,17 @@ async function signUpUser(data) {
   await user.save();
 }
 
-async function authenticate({ firstName, password }) {
-  console.log("Authentication service");
+async function authenticate({ email, password }) {
 
-  if (await User.findOne({ username: firstName, active: false })) {
-    return "Username is not Activated please contact admin department";
-  } else if (!(await User.findOne({ username: firstName }))) {
+  if (await User.findOne({ email: email, active: false })) {
+    return "User is not Activated please contact admin department";
+  } else if (!(await User.findOne({ email: email }))) {
     return "There is no sufficient user in the system";
   }
 
-  const user = await User.findOne({ firstName });
+  const user = await User.findOne({ email });
   const userActive = await User.findOne({});
-  console.log(user);
+
 
   if (user.active == true) {
     if (user && bcrypt.compareSync(password, user.hash)) {

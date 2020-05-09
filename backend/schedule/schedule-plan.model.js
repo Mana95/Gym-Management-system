@@ -33,6 +33,12 @@ const schema = new Schema({
             required:true,
             type:String 
         }, 
+        dietPlanId:{
+          type:String
+        },
+        dietPlan:{
+          type:Boolean
+        },
         height: {
             type: Number,
             required: true

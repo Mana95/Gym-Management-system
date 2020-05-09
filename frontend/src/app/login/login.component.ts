@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     error = '';
+    statusMessage = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -29,12 +30,17 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
 
         this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
 
 
     }
+    changeStatus(){
+      console.log('dsds')
+      this.statusMessage = false;
+    }
+     
 
     get f() {
         return this.loginForm.controls;
@@ -53,12 +59,13 @@ export class LoginComponent implements OnInit {
 
    // console.log(this.f.username.value);
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    this.authenticationService.login(this.f.email.value, this.f.password.value)
 
       .pipe(first())
       .subscribe(
         data => {
           console.log(data);
+          this.statusMessage = true;
           this.backendMessage = data;
          //console.log(data)
          this.router.navigate(['/dashboard']);

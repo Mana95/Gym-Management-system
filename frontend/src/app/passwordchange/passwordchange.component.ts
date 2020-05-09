@@ -54,7 +54,7 @@ RequestResetUser(form) {
         this.successMessage = "Reset password link send to email sucessfully.";
         setTimeout(() => {
           this.successMessage = null;
-          this.router.navigate(['signup']);
+          this.router.navigate(['login']);
         }, 3000);
       },
       err => {
