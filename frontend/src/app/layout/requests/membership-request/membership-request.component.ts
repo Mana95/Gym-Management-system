@@ -44,6 +44,7 @@ export class MembershipRequestComponent implements OnInit {
 
   let updatesData = {
     id:rowData.membershipId,
+    role:'Membership',
     status: true
     
   }

@@ -90,10 +90,10 @@ export class AcceptedScheduleComponent implements OnInit {
     this.DietPlanGroup = this.formBuilder.group({
         dietPlanId :[''],
         dietPlanName:['',Validators.required],
-        membershipId:['',Validators.required],
-        memberName:['',Validators.required],
-        CreatedName :['',Validators.required],
-        createdContact:['', Validators.required],
+        membershipId:[''],
+        memberName:[''],
+        CreatedName :[''],
+        createdContact:[''],
         dietPlanNote:[''],
         intervalNames:new FormArray([]),
     })
@@ -152,14 +152,23 @@ pushValuetoTable(controls){
     return this.formBuilder.group({
       foodItemName :['' , Validators.required],
       quantity:['' , Validators.required],
-      mearurmentUnit :['',Validators.required]
+      mearurmentUnit :['']
     })
   }
 
-  viewDietPlan(event){
-    console.log(event.target.value);
-    this.displayDietPlan = true;
-    this.displaySubmitbutton = true;
+  viewDietPlan(){
+    const status = this.f.dietPlan.value;
+    if(status ==true){
+      this.displayDietPlan = true;
+       this.displaySubmitbutton = true;
+    }else{
+      this.displayDietPlan = false;
+       this.displaySubmitbutton = false;
+       let arr1 = <FormArray>this.DietPlanGroup.controls['intervalNames'];
+       arr1.clear();
+       this.disaledButton = true;
+    }
+    
   }
 
   preventInput(event){
@@ -277,12 +286,15 @@ pushValuetoTable(controls){
     this.ScheduleMakeGroup.controls['date'].setValue(DateFormat);
    // let currentUser = this.currentUserSubject.value.username;
     this.id = (this.route.snapshot.paramMap.get('id'));
+    console.log('load weyan');
     console.log(this.id);
 
 //Loading relevent
     this.scheduleService.getReleventSchdule(this.id).pipe(
       map(datas=>{
         const data = datas[0];
+        console.log('response');  
+        console.log(data);
         this.ScheduleMakeGroup.controls['type'].setValue(data.type);
         this.ScheduleId = data.Sid;
         return data;
@@ -568,17 +580,6 @@ pushValuetoTable(controls){
   }
 
   onSubmit() {
-
-
-    if(this.displayDietPlan == true){
-      //dekama save wenna ona ne
-      this.submitted = true;
-      this.dietSubmitted = true;
-      
-
-    }else{
-      //normal form eka submitwenwa dietPlanStatus
-    this.submitted = true;
     let sceduleData = {
       id:this.f.id.value,
       type:this.f.type.value,
@@ -609,9 +610,48 @@ pushValuetoTable(controls){
       normal: this.f.normal.value
 
     }
+    if(this.displayDietPlan == true){
+      //dekama save wenna ona ne
+      this.submitted = true;
+      this.dietSubmitted = true;
+      //dietplan Object
+      let dietPlan = {
 
+        dietPlanId: this.dietPlan.dietPlanId.value,
+        membershipId: this.f.membershipId.value,
+        ScheduleId:this.ScheduleId,
+        dietPlanName: this.dietPlan.dietPlanName.value,
+        memberName:this.f.memberName.value,
+        CreatedName :this.f.instructorName.value,
+        createdContact:this.f.contact.value,
+        dietPlanNote:this.dietPlan.dietPlanNote.value,
+        intervalNames:this.dietPlan.intervalNames.value
+
+      }
+
+      console.log(dietPlan);
+      if(this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid){
+      this.scheduleService.insertscheduleDietData(sceduleData ,dietPlan)
+      .subscribe(
+        response=>{
+          console.log(response);
+        }
+      )}else{
+        console.log('naha valid')
+      }
+
+
+
+
+
+      
+
+    }else{
+      //normal form eka submitwenwa dietPlanStatus
+    this.submitted = true;
+    
     console.log(sceduleData);
- 
+ if(this.ScheduleMakeGroup.valid){
     this.scheduleService.createSchedule(sceduleData)
     .subscribe(
       response=>{
@@ -634,6 +674,10 @@ pushValuetoTable(controls){
       console.log(error)
     }
     )
+  }
+  else{
+    console.log('dasdasas0');
+  }
   }
   }
 

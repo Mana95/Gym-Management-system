@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models';
@@ -17,9 +17,18 @@ export class ScheduleService {
     this.currentUser = this.currentUserSubject.asObservable();
    }
 
-
+   getDietMyPlanID(id) {
+    return this.http.get(config.PAPYRUS+`/shedule/getDietMyPlanID/${id}`)
+   }
+   getDietMyPlan(id) {
+    return this.http.get(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)
+   }
    getById(id) {
      return this.http.get(config.PAPYRUS+`/shedule/getById/${id}`)
+   }
+
+   insertscheduleDietData(scheduleData , dietPlanData):Observable<any> {
+    return this.http.post(config.PAPYRUS+`/shedule/createScheduleAndDiet` , {scheduleData , dietPlanData});
    }
    createSchedule(data){
     return this.http.post(config.PAPYRUS+`/shedule/createSchedule` , data);

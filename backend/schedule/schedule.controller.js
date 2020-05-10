@@ -8,25 +8,50 @@ const scheduleService = require('./schedule.service');
 
 module.exports = router;
 
-router.get('/getAllSchedule' , getAllSchedule);
-router.post('/insertData' , insertData);
-router.get('/getMySchedule/:id' , getMySchedule);
-router.get('/getPendings' , getPendings);
-router.post('/updateRecord' , updateRecord);
-router.get('/getAcceptedSchedule' , getAcceptedSchedule);
+
+
 router.post('/RejectRecord' , RejectRecord);
 router.post('/createSchedule' , createSchedule);
+router.post('/createScheduleAndDiet' , createScheduleAndDiet);
+router.post('/insertData' , insertData);
+router.post('/updateRecord' , updateRecord);
+
+router.get('/getAllSchedule' , getAllSchedule);
+router.get('/DietPlangetById/:id' , DietPlangetById);
+router.get('/getMySchedule/:id' , getMySchedule);
+router.get('/getPendings' , getPendings);
+router.get('/getAcceptedSchedule' , getAcceptedSchedule);
 router.get('/loadById/:id' , loadById);
 router.get('/loadInstrucotrData/:id' , loadInstrucotrData);
 router.get('/checkAvalibility/:id', checkDateAvl);
 router.get('/getById/:id' ,getById);
 router.get('/loadInstructor' ,loadInstructor);
-
 router.get('/loadSchedule/:id' ,loadSchedule);
 router.get('/getmembershipDetais/:id' ,getmembershipDetais);
 router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
+router.get('/getDietMyPlanID/:id' , getDietMyPlanID);
 
+function getDietMyPlanID(req ,res, next){
+    scheduleService.getDietMyPlanID(req.params.id)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
+
+
+
+function DietPlangetById(req ,res, next){
+    scheduleService.DietPlangetById(req.params.id)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
+function createScheduleAndDiet(req ,res ,next){
+    scheduleService.createScheduleAndDiet(req.body)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 
 function loadSchedule(req ,res ,next){
     scheduleService.loadSchedule(req.params.id)

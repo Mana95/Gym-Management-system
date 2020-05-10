@@ -1,3 +1,4 @@
+import { FormModule } from './../../form/form.module';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { NumberDirective } from './../../../_directives/numbers-only.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AcceptedScheduleComponent],
   imports: [
-    CommonModule ,AcceptedScheduleRoutingModule, ReactiveFormsModule,SharedModule ,NgbModule ,
+    CommonModule ,AcceptedScheduleRoutingModule, ReactiveFormsModule,SharedModule ,NgbModule ,FormModule
   ]
 })
 export class AcceptedScheduleModule { 

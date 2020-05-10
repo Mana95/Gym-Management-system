@@ -58,7 +58,9 @@ const routes: Routes = [
           
             { path: 'diet_plan', loadChildren: () => import('./diet-plan/diet-plan.module').then(m => m.DietPlanModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
            { path: 'diet_creation' , loadChildren: ()=> import('./diet-plan/diet-plan-creation/diet-plan-creation.module').then(m=> m.DietPlanCreationModule),canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
-            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Member] } },
+           { path: 'view-diet-plan/:id', loadChildren: () => import('./diet-plan/view-diet-plan/view-diet-plan.module').then(m => m.ViewDietPlanModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
+         
+           { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Member] } },
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             

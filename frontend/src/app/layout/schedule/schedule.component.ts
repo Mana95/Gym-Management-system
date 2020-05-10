@@ -14,6 +14,8 @@ export class ScheduleComponent implements OnInit {
   schedule:any; 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  dietPlanStatus  = false;
+
 
   constructor(
     private scheduleService:ScheduleService,
@@ -36,7 +38,7 @@ export class ScheduleComponent implements OnInit {
     .subscribe(
       response=>{
         this.schedule = response;
-        console.log(response)
+          if(response[0].dietPlan = true){this.dietPlanStatus=true};
       }
     )
   }
@@ -44,6 +46,10 @@ export class ScheduleComponent implements OnInit {
  
     this.router.navigate(['/schedule_plan', data.Sid]);
  
+  }
+
+  routeToDietPage(data) {
+    this.router.navigate(['/view-diet-plan', data.Sid]);
   }
 
 }

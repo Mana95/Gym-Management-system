@@ -30,7 +30,9 @@ module.exports = {
     Comments: require('../comments/comment.model'),
     Roles: require('../users/roles/role.model'),
     Groups: require('../users/group.model'),
-    Schedule_Plan:require('../schedule/schedule-plan.model')
+    Schedule_Plan:require('../schedule/schedule-plan.model'),
+    DietMealPlan:require('../schedule/diet-meal.model')
+
     
 
     

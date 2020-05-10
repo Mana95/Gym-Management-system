@@ -22,16 +22,16 @@
               </caption>
               <thead>
                 <tr>
-                  <th style="text-align: center;" scope="col">Join Date</th>   
-                  <th style="text-align: center;" scope="col">M D Id</th>
-                  <th style="text-align: center;" scope="col">Schdule Id</th>
-                  <th style="text-align: center;" scope="col">Schedule Type Number</th>
+                  <th style="text-align: center;" scope="col">Id</th>   
+                  <th style="text-align: center;" scope="col">Schedule Id</th>
+                  <th style="text-align: center;" scope="col">Diet plan name</th>
+                  <th style="text-align: center;" scope="col">Create Name</th>
                   <th style="text-align: center;" scope="col">Status</th>
             
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor= "let data of schedule">
+                <tr *ngFor= "let data of dietPlanView">
                   <td style="text-align: center;" >{{data.date}}</td>
                   <td style="text-align: center;">{{data.membershipId}}</td>  
                   <td style="text-align: center;">{{data.Sid}}</td>

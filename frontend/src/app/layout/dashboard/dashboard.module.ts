@@ -1,3 +1,4 @@
+import { GlobalService } from './../../shared/global/global.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCarouselModule, NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +13,7 @@ import {
 import { StatModule } from '../../shared';
 
 @NgModule({
+    providers:[GlobalService],
     imports: [
         CommonModule,
         NgbCarouselModule,

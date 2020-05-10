@@ -11,6 +11,7 @@ const MembershipType = db.MembershipType;
 const Instructor = db.Instructor;
 const Schedule_Plan = db.Schedule_Plan;
 const User = db.User;
+const DietMealPlan = db.DietMealPlan;
 
 module.exports = {
     
@@ -30,9 +31,63 @@ module.exports = {
     getmembershipDetais,
     getmembershipcheckEmailAvailable,
     getmembershipcheckUsernameAvailable,
-    loadSchedule
+    loadSchedule,
+    createScheduleAndDiet,
+    DietPlangetById,
+    getDietMyPlanID
 
 };
+
+async function getDietMyPlanID(id){
+    return await DietMealPlan.findOne({membershipId:id});
+}
+
+
+async function DietPlangetById(id){
+    return await DietMealPlan.findOne({ScheduleId:id});
+}
+
+async function createScheduleAndDiet(data){
+    const dietPlan = data.dietPlanData;
+    const shcduleData = data.scheduleData;
+
+    const schedule_Plan = new Schedule_Plan(shcduleData); 
+    const dietPlan_data = new DietMealPlan(dietPlan);
+
+
+console.log(shcduleData);
+
+
+    let updateData = {
+        Sid: shcduleData.ScheduleId,
+        dietPlan:true,
+        status: 4
+        }
+   
+
+    if((await schedule_Plan.save() && await dietPlan_data.save())){
+        console.log('HI');
+        Schedule.updateOne(
+            {
+                Sid: updateData.Sid
+            },
+            {
+                $set: updateData
+            }, function (err, responses) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        return 1;
+    } else{
+        return 2
+    }
+
+
+}
+
+
+
 
 async function loadSchedule(id){
     return await Schedule.find({_id:id});
@@ -136,7 +191,7 @@ async function loadInstrucotrData(id){
 async function loadById(id){
     //  console.log('id')
      console.log(id);
-    return await Membership.find({customerID:id})
+    return await Membership.find({membershipId:id})
 }
 
 

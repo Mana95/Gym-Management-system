@@ -30,6 +30,10 @@ const schema = new Schema({
         type: String,
         required: true,
     },
+    dietPlan:{
+        type: Boolean,
+        required: true,
+    },
     description:{
         type: String,
     },

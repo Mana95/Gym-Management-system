@@ -171,6 +171,7 @@ async function updateById(data) {
   );
   let userData = {
     id: data.id,
+    role:'Membership',
     membershipStatus: true,
   };
 

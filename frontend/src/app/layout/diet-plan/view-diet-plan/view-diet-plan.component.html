@@ -1,0 +1,66 @@
+
+<div class="card mb-12">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2>
+            <b>
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+                &nbsp; My Diet Meal /{{DietMealName}} </b>
+        </h2>
+          </div>
+
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Diet Plan Id</b></label> | 
+                <label for="userID">{{dietPlanId}}</label>
+                </div>
+                
+                  <div class="form-group col-md-3">
+                    <label for="userID"><b>Schedule Id</b></label> |
+                    <label for="userID">{{scheuleId}}</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="userID"><b>Created Date</b></label> | 
+                      <label for="userID">{{date}}</label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <!-- <label for="userID"><b></b></label>
+                        <label for="userID">{{memberName}}</label> -->
+                        </div>
+              </div>
+
+              <div class="card-header">
+                <h4>
+                  <i class="fa fa-cutlery" aria-hidden="true"></i>&nbsp; <b>Meal Interval</b>
+              </h4>
+              </div>
+              <div  class="list-group-item">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Interval</th>       
+                    <th scope="col">Food Items</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor = "let data of dietArray">
+                  
+                    <td><a [routerLink]=""  >{{data.intervalName}}</a></td>
+                    <td>{{data.intervalItemArray.length}} Records</td>
+                  </tr>
+                
+                </tbody>
+              </table>
+</div>
+
+
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  

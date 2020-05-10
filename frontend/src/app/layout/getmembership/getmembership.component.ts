@@ -508,7 +508,7 @@ export class GetmembershipComponent implements OnInit {
     this.loading = true;
 
     let memberShipDetials = {
-      membershipId: this.f.membershipId.value,
+      membershipId:  this.userID,
       email: this.f.email.value,
       firstName: this.f.firstName.value,
       lastName: this.f.lastName.value,

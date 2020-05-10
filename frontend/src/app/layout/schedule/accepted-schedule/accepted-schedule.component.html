@@ -1191,7 +1191,7 @@
                         <div class="form-group col-6">
                             <small class="text-muted">If you want to create diet plan to this schedule, click the checkbox</small>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" formControlName="dietPlan" (click) ="viewDietPlan($event)" name="dietPlan" [value]="dietPlan" id="dietPlan">
+                                <input type="checkbox" class="form-check-input" formControlName="dietPlan" (change) ="viewDietPlan()" >
                                 <label class="form-check-label"   for="dietPlan"><b>Add Diet Plan</b></label>
                               </div>  
                    
@@ -1232,7 +1232,10 @@
                             <div class="form-group col-md-3">
                                 <label for="email"><b>Diet Plan Name</b></label>
                                 <input type="email" class="form-control inputClass"  placeholder="300 muscle diet"
-                                    formControlName="type" />
+                                [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.dietPlanName.errors}" formControlName="dietPlanName" />
+                                <div *ngIf=" dietSubmitted && dietPlan.dietPlanName.errors" class="invalid-feedback">
+                                    <div *ngIf="dietPlan.dietPlanName.errors.required">Diet plan Name is required</div>
+                                </div>
                             </div>
 
                             <div class="form-group col-md-2">
@@ -1292,10 +1295,8 @@
                                                 </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <input type="text" formControlName="mearurmentUnit"   class="form-control"  placeholder="mearurment Unit" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.mearurmentUnit.errors}"/>
-                                                    <div *ngIf="dietSubmitted && data.controls.mearurmentUnit.errors" class="invalid-feedback">
-                                                        <div *ngIf="data.controls.mearurmentUnit.errors.required">Mearurement Number is required</div>
-                                                    </div>
+                                                    <input type="text" formControlName="mearurmentUnit"   class="form-control"  placeholder="mearurment Unit" />
+                                                    
                                                     </div>
 
                                                     <div class="form-group col-md-2">
