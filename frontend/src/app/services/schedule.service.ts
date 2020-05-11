@@ -17,8 +17,23 @@ export class ScheduleService {
     this.currentUser = this.currentUserSubject.asObservable();
    }
 
-   getDietMyPlanID(id) {
-    return this.http.get(config.PAPYRUS+`/shedule/getDietMyPlanID/${id}`)
+   loadExercise(){
+    return this.http.get(config.PAPYRUS+`/shedule/getAllExercise/`)
+   }
+
+   saveExercise(data){
+    return this.http.post(config.PAPYRUS+`/shedule/saveExercise/`,data);
+   }
+
+
+   getDietMyPlanID(id, role) {
+    return this.http.get(config.PAPYRUS+`/shedule/getDietMyPlanID/`,
+    {params:{
+      id:id,
+      role:role
+    },
+  }
+    )
    }
    getDietMyPlan(id) {
     return this.http.get(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)

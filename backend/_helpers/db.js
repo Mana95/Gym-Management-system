@@ -31,7 +31,8 @@ module.exports = {
     Roles: require('../users/roles/role.model'),
     Groups: require('../users/group.model'),
     Schedule_Plan:require('../schedule/schedule-plan.model'),
-    DietMealPlan:require('../schedule/diet-meal.model')
+    DietMealPlan:require('../schedule/diet-meal.model'),
+    Exercise: require('../schedule/exercise.model'),
 
     
 

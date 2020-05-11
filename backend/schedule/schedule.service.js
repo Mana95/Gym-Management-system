@@ -12,6 +12,7 @@ const Instructor = db.Instructor;
 const Schedule_Plan = db.Schedule_Plan;
 const User = db.User;
 const DietMealPlan = db.DietMealPlan;
+const Exercise = db.Exercise;
 
 module.exports = {
     
@@ -34,12 +35,47 @@ module.exports = {
     loadSchedule,
     createScheduleAndDiet,
     DietPlangetById,
-    getDietMyPlanID
+    getDietMyPlanID,
+    saveExercise,
+    getAllExercise
 
 };
 
-async function getDietMyPlanID(id){
-    return await DietMealPlan.findOne({membershipId:id});
+async function getAllExercise(){
+    return await Exercise.find({});
+
+}
+
+async function saveExercise(data){
+    const exercisefind = await Exercise.findOne({exerciseName:data.exerciseName});
+    const exercise = new Exercise(data);
+    if(!exercisefind){
+        await exercise.save();
+        return 1;
+    }else{
+        return 2;
+    }
+
+
+
+}
+
+
+
+async function getDietMyPlanID(objectData){
+    console.log(objectData);
+        if(objectData.role=='Admin'){
+            return await DietMealPlan.findOne({});
+        }else if(objectData.role=='Membership'){
+            return await DietMealPlan.findOne({membershipId:objectData.id}); 
+        }else if(objectData.role=='Instructor'){
+            return await DietMealPlan.findOne({instructor:objectData.id}); 
+        }
+
+
+
+
+   // 
 }
 
 

@@ -60,6 +60,13 @@ const routes: Routes = [
            { path: 'diet_creation' , loadChildren: ()=> import('./diet-plan/diet-plan-creation/diet-plan-creation.module').then(m=> m.DietPlanCreationModule),canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Membership] } },
            { path: 'view-diet-plan/:id', loadChildren: () => import('./diet-plan/view-diet-plan/view-diet-plan.module').then(m => m.ViewDietPlanModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
          
+
+
+           { path: 'exercise', loadChildren: () => import('./exercise/exercise.module').then(m => m.ExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
+           { path: 'new-excercise', loadChildren: () => import('./exercise/new-exercise/new-exercise.module').then(m => m.NewExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
+        
+
+           
            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Member] } },
          
             { path: 'edit_cus/:id', loadChildren: () => import('./user/customers/edit-customers/edit-customers.module').then(m => m.EditCustomersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },

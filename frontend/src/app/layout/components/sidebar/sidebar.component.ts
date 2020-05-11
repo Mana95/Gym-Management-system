@@ -14,8 +14,10 @@ export class SidebarComponent implements OnInit {
     isActive: boolean;
     collapsed: boolean;
     showMenu: string;
+    showSchdulerMenu:string;
     showMenuCat: string;
-    showMenuRequest: string
+    showMenuRequest: string;
+    addMembership:string;
     pushRightClass: string;
     showMenuSch:string;
     currentUser: User;
@@ -75,7 +77,7 @@ export class SidebarComponent implements OnInit {
           
         )
     }
-
+    
     get customer() {
         if(this.currentUser.role == Role.Admin){
             
@@ -221,7 +223,13 @@ get PurchaseOrder(){
             this.showMenuCat = element;
         }
     }
-
+    addMembershipExpandClass(element:any){
+        if (element === this.addMembership) {
+            this.addMembership = '0';
+        } else {
+            this.addMembership = element;
+        }
+    }
     addExpandSchClass(element:any){
         if (element === this.showMenuSch) {
             this.showMenuSch = '0';
@@ -229,7 +237,15 @@ get PurchaseOrder(){
             this.showMenuSch = element;
         }
     }
+    addScheduleExpandClass(element: any){
+   
 
+     if (element === this.showSchdulerMenu) {
+        this.showSchdulerMenu = '0';
+    } else {
+        this.showSchdulerMenu = element;
+    }
+    }
     addExpandClass(element: any) {
       //  alert(element)
         if (element === this.showMenu) {

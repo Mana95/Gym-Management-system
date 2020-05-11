@@ -1,0 +1,67 @@
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b>New Exercise</b></h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="exerciseGroup" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Exercise ID</b></label>
+                 <input type="text" class="form-control inputClass" readonly="true" formControlName="exerciseId" >
+
+              </div>
+              <div class="form-group col-md-5">
+                <label for="email"><b>Exercise Name</b></label>
+                <input type="email"  class="form-control inputClass" formControlName="exerciseName" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.exerciseName.errors }">
+                <div *ngIf="submitted && f.exerciseName.errors" class="invalid-feedback">
+                  <div *ngIf="f.exerciseName.errors.required">Exercise name is required</div>  
+                </div>
+
+              </div>
+              <div class="form-group co-md-4">
+                <label for="email"><b>Exercise for</b></label>
+                <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
+                [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }">
+                  <div *ngIf="submitted && f.exerciseFor.errors" class="invalid-feedback">
+                    <div *ngIf="f.exerciseFor.errors.required">Exercise for is required</div>  
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="firstName"><b>Equipment</b></label>
+                <input type="email"  class="form-control inputClass" formControlName="equipment" placeholder="Name" >
+              </div>
+              <div class="form-group col-md-9">
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1"><b>Benefits</b></label>
+                  <textarea class="form-control" formControlName="benefits" rows="3"  [ngClass]="{ 'is-invalid': submitted && f.benefits.errors }"></textarea>
+                  <div *ngIf="submitted && f.benefits.errors" class="invalid-feedback">
+                    <div *ngIf="f.benefits.errors.required">Benefits are required</div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="exampleFormControlTextarea1"><b>Guide Note</b></label>
+              <textarea class="form-control" formControlName="guideNote" rows="3"  [ngClass]="{ 'is-invalid': submitted && f.guideNote.errors }"></textarea>
+              <div *ngIf="submitted && f.guideNote.errors" class="invalid-feedback">
+                <div *ngIf="f.guideNote.errors.required">Guide Note is required</div>  
+              </div>
+              </div>
+              <br/>
+            <button type="submit" class="btn btn-warning"><b>Submit</b> <i class="fa fa-rocket" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

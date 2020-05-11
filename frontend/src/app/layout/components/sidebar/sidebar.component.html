@@ -30,12 +30,7 @@
                             <span>{{ 'Suppliers' | translate }}</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="javascript:void(0)" [routerLink]="['/Membership']" [routerLinkActive]="['router-link-active']" >
-                            <i class="fa fa-address-book"></i>&nbsp;
-                            <span>{{ 'Membership' | translate }}</span>
-                        </a>
-                    </li>
+                   
                     <li>
                         <a href="javascript:void(0)" [routerLink]="['/instructor-view']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-user-secret"></i>&nbsp;
@@ -57,57 +52,87 @@
                 </ul>
             </li>
         </div>
-        
 
-
-        <!-- <div class="nested-menu" >
-            <a  class="list-group-item" (click)="addExpandClass('pages')"  *ngIf = "isAdmin" >
-                <i class="fa fa-user-plus"></i>&nbsp;
-                <span>{{ 'Member' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'" *ngIf = "isAdmin" >
-                <ul class="submenu">
-                    <li>
-                        <a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
-                            <i class="fa fa-user"></i>&nbsp;
-                            <span>{{ 'Employees' | translate }}</span>
-                        </a>
-                   
-                </ul>
+  <!-- Membership -->
+  <div class="nested-menu" *ngIf ="category">
+    <a class="list-group-item" (click)="addMembershipExpandClass('pages')">
+            <i class="fa fa-tags"></i>&nbsp;
+        <span>{{ 'Membership' | translate }}</span>
+    </a>
+    <li class="nested" [class.expand]="addMembership === 'pages'">
+        <ul class="submenu">
+            <li>
+                <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
+                    <i class="fa fa-handshake-o"></i>
+                    <span>{{ 'Get Membership' | translate }}</span>
+                </a>
             </li>
-        </div>
-         -->
-        
-        <!-- End UserModule -->
-        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf="onlyMembers" >
-            <i class="fa fa-handshake-o"></i>&nbsp;
-            <span>{{ 'Get Membership' | translate }}</span>
-        </a>
-        <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "OnlyMembership" >
-            <i class="fa fa-calendar-o"></i>&nbsp;
-            <span>{{ 'Schedule' | translate }}</span>
-        </a>
+            <li>
+                <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']" *ngIf ="category"   >
+                    <i class="fa fa-address-book"></i>
+                    <span>{{ 'Request Membership' | translate }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" [routerLink]="['/Membership']" [routerLinkActive]="['router-link-active']" >
+                    <i class="fa fa-address-book"></i>&nbsp;
+                    <span>{{ 'View Membership' | translate }}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</div> 
+  <!---->
+        <!-- Schedule -->
+<div class="nested-menu" *ngIf ="category">
+    <a class="list-group-item" (click)="addScheduleExpandClass('pages')">
+            <i class="fa fa-tags"></i>&nbsp;
+        <span>{{ 'Schedule' | translate }}</span>
+    </a>
+    <li class="nested" [class.expand]="showSchdulerMenu === 'pages'">
+        <ul class="submenu">
+            <li>
+                <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "OnlyMembership" >
+                    <i class="fa fa-calendar-o"></i>&nbsp;
+                    <span>{{ 'Schedule' | translate }}</span>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/viewSchedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
+                    <i class="fa fa-shopping-bag"></i>&nbsp;
+                    <span>{{ 'Accepted Schedule' | translate }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" [routerLink]="['/requestSchedule']" [routerLinkActive]="['router-link-active']" *ngIf ="requestSchedule" >
+                    <i class="fa fa-address-book"></i>&nbsp;
+                    <span>{{ 'Pending Schedule' | translate }}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</div> 
+
 <!--Shcdule Requesting-->
-
-<a [routerLink]="['/viewSchedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
-    <i class="fa fa-shopping-bag"></i>&nbsp;
-    <span>{{ 'Accepted Schedule' | translate }}</span>
-</a>
-
 <a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
     <i class="fa fa-cutlery"></i>&nbsp;
     <span>{{ 'Diet Plan' | translate }}</span>
 </a>
 
-
 <!-- Catagory -->
 <div class="nested-menu" *ngIf ="category">
         <a class="list-group-item" (click)="addExpandCatClass('pages')">
                 <i class="fa fa-tags"></i>&nbsp;
-            <span>{{ 'Catagory' | translate }}</span>
+            <span>{{ 'Product' | translate }}</span>
         </a>
         <li class="nested" [class.expand]="showMenuCat === 'pages'">
             <ul class="submenu">
+                <li>
+                    <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
+                        <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
+                        <span>{{ 'Sub Catagory' | translate }}</span>
+                    </a>
+                </li>
                 <li>
                     <a [routerLink]="['/mainCat']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
                         <i class="fa fa-shopping-bag"></i>&nbsp;
@@ -115,116 +140,81 @@
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
-                        <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
-                        <span>{{ 'Sub Catagory' | translate }}</span>
-                    </a>
+               
+        <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "category">
+            <i class="fa fa-shopping-bag"></i>&nbsp;
+            <span>{{ 'Items Product' | translate }}</span>
+        </a>
                 </li>
             </ul>
         </li>
     </div> 
-    <!-- End Catagory -->
 
-        <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "category">
-            <i class="fa fa-shopping-bag"></i>&nbsp;
-            <span>{{ 'Items' | translate }}</span>
-        </a>
       <!-- Request Module -->
         <div class="nested-menu">
             <a  class="list-group-item" (click)="addExpandRequestClass('pages')"  >
                 <i class="fa fa-check-square-o"></i>&nbsp;
-                <span>{{ 'Requests' | translate }}</span>
+                <span>{{ 'Shop' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenuRequest === 'pages'">
                 <ul class="submenu">
                     <li>
+                        <a [routerLink]="['/sales_order_cart']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
+                            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                        
+                            <span>{{ 'Equipment/Nutrition' | translate }}</span>
+                        </a>
+                
+                    </li>
+                    <li>
+                        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="PurchaseOrder" >
+                            <i class="fa fa-cogs"></i>&nbsp;
+                            <span>{{ 'Purchase Order' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                         
+        <a [routerLink]="['/GRN']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="category" >
+            <i class="fa fa-shopping-cart"></i>&nbsp;
+            <span>{{ 'GRN' | translate }}</span>
+        </a>
+                    </li>
+                    <!-- <li>
                         <a [routerLink]="['/reqSalesOrder']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf ="category"  >
                             <i class="fa fa-user"></i>&nbsp;
                             <span>{{ 'Sales Order' | translate }}</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="javascript:void(0)" [routerLink]="['/reqPurchaseOrder']" [routerLinkActive]="['router-link-active']" *ngIf ="category"  >
                             <i class="fa fa-users"></i>&nbsp;
                             <span>{{ 'Purchase Order' | translate }}</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" [routerLink]="['/suppliers']" [routerLinkActive]="['router-link-active']"  *ngIf ="category" >
-                            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
-                            <span>{{ 'Invoice' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" [routerLink]="['/requestSchedule']" [routerLinkActive]="['router-link-active']" *ngIf ="requestSchedule" >
-                            <i class="fa fa-address-book"></i>&nbsp;
-                            <span>{{ 'Schedule' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']" *ngIf ="category"   >
-                            <i class="fa fa-address-book"></i>&nbsp;
-                            <span>{{ 'Membership' | translate }}</span>
-                        </a>
-                    </li>
+                    </li>  
                 </ul>
             </li>
         </div> 
-        <a [routerLink]="['/sales_order_cart']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
-            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-            &nbsp;
-            <span>{{ 'Equipment/Nutrition' | translate }}</span>
-        </a>
-
+      
         <!-- <a [routerLink]="['/salesorder']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="salesOrder">
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
         </a> -->
-
-        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="PurchaseOrder" >
-            <i class="fa fa-cogs"></i>&nbsp;
-            <span>{{ 'Purchase Order' | translate }}</span>
+     
+        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Exercise' | translate }}</span>
         </a>
-        <a [routerLink]="['/GRN']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf ="category" >
-            <i class="fa fa-shopping-cart"></i>&nbsp;
-            <span>{{ 'GRN' | translate }}</span>
+        
+        <a [routerLink]="['/suppliers']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf= "isAdmin">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Invoice' | translate }}</span>
         </a>
+     
         <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf= "isAdmin">
             <i class="fa fa-clipboard"></i>&nbsp;
             <span>{{ 'Reports' | translate }}</span>
         </a>
-        <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
-                <i class="fa fa-plus"></i>&nbsp;
-                <span>{{ 'Menu' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
-                <ul class="submenu">
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Submenu' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Submenu' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Submenu' | translate }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </div>
-        <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;
-            <span>{{ 'Blank Page' | translate }}</span>
-        </a>
+     
        
 
         <div class="header-fields">

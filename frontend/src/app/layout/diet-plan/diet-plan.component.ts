@@ -22,6 +22,7 @@ export class DietPlanComponent implements OnInit {
   public currentUser: Observable<User>;
   id:any;
   dietPlanView :any;
+  role : any;
 
   constructor(
     private formBuilder : FormBuilder,
@@ -36,12 +37,17 @@ export class DietPlanComponent implements OnInit {
 }
   ngOnInit(){
     this.id =  this.currentUserSubject.value.user_id;
+    this.role =  this.currentUserSubject.value.role;
+    let data = {
+      id :this.id,
+      role:this.role
+    }
     console.log(this.id);
-    this.scheduleService.getDietMyPlanID(this.id)
-    
+    this.scheduleService.getDietMyPlanID(this.id ,  this.role)
     .subscribe(
       response=>{
         console.log(response);
+        // this.dietPlanView = response.intervalNames; 
       }
     )
 

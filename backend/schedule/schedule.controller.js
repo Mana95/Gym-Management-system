@@ -15,6 +15,7 @@ router.post('/createSchedule' , createSchedule);
 router.post('/createScheduleAndDiet' , createScheduleAndDiet);
 router.post('/insertData' , insertData);
 router.post('/updateRecord' , updateRecord);
+router.post('/saveExercise' , saveExercise);
 
 router.get('/getAllSchedule' , getAllSchedule);
 router.get('/DietPlangetById/:id' , DietPlangetById);
@@ -30,10 +31,24 @@ router.get('/loadSchedule/:id' ,loadSchedule);
 router.get('/getmembershipDetais/:id' ,getmembershipDetais);
 router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
-router.get('/getDietMyPlanID/:id' , getDietMyPlanID);
+router.get('/getDietMyPlanID' , getDietMyPlanID);
+router.get('/getAllExercise' , getAllExercise);
+
+function getAllExercise(req ,res, next){
+    scheduleService.getAllExercise()
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
+function saveExercise(req ,res, next){
+    scheduleService.saveExercise(req.body)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 
 function getDietMyPlanID(req ,res, next){
-    scheduleService.getDietMyPlanID(req.params.id)
+    
+    scheduleService.getDietMyPlanID(req.query)
     .then(sch => res.json(sch))
     .catch(err => next(err));
 }
