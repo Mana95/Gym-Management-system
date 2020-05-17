@@ -100,7 +100,7 @@ export class GetmembershipComponent implements OnInit {
 
   }
   dayToDayMembership() {
-
+    var x ='';
   }
 
   validUsername(){
