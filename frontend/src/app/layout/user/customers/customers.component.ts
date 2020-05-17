@@ -16,7 +16,7 @@ export class CustomersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authenticationService.getAllCustomer()
+    this.authenticationService.getAllMembership()
     .subscribe(
       res=>{
         console.log(res);

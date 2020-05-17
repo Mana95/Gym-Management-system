@@ -10,6 +10,7 @@ import { SaleOrderItemViewComponent } from './sale-order-item-view/sale-order-it
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 
 
+
 @NgModule({
   declarations: [SalesorderComponent],
  

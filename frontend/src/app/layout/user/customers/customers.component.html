@@ -1,6 +1,6 @@
 
           <div class="card mb-3">
-              <div class="card-header"><p><b>Customers</b>&nbsp; <button type="button" class="btn btn-success  btn-sm" [routerLink]="['/new_cus']">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
+              <div class="card-header"><p><b>Membership</b>&nbsp; <button type="button" class="btn btn-success  btn-sm" [routerLink]="['/new_cus']">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
               </div>  
               <div class="card-body table-responsive">              
                   <div class="row">
@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class = "col-md-9">
                       <h1>
-                        <b>All Customer Status</b>
+                        <b>All Membership Status</b>
                       </h1>
                     </div>
  
@@ -17,12 +17,14 @@
                       <br/>
                       <table class="table table-striped table-hover table-bordered" id="mytable">
                         <caption>
-                          <b>View Customer Details</b>
+                          <b>View Membership Details</b>
                         </caption>
                         <thead>
                           <tr>
-                            <th style="text-align: center;" scope="col">Customer ID</th>
-                            <th  style="text-align: center;" scope="col">Customer Name</th>
+                            <th style="text-align: center;" scope="col"> ID</th>
+                            <th  style="text-align: center;" scope="col"> Owner</th>
+                            <th  style="text-align: center;" scope="col"> Name</th>
+                            <th  style="text-align: center;" scope="col">Valid Period</th>
                             <th  style="text-align: center;" scope="col">Email</th>
                             <th  style="text-align: center;" scope="col">Contact No</th>
                             <th  style="text-align: center;" scope="col">Action</th>
@@ -30,10 +32,12 @@
                         </thead>
                         <tbody>                 
                           <tr *ngFor= "let data of cusData">                
-                            <td style="text-align: center;">{{data.id}} </td>
-                            <td style="text-align: center;">{{data.firstName}}</td>
-                            <td style="text-align: center;">{{data.email}}</td>
-                            <td style="text-align: center;">{{data.phonenumber}} </td>
+                            <td style="text-align: center;">{{data.membershipId}} </td>
+                            <td style="text-align: center;">{{data.firstName}} {{data.lastName}}</td>
+                            <td style="text-align: center;">{{data.typeName}}</td>
+                            <td style="text-align: center;">{{data.endDate}}</td>
+                            <td style="text-align: center;">{{data.email}} </td>
+                            <td style="text-align: center;">{{data.phonenumber}} </td>-
                             <td style="text-align: center;"><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
                               <button type="button" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                      
                             </tr>

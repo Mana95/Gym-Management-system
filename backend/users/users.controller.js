@@ -40,7 +40,6 @@ router.put('/userUpdate', UpdateUser);
 router.get('/getId/:id' , getGroupById);
 router.get('/groupNames' , getGroupByName);
 router.get('/userRoles/:id' , getuserRole);
-router.get('/allCustomers' , getCustomersData);
 router.get('/allSuppliers', getSupplierData);
 router.get('/subCatGetting/:id' , getReleventCat);
 router.get('/findCustomer/:id' , findCustomer);
@@ -53,7 +52,7 @@ router.get('/getreleventRoleData/:id', getreleventRoleData);
 router.get('/roles', getAllRoles);
 router.get('/current', getCurrent);
 router.get('/responseAllInstructorData', responseAllInstructorData);
-
+router.get('/getAllMembership' , getAllMembership);
 router.get('/userById/:id', getById);
 router.get('/loadProfileData/:id' , loadProfileData);
 
@@ -68,9 +67,21 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
+function getAllMembership(req ,res ,next){
+    
+
+    userService.getAllMembership()
+    .then((data) => res.json(data))
+    .catch(err => next(err));
+}
+
+
+
+
+
  function checkNIC(req ,res ,next){
     const numberId = req.body;
-    console.log(numberId);
+   
     userService.checktheNICNumber(numberId)
     .then((data) => res.json(data))
     .catch(err => next(err));
@@ -301,11 +312,7 @@ function supRegister(req ,res ,next) {
     .catch(err => next(err));
 }
 
-function getCustomersData(req, res, next){
-userService.getCustomerData()
-.then(customer => res.json(customer))
-.catch(err => next(err));
-}
+
 
 function cusRegister(req ,res ,next){
     //console.log(req.body);

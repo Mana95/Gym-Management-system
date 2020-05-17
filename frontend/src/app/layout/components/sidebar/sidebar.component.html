@@ -84,7 +84,7 @@
 </div> 
   <!---->
         <!-- Schedule -->
-<div class="nested-menu" *ngIf ="category">
+<div class="nested-menu" >
     <a class="list-group-item" (click)="addScheduleExpandClass('pages')">
             <i class="fa fa-tags"></i>&nbsp;
         <span>{{ 'Schedule' | translate }}</span>
@@ -199,8 +199,14 @@
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
         </a> -->
-     
-        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+        <a [routerLink]="['/memberexercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf="onlyForMember">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Exercise' | translate }}</span>
+        </a>
+
+
+
+        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item"  *ngIf="!onlyForMember">
             <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
             <span>{{ 'Exercise' | translate }}</span>
         </a>

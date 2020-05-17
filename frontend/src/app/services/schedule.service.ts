@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export class ScheduleService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  sharedData :any;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -38,10 +39,10 @@ export class ScheduleService {
    getDietMyPlan(id) {
     return this.http.get(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)
    }
-   getById(id) {
+   getById(id) {    
      return this.http.get(config.PAPYRUS+`/shedule/getById/${id}`)
    }
-
+   
    insertscheduleDietData(scheduleData , dietPlanData):Observable<any> {
     return this.http.post(config.PAPYRUS+`/shedule/createScheduleAndDiet` , {scheduleData , dietPlanData});
    }

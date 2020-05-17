@@ -32,10 +32,7 @@ const schema = new Schema({
         type:String,
         required:true
     },
-    sup_username:{
-        type:String,
-        required:true
-    },
+    
     sup_phonenumber: {
         type:Number,
         required:true

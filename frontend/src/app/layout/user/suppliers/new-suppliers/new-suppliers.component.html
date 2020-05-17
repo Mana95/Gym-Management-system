@@ -57,50 +57,20 @@
                     </div>
 
 
-
-
-
-
-
-
-
-
-
-
              
             </div>
 
             <div class="form-row">
             
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-6">
                 <label for="email"><b>Email</b></label>
                 <input type="email" class="form-control" formControlName = "email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                   <div *ngIf="f.email.errors.required">emailname is required</div>
                   <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
               </div>
-            
-            
-          
-          
-          
-          
-          
-          
-          
-          
-          
             </div>
-            <div class="form-group col-md-3">
-              <label for="username"><b>Username</b></label>
-              <input  class="form-control"   formControlName = "username" placeholder="User Name"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
-                      <div *ngIf="submitted && supRegister.get('username').hasError('required')" class="invalid-feedback">
-                       Username is required
-                      </div>
-                      <div *ngIf="supRegister.get('username').hasError('pattern')" class="invalid-feedback">
-                        It is not a valid Username .
-                      </div>
-              </div>
+         
               <div class="form-group col-md-3">
                 <label for="inputPassword4">Password</label>
                 <input type="password" class="form-control" formControlName = "password" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
@@ -178,7 +148,7 @@
                         </div>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="inputPassword4">Schedule Type</label>
+                    <label for="inputPassword4">Supplier category Type</label>
                     <select class="form-control" formControlName="sup_category" [ngClass]="{ 'is-invalid': submitted && f.sup_category.errors }">
                       <option disabled selected>Choose...</option>
                       <option *ngFor="let data of Type">{{data}} </option>
@@ -187,7 +157,6 @@
                       <div *ngIf="f.sup_category.errors.required">Supplier category type is required</div>
                     </div> 
                   </div>
-                  
             </div>
 
           

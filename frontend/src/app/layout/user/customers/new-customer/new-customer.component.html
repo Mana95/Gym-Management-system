@@ -1,122 +1,366 @@
 <div class="card mb-8">
-    <div class="card-body table-responsive">
-      <div class="col-md-12">
-        <div class="card bg-light mb-2">
-          <div class="card-header"><b>Customer New Record</b> 
-            <div style="color:red"> <b>{{errorValue}}</b> </div>
-           </div>
-          <div class="card-body">
-              <form [formGroup] = "cusRegister" (ngSubmit)="onSubmit()">
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label>Customer Id</label>
-                  <input type="text" class="form-control" formControlName ="id"  disabled #userID>
-                     </div>
-                <div class="form-group col-md-6">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" formControlName = "email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                      <div *ngIf="f.email.errors.required">emailname is required</div>
-                      <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b> <i class="fa fa-handshake-o" aria-hidden="true"></i>
+             New Membership </b></h2>  
+           
+        </div>
+        <div class="card-body">
+          <form [formGroup]="MembershipGroup" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Membership ID</b></label>
+                <input type="text" class="form-control inputClass" formControlName="membershipId" disabled />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Member ID</b></label>
+                <input type="text" class="form-control inputClass" formControlName="memberId" disabled />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Email Address</b></label>
+                <input type="email" class="form-control inputClass" formControlName="email"  placeholder="Email"
+                  [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.email.errors
+                                    }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">
+                    Emailname is required
+                  </div>
+                  <div *ngIf="f.email.errors.email">
+                    Email must be a valid email address
                   </div>
                 </div>
               </div>
+              <div class="form-group co-md-3">
+                <label for="email"><b>Current Join Date</b></label>
+                <input type="text" class="form-control inputClass" disabled formControlName="currnetJoinDate"
+                  placeholder="currnetJoinDate" />
+              </div>
+            </div>
 
-              <div class="form-row">
-                  <div class="form-group col-md-6">
-                      <label for="firstName">First Name</label>
-                      <input type="text" class="form-control" formControlName ="firstName"  placeholder="First Name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
-                      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstName.errors.required">Firstname is required</div>
-                    </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" formControlName = "lastName" placeholder="Last Name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
-                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                          <div *ngIf="f.lastName.errors.required">LastName is required</div>
-                      </div>
-                      </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="firstName"><b>First Name</b></label>
+                <input type="text" class="form-control inputClass" formControlName="firstName" placeholder="First Name"
+                  [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.firstName.errors
+                                    }" />
+                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">
+                    First name is required
+                  </div>
+                </div>
               </div>
-              <div class="form-row">
-                  <div class="form-group col-md-6">
-                      <label for="phonenumber">Contact No</label>
-                      <input matInput class="form-control" maxlength="10"  formControlName = "phonenumber" placeholder="Phone Number"  [ngClass]="{ 'is-invalid': submitted && f.phonenumber.errors }">
-                          <div *ngIf="submitted && cusRegister.get('phonenumber').hasError('required')" class="invalid-feedback">
-                            Phone Number is required
-                          </div>
-                          <div *ngIf="cusRegister.get('phonenumber').hasError('pattern')" class="invalid-feedback">
-                            It is not a valid mobile number.
-                          </div>
-                    </div>
-                  
-                    <div class="form-group col-md-6">
-                      <label for="emergencyNumber">Emergency Number</label>
-                      <input matInput class="form-control" maxlength="10"  formControlName = "emergencyNumber" placeholder="Emergency Number"  [ngClass]="{ 'is-invalid': submitted && f.emergencyNumber.errors }">
-                          <div *ngIf="submitted && cusRegister.get('emergencyNumber').hasError('required')" class="invalid-feedback">
-                           Emergency Phone Number is required
-                          </div>
-                          <div *ngIf="cusRegister.get('emergencyNumber').hasError('pattern')" class="invalid-feedback">
-                            It is not a valid Emergency number.
-                          </div>
-                    </div>
+              <div class="form-group col-md-3">
+                <label for="lastName"><b>Last Name</b></label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.lastName.errors
+                                    }" />
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">
+                    Last name is required
+                  </div>
+                </div>
               </div>
-              <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="inputPassword4">NIC Number</label>
-                <input type="text" class="form-control" (keyup)="onKey($event)" formControlName = "nicNumber" placeholder="Nic Number" [ngClass]="{ 'is-invalid': submitted && f.nicNumber.errors }">
-              
-                <div *ngIf="submitted && cusRegister.get('nicNumber').hasError('required')" class="invalid-feedback">
+                <input type="text" class="form-control" formControlName="nicNumber" (keyup)="onKey($event)"
+                  placeholder="Nic Number" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.nicNumber.errors
+                                    }" />
+
+                <div *ngIf="
+                                        submitted &&
+                                        MembershipGroup
+                                            .get('nicNumber')
+                                            .hasError('required')
+                                    " class="invalid-feedback">
                   Nic Number is required
                 </div>
-                <div *ngIf="cusRegister.get('nicNumber').hasError('pattern')" class="invalid-feedback">
+                <div *ngIf="
+                                        MembershipGroup
+                                            .get('nicNumber')
+                                            .hasError('pattern')
+                                    " class="invalid-feedback">
                   It is not a valid NIC number.
                 </div>
               </div>
+              <div class="form-group col-md-3">
+                <label for="lastName"><b>Date of birth</b></label>
+                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName="birth"
+                  [readOnly]="true" *ngIf="dateFieldValid" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.birth.errors
+                                    }" />
+                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp" [readOnly]="true"
+                  *ngIf="!dateFieldValid" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.birth.errors
+                                    }" />
+                <div *ngIf="submitted && f.birth.errors" class="invalid-feedback">
+                  <div *ngIf="f.birth.errors.required">
+                    Date of birth is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="password"><b>Password</b></label>
+                <input type="password" class="form-control" formControlName="password" placeholder="******" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.password.errors
+                                    }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">
+                    Password is required
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputEmail4">Mobile Number</label>
+                <input matInput class="form-control" maxlength="10" formControlName="phonenumber"
+                  placeholder="Phone Number" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.phonenumber.errors
+                                    }" />
+                <div *ngIf="
+                                        submitted &&
+                                        MembershipGroup
+                                            .get('phonenumber')
+                                            .hasError('required')
+                                    " class=" input-lg invalid-feedback">
+                  Phone Number is required
+                </div>
+                <div *ngIf="
+                                        MembershipGroup
+                                            .get('phonenumber')
+                                            .hasError('pattern')
+                                    " class=" input-lg invalid-feedback">
+                  It is not a valid mobile number.
+                </div>
+              </div>
 
               <div class="form-group col-md-3">
-                <label for="firstName">Gender</label>
-                <input type="text" class="form-control" formControlName = "gender" *ngIf ="dateFieldValid" [readOnly] = "true" placeholder="Last Name"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
-                <input type="text" class="form-control"  *ngIf ="!dateFieldValid" [readOnly] = "true" placeholder="Fill the NIC Number"  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">          
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputPassword4">User Name</label>
-                <input type="text" class="form-control" formControlName = "username" placeholder="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                  <div *ngIf="f.username.errors.required">username is required</div>
-              </div>
-              </div>
-
-
-           
-             
-
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="firstName">Address</label>
-                <input type="text" class="form-control" formControlName ="address"  placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
-                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-                  <div *ngIf="f.address.errors.required">Firstname is required</div>
-              </div>
+                <label for="inputEmail4">Emergency Number</label>
+                <input matInput class="form-control" maxlength="10" formControlName="phonenumber1"
+                  placeholder="Emergency Number" [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.phonenumber1.errors
+                                    }" />
+                <div *ngIf="
+                                        submitted &&
+                                        MembershipGroup
+                                            .get('phonenumber1')
+                                            .hasError('required')
+                                    " class=" input-lg invalid-feedback">
+                  Emergency Number is required
+                </div>
+                <div *ngIf="
+                                        MembershipGroup
+                                            .get('phonenumber1')
+                                            .hasError('pattern')
+                                    " class=" input-lg invalid-feedback">
+                  It is not a valid Emergency number.
+                </div>
               </div>
             </div>
             <div class="form-row">
-              
-              <div class="form-group col-md-12">
-               <label>Description</label>
-               <textarea rows="3" class="form-control" placeholder="Description" formControlName="description"></textarea>
-                   
-           </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Height</label>
 
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>m</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
+                    formControlName="Height" placeholder="Height" [ngClass]="{
+                                            'is-invalid':
+                                                submitted && f.Height.errors
+                                        }" />
+                  <div *ngIf="submitted && f.Height.errors" class="invalid-feedback">
+                    <div *ngIf="f.Height.errors.required">
+                      Height is required
+                    </div>
+                  </div>
                 </div>
-                      <button type="submit" class="btn btn-primary">Register <i class="fa fa-book" aria-hidden="true"></i></button>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Weight</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>Kg</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
+                    formControlName="Weight" placeholder="Weight" [ngClass]="{
+                                            'is-invalid':
+                                                submitted && f.Weight.errors
+                                        }" />
+                  <div *ngIf="submitted && f.Weight.errors" class="invalid-feedback">
+                    <div *ngIf="f.Weight.errors.required">
+                      Weight is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">BMI</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>kg/m2</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" [readOnly]="true" formControlName="BMI" placeholder=" kg/m2"
+                    *ngIf="BMIField" />
+                  <input type="text" class="form-control" [readOnly]="true" placeholder=" kg/m2" *ngIf="!BMIField" />
+                </div>
+              </div>
+            
+              <div class="form-group col-md-3">
+                  <label for="firstName"><b>Disaster </b></label>
+                  <select class="form-control" formControlName="disaster" (click)="appearDiscription($event)" [ngClass]="{ 'is-invalid': submitted && f.disaster.errors }">
+                    <option selected>Choose...</option>
+                    <option *ngFor="let data of display">{{data.id}}</option>
+                  </select>
+                  <div *ngIf="submitted && f.disaster.errors" class="invalid-feedback">
+                    <div *ngIf="f.disaster.errors.required">Disaster is required</div>
+                  </div> 
            
-                </form>
+
+            
+
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf ="disaster" >
+              <label for="exampleFormControlTextarea1">Note about disaster
+              </label>
+              <textarea class="form-control" formControlName="description" rows="3"></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3" (change)="displayAmount(data)" >
+                <label for="inputPassword4">Membership Type</label>
+                <select class="form-control"  #data  formControlName="typeName"   [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.typeName.errors
+                                    }">
+                                   
+                  <option *ngFor="let data of Type" >{{ data.membershipName }}</option>
+                
+                </select>
+                <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.typeName.errors.required">
+                    Type name is required
+                  </div>
                 </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Amount</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>Rs:</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" disabled id="inlineFormInputGroup" placeholder="00.00"
+                    formControlName="amount" />
                 </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Valida Month</label>
+
+                <input type="text" class="form-control" disabled id="inlineFormInputGroup" placeholder="Valid Mounth"
+                  formControlName="VMonth" />
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Expire Date</label>
+
+                <input type="text" disabled class="form-control" disabled id="inlineFormInputGroup"
+                  formControlName="endDate" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="alert alert-info" role="alert">
+                     This is a info alert—check it out!
                 </div>
+            </div>
+
+            <b><h4>Payment</h4></b>
+            <hr/>
+            <div class="form-row">
+        
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Pacakage Price</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>Rs:</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" disabled id="inlineFormInputGroup" placeholder="00.00"
+                  formControlName="amount" />
+                  
                 </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="inputPassword4">Paying price</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>Rs:</b>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" disabled id="inlineFormInputGroup" placeholder="00.00"
+                  formControlName="amount" />
+                  
                 </div>
-              
-              
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea class="form-control" formControlName="description" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+ Submit 
+            </button>
+
+          </form>
+          <div class="row"  *ngIf="showMsg">
+  
+            <p class="alert alert-success">
+                <strong>Membership request Successfully Send!</strong>
+          
+            </p>
+          
+          </div>
+          
+          <div class="row"  *ngIf="alertDisplay">
+          
+          <p class="alert alert-danger">
+              <strong>You were already send a request!</strong>
+          
+          </p>
+          
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

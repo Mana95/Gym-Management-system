@@ -37,6 +37,7 @@ const routes: Routes = [
             { path: 'sales_order_cart', loadChildren: () => import('./salesorder/sales-order-cart/sales-order-cart.module').then(m => m.SalesOrderCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'ItemCartView/:id', loadChildren: () => import('./salesorder/sale-order-item-view/sale-order-item-view.module').then(m => m.SaleOrderItemViewModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'addToCart', loadChildren: () => import('./salesorder/add-to-cart/add-to-cart.module').then(m => m.AddToCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
+            { path: 'checkout', loadChildren: () => import('./salesorder/checkout/checkout.module').then(m => m.CheckoutModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Membership , Role.Instructor] } },        
         
             
             { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
@@ -64,7 +65,11 @@ const routes: Routes = [
 
            { path: 'exercise', loadChildren: () => import('./exercise/exercise.module').then(m => m.ExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
            { path: 'new-excercise', loadChildren: () => import('./exercise/new-exercise/new-exercise.module').then(m => m.NewExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
-        
+           
+           
+           { path: 'memberexercise', loadChildren: () => import('./exercise/member-view-exercise/member-view-exercise.module').then(m => m.MemberViewExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership] } },
+           { path: 'memberdetailsexercise', loadChildren: () => import('./exercise/member-view-exercise/member-details-exercise/member-details-exercise.module').then(m => m.MemberDetailsExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Admin]} },
+           
 
            
            { path: 'newmembership', loadChildren: () => import('./getmembership/getmembership.module').then(m => m.GetmembershipModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Member] } },

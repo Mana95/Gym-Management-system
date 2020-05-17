@@ -37,7 +37,6 @@ module.exports = {
   getGroupNames,
   getDetailUsers,
   cusRegister,
-  getCustomerData,
   supRegister,
   getSuppliers,
   getCatDataRelevent,
@@ -62,7 +61,9 @@ module.exports = {
   savememberData,
   loadProfileData,
   checktheNICNumber,
-  responseAllInstructorData
+  responseAllInstructorData,
+  getAllMembership
+
 };
 
 async function responseAllInstructorData() {
@@ -146,6 +147,11 @@ async function getreleventRoleData(data) {
 
 async function getAllSchedule() {
   return await ScheduleType.find({});
+}
+
+async function getAllMembership() {
+
+  return await Membership.find({});
 }
 
 async function savescheduleType(body) {
@@ -328,14 +334,7 @@ async function instructorSave(data) {
   }
 
 
-  // if (!(usernameFind && userFind)) {
-  //   user.hash = bcrypt.hashSync(userData.password, 10);
-  //   await instructor.save();
-  //   await user.save();
-  //   return 1;
-  // } else {
-  //   return 3;
-  // }
+
 
 
 async function insertMembershipType(body) {
@@ -465,14 +464,11 @@ async function getSuppliers() {
 }
 
 async function supRegister(data) {
-
-
-
-  
+console.log('HI');
   //define the variable
   const userData = data.UserData;
   const supplierData = data.sup_data;
-  const emailData = data.mailData;
+ 
   //define the array
   let supplierArray = [];
   supplierArray.length = 0;
@@ -491,13 +487,7 @@ async function supRegister(data) {
     }
     );
    // return errorArray;
-   await User.findOne({ username: userData.username },
-    function(error, res){
-      if(res!==null){
-    
-        supplierArray.push('username');
-      }
-    });
+   
   await User.findOne({ nicNumber: userData.nicNumber },
     function(error, res){
      
@@ -521,22 +511,48 @@ async function supRegister(data) {
       return(supplierArray);
    }
 
-
-
-
-
-
 }
 
-async function getCustomerData() {
-  return await Customers.find({});
-}
 
+//membership registration
 async function cusRegister(data) {
-  console.log("SERVICE");
-  const customer = new Customers(data);
-  console.log(customer);
-  await customer.save();
+  const customerData = data.data;
+  const userParam = data.userParam;
+  var errorArray = [];
+
+  const membership = new Membership(customerData); 
+  const user = new User(userParam);
+
+  //Check email
+ await User.findOne({email:userParam.email},
+  function(error, res){
+    if(res !=null){
+      errorArray.push('email');
+    }
+  });
+   await User.findOne({nicNumber:userParam.nicNumber},
+    function(error, res){
+      if(res !=null){
+        errorArray.push('nic Number');
+      }
+    });
+    if(errorArray.length == 0){
+      if (userParam.password) {
+        user.hash = bcrypt.hashSync(userParam.password, 10);
+      }
+          // saveing
+           await user.save();
+          await membership.save();
+          return 1;
+    }else{
+      return (errorArray);
+    }
+
+  
+
+  
+    
+  
 }
 
 async function getDetailUsers(roleValue) {

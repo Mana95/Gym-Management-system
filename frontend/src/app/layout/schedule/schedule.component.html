@@ -17,6 +17,22 @@
             </div>
             <hr/>
             <br/>
+
+
+            <div class="form-group form-inline">
+            
+ 
+                <div class="col-auto">
+                  <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    </div>
+                    <input class="form-control" type="text" name="searchText"
+                    placeholder="Search...." [(ngModel)]="searchText" />   </div>
+                </div>
+            </div>
+
             <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
               <caption>
                 <b>View My Schedule Details</b>
@@ -33,7 +49,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor= "let data of schedule; let i =index">
+                <!-- <tr *ngFor="let data of tableData |filter:searchText |paginate:{itemsPerPage:7,currentPage:p};">
+ -->
+
+                <tr *ngFor= "let data of schedule | filter:searchText| paginate: { itemsPerPage: 10, currentPage: p }">
                   <td style="text-align: center;" >{{data.date}}</td>
                   <td style="text-align: center;">{{data.membershipId}}</td>  
                   <td style="text-align: center;">{{data.Sid}}</td>

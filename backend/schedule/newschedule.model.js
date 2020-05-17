@@ -15,6 +15,9 @@ const schema = new Schema({
         required: true,
     
     },
+    instructorId:{
+        type: String,
+    },
     dietPlan:{
         type:Boolean
       },

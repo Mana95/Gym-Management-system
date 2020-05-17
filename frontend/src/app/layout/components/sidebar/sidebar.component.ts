@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
     pushRightClass: string;
     showMenuSch:string;
     currentUser: User;
+    
     public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
 
@@ -37,8 +38,6 @@ export class SidebarComponent implements OnInit {
             }
         });
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-        //console.log('Constructor');
-      //  console.log(this.currentUser.role)
     }
 
     ngOnInit() {
@@ -77,6 +76,12 @@ export class SidebarComponent implements OnInit {
           
         )
     }
+
+    get onlyForMember(){
+        if(this.currentUser.role == Role.Membership){
+            return this.currentUser && this.currentUser.role === Role.Membership;
+    }
+}
     
     get customer() {
         if(this.currentUser.role == Role.Admin){
@@ -155,9 +160,9 @@ export class SidebarComponent implements OnInit {
         if(this.currentUser.role === Role.Admin){
             return this.currentUser && this.currentUser.role === Role.Admin 
         }
-        else if(this.currentUser.role === Role.User){
+        else if(this.currentUser.role === Role.Member){
 
-            return this.currentUser && this.currentUser.role === Role.User;
+            return this.currentUser && this.currentUser.role === Role.Member;
         }
          
             

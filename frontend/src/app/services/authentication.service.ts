@@ -27,6 +27,11 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  getAllMembership(){
+    return this.http.get(config.PAPYRUS+`/users/getAllMembership`)
+  }
+
+
   responseAllInstructorData() {
     return this.http.get(config.PAPYRUS+`/users/responseAllInstructorData`)
   }
@@ -121,9 +126,6 @@ export class AuthenticationService {
     return this.http.get(config.PAPYRUS+`/users/allSuppliers`)
   }
 
-  getAllCustomer() {
-    return this.http.get(config.PAPYRUS+`/users/allCustomers`)
-  }
 
   getGroupName() {
     
@@ -161,9 +163,9 @@ export class AuthenticationService {
 
   }
 
-  registerCustomer(data) :Observable<any>{
-    console.log(data)
-    return this.http.post<any>(config.PAPYRUS+ `/users/cusCreation`, data)
+  registerCustomer(data ,userParam) :Observable<any>{
+    
+    return this.http.post<any>(config.PAPYRUS+ `/users/cusCreation`, {data ,userParam})
     
   }
   registerSupplier (sup_data ,UserData ,mailData ):Observable<any> {

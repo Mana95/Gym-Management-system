@@ -11,9 +11,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
+  //tableData : any;
+  p: number = 1;
+  searchText:any;
   schedule:any; 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+
   dietPlanStatus  = false;
 
 
@@ -28,6 +32,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
+
 
     this.loadTableData();
     

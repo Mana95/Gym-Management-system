@@ -20,6 +20,7 @@ import { WebpageComponent } from './webpage/webpage.component';
 import { MemberLoginComponent } from './member-login/member-login.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
         NgbModule,
         FormsModule,
         ReactiveFormsModule,
+        
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory,

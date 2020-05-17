@@ -5,10 +5,7 @@
         <div class="card-header">
           <h2><b> <i class="fa fa-handshake-o" aria-hidden="true"></i>
              Get Membership Request</b></h2>  
-             <button class="btn btn-primary mr-2" (click)="opensweetalert()">Open Sweetalert Success</button>
-             <button class="btn btn-danger  mr-2" (click)="opensweetalertdng()">Open Sweetalert Danger</button>
-             <button class="btn btn-warning mr-2" (click)="opensweetalertcst()">Open Sweetalert Custom Buttons</button>
-             <button type="button" class="btn btn-primary btn-sm" (click)="dayToDayMembership()">Day to Day Membership</button>
+           
         </div>
         <div class="card-body">
           <form [formGroup]="getMembershipGroup" (ngSubmit)="onSubmit()">
@@ -23,7 +20,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="email"><b>Email Address</b></label>
-                <input type="email" class="form-control inputClass" (keyup)="CheckUniquenessEmail($event)" formControlName="email"  placeholder="Email"
+                <input type="email" class="form-control inputClass" formControlName="email"  placeholder="Email"
                   [ngClass]="{
                                         'is-invalid':
                                             submitted && f.email.errors
@@ -309,6 +306,12 @@
                 <input type="text" disabled class="form-control" disabled id="inlineFormInputGroup"
                   formControlName="endDate" />
               </div>
+            </div>
+
+            <div class="form-row">
+              <div class="alert alert-info" role="alert">
+                     This is a info alert—check it out!
+                </div>
             </div>
 
             <div class="form-group">

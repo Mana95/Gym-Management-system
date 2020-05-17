@@ -1,3 +1,4 @@
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NumberDirective } from './../../_directives/numbers-only.directive';
 import { SanitizeHtmlDirective } from './../../_directives/sanitize-html.directive';
 import { TwoDigitDecimaNumberDirective } from './../../_directives/twodigitdecimalnumber.directive';
@@ -13,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     NgbModule,
+    Ng2SearchPipeModule,
     BsDatepickerModule.forRoot()
   ],
   exports: [

@@ -24,7 +24,7 @@ export class NewSuppliersComponent implements OnInit {
   sendMails:any;
   dateFieldValid = false;
   day:any;
-  Type = ['All' , 'Normal Items' , 'Cart Itemss'];
+  Type = ['All' , 'Nuritions' , 'Equipment'];
   constructor( 
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
@@ -39,7 +39,6 @@ export class NewSuppliersComponent implements OnInit {
       lastName: ['', Validators.required],
       address: ['', Validators.required],
       nicNumber:['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
-      username:['', [Validators.required]],
       company:['' , Validators.required],
       sup_category:['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -220,7 +219,7 @@ export class NewSuppliersComponent implements OnInit {
       sup_id: userID.value,
       sup_firstName: this.f.firstName.value,
       sup_lastName:this.f.lastName.value,
-      sup_username:this.f.username.value,
+     
       sup_nicNumber:this.f.nicNumber.value,
       sup_company:this.f.company.value,
       sup_address:this.f.address.value ,
@@ -235,7 +234,6 @@ export class NewSuppliersComponent implements OnInit {
     let UserData = {
       user_id:userID.value,
       firstName: this.f.firstName.value,
-      username:this.f.username.value,
       email:this.f.email.value,
       password:this.f.password.value,
       active:true,
@@ -244,7 +242,7 @@ export class NewSuppliersComponent implements OnInit {
     }
 
     let mailData= {
-      username:this.f.username.value,
+      firstName: this.f.firstName.value,
       password:this.f.password.value,
       mail:this.f.email.value
     }
@@ -253,7 +251,6 @@ export class NewSuppliersComponent implements OnInit {
     if(this.supRegister.valid){
       
 
-const sendMails = this.authenticationService.SendSupplierMail(mailData)  
 
 
       this.authenticationService.registerSupplier(sup_data ,UserData ,mailData )

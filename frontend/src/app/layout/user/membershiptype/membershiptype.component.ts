@@ -44,12 +44,11 @@ export class MembershiptypeComponent implements OnInit {
   ngOnInit() {
 this.membershipGroup = this.formBuilder.group({
   membership_type_id:[''],
-  typeName:['',Validators.required],
+  typeName:['',Validators.required], 
   month:['',Validators.required],
   membershipCatagory : ['' , Validators.required],
   periodType:['',Validators.required],
   YMDValue: ['' , Validators.required],  
-
   amount:['', Validators.required],
   note:['', Validators.required]
 
