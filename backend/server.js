@@ -8,9 +8,6 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var moment = require('moment');
 
-
-
-
 const jwt = require('_helpers/jwt');
 const path = require('path');
 const shell = require('shelljs');
@@ -20,14 +17,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '100mb' }));
 
-
-
 //http  every controller 
 app.use('/users', require('./users/users.controller'));
 app.use('/catagory', require('./catagory/catagory.controller'));
 app.use('/order', require('./orders/order.controller'));
 app.use('/shedule', require('./schedule/schedule.controller'));
-
 
 app.use('/uplds', require('./uplds/upload.controller'));
 app.use('/jobs', require('./jobs/jobs.controller'));
@@ -42,11 +36,10 @@ app.use(express.static('../client'));
 const Membership = db.Membership;
 const User = db.User;
 
-var currentDate = moment().subtract(10, 'days').calendar();
-
+var currentDate = moment();
+var arraylength = 0;
 
 var storage = multer.diskStorage({ //multers disk storage settings
-
     //Pass function that will generate destination path
     destination: function (req, file, cb) {
         //initial upload path
@@ -54,11 +47,9 @@ var storage = multer.diskStorage({ //multers disk storage settings
         let destination = path.join(__dirname, './uploads/'); //uploading
         shell.mkdir('-p', './uploads/' + req.params.uniqueId);
         destination = path.join(destination, '', req.params.uniqueId);
-
         cb(null, destination);
     },
-
-    filename: function (req, file, cb) {
+  filename: function (req, file, cb) {
         var datetimestamp = Date.now();
         cb(null, file.originalname);
     }
@@ -69,20 +60,13 @@ var upload = multer({ //multer settings
 }).single('file');
 
 // schedule tasks to be run on the server   
-// cron.schedule("* * * * *", function () {
-//     console.log("---Checking the Membership validation---");
-//     var currentValue = [];
+cron.schedule("* * * * *", function () {
+    var today = new Date();   
+    Membership.updateMany({"endDate":{$lt:today}}, { $set:{"status":"false"}});
 
-//     // Membership.update({"endDate":{$gt:currentDate}} , {"status":"true"} ,{ $set:{"status":"false"}},
-//     // function(err , result){
-//     //     if(err){
-//     //         console.log(err);
-//     //     }else{
-//     //         console.log(result);
-//     //     }
-//     // } )
+    User.updateMany({"endDate":{$lt:today}}, { $set:{"membershipStatus":false}});
     
-// });
+});
 
 
 /** API path that will upload the files */
@@ -99,12 +83,9 @@ app.post('/upload/:uniqueId', function (req, res) {
             var fileDetails = req.file;
             return res.json(req.file);
         }
-
-
     });
 });
 
 app.listen('4000', function () {
     console.log('running on 4000...');
-
 });

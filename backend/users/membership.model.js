@@ -82,7 +82,7 @@ const schema = new Schema({
         required: true
     },
     endDate: {
-        type: String,
+        type: Date,
         required: true
     },
     status: {

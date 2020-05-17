@@ -54,7 +54,7 @@
         </div>
 
   <!-- Membership -->
-  <div class="nested-menu" *ngIf ="category">
+  <div class="nested-menu" >
     <a class="list-group-item" (click)="addMembershipExpandClass('pages')">
             <i class="fa fa-tags"></i>&nbsp;
         <span>{{ 'Membership' | translate }}</span>
@@ -68,7 +68,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']" *ngIf ="category"   >
+                <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']"  >
                     <i class="fa fa-address-book"></i>
                     <span>{{ 'Request Membership' | translate }}</span>
                 </a>
@@ -112,6 +112,26 @@
         </ul>
     </li>
 </div> 
+
+        <!-- Schedule -->
+        <div class="nested-menu" >
+            <a class="list-group-item" (click)="addExerciseExpandClass('pages')">
+                    <i class="fa fa-tags"></i>&nbsp;
+                <span>{{ 'Exercise' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="exercise === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "OnlyMembership" >
+                            <i class="fa fa-calendar-o"></i>&nbsp;
+                            <span>{{ 'View Exercise' | translate }}</span>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </li>
+        </div> 
+        
 
 <!--Shcdule Requesting-->
 <a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">

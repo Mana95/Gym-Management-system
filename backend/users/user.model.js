@@ -30,6 +30,9 @@ const schema = new Schema({
     membershipStatus:{
         type: Boolean, 
     },
+    endDate:{
+        type: Date, 
+    },
     nicNumber: {
         type: String,
         required: true

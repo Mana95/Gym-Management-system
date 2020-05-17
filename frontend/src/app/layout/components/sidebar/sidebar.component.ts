@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
     pushRightClass: string;
     showMenuSch:string;
     currentUser: User;
+    exercise:string;
     
     public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -233,6 +234,14 @@ get PurchaseOrder(){
             this.addMembership = '0';
         } else {
             this.addMembership = element;
+        }
+    }
+
+    addExerciseExpandClass(element:any){
+        if (element === this.exercise) {
+            this.exercise = '0';
+        } else {
+            this.exercise = element;
         }
     }
     addExpandSchClass(element:any){
