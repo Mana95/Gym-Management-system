@@ -110,7 +110,7 @@
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Expire Date</label>
                 <input type="date" class="form-control" formControlName="expDate" placeholder="Manifactured Date"
-                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }">
+                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }" (change)="checkDate($event)" >
                 <div *ngIf="submitted && f.expDate.errors" class="invalid-feedback">
                   <div *ngIf="f.expDate.errors.required">Exp Date is required</div>
                 </div>
@@ -130,7 +130,7 @@
 
               <div class="form-group col-md-8">
                 <label for="quantity">Importered Country</label>
-                <input id="typeahead-format" formControlName="importCountry" type="text"  [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }" class="form-control"  [ngbTypeahead]="search" [resultFormatter]="formatter" />
+                <input id="typeahead-format" placeholder="Sri lanka" formControlName="importCountry" type="text"  [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }" class="form-control"  [ngbTypeahead]="search" [resultFormatter]="formatter" />
                 <div *ngIf="submitted && f.importCountry.errors" class="invalid-feedback">
                   <div *ngIf="f.importCountry.errors.required">Importered Country is required</div>
                 </div>
@@ -144,9 +144,6 @@
 
               </div>
             </div>
-
-
-
             <button type="submit" class="btn btn-primary"> Submit <i class="fa fa-book" aria-hidden="true"></i></button>
           </form>
         </div>

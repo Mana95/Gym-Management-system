@@ -7,7 +7,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { distinct, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import {NgxPopoverImageModule} from 'ngx-popover-image';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/_models';
 
 @Component({
   selector: 'app-tables',
@@ -16,7 +17,8 @@ import { Observable } from 'rxjs';
   animations: [routerTransition()]
 })
 export class TablesComponent implements OnInit {
-
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 	itemData: any;
 	closeResult: string;
 	itemGroup: FormGroup;
@@ -42,7 +44,7 @@ removeUpload = false;image: any;
  ];
 
 
- ArraySelectOption = ['Normal Item' , 'Cart Items'];
+ ArraySelectOption = ['Equipment' , 'Cart Items'];
 
   constructor(
     private modalService: NgbModal,
@@ -53,7 +55,10 @@ removeUpload = false;image: any;
     private autenticationService: AuthenticationService,
 
     private cd: ChangeDetectorRef
-  ) { }
+  ) { 
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
 
   get f() {
 
@@ -70,6 +75,13 @@ removeUpload = false;image: any;
 
     this.loadData();
 
+  }
+
+  checkDate(event) {
+    var date = new Date();
+    var fullDate = date.getFullYear()+ "-"+(date.getMonth()+1)+"-"+date.getDate()
+    console.log(fullDate)
+      console.log(event.target.value); 
   }
 
 
@@ -186,6 +198,7 @@ removeUpload = false;image: any;
         selling_price: Number(selValue),
         Importered_Country: this.f.importCountry.value,
         image: this.imageUrl,
+        itemCreatedName:this.currentUserSubject.value.user_id,
         itemType: this.f.itemType.value,
         expDate: this.f.expDate.value
 

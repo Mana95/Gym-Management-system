@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import {diet} from 'src/app/_models/diet';
+
 @Component({
   selector: 'app-view-diet-plan',
   templateUrl: './view-diet-plan.component.html',
@@ -15,7 +17,7 @@ export class ViewDietPlanComponent implements OnInit {
   scheuleId:string;
   membershiId:string;
   date:any;
-  dietArray:any;
+  dietPlanDetails : diet;
   id:any;
   closeResult: string;
   constructor(
@@ -28,6 +30,7 @@ export class ViewDietPlanComponent implements OnInit {
 
   ngOnInit() {
     this.loadCurrentData();
+    console.log(this.dietPlanDetails);
   }
 
  
@@ -37,12 +40,8 @@ export class ViewDietPlanComponent implements OnInit {
       this.scheduleService.getDietMyPlan(this.id)
       .subscribe(
         response=>{
-          console.log(response);
-          // this.DietMealName = response.dietPlanName;
-          // this.dietPlanId = response.dietPlanId;
-          // this.scheuleId = response.ScheduleId;
-          // this.membershiId = response.membershipId;
-          // this.dietArray = response.intervalNames;
+        this.dietPlanDetails = response;
+        console.log(this.dietPlanDetails);
         }
       )
 

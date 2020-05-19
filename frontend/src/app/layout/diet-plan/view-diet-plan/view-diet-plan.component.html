@@ -15,12 +15,12 @@
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="userID"><b>Diet Plan Id</b></label> | 
-                <label for="userID">{{dietPlanId}}</label>
+                <label for="userID">{{dietPlanDetails.dietPlanId}}</label>
                 </div>
                 
                   <div class="form-group col-md-3">
                     <label for="userID"><b>Schedule Id</b></label> |
-                    <label for="userID">{{scheuleId}}</label>
+                    <label for="userID">{{dietPlanDetails.ScheduleId}}</label>
                     </div>
                     <div class="form-group col-md-3">
                       <label for="userID"><b>Created Date</b></label> | 
@@ -46,18 +46,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor = "let data of dietArray">
-                  
-                    <td><a [routerLink]=""  >{{data.intervalName}}</a></td>
+                  <tr *ngFor = "let data of dietPlanDetails.intervalNames">
+
+                    <td><a [routerLink]="">{{data.intervalName}}</a></td>
                     <td>{{data.intervalItemArray.length}} Records</td>
                   </tr>
                 
                 </tbody>
               </table>
 </div>
-
-
-          </div>
+    </div>
       </div>
     </div>
   </div>

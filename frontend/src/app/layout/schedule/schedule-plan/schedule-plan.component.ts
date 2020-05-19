@@ -92,7 +92,8 @@ export class SchedulePlanComponent implements OnInit {
   }
   public downloadAsPDF() {
     const doc = new jsPDF();
-
+    doc.setFontSize(22);
+    
     const specialElementHandlers = {
       '#editor': function (element, renderer) {
         return true;
@@ -106,7 +107,7 @@ export class SchedulePlanComponent implements OnInit {
       'elementHandlers': specialElementHandlers
     });
 
-    doc.save('tableToPdf.pdf');
+    doc.save('Schedule.pdf');
   }
   Start() {
     this.Done = true;

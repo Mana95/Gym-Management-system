@@ -86,15 +86,22 @@ export class BsElementComponent implements OnInit {
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
     var string_length = 8;
     var id = 'PO_' + '';
-    for (var i = 0; i < string_length; i++) {
-      var rnum = Math.floor(Math.random() * chars.length);
-      id += chars.substring(rnum, rnum + 1);
-      this.poId = id;
+    // for (var i = 0; i < string_length; i++) {
+    //   var rnum = Math.floor(Math.random() * chars.length);
+    //   id += chars.substring(rnum, rnum + 1);
+    //   this.poId = id;
 
-      this.currentTime = moment().format('LT');
+    //   this.currentTime = moment().format('LT');
   
 
-      this.authenticationService.getAllSuppliers()
+      
+    // }
+
+var min = 10000;
+var max = 99999;
+var num = Math.floor(Math.random()*100000+1)
+this.poId = 'PO_' + ''+num;
+    this.authenticationService.getAllSuppliers()
         .subscribe(
           data => {
          //   console.log(data);
@@ -103,7 +110,6 @@ export class BsElementComponent implements OnInit {
           }
         )
 
-    }
     this.catagoryService.getCatNames()
       .subscribe(
         response => {

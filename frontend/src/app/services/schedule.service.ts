@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../_models';
 import { config } from '../config/config.js';
 import { map } from 'rxjs/operators';
-
+import {diet} from 'src/app/_models/diet';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,8 +36,8 @@ export class ScheduleService {
   }
     )
    }
-   getDietMyPlan(id) {
-    return this.http.get(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)
+   getDietMyPlan(id): Observable<diet> {
+    return this.http.get<diet>(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)
    }
    getById(id) {    
      return this.http.get(config.PAPYRUS+`/shedule/getById/${id}`)

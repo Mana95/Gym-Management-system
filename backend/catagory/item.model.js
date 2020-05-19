@@ -20,6 +20,9 @@ const schema = new Schema({
         type: String,
         required:true
     },
+    itemCreatedName:{
+        type:String,
+    },
     item_name: {
         type: String,
         required:true
