@@ -69,6 +69,7 @@ export class NewUserComponent implements OnInit {
     this.loadData();
     //let Phonenumber = "^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$"
     this.Url = this.sanitizer.bypassSecurityTrustUrl(this.pdfSrc);
+    ///bypassSecurityTrustResourceUrl
   }
   //validation the phone number
   _keyPress(event: any) {
@@ -334,33 +335,45 @@ else if (dayText > 31) {
     }
 
     //When for validation save data
-      if(this.userRegisterFrom.valid){
-      this.uploadImage(formData, this.f.id.value).subscribe(
-        (res) => {
+      if(!this.userRegisterFrom.valid){
+      // this.uploadImage(formData, this.f.id.value).subscribe(
+      //   (res) => {
        
-          forkJoin(
-            this.authenticationService.userCreationPub(UserData),
-            this.authenticationService.EmployeeCreate(UserCreationParam)
-          ).subscribe(
-            res=>{
-              //this.router.navigate(['/newUser']);
-              this.funcA(res[0] ,content ,contentDone);
+      //     forkJoin(
+      //       this.authenticationService.userCreationPub(UserData),
+      //       this.authenticationService.EmployeeCreate(UserCreationParam)
+      //     ).subscribe(
+      //       res=>{
+      //         //this.router.navigate(['/newUser']);
+      //         this.funcA(res[0] ,content ,contentDone);
               
-            },
-            error=>{
-              console.log(error);
-             // this.userRegisterFrom.reset();
-            },
-            ()=>{
-              this.submitted = false;
-             // this.userRegisterFrom.reset();
-             // this.loadData();
+      //       },
+      //       error=>{
+      //         console.log(error);
+      //        // this.userRegisterFrom.reset();
+      //       },
+      //       ()=>{
+      //         this.submitted = false;
+      //        // this.userRegisterFrom.reset();
+      //        // this.loadData();
 
-            }
-          )
+      //       }
+      //     )
           
-          },
-      );
+      //     },
+      // );
+      this.uploadImage(formData, this.f.id.value)
+      .subscribe(
+        res=>{
+          console.log(res);
+        },
+        error=>{
+console.log(error);
+        },
+        ()=>{
+          console.log('DONE')
+        }
+      )
     }   
 
   }

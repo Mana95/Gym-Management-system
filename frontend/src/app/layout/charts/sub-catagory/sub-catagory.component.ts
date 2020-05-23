@@ -3,6 +3,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-sub-catagory',
@@ -27,15 +28,16 @@ export class SubCatagoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-     
-      
     this.subCatagoryResgiter = this.formBuilder.group({
       //sub_catId: ['', Validators.required],
       sub_catName: ['', Validators.required],
       description: ['', Validators.required],
       mainCatgory:['' ,Validators.required ]
     });
+    this.loadFormData();
 
+  }
+  loadFormData() {
     this.catagoryService.getSubCat()
     .subscribe( 
       res=> {
@@ -51,18 +53,21 @@ export class SubCatagoryComponent implements OnInit {
         console.log(data);
       }
     );
-     //Id Gen
-     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
-     var string_length = 8;
-     var id = 'SC_'+'';
-     for (var i=0; i<string_length; i++) {
-       var rnum = Math.floor(Math.random() * chars.length);
-       id += chars.substring(rnum,rnum+1);
-       this.userId = id;
- 
-     }
-
+   this.getId();
   }
+
+    getId() {
+  //Id Gen
+  var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+  var string_length = 8;
+  var id = 'SC_'+'';
+  for (var i=0; i<string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    id += chars.substring(rnum,rnum+1);
+    this.userId = id;
+  }
+
+    }
 
   get subC() {
     return this.subCatagoryResgiter.controls;
@@ -102,15 +107,22 @@ export class SubCatagoryComponent implements OnInit {
       this.catagoryService.insertSubCat(sub_cat)
       .subscribe(
         data => {
-        console.log(data);
+          if(data == 1){
+            Swal.fire({
+              text: 'Inserted successfully',
+              icon: 'success'
+            });
+          }else{
+            Swal.fire('Oops...', `${data} Already inserted `, 'error');
+          }
       },
         error => {
           this.error = error;
           this.loading = false;
         });
         this.submitted = false;
-      this.subCatagoryResgiter.reset();
-      location.reload();
+        this.subCatagoryResgiter.reset();
+        this.loadFormData()
     }
 
 

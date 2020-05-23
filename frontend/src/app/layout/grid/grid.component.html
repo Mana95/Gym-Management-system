@@ -96,8 +96,11 @@
                                         <input type="text" readonly  formControlName="itemName" class="form-control" />
                                         </td>
                                         <td>
-                                        <input type="text" readonly formControlName="qty" class="form-control"  />
-                                        </td>
+                                        <input type="text"  formControlName="qty" numbersOnly class="form-control"  [ngClass]="{ 'is-invalid': submitted && Table.controls.qty.errors }" />
+                                        <div *ngIf="submitted && Table.controls.qty.errors" class="invalid-feedback">
+                                            <div *ngIf="Table.controls.qty.errors.required">Quantity is required</div>
+                                          </div>    
+                                    </td>
                                         <td>
                                             <input type="text" appTwoDigitDecimaNumber (input)="changesubTotal(Table)" formControlName="buyingPrice" class="form-control" placeholder="00.00"
                                 [ngClass]="{ 'is-invalid': submitted && Table.controls.buyingPrice.errors }" />

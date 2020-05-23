@@ -44,8 +44,8 @@ var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
         //initial upload path
         //  console.log("Methnain thamai patha eka hadenne"+ req.params.uniqueId);
-        let destination = path.join(__dirname, './uploads/'); //uploading
-        shell.mkdir('-p', './uploads/' + req.params.uniqueId);
+        let destination = path.join(__dirname, '../frontend/src/assets/u/'); //uploading
+        shell.mkdir('-p', '../frontend/src/assets/u/' + req.params.uniqueId);
         destination = path.join(destination, '', req.params.uniqueId);
         cb(null, destination);
     },

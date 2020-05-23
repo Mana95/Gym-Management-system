@@ -23,35 +23,35 @@ export class UserComponent implements OnInit {
   refresh: false;
   message: string;
   editMessage = false;
-  assigneValue : any;
-  deleteMessage :any;
+  assigneValue: any;
+  deleteMessage: any;
 
   constructor(
     private modalService: BsModalService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    
+    private sanitizer: DomSanitizer,
   ) { }
-  
+
 
   ngOnInit() {
     this.loadTableData();
   }
 
-  
-  openModal(data,template: TemplateRef<any> ) {
+
+  openModal(data, template: TemplateRef<any>) {
     this.deleteMessage = data;
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+
   }
 
-  openModalEdit(data,template: TemplateRef<any> ) {
-    
-   this.assigneValue = data;
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    if(this.editMessage == true){
+  openModalEdit(data, template: TemplateRef<any>) {
+
+    this.assigneValue = data;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    if (this.editMessage == true) {
       this.modalRef.hide();
-    
+
 
     }
   }
@@ -59,7 +59,7 @@ export class UserComponent implements OnInit {
   //confirm dialog for edit
   confirmEdit() {
     this.editMessage = true;
-    let id =  this.assigneValue.userId;
+    let id = this.assigneValue.userId;
     this.router.navigate(['/editUser', this.assigneValue._id]);
     this.modalRef.hide();
   }
@@ -67,10 +67,10 @@ export class UserComponent implements OnInit {
   //confrim dialog to delete user
   confirm() {
     let idData = {
-      "id":  this.deleteMessage._id,
-      "EmpId":  this.deleteMessage.id
+      "id": this.deleteMessage._id,
+      "EmpId": this.deleteMessage.id
     }
-    
+
     this.authenticationService.deleteRecord(idData)
       .subscribe(data => {
         this.modalRef.hide();
@@ -93,9 +93,24 @@ export class UserComponent implements OnInit {
     this.authenticationService.getAllUsers()
       .subscribe(
         data => {
-          this.userview = data
-          this.userview
-          console.log(data);
+          //     data.imagePath = this.sanitizer.bypassSecurityTrustResourceUrl(data.imagePath);
+          //  let imagePath =  this.sanitizer.bypassSecurityTrustResourceUrl(data.imagePath);
+          //  for(let i = 0 ,j=data.length;i<j;i++){
+
+          //  }
+          if (Array.isArray(data)) {
+            console.log(data);
+            for (let i = 0, j = data.length; i < j; i++) {
+            
+              let imagepath = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:4200/assets/u/E_4J95WAR9/2.jpg');
+              data[i].imagePath = imagepath;
+
+            }
+          }
+          this.userview = data;
+          //  this.userview.imagePath=
+
+
         }
       );
   }
@@ -109,13 +124,13 @@ export class UserComponent implements OnInit {
 
   }
 
-  deleteRecord(data,template: TemplateRef<any>) {
-   // alert(data);
-   this.deleteMessage = data;
-   this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    
-   
+  deleteRecord(data, template: TemplateRef<any>) {
+    // alert(data);
+    this.deleteMessage = data;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+
+
   }
 
-  
+
 }

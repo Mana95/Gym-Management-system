@@ -104,9 +104,9 @@ export class OrderService {
     return this.http.get(config.PAPYRUS + `/order/getsId/${sid}`);
   }
 
-  saveGrnValues(data) {
+  saveGrnValues(grnData , updateStatus , ItemData) {
 
-    return this.http.post(config.PAPYRUS + `/order/saveGRN/`, data);
+    return this.http.post(config.PAPYRUS + `/order/saveGRN/`, {grnData , updateStatus , ItemData});
 
   }
 

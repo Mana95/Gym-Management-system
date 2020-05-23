@@ -10,6 +10,8 @@ import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 
 import { User } from 'src/app/_models';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
     selector: 'app-grid',
     templateUrl: './grid.component.html',
@@ -39,7 +41,7 @@ export class GridComponent implements OnInit {
     pushbutton = false;
     disableamount = false;
     TotalAmountArray = [0];
-
+    stockId:string;
 
 
     ItemData: {
@@ -93,20 +95,25 @@ export class GridComponent implements OnInit {
          const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
          const string_length = 8;
          let id = 'GRN_' + '';
+         let stockId =''+'';
          for (let i = 0; i < string_length; i++) {
            const rnum = Math.floor(Math.random() * chars.length);
            id += chars.substring(rnum, rnum + 1);
-           this.grnGroup.controls['grnId'].setValue(id);
-
-            this.orderService.getProgressPo()
+         
+         }
+         this.grnGroup.controls['grnId'].setValue(id);
+         for (let i = 0; i < string_length; i++) {
+            const rnum = Math.floor(Math.random() * chars.length);
+            stockId += chars.substring(rnum, rnum + 1);
+          }
+          this.stockId = stockId ;
+          this.orderService.getProgressPo()
             .subscribe(
                 response => {
                  //   console.log(response);
                     this.poId = response;
                 }
             );
-
-         }
          this.currentDate = moment().subtract(10, 'days').calendar();
          this.grnGroup.controls['date'].setValue(this.currentDate);
 
@@ -115,7 +122,7 @@ export class GridComponent implements OnInit {
         return this.formBuilder.group({
             itemId: [''],
             itemName: [''],
-            qty: [''],
+            qty: ['', Validators.required],
             amount: [''],
             status: [''],
             price: new FormArray([])
@@ -158,10 +165,10 @@ export class GridComponent implements OnInit {
       }
 
     getPurchaseOrderValue(poData) {
-        const control = <FormArray>this.grnGroup.controls['credentials'];
-        for (let i = control.length - 1; i >= 0; i--) {
-            control.removeAt(i);
-        }
+
+        let arr1 = <FormArray>this.grnGroup.controls['TableArray'];
+        arr1.clear();
+       
         this.itemTableArray.length = 0;
         const id = poData.value;
         this.orderService.getByIdPo(id)
@@ -169,16 +176,7 @@ export class GridComponent implements OnInit {
             data => {
             // Iniialize the Formtabe Data
                 const ItemArray = data[0].ItemDataValues;
-                for (let x = 0 ; x < ItemArray.length ; x++) {
-                    this.getTable.push(this.formBuilder.group({
-                        itemId: [ItemArray[x].itemId],
-                        itemName: [ItemArray[x].itemName],
-                        qty: [ItemArray[x].qty],
-                        status: ['Done'],
-                        buyingPrice: ['', Validators.required],
-                        subTotal: ['']
-                    }));
-                }
+                
 
                 const supplierId = data[0].supplierId;
             // getting data
@@ -197,7 +195,21 @@ export class GridComponent implements OnInit {
                 this.ItemDataValues = data[0].ItemDataValues;
                this.array = data[0].ItemDataValues;
                const creds = this.grnGroup.controls.credentials as FormArray;
-
+               for (let x = 0 ; x < ItemArray.length ; x++) {
+                this.getTable.push(this.formBuilder.group({
+                    itemId: [ItemArray[x].itemId],
+                    itemName: [ItemArray[x].itemName],
+                    qty: [ItemArray[x].qty , Validators.required],
+                    status: ['Done'],
+                    buyingPrice: ['', Validators.required],
+                    subTotal: [''],
+                    expDate:[''],
+                    supplierID:[this.f.supplierId.value],
+                    grnId:[this.f.grnId.value],
+                    stockId:[this.stockId],
+                    purchaseOrderId:[this.f.purchaseOrderId.value]
+                }));
+            }
                 for (let i = 0 ; i < this.array.length ; i++) {
                     const itemId = this.array[i].itemId;
                     const itemName = this.array[i].itemName;
@@ -217,7 +229,7 @@ export class GridComponent implements OnInit {
                console.log('Array');
             }
         );
-
+    
 
     }
 
@@ -260,21 +272,32 @@ export class GridComponent implements OnInit {
         };
         console.log(GRNDATA);
         if (this.grnGroup.valid) {
-            alert('sdsdsdsds');
+            
              
-            const saveGRN =  this.orderService.saveGrnValues(GRNDATA);
-            const updatePO =  this.orderService.updatepoStatus(this.f.purchaseOrderId.value);
-            const updateQty = this.orderService.updatequantity(arrayItems);
+        //     const saveGRN =  this.orderService.saveGrnValues(GRNDATA);
+        //     const updatePO =  this.orderService.updatepoStatus(this.f.purchaseOrderId.value);
+        //     const updateQty = this.orderService.updatequantity(arrayItems);
 
-            //group of data subscribe 
-          //  https://levelup.gitconnected.com/handle-multiple-api-requests-in-angular-using-mergemap-and-forkjoin-to-avoid-nested-subscriptions-a20fb5040d0c
-            forkJoin([saveGRN , updatePO , updateQty]).subscribe(
-                result=>{
-                    console.log(result[1]);
-                    this.grnGroup.reset();
-                    this.loadFormData();
+        //     //group of data subscribe 
+        //   //  https://levelup.gitconnected.com/handle-multiple-api-requests-in-angular-using-mergemap-and-forkjoin-to-avoid-nested-subscriptions-a20fb5040d0c
+        //     forkJoin([saveGRN , updatePO , updateQty]).subscribe(
+        //         result=>{
+        //             console.log(result[1]);
+        //             this.grnGroup.reset();
+        //             this.loadFormData();
+        //         }
+        //     );
+        this.orderService.saveGrnValues(GRNDATA ,this.f.purchaseOrderId.value ,arrayItems)
+        .subscribe(
+            response=>{
+                if(response==1){
+                    
                 }
-            );
+            }
+        )
+
+
+
         }
     }
 

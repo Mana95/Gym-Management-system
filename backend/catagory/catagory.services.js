@@ -59,10 +59,26 @@ async function getAllSub() {
 }
 
 async function insertSubCat(data) {
-  //  console.log(data)
-    const subcat = new SubCatagory(data);
-  //  console.log(subcat);
-    await subcat.save();
+
+const subcat = new SubCatagory(data);
+  
+const subCatagoryNameFind = await SubCatagory.findOne({sub_cat_name:data.sub_cat_name},
+    function(error , responseDb){
+        if(error){
+            return 'Server Error Please Contact Admin';
+        }
+    });
+    if(!subCatagoryNameFind){
+        await subcat.save();
+        return 1;
+    }
+
+
+
+
+
+
+
 }
 
 async function deleteData (id){

@@ -1,6 +1,8 @@
 import { OrderService } from './../../../services/order.service';
 import { Component, OnInit } from '@angular/core';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
   selector: 'app-purchase-order-request',
   templateUrl: './purchase-order-request.component.html',
@@ -15,8 +17,6 @@ export class PurchaseOrderRequestComponent implements OnInit {
 
   ngOnInit() {
     this.loadTableData();
-   
-
   }
   loadTableData() {
     this.orderService.getPendingPo()
@@ -36,7 +36,10 @@ export class PurchaseOrderRequestComponent implements OnInit {
     this.orderService.updateStatus(val)
     .subscribe(
       response=>{
-        console.log(response);
+        Swal.fire({
+          text: 'Purchase Order Request Approved successfully',
+          icon: 'success'
+        });
         this.loadTableData(); 
       }
     )

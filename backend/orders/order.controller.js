@@ -79,7 +79,6 @@ function updateStatusOfPo(req ,res ,next ){
 
 function SaveGRNData(req ,res, next){
     let GrnData = req.body;
- //   console.log(GrnData)
     orderService.SaveDataGrn(GrnData)
     .then(grn => res.json(grn))
     .catch(err => next(err));

@@ -199,16 +199,11 @@
             <span>{{ 'GRN' | translate }}</span>
         </a>
                     </li>
-                    <!-- <li>
-                        <a [routerLink]="['/reqSalesOrder']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf ="category"  >
-                            <i class="fa fa-user"></i>&nbsp;
-                            <span>{{ 'Sales Order' | translate }}</span>
-                        </a>
-                    </li> -->
+        
                     <li>
                         <a href="javascript:void(0)" [routerLink]="['/reqPurchaseOrder']" [routerLinkActive]="['router-link-active']" *ngIf ="category"  >
                             <i class="fa fa-users"></i>&nbsp;
-                            <span>{{ 'Purchase Order' | translate }}</span>
+                            <span>{{ 'PO Requests' | translate }}</span>
                         </a>
                     </li>  
                 </ul>

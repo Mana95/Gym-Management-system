@@ -6,7 +6,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { distinct, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import {NgxPopoverImageModule} from 'ngx-popover-image';
+import { NgxPopoverImageModule } from 'ngx-popover-image';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/_models';
 
@@ -19,32 +19,29 @@ import { User } from 'src/app/_models';
 export class TablesComponent implements OnInit {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-	itemData: any;
-	closeResult: string;
-	itemGroup: FormGroup;
-	submitted = false;
-	loading = false;
-	mainCat: any;
-	subcat: any;
-	userId: any;
-	active = false;
-// tslint:disable-next-line:member-ordering
-error = '';
-imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
-editFile = true;
-removeUpload = false;image: any;
-  
-	states = ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda',
-	'Argentina',  'Armenia','Aruba','Australia','Austria','Azerbaijan',
-	 // tslint:disable-next-line:indent
-	 'Bahamas (the)','Bahrain','Bangladesh','Barbados','Belarus',
-	 'Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia (Plurinational State of)',
-	 'Bonaire, Sint Eustatius and Saba','Bosnia and Herzegovina',
-	 
- ];
+  itemData: any;
+  closeResult: string;
+  itemGroup: FormGroup;
+  submitted = false;
+  loading = false;
+  mainCat: any;
+  subcat: any;
+  userId: any;
+  active = false;
+  error = '';
+  imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+  editFile = true;
+  removeUpload = false; image: any;
 
+  states = ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda',
+    'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan',
+    // tslint:disable-next-line:indent
+    'Bahamas (the)', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus',
+    'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia (Plurinational State of)',
+    'Bonaire, Sint Eustatius and Saba', 'Bosnia and Herzegovina',
 
- ArraySelectOption = ['Equipment' , 'Cart Items'];
+  ];
+  ArraySelectOption = ['Equipment', 'Cart Items'];
 
   constructor(
     private modalService: NgbModal,
@@ -53,90 +50,73 @@ removeUpload = false;image: any;
     private router: Router,
     private route: ActivatedRoute,
     private autenticationService: AuthenticationService,
-
     private cd: ChangeDetectorRef
-  ) { 
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   get f() {
-
     return this.itemGroup.controls;
-
   }
-
- 
-
 
   formatter = (result: string) => result.toUpperCase();
 
   ngOnInit() {
-
     this.loadData();
-
   }
 
   checkDate(event) {
     var date = new Date();
-    var fullDate = date.getFullYear()+ "-"+(date.getMonth()+1)+"-"+date.getDate()
+    var fullDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     console.log(fullDate)
-      console.log(event.target.value); 
+    console.log(event.target.value);
   }
 
-
   search = (text$: Observable<string>) =>
-  text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map(term => term === '' ? []
-      : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-  )
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term === '' ? []
+        : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
 
   loadData() {
-
     this.itemGroup = this.formBuilder.group({
       id: [''],
       cat_name: ['', Validators.required],
       item_name: ['', Validators.required],
-      quantity: [null, Validators.required],
       description: [''],
       itemType: ['', Validators.required],
       sub_cat: ['', Validators.required],
-      selling_price: ['', Validators.required],
-      importCountry: ['' , Validators.required],
-      expDate: ['']
+      importCountry: ['', Validators.required],
     });
 
-    const qty = this.itemGroup.get('quantity');
-    const sellingPrice = this.itemGroup.get('selling_price');
-    const buying_price = this.itemGroup.get('buying_price');
+    // const qty = this.itemGroup.get('quantity');
+    // const sellingPrice = this.itemGroup.get('selling_price');
+    // const buying_price = this.itemGroup.get('buying_price');
 
-    qty.valueChanges
-      .pipe(distinct())
-      .subscribe(value => qty.setValue(+value || 0));
-``
-    sellingPrice.valueChanges
-      .pipe(distinct())
-      .subscribe(value => sellingPrice.setValue(+value || 0));
-
-
+    // qty.valueChanges
+    //   .pipe(distinct())
+    //   .subscribe(value => qty.setValue(+value || 0));
+    // ``
+    // sellingPrice.valueChanges
+    //   .pipe(distinct())
+    //   .subscribe(value => sellingPrice.setValue(+value || 0));
     this.catagoryService.getItemDetials()
-    .subscribe(
-      data => {
-        console.log(data);
-        this.itemData = data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
+      .subscribe(
+        data => {
+          console.log(data);
+          this.itemData = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
     this.catagoryService.getCatNames()
       .subscribe(
-        data => {
-          //  console.log(data)
+        data => {       //  console.log(data)
           this.mainCat = data;
         }
       );
@@ -149,11 +129,7 @@ removeUpload = false;image: any;
       id += chars.substring(rnum, rnum + 1);
       this.userId = id;
       this.itemGroup.controls['id'].setValue(id);
-
-
     }
-
-
   }
 
   uploadFile(event) {
@@ -162,8 +138,7 @@ removeUpload = false;image: any;
     const file = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
-
-      // When file uploads set it to file formcontrol
+  // When file uploads set it to file formcontrol
       reader.onload = () => {
         this.imageUrl = reader.result;
         this.itemGroup.patchValue({
@@ -182,29 +157,20 @@ removeUpload = false;image: any;
     console.log(data.value);
     this.submitted = true;
     this.loading = true;
-
-
     if (this.itemGroup.valid) {
-      const selValue = this.f.selling_price.value.toFixed(2);
-
-
+      // const selValue = this.f.selling_price.value.toFixed(2);
       const itemData = {
         id: this.f.id.value,
         cat_name: this.f.cat_name.value,
         item_name: this.f.item_name.value,
-        quantity: this.f.quantity.value,
         description: this.f.description.value,
         sub_cat: this.f.sub_cat.value,
-        selling_price: Number(selValue),
         Importered_Country: this.f.importCountry.value,
         image: this.imageUrl,
-        itemCreatedName:this.currentUserSubject.value.user_id,
-        itemType: this.f.itemType.value,
-        expDate: this.f.expDate.value
-
+        itemCreatedName: this.currentUserSubject.value.user_id,
+        itemType: this.f.itemType.value
+       
       };
-
-      console.log(itemData);
       this.catagoryService.insertItemData(itemData)
         .subscribe(
           res => {
@@ -225,7 +191,6 @@ removeUpload = false;image: any;
   }
 
   getSubCatValue(data) {
-    console.log('TS');
     const catName = data.value;
     console.log(catName);
     this.autenticationService.getSubCatNames(catName)

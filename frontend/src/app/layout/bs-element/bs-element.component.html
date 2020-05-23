@@ -130,13 +130,13 @@
                                     </div>
                                 </div>
                                 <div>
-                                <div class="form-row">
+                                <div class="form-row"> 
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="Supplier_name">Item Id</label>
                                             <input type="text" readonly  formControlName = "itemId" placeholder="Item Id" class="form-control" />
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-3" >
                                             <label for="Supplier_name">Item Name</label>
                                             <input type="text" readonly formControlName = "itemName" placeholder="Item Name" class="form-control" />
                                         </div>
@@ -156,18 +156,6 @@
                                               <div *ngIf="f.quantity.errors.required">Qty is required</div>
                                             </div>
                                         </div>
-                                        <!-- <div class="form-group col-md-5">
-                                            <div class="input-group mb-2">
-                                              <div class="input-group-prepend">
-                                                <div class="input-group-text"><b>Rs:</b></div>
-                                              </div>
-                                            <input type="text" appTwoDigitDecimaNumber class="form-control"  formControlName="buying_price"
-                                              placeholder="Buying Price"  [ngClass]="{ 'is-invalid': submitted && f.buying_price.errors }">
-                                              <div *ngIf="submitted && f.buying_price.errors" class="invalid-feedback">
-                                                <div *ngIf="f.buying_price.errors.required">Buying price is required</div>
-                                              </div>
-                                            </div>
-                                          </div>  -->
                                     </div>
                                 </div>
 
@@ -213,7 +201,7 @@
                                 </tbody>
                               </table>
                               <div class="form-row">
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Generate Sales Order</button>
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Generate Purchase Order</button>
                                     &nbsp;  <button type="button" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel</button>                
                                 </div>
                     </form>

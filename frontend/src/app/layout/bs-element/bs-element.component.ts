@@ -10,6 +10,10 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { distinct } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models';
+
+
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
   selector: 'app-bs-element',
   templateUrl: './bs-element.component.html',
@@ -19,16 +23,12 @@ import { User } from 'src/app/_models';
 export class BsElementComponent implements OnInit {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-
   purchaseOrderGroup: FormGroup
-
   closeResult: string;
   poId: any;
-
   submitted = false;
   loading = false;
   error = '';
-
   currentDate: any;
   currentTime: any;
   supplierName: any;
@@ -41,14 +41,14 @@ export class BsElementComponent implements OnInit {
   catName: any;
   subcat: any;
   startBuyingPrice: Number;
-
   activecat = false;
   clickAdd = false;
   alertdisplay = false;
-
-  setValueqty:Number;
- 
-  ItemDataValues=[]
+  setValueqty: Number;
+  ItemDataValues = [];
+  avlbleQuantity = 0;
+  pushValue = false;
+  PushVaribaleCheck: string;
 
   constructor(
     private orderService: OrderService,
@@ -61,23 +61,27 @@ export class BsElementComponent implements OnInit {
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-   }
+  }
 
   ngOnInit() {
     this.purchaseOrderGroup = this.formBuilder.group({
       categoryName: ['', Validators.required],
       quantity: [null, Validators.required],
-      itemDetails:['',Validators.required],
+      itemDetails: ['', Validators.required],
       itemName: [''],
-      date:[''],
-      itemId:[''],
-      itemQty:[''],
-      Avlqty:[''],
-      supplierFirstName:['', Validators.required],
-      supplierLastName : ['', Validators.required],
+      date: [''],
+      itemId: [''],
+      itemQty: [''],
+      Avlqty: [''],
+      supplierFirstName: ['', Validators.required],
+      supplierLastName: ['', Validators.required],
       supplierId: ['', Validators.required],
       credentials: this.formBuilder.array([]),
     })
+    this.loadFormData();
+  }
+
+  loadFormData() {
     let currentMilli = Date.now()
     let today = moment(currentMilli).format("DD-MM-Y");
     this.currentDate = moment().subtract(10, 'days').calendar();
@@ -86,39 +90,27 @@ export class BsElementComponent implements OnInit {
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
     var string_length = 8;
     var id = 'PO_' + '';
-    // for (var i = 0; i < string_length; i++) {
-    //   var rnum = Math.floor(Math.random() * chars.length);
-    //   id += chars.substring(rnum, rnum + 1);
-    //   this.poId = id;
-
-    //   this.currentTime = moment().format('LT');
-  
-
-      
-    // }
-
-var min = 10000;
-var max = 99999;
-var num = Math.floor(Math.random()*100000+1)
-this.poId = 'PO_' + ''+num;
+    var min = 10000;
+    var max = 99999;
+    var num = Math.floor(Math.random() * 100000 + 1)
+    this.poId = 'PO_' + '' + num;
     this.authenticationService.getAllSuppliers()
-        .subscribe(
-          data => {
-         //   console.log(data);
-            this.supllierId = data;
+      .subscribe(
+        data => {
+          //   console.log(data);
+          this.supllierId = data;
 
-          }
-        )
+        }
+      )
 
     this.catagoryService.getCatNames()
       .subscribe(
         response => {
-        //  console.log(response);
+          //  console.log(response);
           this.catName = response;
         }
       )
   }
-
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
@@ -129,28 +121,21 @@ this.poId = 'PO_' + ''+num;
     this.catagoryService.getItemsDetails(data.value)
       .subscribe(
         data => {
-        
+
           this.purchaseOrderGroup.controls['itemId'].setValue(data[0].id);
           this.purchaseOrderGroup.controls['itemName'].setValue(data[0].item_name);
-          this.purchaseOrderGroup.controls['Avlqty'].setValue(data[0].quantity);
-        //  this.purchaseOrderGroup.controls['buying_price'].setValue(data[0].buying_price)
-          this.setValueqty =  data[0].quantity;
-         // this.startBuyingPrice = data[0].buying_price;
-
+          if (data[0].quantity != undefined || data[0].quantity == 0) {
+            this.purchaseOrderGroup.controls['Avlqty'].setValue(data[0].quantity);
+          } else {
+            this.purchaseOrderGroup.controls['Avlqty'].setValue(this.avlbleQuantity);
+          }
+          this.setValueqty = data[0].quantity;
         },
         error => {
           console.log(error);
         });
-
-
-
   }
-  get f() {
-
-    return this.purchaseOrderGroup.controls;
-
-  }
-
+  get f() { return this.purchaseOrderGroup.controls; }
 
   getCatValue(data) {
     console.log('TS')
@@ -159,14 +144,13 @@ this.poId = 'PO_' + ''+num;
     this.catagoryService.getchoosenItems(catName)
       .subscribe(
         data => {
-         // console.log(data);
+          // console.log(data);
           this.subcat = data;
           this.activecat = true;
-        //  console.log(data);
-
+          //  console.log(data)
         },
         error => {
-        //  console.log(error);
+          //  console.log(error);
         });
 
     this.active = true
@@ -181,7 +165,7 @@ this.poId = 'PO_' + ''+num;
       .subscribe(
         response => {
           if (response) {
-          //  console.log(response);
+            //  console.log(response);
             this.supData = response;
             this.active = true;
             if (response == '') {
@@ -190,7 +174,7 @@ this.poId = 'PO_' + ''+num;
           }
         },
         error => {
-        //  console.log(error);
+          //  console.log(error);
         }
 
       )
@@ -229,80 +213,110 @@ this.poId = 'PO_' + ''+num;
   }
 
   sumValue() {
-    
+
     let currentQty = Number(this.f.quantity.value);
     let AvlQty = this.f.Avlqty.value;
     console.log(typeof currentQty);
 
     let final = currentQty + AvlQty;
-    if(currentQty!== null) {
-    
-    //this.purchaseOrderGroup.controls['quantity'].setValue('');
-  }
+    if (currentQty !== null) {
+
+      //this.purchaseOrderGroup.controls['quantity'].setValue('');
+    }
   }
 
   resetQuantity() {
-   // alert('QQQ');
+    // alert('QQQ');
     //console.log(this.setValueqty);
     this.f.Avlqty.setValue(this.setValueqty);
     //this.purchaseOrderGroup.controls['Avlqty'].setValue(this.setValueqty);
   }
 
   ChangeQty() {
-   
 
-    
-  
+
+
+
   }
   get phoneForms() {
     return this.purchaseOrderGroup.get('credentials') as FormArray
   }
 
   dropDisplayValues() {
-   
-
 
     const itemId = this.f['itemId'].value;
     const itemName = this.purchaseOrderGroup.controls['itemName'].value;
     const qty = Number(this.f.quantity.value)
     let AvlQty = this.f.Avlqty.value;
     console.log(itemId);
-   
-    let final = AvlQty + qty;    
-    if(qty!== 0 && itemId !== '' && itemName !=='')  {
-    //  const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
-     const tableValue = this.formBuilder.group({
+
+    let final = AvlQty + qty;
+    if (qty !== 0 && itemId !== '' && itemName !== '') {
+      //  const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
+      const tableValue = this.formBuilder.group({
         itemId: this.f.itemId.value,
         itemName: this.f.itemName.value,
-        qty:qty,
+        qty: qty,
         status: 'Pending'
       });
-    //this.purchaseOrderGroup.controls['Avlqty'].setValue(final);
-    // this.ItemDataValues.push(ItemDetails);
-    this.phoneForms.push(tableValue);
+      console.log(tableValue.controls['itemName'].value);
 
-    var siraValue = this.f.credentials.value;
-    console.log(siraValue);
+      // const findValue = this.f.credentials.value.find(x=>x.itemId==this.f.itemId.value);
+
+      if (this.f.credentials.value != undefined) {
+
+        this.f.credentials.value.forEach((data, index) => {
+
+          if (this.f.itemId.value == this.f.credentials.value[index].itemId) {
+            this.PushVaribaleCheck = this.f.credentials.value[index].itemName;
+            const addValue = qty + this.f.credentials.value[index].qty;
+
+            const myForm = (<FormArray>this.purchaseOrderGroup.get("credentials")).at(index);
+            myForm.patchValue({
+              qty: addValue
+            })
+
+
+            // 
+            this.pushValue = true;
+
+            //     this.purchaseOrderGroup.controls['credentials'][index].patchValue([{qty:addValue}])
+
+          }
+        })
+        if (tableValue.controls['itemName'].value != this.PushVaribaleCheck) {
+
+          this.phoneForms.push(tableValue);
+        }
+
+      }
+
+
+
+
+
+      var siraValue = this.f.credentials.value;
+      console.log(siraValue);
 
       // this.orderService.updatequantity(this.f.Avlqty.value ,itemId ).subscribe(response=>{console.log(response)})
-        
-  }
-  else {
-    this.alertdisplay = true;
-  }
-  //  console.log(this.ItemDataValues);
+
+    }
+    else {
+      this.alertdisplay = true;
+    }
+    //  console.log(this.ItemDataValues);
   }
 
   clearAll() {
 
-    if(this.ItemDataValues.length !== 0 ){
+    if (this.ItemDataValues.length !== 0) {
       this.ItemDataValues.length = 0;
       this.purchaseOrderGroup.controls['Avlqty'].setValue(this.setValueqty);
-     
-    }else {
+
+    } else {
       alert("Your table is already clear")
     }
-    
+
 
 
   }
@@ -320,51 +334,57 @@ this.poId = 'PO_' + ''+num;
     let purchaseOrderData = {
       purchaseOrderId: this.poId,
       supplierId: this.f.supplierId.value,
-      supllierFirstName:  this.f.supplierFirstName.value,
+      supllierFirstName: this.f.supplierFirstName.value,
       supplierLastName: this.f.supplierLastName.value,
       date: this.currentTime,
-      time:this.currentDate,
+      time: this.currentDate,
       categoryName: this.f.categoryName.value,
-      status:'Pending',
+      status: 'Pending',
       currentUser: this.currentUserSubject.value.username,
-      ItemDataValues:this.f.credentials.value
+      ItemDataValues: this.f.credentials.value
     }
-   // console.group('SUBMIT FORM')
     console.log(purchaseOrderData);
 
-    if(this.purchaseOrderGroup.valid) {
+    if (this.purchaseOrderGroup.valid) {
+   
+      this.orderService.savePurchaseOrderData(purchaseOrderData)
+        .subscribe(
+          response => {
+            if(response ==1){
 
-    //  console.log('INSIDE THE IF LOOP')
-   this.orderService.savePurchaseOrderData(purchaseOrderData)
-   .subscribe(
-     response => {
-       console.log(response);
-     },
-     error =>{
-      this.error = error;
-      this.loading = false;
-     },
-     ()=>{
-       this.submitted = false;
-       console.log("Saved");
-       this.purchaseOrderGroup.reset();
-       location.reload();
-     }
-   )
+              Swal.fire({
+                text: 'Purchase Order Request send successfully',
+                icon: 'success'
+              });
+              this.submitted = false;
+              this.purchaseOrderGroup.reset();
+              this.clearFormData();
+              this.loadFormData();
+            }else{
+              Swal.fire('Oops...', `Purchase order send failed `, 'error');
+            }
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+          }, 
+        )
+    }
 
- 
+  
+
+
+
 
   }
 
 
-
-    
-
+  clearFormData(){
+    let arr1 = <FormArray>this.purchaseOrderGroup.controls['credentials'];
+    arr1.clear();
 
   }
-
-
-
+  
 
 
 }

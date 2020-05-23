@@ -66,7 +66,7 @@ function insertSubCat(req ,res ,next) {
     //console.log('Controller');
     //console.log(req.body);
     catService.insertSubCat(req.body)
-    .then(() => res.json({}))
+    .then((sub) => res.json(sub))
     .catch(err => next(err));
 }
 
