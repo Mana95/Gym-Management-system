@@ -18,9 +18,24 @@ router.get('/getByItemName/:id' ,  getByName);
 
 router.delete('/deleteRec/:id', deleteData);
 
+router.put('/updateItem' ,  updateItem);
+
+router.patch('/inactive' ,  inactiveItem);
 
 
+function inactiveItem(req ,res ,next){
+     
+    catService.inactiveItem(req.body)
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
 
+function updateItem(req ,res ,next){
+     
+    catService.updateItem(req.body)
+    .then(item => res.json(item))
+    .catch(err => next(err));
+}
 
 
 function getByName(req,res,next) {

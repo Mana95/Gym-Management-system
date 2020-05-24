@@ -19,11 +19,30 @@ module.exports = {
    insertItData,
    getItemData,
    getItemrelventItems,
-   getByItemName
+   getByItemName,
+   updateItem,
+   inactiveItem
   
 
 };
 
+async function inactiveItem(data) {
+    return await ItemData.updateOne({id: data.id}, {$set: {itemStatus: false }});
+}
+
+
+
+async function updateItem(updateItem) {
+
+
+try{
+    await ItemData.updateOne({"id":updateItem.id},{$set:updateItem});
+    return 1;
+}catch (e){
+    console.log(e)
+}
+
+}
 
 async function getByItemName(itemName) {
     return await ItemData.find({item_name: itemName});
@@ -34,7 +53,7 @@ async function getItemrelventItems(category) {
 }
 
 async function getItemData(){
-    return await ItemData.find({});
+    return await ItemData.find({itemStatus: true});
 }
 
 async function insertItData(data){
@@ -72,12 +91,6 @@ const subCatagoryNameFind = await SubCatagory.findOne({sub_cat_name:data.sub_cat
         await subcat.save();
         return 1;
     }
-
-
-
-
-
-
 
 }
 

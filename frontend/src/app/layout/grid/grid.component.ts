@@ -90,33 +90,36 @@ export class GridComponent implements OnInit {
             credentials: this.formBuilder.array([]),
             TableArray: new FormArray([])
         });
-
-         // Id Gen
-         const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
-         const string_length = 8;
-         let id = 'GRN_' + '';
-         let stockId =''+'';
-         for (let i = 0; i < string_length; i++) {
-           const rnum = Math.floor(Math.random() * chars.length);
-           id += chars.substring(rnum, rnum + 1);
+        this.GeneratID()
          
-         }
-         this.grnGroup.controls['grnId'].setValue(id);
-         for (let i = 0; i < string_length; i++) {
-            const rnum = Math.floor(Math.random() * chars.length);
-            stockId += chars.substring(rnum, rnum + 1);
-          }
-          this.stockId = stockId ;
-          this.orderService.getProgressPo()
-            .subscribe(
-                response => {
-                 //   console.log(response);
-                    this.poId = response;
-                }
-            );
-         this.currentDate = moment().subtract(10, 'days').calendar();
-         this.grnGroup.controls['date'].setValue(this.currentDate);
 
+    }
+    GeneratID(){
+// Id Gen
+const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
+const string_length = 8;
+let id = 'GRN_' + '';
+let stockId =''+'';
+for (let i = 0; i < string_length; i++) {
+  const rnum = Math.floor(Math.random() * chars.length);
+  id += chars.substring(rnum, rnum + 1);
+
+}
+this.grnGroup.controls['grnId'].setValue(id);
+for (let i = 0; i < string_length; i++) {
+   const rnum = Math.floor(Math.random() * chars.length);
+   stockId += chars.substring(rnum, rnum + 1);
+ }
+ this.stockId = stockId ;
+ this.orderService.getProgressPo()
+   .subscribe(
+       response => {
+        //   console.log(response);
+           this.poId = response;
+       }
+   );
+this.currentDate = moment().subtract(10, 'days').calendar();
+this.grnGroup.controls['date'].setValue(this.currentDate);
     }
     createItem() {
         return this.formBuilder.group({
@@ -272,34 +275,36 @@ export class GridComponent implements OnInit {
         };
         console.log(GRNDATA);
         if (this.grnGroup.valid) {
-            
-             
-        //     const saveGRN =  this.orderService.saveGrnValues(GRNDATA);
-        //     const updatePO =  this.orderService.updatepoStatus(this.f.purchaseOrderId.value);
-        //     const updateQty = this.orderService.updatequantity(arrayItems);
-
-        //     //group of data subscribe 
-        //   //  https://levelup.gitconnected.com/handle-multiple-api-requests-in-angular-using-mergemap-and-forkjoin-to-avoid-nested-subscriptions-a20fb5040d0c
-        //     forkJoin([saveGRN , updatePO , updateQty]).subscribe(
-        //         result=>{
-        //             console.log(result[1]);
-        //             this.grnGroup.reset();
-        //             this.loadFormData();
-        //         }
-        //     );
         this.orderService.saveGrnValues(GRNDATA ,this.f.purchaseOrderId.value ,arrayItems)
         .subscribe(
             response=>{
+                console.log(response);
                 if(response==1){
-                    
+                    Swal.fire({
+                        text: 'Good Reacive Note Created successfully',
+                        icon: 'success'
+                      });
+                      this.submitted = false;
+                      this.grnGroup.reset();
+                      this.GeneratID()
+                      this.clearTable();
+                      
+
                 }
             }
         )
 
 
 
+        }else{
+            Swal.fire('Oops...', `Please make sure to fill the fields `, 'error');
         }
     }
+    clearTable(){
+        let arr1 = <FormArray>this.grnGroup.controls['TableArray'];
+        arr1.clear();
+    }
+   
 
 }
 

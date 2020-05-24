@@ -1,0 +1,154 @@
+<!-- <div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Simple modal</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+  
+  <button (click)="passBack()" type="submit" class="btn btn-primary w-100">Pass back</button>
+  </div>
+ -->
+
+
+
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title"><b><i class="fa fa-pencil" aria-hidden="true"></i> Edit Item</b></h4>
+          <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="editItemGroup" (ngSubmit)="onSubmit(fileInput)">
+            <div class="form-group">
+              <div class="group-gap">
+
+                <!-- Upload image -->
+                <div class="avatar-upload">
+                  <div class="avatar-edit">
+                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                      (change)="uploadFile($event)" />
+                  </div>
+                  <div class="avatar-preview">
+                    <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                    </div>
+                  </div>
+                </div>
+                <!-- Submit Button -->
+                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()"><i class="fa fa-upload" aria-hidden="true"></i> Upload
+                  Image</button>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputquantity4">Item Id*</label>
+                <input type="text" class="form-control"formControlName="id" disabled>
+
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Item Type</label>
+                <label for="inputState">State</label>
+      <select id="inputState" class="form-control" formControlName=itemType [value] [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
+        <option *ngFor="let data of ArraySelectOption" [selected]="this.user.itemType==data"  >{{data}}</option>
+     
+      </select>
+                <div *ngIf="submitted && f.itemType.errors" class="invalid-feedback">
+                  <div *ngIf="f.itemType.errors.required">Item Type is required</div>
+                </div>
+              </div>
+             
+            </div>
+
+            <!-- 2nd Row -->
+            <div class="form-row">
+              <div class="form-group col-md-6" (change)="getSubCatValue(data)">
+                <label for="inputPassword4">Main Catagory Name</label>
+                <select class="form-control" #data formControlName=cat_name
+                  [ngClass]="{ 'is-invalid': submitted && f.cat_name.errors }">
+                  <option *ngFor="let data of mainCat" [selected]="this.user.cat_name==data.cat_name" >{{data.cat_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.cat_name.errors" class="invalid-feedback">
+                  <div *ngIf="f.cat_name.errors.required">Main Catagory is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputquantity4">Sub Catagory</label>
+                <select class="form-control" formControlName="sub_cat"
+                  [ngClass]="{ 'is-invalid': submitted && f.sub_cat.errors }">
+                  <option *ngFor="let data of subcat"  [selected]="this.user.sub_cat==data.sub_cat_name" >{{data.sub_cat_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.sub_cat.errors" class="invalid-feedback">
+                  <div *ngIf="f.sub_cat.errors.required">Item ID is required</div>
+                </div>
+              </div>
+            
+              <div class="form-group col-md-12">
+                <label for="inputPassword4">Item Name</label>
+                <input type="text" class="form-control" formControlName="item_name" placeholder="Item Name"
+                  [ngClass]="{ 'is-invalid': submitted && f.item_name.errors }">
+
+                <div *ngIf="submitted && f.item_name.errors" class="invalid-feedback">
+                  <div *ngIf="f.item_name.errors.required">Main Catagory is required</div>
+                </div>
+              </div>
+            </div>
+           
+            <div class="form-row">
+             <div class="form-group col-md-12">
+                <label for="quantity">Importered Country</label>
+                <input id="typeahead-format" placeholder="Sri lanka" formControlName="importCountry" type="text"  [ngClass]="{ 'is-invalid': submitted && f.importCountry.errors }" class="form-control"  [ngbTypeahead]="search" [resultFormatter]="formatter" />
+                <div *ngIf="submitted && f.importCountry.errors" class="invalid-feedback">
+                  <div *ngIf="f.importCountry.errors.required">Importered Country is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="quantity">Selling Price</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><b>Rs:</b></div>
+                  </div>
+                  <input type="text" class="form-control" appTwoDigitDecimaNumber  id="inlineFormInputGroup"  placeholder="00.00" formControlName="selling_price"
+                   [ngClass]="{ 'is-invalid': submitted && f.selling_price.errors }">
+                
+               
+                <div *ngIf="submitted && f.selling_price.errors" class="invalid-feedback">
+                  <div *ngIf="f.selling_price.errors.required">Selling Price is required</div>
+                </div>
+              </div>
+              </div> 
+              
+              <!-- <div class="form-group col-md-6">
+                <label for="inputPassword4">Expire Date</label>
+                <input type="date" class="form-control" formControlName="expDate" placeholder="Manifactured Date"
+                [ngClass]="{ 'is-invalid': submitted && f.expDate.errors }">
+                <div *ngIf="submitted && f.expDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.expDate.errors.required">Exp Date is required</div>
+                </div>
+
+
+              </div>    -->
+            </div>
+
+
+
+
+
+
+
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="exampleForsubControlTextarea1">Description</label>
+                <textarea class="form-control" placeholder="Description" formControlName="description"
+                  rows="3"></textarea>
+
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary"> Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+          </form>
+        </div>

@@ -40,11 +40,16 @@ const schema = new Schema({
         type: String,
 
     },
-
+    selling_price:{
+        type: Number,
+    },
     createdDate: {
         type: Date,
         default: Date.now
 
+    },
+    itemStatus:{
+        type:Boolean,
     },
     quantity: {
         type: Number,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { config } from '../config/config.js';
 import { map } from 'rxjs/operators';
+import { item } from '../_models/item.js';
 
 @Injectable({
   providedIn: 'root'
@@ -60,10 +61,16 @@ export class CatagoryService {
    }
 
   insertMainCat(catData) {
-console.log(catData);
 
 return this.http.post<any>(config.PAPYRUS + `/catagory/insertCat`, catData);
 
+  }
+  updateItem(updateData){
+    return this.http.put<any>(config.PAPYRUS + `/catagory/updateItem`, updateData);
+  }
+
+  inActiveItem(data) {
+    return this.http.patch<any>(config.PAPYRUS + `/catagory/inactive`, data);
   }
 
 }

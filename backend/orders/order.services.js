@@ -32,7 +32,9 @@ async function saveCartData(data) {
 }
 
 async function getCartItems() {
-    return await ItemData.find({ itemType: "Cart Items" });
+
+    //Only load not null values 😄
+    return await ItemData.find({ "itemType": "Cart Items" , "selling_price" :{$ne : null}});
 }
 
 async function routeIdData(data) {
@@ -78,13 +80,15 @@ async function SaveDataGrn(data) {
     const itemData = data.ItemData;
     const updatePOID = data.updateStatus;
 
-   
+   const grnSave = new GRN(grnData) 
     //update Field QTY
     var qtyArray = grnData.ItemGrnTable;
     // console.log(qtyArray[0]);
-   
-    await PurchaseOrder.updateOne({purchaseOrderId:grnData.purchaseOrderId},  { $set:{"status":"Completed"}} );
 
+    if(await grnSave.save()){
+       // console.log('save wenwa GRN')
+    await PurchaseOrder.updateOne({purchaseOrderId:grnData.purchaseOrderId},  { $set:{"status":"Completed"}} );
+   // console.log('PO UDPATED')
     qtyArray.forEach((itemData, index) => {
         let stock = {
             stockId: itemData.stockId,
@@ -114,8 +118,10 @@ async function SaveDataGrn(data) {
                            
                        }
                    });
-                   return 1;
+                   
     });
+    return 1;
+}
     //Adding Stock
 
     // var stock = {

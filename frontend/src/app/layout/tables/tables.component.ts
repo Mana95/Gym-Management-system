@@ -1,3 +1,4 @@
+import { EditItemComponent } from './edit-item/edit-item.component';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -9,6 +10,8 @@ import { distinct, debounceTime, distinctUntilChanged, map } from 'rxjs/operator
 import { NgxPopoverImageModule } from 'ngx-popover-image';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/_models';
+
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-tables',
@@ -22,6 +25,7 @@ export class TablesComponent implements OnInit {
   itemData: any;
   closeResult: string;
   itemGroup: FormGroup;
+  editItemGroup:FormGroup;
   submitted = false;
   loading = false;
   mainCat: any;
@@ -41,7 +45,7 @@ export class TablesComponent implements OnInit {
     'Bonaire, Sint Eustatius and Saba', 'Bosnia and Herzegovina',
 
   ];
-  ArraySelectOption = ['Equipment', 'Cart Items'];
+  ArraySelectOption = ['Equipment', 'Nutritions'];
 
   constructor(
     private modalService: NgbModal,
@@ -63,6 +67,7 @@ export class TablesComponent implements OnInit {
   formatter = (result: string) => result.toUpperCase();
 
   ngOnInit() {
+    this.imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
     this.loadData();
   }
 
@@ -92,17 +97,7 @@ export class TablesComponent implements OnInit {
       importCountry: ['', Validators.required],
     });
 
-    // const qty = this.itemGroup.get('quantity');
-    // const sellingPrice = this.itemGroup.get('selling_price');
-    // const buying_price = this.itemGroup.get('buying_price');
-
-    // qty.valueChanges
-    //   .pipe(distinct())
-    //   .subscribe(value => qty.setValue(+value || 0));
-    // ``
-    // sellingPrice.valueChanges
-    //   .pipe(distinct())
-    //   .subscribe(value => sellingPrice.setValue(+value || 0));
+   
     this.catagoryService.getItemDetials()
       .subscribe(
         data => {
@@ -158,7 +153,7 @@ export class TablesComponent implements OnInit {
     this.submitted = true;
     this.loading = true;
     if (this.itemGroup.valid) {
-      // const selValue = this.f.selling_price.value.toFixed(2);
+      
       const itemData = {
         id: this.f.id.value,
         cat_name: this.f.cat_name.value,
@@ -168,13 +163,19 @@ export class TablesComponent implements OnInit {
         Importered_Country: this.f.importCountry.value,
         image: this.imageUrl,
         itemCreatedName: this.currentUserSubject.value.user_id,
-        itemType: this.f.itemType.value
+        itemType: this.f.itemType.value,
+        itemStatus:true
        
       };
       this.catagoryService.insertItemData(itemData)
         .subscribe(
           res => {
             console.log(res);
+
+            Swal.fire({
+              text: 'Item Update successfully',
+              icon: 'success'
+            });
           },
           error => {
             this.error = error;
@@ -228,6 +229,75 @@ export class TablesComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+//open the edit model😍
+  openEditModel(rowData){
+    
+   
+    const modelRef = this.modalService.open(EditItemComponent);
+
+    modelRef.componentInstance.user = rowData;
+    modelRef.result.then((result) => {
+      if (result) {
+        this.loadData();
+      }
+      });
+
+ 
+
+  }
+
+  onEditSubmit(data){
+      this.submitted = true;
+      if(this.editItemGroup.valid){
+
+      }else{
+        Swal.fire('Oops...', `Please fill the form properly`, 'error');
+      }
+  }
+
+  //in Active I😄tem 
+  inActiveItem(data){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success'
+      )
+      this.catagoryService.inActiveItem(data)
+      .subscribe(
+        result=>{
+          console.log(result);
+          if(result.ok==1){
+           
+            this.loadData();
+          }else{
+  
+          }
+        }
+      )
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+     
+      }
+    })
+
+
+
+
+
+
+
+    
+
   }
 
 }

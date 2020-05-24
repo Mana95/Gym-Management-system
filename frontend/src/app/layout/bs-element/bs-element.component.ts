@@ -369,6 +369,10 @@ export class BsElementComponent implements OnInit {
             this.loading = false;
           }, 
         )
+    }else{
+      
+        Swal.fire('Oops...', `Please make sure to fill the fields `, 'error');
+    
     }
 
   

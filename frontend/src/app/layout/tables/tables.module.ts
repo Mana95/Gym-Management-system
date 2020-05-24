@@ -11,6 +11,7 @@ import { TablesRoutingModule } from './tables-routing.module';
 import { TablesComponent } from './tables.component';
 import { PageHeaderModule } from './../../shared';
 import { NgxPopoverImageModule } from 'ngx-popover-image';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { NgxPopoverImageModule } from 'ngx-popover-image';
               ReactiveFormsModule , SharedModule, FormModule , NgbModule ,
                NgxPopoverImageModule
     ],
-    declarations: [TablesComponent]
-})
+    declarations: [TablesComponent ,EditItemComponent],
+    entryComponents: [EditItemComponent]
+}) 
 export class TablesModule {}
