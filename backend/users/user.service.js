@@ -396,7 +396,7 @@ async function ResetPassword(values) {
   const user = await User.findOne({
     email: values.email,
   });
-  console.log(user);
+  //console.log(user);
 
   var resettoken = new passwordResetToken({
     _userId: user._id,
@@ -416,7 +416,7 @@ async function ResetPassword(values) {
         secure: false, // true for 465, false for other ports
         auth: {
           user: "manaalex3@gmail.com",
-        pass: 'traffic(*&p123',
+        pass: 'QAZ(*&jker":',
         },
         tls: {
             rejectUnauthorized: false
@@ -465,6 +465,7 @@ async function getSuppliers() {
 
 async function supRegister(data) {
 console.log('HI');
+const emailData = data.mailData
   //define the variable
   const userData = data.UserData;
   const supplierData = data.sup_data;
@@ -492,7 +493,7 @@ console.log('HI');
     function(error, res){
      
       if(res!==null){
-        supplierArray.push('Nic Number');
+        supplierArray.cdbacakpush('Nic Number');
       }
     });
 
@@ -500,7 +501,33 @@ console.log('HI');
       user.hash = bcrypt.hashSync(userData.password, 10);
       await supplier.save();
       await user.save();
+        var transporter = nodemailer.createTransport({
+          service: "Gmail",
+          port: 465,
+          auth: {
+            user: "manaalex3@gmail.com",
+            pass: 'QAZ(*&jker":',
+          },
+        });
+        var mailOptions = {
+          to: emailData.mail,
+          from: "your email",
+          subject: "Gym Managment System UserName and Password",
+          text:
+            `Hey ,<br/>
+                Here is your username and password for login as a supplier<br/>
+                username:` +
+                userData.mail +
+            `<br/>
+                password:` +
+                userData.password +
+            `<br/>
+                Thank You<br/>
+                Admin Panel`,
+        };
+        transporter.sendMail(mailOptions, (err, info) => {});
       return 1;
+      
     }else if(supplierArray.length ==1){
     return(supplierArray);
    }

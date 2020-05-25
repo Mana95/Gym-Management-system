@@ -19,7 +19,7 @@ export class AddToCartComponent implements OnInit {
   viewCartForm: FormGroup
   cartData: any;
   totalValue = 0;
-
+  cartId: any;
 
   constructor(
     private orderService: OrderService,
@@ -35,6 +35,20 @@ export class AddToCartComponent implements OnInit {
   }
 
   ngOnInit() {
+     //Id Gen
+ var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890"
+ var string_length = 8;
+ var id = 'C_' + '';
+ for (var i = 0; i < string_length; i++) {
+   var rnum = Math.floor(Math.random() * chars.length);
+   id += chars.substring(rnum, rnum + 1);
+  }
+  this.cartId = id;
+
+
+
+
+
     this.loadDataCart();
     console.log('dsa');
 
@@ -111,16 +125,24 @@ export class AddToCartComponent implements OnInit {
     console.log(this.cartData);
     let cartData = {
         cartTotal :this.totalValue,
-        CartValues : this.cartData
+        CartValues : this.cartData,
+        cartId:this.cartId
     }
-
+    if(cartData.cartTotal!=undefined && cartData.CartValues !=undefined && cartData.cartId !=undefined){
   //  const saveData = this.orderService.saveCartData(cartData);
+  console.log('hi')
   this.orderService.saveCartData(cartData)
   .subscribe(
     reponse=>{
-      
+
+      if(reponse==1){
+
+      }
     }
   )
+    }
+
+
 
   }
 }

@@ -10,6 +10,9 @@ const schema = new Schema({
         default: Date.now
 
     },
+    cartId:{
+        type:String
+    },
     CartValues: [
         {
             id: {

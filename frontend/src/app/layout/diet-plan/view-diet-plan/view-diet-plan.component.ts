@@ -1,6 +1,7 @@
+import { DietIntervalsComponent } from './diet-intervals/diet-intervals.component';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,7 +10,20 @@ import {diet} from 'src/app/_models/diet';
 @Component({
   selector: 'app-view-diet-plan',
   templateUrl: './view-diet-plan.component.html',
-  styleUrls: ['./view-diet-plan.component.scss']
+  styleUrls: ['./view-diet-plan.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  styles: [`
+    .dark-modal .modal-content {
+      background-color: #292b2c;
+      color: white;
+    }
+    .dark-modal .close {
+      color: white;
+    }
+    .light-blue-backdrop {
+      background-color: #5cb3fd;
+    }
+  `]
 })
 export class ViewDietPlanComponent implements OnInit {
   DietMealName: string;
@@ -51,5 +65,16 @@ export class ViewDietPlanComponent implements OnInit {
   popUpModel(data){
       console.log(data);
   }
+  openModel(data){
 
+    const modelRef = this.modalService.open(DietIntervalsComponent);
+
+    modelRef.componentInstance.user = data;
+    modelRef.result.then((result) => {
+      if (result) {
+      //  this.loadData();
+      }
+      });
+
+  }
 }

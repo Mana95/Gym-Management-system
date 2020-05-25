@@ -48,7 +48,7 @@
                 <tbody>
                   <tr *ngFor = "let data of dietPlanDetails.intervalNames">
 
-                    <td><a [routerLink]="">{{data.intervalName}}</a></td>
+                    <td><a (click)="openModel(data)">{{data.intervalName}}</a></td>
                     <td>{{data.intervalItemArray.length}} Records</td>
                   </tr>
                 

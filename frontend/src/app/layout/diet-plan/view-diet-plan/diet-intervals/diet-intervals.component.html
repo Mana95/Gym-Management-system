@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"><i class="fa fa-cutlery" aria-hidden="true"></i> {{user.intervalName}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+  <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Food Item Name</th>       
+          <th scope="col">Quantity</th>
+          <th scope="col">Mearurment Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let data of user.intervalItemArray">
+
+          <td>{{data.foodItemName}}</td>
+          <td>{{data.quantity}}</td>
+          <td>{{data?.mearurmentUnit}}</td>
+        </tr>
+      
+      </tbody>
+    </table>
+ 
+  </div>

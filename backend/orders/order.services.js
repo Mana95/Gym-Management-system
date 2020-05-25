@@ -26,9 +26,34 @@ module.exports = {
 };
 
 async function saveCartData(data) {
-    const cart = new Cart(data);
+ const cart = new Cart(data);
     //console.log(itemData);
     await cart.save();
+
+    const ttemData = data.CartValues;
+    if(ttemData != undefined && ttemData.length>=0){
+       
+
+        const qtyCheck = await ItemData.find({_id:data.id}, { qty: { $gt: data.qty } })
+
+
+        
+
+        ttemData.forEach((data, index)=>{
+            console.log(data.itemName)
+            ItemData.updateOne(
+                {_id:data.id},
+                {
+                    $inc:{quantity: -data.qty}
+                   },  {new: true } , function (err, responses) {
+                       if (err) {
+                           console.log(err);
+                       }else{
+                           console.log(responses)
+                       }
+                   });
+        })
+    }
 }
 
 async function getCartItems() {
