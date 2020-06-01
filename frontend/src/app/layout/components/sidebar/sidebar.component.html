@@ -30,7 +30,7 @@
                             <span>{{ 'Suppliers' | translate }}</span>
                         </a>
                     </li>
-                   
+
                     <li>
                         <a href="javascript:void(0)" [routerLink]="['/instructor-view']" [routerLinkActive]="['router-link-active']" >
                             <i class="fa fa-user-secret"></i>&nbsp;
@@ -61,7 +61,7 @@
     </a>
     <li class="nested" [class.expand]="addMembership === 'pages'">
         <ul class="submenu">
-            <li>
+            <li *ngIf="isMembership">
                 <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
                     <i class="fa fa-handshake-o"></i>
                     <span>{{ 'Get Membership' | translate }}</span>
@@ -91,10 +91,10 @@
     </a>
     <li class="nested" [class.expand]="showSchdulerMenu === 'pages'">
         <ul class="submenu">
-            <li>
-                <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "OnlyMembership" >
+            <li *ngIf = "OnlyMembership">
+                <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
                     <i class="fa fa-calendar-o"></i>&nbsp;
-                    <span>{{ 'Schedule' | translate }}</span>
+                    <span>{{ 'My Schedule' | translate }}</span>
                 </a>
             </li>
             <li>
@@ -122,7 +122,7 @@
             <li class="nested" [class.expand]="exercise === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "OnlyMembership" >
+                        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
                             <i class="fa fa-calendar-o"></i>&nbsp;
                             <span>{{ 'View Exercise' | translate }}</span>
                         </a>
@@ -204,6 +204,12 @@
                         <a href="javascript:void(0)" [routerLink]="['/reqPurchaseOrder']" [routerLinkActive]="['router-link-active']" *ngIf ="category"  >
                             <i class="fa fa-users"></i>&nbsp;
                             <span>{{ 'PO Requests' | translate }}</span>
+                        </a>
+                    </li>  
+                    <li>
+                        <a href="javascript:void(0)" [routerLink]="['/allPO']" [routerLinkActive]="['router-link-active']" *ngIf ="category"  >
+                            <i class="fa fa-users"></i>&nbsp;
+                            <span>{{ 'All PO' | translate }}</span>
                         </a>
                     </li>  
                 </ul>

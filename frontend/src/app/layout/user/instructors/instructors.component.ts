@@ -136,7 +136,6 @@ public uploader: FileUploader = new FileUploader({
     var dayText = 0;
     var year = "";
     var month = "";
-  
     var gender = "";
   
       // Year
@@ -467,7 +466,5 @@ if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/defaul
     
 
   }
-
-
 
 }

@@ -33,7 +33,7 @@ export class DietPlanComponent implements OnInit {
   )
 {
   this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-  this.currentUser = this.currentUserSubject.asObservable();
+  this.currentUser = this.currentUserSubject.asObservable(); 
 }
   ngOnInit(){
     this.id =  this.currentUserSubject.value.user_id;
@@ -46,6 +46,7 @@ export class DietPlanComponent implements OnInit {
     this.scheduleService.getDietMyPlanID(this.id ,  this.role)
     .subscribe(
       response=>{
+        console.log('hi');
         console.log(response);
         // this.dietPlanView = response.intervalNames; 
       }

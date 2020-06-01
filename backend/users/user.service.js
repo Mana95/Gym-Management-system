@@ -291,7 +291,7 @@ async function instructorSave(data) {
 //    //finding relevent data
    await User.findOne({ email: userData.email },
     function(error, res){
-      if(res!==null){
+      if(res!=null){
        
         errorArray.push('email');
       }
@@ -301,7 +301,7 @@ async function instructorSave(data) {
    // return errorArray;
    await User.findOne({ username: userData.username },
     function(error, res){
-      if(res!==null){
+      if(res!=null){
     
         errorArray.push('username');
       }
@@ -635,23 +635,40 @@ async function getGroups() {
   return await Groups.find({});
 }
 async function EmployeeCreation(data) {
-  console.log("empoyee");
+  
   // console.log(data)
-  const employee = new Employee(data);
-  const userName = await Employee.findOne({ username: data.username });
-  const userEmail = await Employee.findOne({ email: data.email });
+  let errorArray =[];
+  errorArray.length =0;
 
-  if (userEmail) {
-    return 5;
-  } else if (userName) {
-    return 3;
-  } else {
-    if (data.password) {
-      employee.hash = bcrypt.hashSync(data.password, 10);
+  const employee = new Employee(data.UserCreationParam);
+  const user = new User(data.UserData);
+
+  await User.findOne({ email: data.UserData.email },function(error , res){
+    if(res!=null){
+      errorArray.push('email');
     }
-    await employee.save();
-    return 1;
+  });
+
+ await User.findOne({ nicNumber: data.UserData.nicNumber },function(error , res){
+  if(res!=null){
+    errorArray.push('Nic Number');
   }
+});
+//return phoe number
+await User.findOne({phonenumber: data.UserCreationParam.phonenumber},function(error , res){
+  if(res!=null){
+    errorArray.push('Phone Number')
+  }
+})
+
+if(errorArray.length == 0){
+  user.hash = bcrypt.hashSync(data.UserData.password, 10);
+  await user.save();
+  await employee.save();
+  return 1;
+}else{
+  return (errorArray);
+}
 }
 
 
@@ -674,7 +691,7 @@ async function signUpUser(data) {
   console.log(data.username);
   if (await User.findOne({ username: data.username })) {
     // throw 'User name is already existent';
-    console.log("HI");
+   console.log('Hello world');
     let message = 3;
     return message;
   }

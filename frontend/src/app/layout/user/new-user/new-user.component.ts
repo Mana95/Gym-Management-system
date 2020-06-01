@@ -14,6 +14,7 @@ import { switchMap, map, catchError, flatMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-new-user',
 
@@ -279,9 +280,6 @@ else if (dayText > 31) {
    this.day = dayText - 31;
     month = "Febuary";
 }
-      //show Details;
-      //console.log(gender);
-     // console.log(year+ "-" + month + "-" + this.day);
       if(this.f.age.valid){
         this.dateFieldValid = true;
       }else {
@@ -290,8 +288,6 @@ else if (dayText > 31) {
       let birthday = year+ "-" + month + "-" + this.day
       this.userRegisterFrom.controls['birth'].setValue(birthday);
       this.userRegisterFrom.controls['gender'].setValue(gender);
-
-
 }
   
 }
@@ -310,9 +306,14 @@ else if (dayText > 31) {
       role: "User",
       email: this.f.email.value,
       active: true,
-      password: this.f.password.value
+      password: this.f.password.value,
+      nicNumber:this.f.age.value
+
     };
-    //Insertion of Employee
+  
+    //When for validation save data
+      if(this.userRegisterFrom.valid &&  this.imageUrl != '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'){
+        //Insertion of Employee
     let UserCreationParam = {
       id: this.f.id.value,
       image: this.newImage.name,
@@ -333,51 +334,37 @@ else if (dayText > 31) {
       gender:this.f.gender.value,
       date: this.CurrentDate
     }
+     
+ this.authenticationService.EmployeeCreate(UserCreationParam , UserData)
+ .subscribe(
+   result=>{
+      if(result !=undefined && result ==1){
+        Swal.fire({
+          text: 'Employee Registered and email send success',
+          icon: 'success'
+        });
+        this.submitted = false;
+        this.userRegisterFrom.reset();
+        this.loadData();
 
-    //When for validation save data
-      if(!this.userRegisterFrom.valid){
-      // this.uploadImage(formData, this.f.id.value).subscribe(
-      //   (res) => {
-       
-      //     forkJoin(
-      //       this.authenticationService.userCreationPub(UserData),
-      //       this.authenticationService.EmployeeCreate(UserCreationParam)
-      //     ).subscribe(
-      //       res=>{
-      //         //this.router.navigate(['/newUser']);
-      //         this.funcA(res[0] ,content ,contentDone);
-              
-      //       },
-      //       error=>{
-      //         console.log(error);
-      //        // this.userRegisterFrom.reset();
-      //       },
-      //       ()=>{
-      //         this.submitted = false;
-      //        // this.userRegisterFrom.reset();
-      //        // this.loadData();
+      }else if(result.length==1){
 
-      //       }
-      //     )
-          
-      //     },
-      // );
-      this.uploadImage(formData, this.f.id.value)
-      .subscribe(
-        res=>{
-          console.log(res);
-        },
-        error=>{
-console.log(error);
-        },
-        ()=>{
-          console.log('DONE')
-        }
-      )
-    }   
+        Swal.fire('Oops...', `${result[0]} already inserted`, 'error')
+      }else if(result.length==2){
+
+        Swal.fire('Oops...', `${result[0]} and ${result[1]} already inserted`, 'error')
+      }else if(result.length==3){
+
+        Swal.fire('Oops...', `${result[0]},${result[1]} and ${result[2]} already inserted`, 'error')
+      }
+   }
+ )
+    } else{
+     
+      Swal.fire('Oops...', `Please Employee fill the form properly`, 'error')
+    }
 
   }
-
   //response function for the API
   funcA(response1  ,content ,contentDone){
       if(response1 == UserRegistrationStatus.DUPLICATEEMAIL){

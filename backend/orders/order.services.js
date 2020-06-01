@@ -26,34 +26,68 @@ module.exports = {
 };
 
 async function saveCartData(data) {
- const cart = new Cart(data);
-    //console.log(itemData);
-    await cart.save();
 
-    const ttemData = data.CartValues;
-    if(ttemData != undefined && ttemData.length>=0){
+   
+const cartValue = data.CartValues;
+
+
+        cartValue.forEach((cart , index)=>{
+            let itemId = cart.itemId;
+         //   ItemData.findOne({id:itemId , stock :{ $elemMatch:{ itemId: }} });
+
+
+//             console.log(itemId)
+//   ItemData.find({}, {id:itemId , stockItem:{$elemMatch: {
+//     itemId:itemId
+//   }}},function(error , result){
+//        console.log(error)
+//    })
+//    const value =  ItemData.find().sort({_id :-1}).limit(1);
+//    console.log(value)
+
+//             ItemData.updateOne({id:itemId  ,stockItem })
+
+          
+
+
+
+
+
+
+        })
+    
+
+//     const cart = new Cart(data);
+//   const findItem = await ItemData.find({id: data.})
+
+
+
+
+
+
+//     //console.log(itemData);
+//     await cart.save();
+
+//     const ttemData = data.CartValues;
+//     if(ttemData != undefined && ttemData.length>=0){
        
 
-        const qtyCheck = await ItemData.find({_id:data.id}, { qty: { $gt: data.qty } })
-
-
-        
-
-        ttemData.forEach((data, index)=>{
-            console.log(data.itemName)
-            ItemData.updateOne(
-                {_id:data.id},
-                {
-                    $inc:{quantity: -data.qty}
-                   },  {new: true } , function (err, responses) {
-                       if (err) {
-                           console.log(err);
-                       }else{
-                           console.log(responses)
-                       }
-                   });
-        })
-    }
+//         const qtyCheck = await ItemData.find({_id:data.id}, { qty: { $gt: data.qty } })
+//         ttemData.forEach((data, index)=>{
+//             console.log(data.itemName)
+//             ItemData.updateOne(
+//                 {_id:data.id},
+//                 {
+//                     $inc:{quantity: -data.qty}
+//                    },  {new: true } , function (err, responses) {
+//                        if (err) {
+//                            console.log(err);
+//                        }else{
+//                            console.log(responses)
+//                        }
+//                    });
+//         })
+//     }
 }
 
 async function getCartItems() {
@@ -104,7 +138,7 @@ async function SaveDataGrn(data) {
     const grnData = data.grnData;
     const itemData = data.ItemData;
     const updatePOID = data.updateStatus;
-
+  
    const grnSave = new GRN(grnData) 
     //update Field QTY
     var qtyArray = grnData.ItemGrnTable;
@@ -126,10 +160,26 @@ async function SaveDataGrn(data) {
             grnId: itemData.purchaseOrderId,
         };
 
+    const qty =itemData.qty;
+            for(var x =0; x<qty ; x++){
+                let stockItem = {
+                    itemId:itemData.itemId,
+                    stockId:itemData.stockId
+                }
+                ItemData.updateOne(
+                    { id: itemData.itemId },
+                    { $push: { stockItem: { $each: [stockItem] } } },
+                    function (error, response) {
+                        if(error)
+                     console.log(error);
+                    }
+                );
+            }
         ItemData.updateOne(
             { id: itemData.itemId },
             { $push: { stock: { $each: [stock] } } },
             function (error, response) {
+                if(error)
                 console.log(error);
             }
         );
@@ -145,16 +195,11 @@ async function SaveDataGrn(data) {
                    });
                    
     });
-    return 1;
+ 
 }
-    //Adding Stock
 
-    // var stock = {
-    //     id:this.stockId,
-    // }
+return 1;
 
-    //console.log(itemData);
-    // await grn.save();
 }
 
 async function getSupplierById(id) {

@@ -1,4 +1,5 @@
-import { AbstractControl } from '@angular/forms';
+
+import { AbstractControl, Validators } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-sale-order-item-view',
   templateUrl: './sale-order-item-view.component.html',
@@ -40,7 +42,8 @@ export class SaleOrderItemViewComponent implements OnInit {
     this.viewCartForm = this.formBuilder.group({
        id: [''],
        itemName:[''],
-       qty:[''],
+       itemId:[''],
+       qty:['' , Validators.required],
        sellingPrice:[''],
        mainCategory:[''],
        totalPrice:[''],
@@ -63,6 +66,7 @@ export class SaleOrderItemViewComponent implements OnInit {
         console.log(data);
         this.itemCartData = data;
         this.viewCartForm.controls['id'].setValue(id);
+        this.viewCartForm.controls['itemId'].setValue(data[0].id);
         this.viewCartForm.controls['itemName'].setValue(data[0].item_name);
         this.viewCartForm.controls['sellingPrice'].setValue(data[0].selling_price);
         this.viewCartForm.controls['avlableQty'].setValue(data[0].quantity);
@@ -111,21 +115,34 @@ routePage() {
 }
 
   onSubmit() {
-console.log(this.itemCart.image.value);
+//console.log(this.itemCart.image.value);
 
-    this.submitted = true;
-      let itemCartData = {
-        id: this.itemCart.id.value,
-        itemName:this.itemCart.itemName.value,
-        qty:this.itemCart.qty.value,
-        image:this.itemCart.image.value,
-        sellingPrice:this.itemCart.sellingPrice.value,
-        mainCategory:this.itemCart.mainCategory.value,
-        totalPrice:this.itemCart.totalPrice.value,
-        avlableQty:this.itemCart.avlableQty.value,
-      }
 
-      this.orderService.insertItemCart(itemCartData)
+
+
+if(this.viewCartForm.valid){
+  this.submitted = true;
+  let itemCartData = {
+    id: this.itemCart.id.value,
+    itemId:this.itemCart.itemId.value,
+    itemName:this.itemCart.itemName.value,
+    qty:this.itemCart.qty.value,
+    image:this.itemCart.image.value,
+    sellingPrice:this.itemCart.sellingPrice.value,
+    mainCategory:this.itemCart.mainCategory.value,
+    totalPrice:this.itemCart.totalPrice.value,
+    avlableQty:this.itemCart.avlableQty.value,
+  }
+
+  this.orderService.insertItemCart(itemCartData);
+  Swal.fire({
+    text: `${itemCartData.itemName} Added to Paying table`,
+    icon: 'success'
+  });
+}else{
+  Swal.fire('Oops...', `Please insert Quantity value for ${this.itemCart.itemName.value}`, 'error')
+}
+   
       //console.log(itemCartData);
   }
 }

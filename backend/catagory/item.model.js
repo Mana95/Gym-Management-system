@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
+
+
+
+
+const stockItemSchema = new Schema({
+    itemId:{
+        type:String,
+       
+    },
+    stockId:{
+        type:String,
+       
+    }
+})
 const schema = new Schema({
 
     id: {
@@ -93,10 +108,12 @@ const schema = new Schema({
         grnId:{
             type: String
         }
-    }]
+    }],
+
+    stockItem:[stockItemSchema]
 
 });
 
-schema.set('toJSON', { virtuals: true });
-
+schema.set('toJSON', { virtuals: true,timestamp:true });
+stockItemSchema.plugin(AutoIncrement, {inc_field: 'ISID'});
 module.exports = mongoose.model('ItemData', schema);

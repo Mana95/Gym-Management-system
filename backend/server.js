@@ -61,10 +61,15 @@ var upload = multer({ //multer settings
 
 // schedule tasks to be run on the server   
 cron.schedule("* * * * *", function () {
-    var today = new Date();   
-    Membership.updateMany({"endDate":{$lt:today}}, { $set:{"status":"false"}});
+    var today = new Date();  
+    
+    Membership.updateMany({"endDate":{$lt:today}}, { $set:{"status":"false"}},function(error , result){
+    
+    });
 
-    User.updateMany({"endDate":{$lt:today}}, { $set:{"membershipStatus":false}});
+    User.updateMany({"endDate":{$lt:today}}, { $set:{"membershipStatus":false}},function(error , result){
+      
+    });
     
 });
 

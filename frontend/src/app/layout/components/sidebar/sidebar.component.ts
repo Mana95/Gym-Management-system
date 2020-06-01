@@ -107,9 +107,6 @@ export class SidebarComponent implements OnInit {
     get OnlyMembership() {
         if(this.currentUser.role === Role.Membership){
             return this.currentUser && this.currentUser.role === Role.Membership 
-        } else if(this.currentUser.role === Role.Admin){
-
-            return this.currentUser && this.currentUser.role === Role.Admin;
         }
     }
     
@@ -298,4 +295,11 @@ get PurchaseOrder(){
     onLoggedout() {
         localStorage.removeItem('isLoggedin');
     }
+
+   get isMembership(){
+    if(this.currentUser.role === Role.Membership){
+        return this.currentUser && this.currentUser.role === Role.Membership 
+    }
+    }
+
 }

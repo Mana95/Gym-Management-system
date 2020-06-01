@@ -56,10 +56,6 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    hash: {
-        type: String,
-        required: true
-    },
     date: {
         type: String,
         required: true 

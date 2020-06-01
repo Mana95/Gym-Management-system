@@ -40,7 +40,7 @@ const routes: Routes = [
             { path: 'checkout', loadChildren: () => import('./salesorder/checkout/checkout.module').then(m => m.CheckoutModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.Membership , Role.Instructor] } },        
         
             
-            { path: 'salesorder', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
+            { path: 'allPO', loadChildren: () => import('./salesorder/salesorder.module').then(m => m.SalesorderModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(m => m.BsElementModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Supplier] } },
             { path: 'newUser', loadChildren: () => import('./user/new-user/new-user.module').then(m => m.NewUserModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] }  },
              { path: 'userNewRole', loadChildren: () => import('./user/user-role/user-new-role/user-new-role.module').then(m => m.UserNewRoleModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
