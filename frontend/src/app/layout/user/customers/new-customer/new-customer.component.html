@@ -181,7 +181,7 @@
                       <b>m</b>
                     </div>
                   </div>
-                  <input type="text" class="form-control" (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
+                  <input type="text" class="form-control"  appTwoDigitDecimaNumber (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
                     formControlName="Height" placeholder="Height" [ngClass]="{
                                             'is-invalid':
                                                 submitted && f.Height.errors
@@ -201,7 +201,7 @@
                       <b>Kg</b>
                     </div>
                   </div>
-                  <input type="text" class="form-control" (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
+                  <input type="text" class="form-control" appTwoDigitDecimaNumber (keyup)="bmiCalculator(this)" appTwoDigitDecimaNumber
                     formControlName="Weight" placeholder="Weight" [ngClass]="{
                                             'is-invalid':
                                                 submitted && f.Weight.errors

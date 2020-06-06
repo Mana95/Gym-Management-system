@@ -55,6 +55,7 @@ router.get('/responseAllInstructorData', responseAllInstructorData);
 router.get('/getAllMembership' , getAllMembership);
 router.get('/userById/:id', getById);
 router.get('/loadProfileData/:id' , loadProfileData);
+router.get('/getReleventType/:type' , getReleventType);
 
 
 
@@ -67,17 +68,17 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
-function getAllMembership(req ,res ,next){
-    
+function getReleventType(req ,res , next){
+    userService.getReleventType(req.params.type)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
 
+function getAllMembership(req ,res ,next){
     userService.getAllMembership()
     .then((data) => res.json(data))
     .catch(err => next(err));
 }
-
-
-
-
 
  function checkNIC(req ,res ,next){
     const numberId = req.body;

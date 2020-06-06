@@ -33,7 +33,7 @@ const routes: Routes = [
            
             { path: 'instructor-view', loadChildren: () => import('./user/instructors/instructors-view/instructors-view.module').then(m => m.InstructorsViewModule), canActivate: [AuthGuard]},
         
-            
+                  
             { path: 'sales_order_cart', loadChildren: () => import('./salesorder/sales-order-cart/sales-order-cart.module').then(m => m.SalesOrderCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'ItemCartView/:id', loadChildren: () => import('./salesorder/sale-order-item-view/sale-order-item-view.module').then(m => m.SaleOrderItemViewModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
             { path: 'addToCart', loadChildren: () => import('./salesorder/add-to-cart/add-to-cart.module').then(m => m.AddToCartModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User , Role.Customer] } },        
@@ -85,7 +85,17 @@ const routes: Routes = [
               { path: 'stores', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },
               { path: 'GRN', loadChildren: () => import('./grid/grid.module').then(m => m.GridModule) },
             { path: 'components', loadChildren: () => import('./bs-component/bs-component.module').then(m => m.BsComponentModule) },
-            { path: 'blank-page', loadChildren: () => import('./blank-page/blank-page.module').then(m => m.BlankPageModule) }
+            { path: 'blank-page', loadChildren: () => import('./blank-page/blank-page.module').then(m => m.BlankPageModule) },
+
+
+
+            //Reports
+            { path: 'poReport', loadChildren: () => import('./Reports/po-reports/po-reports.module').then(m => m.PoReportsModule), canActivate: [AuthGuard]},
+        
+
+
+
+
         ]
     }
 ];

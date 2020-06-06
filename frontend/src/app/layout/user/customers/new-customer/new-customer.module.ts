@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../../shared/shared/shared.module';
 import { NewCustomerComponent } from './new-customer.component';
 import { FormModule } from './../../../form/form.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +10,7 @@ import { NewCustomersRoutingModule } from './new-customer-routing.module';
 @NgModule({
   declarations: [NewCustomerComponent],
   imports: [
-    CommonModule ,NewCustomersRoutingModule ,PageHeaderModule ,ReactiveFormsModule ,FormModule
+    CommonModule ,NewCustomersRoutingModule ,PageHeaderModule ,ReactiveFormsModule ,FormModule ,SharedModule
   ]
 })
 export class NewCustomerModule { }

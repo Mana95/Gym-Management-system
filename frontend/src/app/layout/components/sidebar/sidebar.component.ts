@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
     showMenuSch:string;
     currentUser: User;
     exercise:string;
+    showReportMenu:string;
     
     public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -257,6 +258,15 @@ get PurchaseOrder(){
         this.showSchdulerMenu = element;
     }
     }
+
+    addReportExpandClass(element:any){
+             //  alert(element)
+             if (element === this.showReportMenu) {
+                this.showReportMenu = '0';
+            } else {
+                this.showReportMenu = element;
+            }
+    }
     addExpandClass(element: any) {
       //  alert(element)
         if (element === this.showMenu) {
@@ -301,5 +311,7 @@ get PurchaseOrder(){
         return this.currentUser && this.currentUser.role === Role.Membership 
     }
     }
+
+    
 
 }

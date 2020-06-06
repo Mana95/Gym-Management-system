@@ -373,7 +373,17 @@ export class GridComponent implements OnInit {
                     style: 'header'
                   },
             this.getItemDataObject(GRNDATA.ItemGrnTable),
+
+
+            {
+                text: `Total Amount: ${GRNDATA.totalAmount}`,
+                style: 'align'
+              },
+
+
             ],
+
+          
             styles: {
                 header: {
                     fontSize: 18,
@@ -381,10 +391,17 @@ export class GridComponent implements OnInit {
                     margin: [0, 20, 0, 10],
                     decoration: "underline",
                 },
+                align: {
+                    fontSize: 16,
+                    alignment: 'right',
+                    bold: true,
+                }, 
+
                 name: {
                     fontSize: 16,
                     bold: true,
                 },
+                
                 jobTitle: {
                     fontSize: 14,
                     bold: true,

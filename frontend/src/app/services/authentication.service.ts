@@ -264,7 +264,9 @@ export class AuthenticationService {
           return this.http.get<any>(config.PAPYRUS+`/users/loadProfileData/${id}`);
         }
       
-
+        getReleventType(event){
+          return this.http.get<any>(config.PAPYRUS+`/users/getReleventType/${event}`);
+        }
 }
 
 

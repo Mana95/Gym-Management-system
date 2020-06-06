@@ -62,9 +62,19 @@ module.exports = {
   loadProfileData,
   checktheNICNumber,
   responseAllInstructorData,
-  getAllMembership
+  getAllMembership,
+  getReleventType
 
 };
+
+
+
+async function getReleventType(data) {
+ 
+return await Instructor.find({typeName:data});
+
+}
+
 
 async function responseAllInstructorData() {
   return await Instructor.find({});
