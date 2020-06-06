@@ -1,3 +1,4 @@
+import { ReportsService } from './../../../services/reports.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,12 +12,13 @@ import * as moment from "moment";
   styleUrls: ['./po-reports.component.scss']
 })
 export class PoReportsComponent implements OnInit {
-  reportGroup:FormGroup;
+  reportGroup:FormGroup; 
   submitted = false;
   statusArray = ['Completed' , 'Pending'];
 
   constructor(
-   private formBuilder :FormBuilder
+   private formBuilder :FormBuilder,
+   private reportsService:ReportsService
   ) { }
 
   ngOnInit() {
@@ -41,8 +43,20 @@ export class PoReportsComponent implements OnInit {
   console.log(m.format());
     if(this.reportGroup.valid){
       let reportGenData = {
-
+        fromDate:this.f.fromDate.value,
+        toDate:this.f.toDate.value,
+        supplierName:this.f.supplierName.value,
+        status:this.f.status.value
       }
+
+      this.reportsService.generatePurchaseOrderReport(reportGenData)
+      .subscribe(
+        respose=>{
+          console.log(respose);
+        }
+      )
+
+
     }else{
       Swal.fire('Oops...',`Form Validation Falied`, 'error')
     }
