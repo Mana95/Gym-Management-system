@@ -21,6 +21,7 @@ import { MemberLoginComponent } from './member-login/member-login.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
         NgbModule,
         FormsModule,
         ReactiveFormsModule,
+        ChartsModule,
         
         CalendarModule.forRoot({
             provide: DateAdapter,

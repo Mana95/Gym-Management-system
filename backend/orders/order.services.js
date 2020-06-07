@@ -1,5 +1,7 @@
 const db = require("_helpers/db");
 
+var moment = require('moment');
+
 const PurchaseOrder = db.PurchaseOrder;
 const ItemData = db.ItemData;
 const Supplier = db.Supplier;
@@ -23,7 +25,41 @@ module.exports = {
     getCartItems,
     routeIdData,
     saveCartData,
+    return_report_purchase_order
 };
+
+async function return_report_purchase_order(data){
+    if(data.supplierName != '' && data.status != ''){
+        return await PurchaseOrder.find({status:data.status ,supllierFirstName:data.supplierName , createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}})
+  
+         }else if( data.supplierName == '' && data.status != ''){
+
+            return await PurchaseOrder.find({status:data.status , createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}
+            ,function(error , result){
+                if(result != undefined && result.length ==0){
+                    return 2
+                }
+            });
+
+    }else if( data.supplierName == '' && data.status != ''){
+
+        return await PurchaseOrder.find({supllierFirstName:data.supplierName , createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}
+        ,function(error , result){
+            if(result != undefined && result.length ==0){
+                return 2
+            }
+        });
+
+}else if( data.supplierName == '' && data.status == ''){
+        return await PurchaseOrder.find({createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+        {
+            if(result != undefined && result.length ==0){
+                return 2
+            }
+        });
+
+}
+}
 
 async function saveCartData(data) {
 
