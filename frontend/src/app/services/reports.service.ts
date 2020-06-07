@@ -1,3 +1,4 @@
+import { config } from './../config/config';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,7 +14,7 @@ export class ReportsService {
 
 
   generatePurchaseOrderReport(data) {
-      return this.http.get('');
+    return this.http.get(config.PAPYRUS + `/order/poReports/`,  {params:data});
   }
 
 }

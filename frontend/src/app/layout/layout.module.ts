@@ -17,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -29,6 +30,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
         ReactiveFormsModule,
         FormsModule,
         AccordionModule,
+        ChartsModule,
       
         CalendarModule.forRoot({
             provide: DateAdapter,

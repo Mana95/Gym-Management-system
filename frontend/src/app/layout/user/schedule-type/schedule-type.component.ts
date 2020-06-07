@@ -5,6 +5,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
 
+import * as moment from "moment";
 @Component({
   selector: 'app-schedule-type',
   templateUrl: './schedule-type.component.html',
@@ -101,13 +102,16 @@ this.loadID();
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-
+    const m = moment();
+    const date= new Date()
+    console.log(m.format('L'))
     let schedule = {
       id: this.f.id.value,
       type: this.f.typeName.value,
-      description:this.f.description.value
+      description:this.f.description.value,
+      createdDate:new Date(m.format('L'))
     }
-    console.log(schedule)
+    console.log(schedule.createdDate)
 if(this.scheduleTypeGroup.valid){
   this.autenticationService.saveScheduleType(schedule)
   .subscribe(
