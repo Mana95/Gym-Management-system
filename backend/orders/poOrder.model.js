@@ -59,7 +59,10 @@ const schema = new Schema({
             type: String,
             required:true
         }
-    }]
+    }],
+    totalAmount :{
+        type:Number
+    }
 
 });
 module.exports = mongoose.model('purchaseOrder', schema);

@@ -414,6 +414,7 @@ export class NewCustomerComponent implements OnInit {
       .subscribe(
         response=>{
           if(response==1){
+            console.log(1);
             Swal.fire({
               text: 'Membership Registered success',
               icon: 'success'
