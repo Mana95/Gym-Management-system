@@ -63,11 +63,48 @@ module.exports = {
   checktheNICNumber,
   responseAllInstructorData,
   getAllMembership,
-  getReleventType
+  getReleventType,
+  membershipInactive
 
 };
 
+async function membershipInactive(data) {
+ console.log(data)
+   const userUpdate = await User.updateOne(
+    {
+      user_id: data.membershipId,
+    },
+    {
+      $set: {membershipStatus:false},
+    },
+    function (err, responses) {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
 
+  const membershipUpdate = await Membership.updateOne(
+    {
+      membershipId: data.membershipId,
+    },
+    {
+      $set: {status:'false'},
+    },
+    function (err, responses) {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+    if(membershipUpdate && userUpdate){
+      return 1;
+    }
+
+
+  
+  }
+  
 
 async function getReleventType(data) {
  
@@ -567,12 +604,14 @@ async function cusRegister(data) {
       errorArray.push('email');
     }
   });
+  //check nic
    await User.findOne({nicNumber:userParam.nicNumber},
     function(error, res){
       if(res !=null){
         errorArray.push('nic Number');
       }
     });
+
     if(errorArray.length == 0){
       if (userParam.password) {
         user.hash = bcrypt.hashSync(userParam.password, 10);
@@ -580,17 +619,60 @@ async function cusRegister(data) {
           // saveing
            await user.save();
           await membership.save();
-          return 1;
+      
+      mailSendMethod('employee' , userParam.email);
+       
+        
     }else{
       return (errorArray);
     }
-
-  
-
-  
-    
   
 }
+
+function mailSendMethod(data ,email){
+console.log()
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "manaalex3@gmail.com",
+    pass: 'QAZ(*&jker":',
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+var mailOptions = {
+  to: email,
+  from: "your email",
+  subject: "Gym Membership registration",
+  text:
+    "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+    "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+    "http://localhost:4200/response-reset-password/" +
+    +
+    "\n\n" +
+    "If you did not request this, please ignore this email and your password will remain unchanged.\n" +
+    "<br>Thank You.\n",
+};
+transporter.sendMail(mailOptions, (err, info) => {
+  if(err){
+    console.log('error')
+    console.log(err);
+    return 'error'
+  }else if(info){
+    return 1;
+  }
+  
+});
+
+
+
+}
+
+
 
 async function getDetailUsers(roleValue) {
   console.log("service" + roleValue);
@@ -665,9 +747,9 @@ async function EmployeeCreation(data) {
   }
 });
 //return phoe number
-await User.findOne({phonenumber: data.UserCreationParam.phonenumber},function(error , res){
+await Employee.findOne({phonenumber: data.UserCreationParam.phonenumber},function(error , res){
   if(res!=null){
-    errorArray.push('Phone Number')
+    errorArray.push('Mobile Number')
   }
 })
 

@@ -18,6 +18,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ChartsModule } from 'ng2-charts';
+import { UserReportComponent } from './Reports/user-report/user-report.component';
+import { GrnReportComponent } from './Reports/grn-report/grn-report.component';
+import { ItemReportComponent } from './Reports/item-report/item-report.component';
 
 
 

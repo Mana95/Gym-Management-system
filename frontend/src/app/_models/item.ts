@@ -15,3 +15,27 @@ export class item {
 
 }
 
+export class purchaserOrderList {
+    
+    _id :string;
+    purchaseOrderId : string;
+    supplierId : string;
+    supllierFirstName :string;
+    supplierLastName : string;
+    time : string;
+    categoryName : string;
+    status : string;
+    currentUser :string;
+    ItemDataValues : ItemDataValues[];   
+    createdDate : Date;
+    totalAmount : number;
+    
+}
+
+export class ItemDataValues   {
+    _id :string;
+    itemId : string;
+    itemName :string;
+    qty : number;
+    status :string;
+}

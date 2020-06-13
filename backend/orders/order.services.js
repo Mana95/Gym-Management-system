@@ -233,6 +233,17 @@ async function SaveDataGrn(data) {
     });
  
 }
+   
+    PurchaseOrder.updateOne(
+        {purchaseOrderId:grnData.purchaseOrderId},
+        {
+            $set: {totalAmount: Number(grnData.totalAmount)}
+        },function(error , result){
+            if(error){
+                console.log(error)
+            }
+        }
+    )
 
 return 1;
 

@@ -1,3 +1,4 @@
+import { purchaserOrderList } from './../../../_models/item';
 import { ReportsService } from './../../../services/reports.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -17,6 +18,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./po-reports.component.scss']
 })
 export class PoReportsComponent implements OnInit {
+  showChart = false;
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -28,15 +30,15 @@ export class PoReportsComponent implements OnInit {
       }
     }
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  purchaserOrderList:any;
+  public barChartLabels: Label[];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [pluginDataLabels];
-
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
+  public barChartData:ChartDataSets[];
+  // public barChartData: ChartDataSets[] = [
+  //   { data: [10,20,30,40,50,60,70,100,110], label: 'Series A' }
+  // ];
 
 
   reportGroup:FormGroup; 
@@ -77,7 +79,7 @@ export class PoReportsComponent implements OnInit {
         56,
         (Math.random() * 100),
         40];
-      this.barChartData[0].data = data;
+  
     }
 
 
@@ -88,10 +90,30 @@ export class PoReportsComponent implements OnInit {
     return this.reportGroup.controls;
   }
 
+  //date Range
+  dateRange(startDate , endDate) {
+    var start      = startDate.split('-');
+    var end        = endDate.split('-');
+    var startYear  = parseInt(start[0]);
+    var endYear    = parseInt(end[0]);
+    var dates      = [];
+    for(var i = startYear; i <= endYear; i++) {
+      var endMonth = i != endYear ? 11 : parseInt(end[1]) - 1;
+      var startMon = i === startYear ? parseInt(start[1])-1 : 0;
+      for(var j = startMon; j <= endMonth; j = j > 12 ? j % 12 || 11 : j+1) {
+        var month = j+1;
+        var displayMonth = month < 10 ? '0'+month : month;
+        dates.push([i, displayMonth, '01'].join('-'));
+      }
+    }
+    return dates;
+
+  }
+
 //submitForm
   onSubmit(){
+    this.showChart = true;
     const m = moment(this.f.fromDate.value);
-  
     this.submitted = true;
     if(this.reportGroup.valid){
       let reportGenData = {
@@ -99,17 +121,54 @@ export class PoReportsComponent implements OnInit {
         toDate:this.f.toDate.value,
         supplierName:this.f.supplierName.value,
         status:this.f.status.value,
-
       }
+      var start = new Date(Date.parse(this.f.fromDate.value));
+      var end = new Date(Date.parse(this.f.fromDate.value));
+      var startDate = this.f.fromDate.value;
+      var endDate = this.f.toDate.value;
+     const date = this.dateRange(startDate , endDate);
+    //    assign x Values in chart
+        this.barChartLabels = date
       this.reportPurchaseOrderData = reportGenData;
       this.reportsService.generatePurchaseOrderReport(reportGenData)
       .subscribe(
         respose=>{
-          if(respose != undefined && respose != 2){
-           
+          if(respose != undefined){
+            this.purchaserOrderList = respose
+            var arrayData = [];
+            var data=[];
+            arrayData.push(respose);
+          //  console.log(this.purchaserOrderList[1].categoryName);
             const documentDefinition = this.getDocumentDefinition(respose ,this.reportPurchaseOrderData);
-            pdfMake.createPdf(documentDefinition).open();
+           for(var x=0; x< respose.length ; x++){
+            //console.log(this.purchaserOrderList[x])
+            if(respose[x].totalAmount !=undefined){
+             const arraypurchaseOrder = respose[x].totalAmount;
+         
+             data.push(arraypurchaseOrder);
+            }
+           }
+           console.log(data)
+           let barchartData ={
+             data:data,
+             label:'Series A' 
+           }
+        //   this.barChartData[0].data.push(data);
+        //   this.barChartData[0].data.push(data)
+            const sepecficData = this.barChartData = [
+              {
+                data:data,
+                label:'Series A' 
+              }
+            ]
+            this.showChart =true
 
+           console.log(sepecficData);
+         
+       
+        
+           
+            pdfMake.createPdf(documentDefinition).open();
           }else{
             Swal.fire('Oops...',`No such data available Please filter different date`, 'error')
           }
@@ -123,9 +182,14 @@ export class PoReportsComponent implements OnInit {
 
   }
 
+
+
+
+
+  //Report Generation for the purchase order
   getDocumentDefinition(responseData ,data){
 
-    console.log(responseData);
+    //console.log(responseData);
     return {
       content: [
         {

@@ -60,6 +60,8 @@ router.get('/getReleventType/:type' , getReleventType);
 
 
 router.put('/:id', update);
+router.patch('/membershipInactive', memerbershipUpdateStatus);
+
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
 router.post('/d', deleteRecord);
@@ -67,6 +69,14 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+
+function memerbershipUpdateStatus(req ,res , next){
+    userService.membershipInactive(req.body)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
+
 
 function getReleventType(req ,res , next){
     userService.getReleventType(req.params.type)

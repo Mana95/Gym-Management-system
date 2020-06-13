@@ -267,6 +267,10 @@ export class AuthenticationService {
         getReleventType(event){
           return this.http.get<any>(config.PAPYRUS+`/users/getReleventType/${event}`);
         }
+
+        inActiveMembership(memberhipData) {
+          return this.http.patch(config.PAPYRUS+`/users/membershipInactive/` ,memberhipData);  
+        }
 }
 
 
