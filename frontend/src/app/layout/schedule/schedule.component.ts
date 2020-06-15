@@ -26,9 +26,11 @@ export class ScheduleComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modal: NgbModal
-  ) { 
+  ) {
+
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    
   }
 
   ngOnInit() {

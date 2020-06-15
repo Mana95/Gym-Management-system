@@ -58,9 +58,15 @@ router.get('/loadProfileData/:id' , loadProfileData);
 router.get('/getReleventType/:type' , getReleventType);
 
 
+router.get('/usersReports', usersReportsDataLoad);
+
+
 
 router.put('/:id', update);
+
 router.patch('/membershipInactive', memerbershipUpdateStatus);
+
+router.patch('/instrucotrInactive', instructorUpdateStatus);
 
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
@@ -70,6 +76,19 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
+function instructorUpdateStatus(req ,res , next){
+    userService.instrucotrInactive(req.body)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+function usersReportsDataLoad(req ,res , next){
+
+    userService.getUsersReports(req.query)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function memerbershipUpdateStatus(req ,res , next){
     userService.membershipInactive(req.body)

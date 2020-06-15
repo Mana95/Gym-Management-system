@@ -91,7 +91,7 @@ const routes: Routes = [
 
             //Reports
             { path: 'poReport', loadChildren: () => import('./Reports/po-reports/po-reports.module').then(m => m.PoReportsModule), canActivate: [AuthGuard]},
-            { path: 'user_report', loadChildren: () => import('./Reports/po-reports/po-reports.module').then(m => m.PoReportsModule), canActivate: [AuthGuard]},
+            { path: 'user_report', loadChildren: () => import('./Reports/user-report/user-report.module').then(m => m.UserReportModule), canActivate: [AuthGuard]},
             { path: 'grn_report', loadChildren: () => import('./Reports/grn-report/grn-report.module').then(m => m.GrnReportModule), canActivate: [AuthGuard]},
         
 

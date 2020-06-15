@@ -45,6 +45,9 @@ const schema = new Schema({
         type:String,
         required:true,
     },
+    age:{
+        type:Number,
+    },
     disaster: {
         type:String,
         required:true,  

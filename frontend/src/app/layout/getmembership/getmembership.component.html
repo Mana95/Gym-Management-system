@@ -236,8 +236,9 @@
               <div class="form-group col-md-3">
                   <label for="firstName"><b>Disaster </b></label>
                   <select class="form-control" formControlName="disaster" (click)="appearDiscription($event)" [ngClass]="{ 'is-invalid': submitted && f.disaster.errors }">
-                    <option selected>Choose...</option>
-                    <option *ngFor="let data of display">{{data.id}}</option>
+                   
+                     <option value="" disabled>Choose your city</option>
+                    <option *ngFor="let data of display" [ngValue]="data.id">{{data.id}}</option>
                   </select>
                   <div *ngIf="submitted && f.disaster.errors" class="invalid-feedback">
                     <div *ngIf="f.disaster.errors.required">Disaster is required</div>
@@ -271,7 +272,7 @@
                                         'is-invalid':
                                             submitted && f.typeName.errors
                                     }">
-                                   
+                                    <option value="" disabled>Choose your Membership</option>             
                   <option *ngFor="let data of Type" >{{ data.membershipName }}</option>
                 
                 </select>

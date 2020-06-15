@@ -56,7 +56,6 @@ export class GetmembershipComponent implements OnInit {
   userID :any;
 
   valueType: any;
-
   constructor(
     private formBuilder: FormBuilder,
     private authenticationSercive: AuthenticationService,
@@ -85,6 +84,7 @@ export class GetmembershipComponent implements OnInit {
       disaster: ['', Validators.required],
       description: [""],
       gender: ['', Validators.required],
+      age:['' ,Validators.required],
       currnetJoinDate: [""],
       typeName: ["", Validators.required],
       amount: [""],
@@ -97,12 +97,31 @@ export class GetmembershipComponent implements OnInit {
 
     this.loadData();
     this.loadFormData();
-
+    this.assignValus();
   }
   dayToDayMembership() {
    
   }
+  assignValus() {
+    const currentRole = this.currentUserSubject.value.role;
 
+    if(currentRole == 'Member' || currentRole=='Membership'){
+      this.getMembershipGroup.controls["email"].setValue(
+        this.currentUserSubject.value.email
+      );
+   this.getMembershipGroup.controls["nicNumber"].setValue(
+        this.currentUserSubject.value.nicNumber
+      );
+      this.getMembershipGroup.controls["firstName"].setValue(
+        this.currentUserSubject.value.firstName
+      );
+      if(this.currentUserSubject.value.nicNumber != ''){
+            this.onKey();
+      }
+
+    }
+   
+  }
   validUsername(){
     const username = this.f.username.value;
     this.membershipService.checkUsernameAvailable(username)
@@ -395,27 +414,83 @@ export class GetmembershipComponent implements OnInit {
         month = "Febuary";
       }
       //show Details;
-      console.log(gender);
       console.log(year + "-" + month + "-" + this.day);
+      var ageValue = {
+        years: '',
+        months: '',
+        days: ''
+        };
+        let birthday = year + "-" + month + "-" + this.day;
+
+     this.getAge(birthday); 
+
       if (this.f.nicNumber.valid) {
         this.dateFieldValid = true;
       } else {
         this.dateFieldValid = false;
       }
-      let birthday = year + "-" + month + "-" + this.day
+   
       this.getMembershipGroup.controls['birth'].setValue(birthday);
       this.getMembershipGroup.controls['gender'].setValue(gender);
     }
-    // this.authenticationSercive.checkNICNumber(this.f.nicNumber.value)
-    // .subscribe(
-    //   response=>{
-    //     if (NicCheck.INVALIDSTATUS == response){
-    //       Swal.fire('Oops...', 'NIC Number is already inserted!', 'error')
-    //     }
-    //   }
-    // )
+   
 
   }
+
+
+  getAge(birthday) {
+
+    //get today;
+    var now = new Date();
+    var yearNow = now.getFullYear();
+    var monthNow = now.getMonth();
+    var dateNow = now.getDate();
+
+    const bornday = new Date(birthday);
+
+    var bornyear =bornday.getFullYear();
+    var bornmonth =bornday.getMonth();
+    var bornNow =bornday.getDate();
+    var age = {};
+    var ageString = "";
+    var yearString = "";
+    var monthString = "";
+    var dayString = "";
+    var yearAge = yearNow - bornyear;
+    this.getMembershipGroup.controls['age'].setValue(yearAge);
+
+    if (monthNow >= bornmonth)
+    var monthAge = monthNow - bornmonth;
+  else {
+    yearAge--;
+    var monthAge = 12 + monthNow -bornmonth;
+  }
+
+  if (dateNow >= bornNow)
+    var dateAge = dateNow - bornNow;
+  else {
+    monthAge--;
+    var dateAge = 31 + dateNow - bornNow;
+
+    if (monthAge < 0) {
+      monthAge = 11;
+      yearAge--;
+    }
+  }
+   age = {
+    years: yearAge,
+    months: monthAge,
+    days: dateAge
+    };
+    
+
+    console.log(age)
+
+  }
+
+
+
+
   bmiCalculator(this) {
 
     var weight = Number(this.f.Height.value);
@@ -522,6 +597,7 @@ export class GetmembershipComponent implements OnInit {
       customerID : this.f.memberId.value,
       description: this.f.description.value,
       gender: this.f.gender.value,
+      age:this.f.age.value,
       BMI: this.f.BMI.value,
       currnetJoinDate: this.f.currnetJoinDate.value,
       typeName: this.f.typeName.value,

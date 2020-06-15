@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const db = require("_helpers/db");
 const details = require("details.json");
 
+var moment = require('moment');
 const nodemailer = require("nodemailer");
 
 const User = db.User;
@@ -64,9 +65,88 @@ module.exports = {
   responseAllInstructorData,
   getAllMembership,
   getReleventType,
-  membershipInactive
+  membershipInactive,
+  getUsersReports,
+
+  instrucotrInactive,
+  
 
 };
+
+async function instrucotrInactive(data){
+  
+  const instructorUpdate = await User.updateOne(
+   {
+     user_id: data.isId,
+   },
+   {
+     $set: {active:false},
+   },
+   function (err, responses) {
+     if (err) {
+       console.log(err);
+     }
+   } )
+
+   if(instructorUpdate){
+    await Instructor.updateOne(
+      {
+        isId: data.isId,
+      },
+      {
+        $set: {active:false},
+      },
+      function (err, responses) {
+        if (err) {
+          console.log(err);
+        }else {
+          return 1;
+        }
+      } )
+   }
+}
+
+ async function getUsersReports(data){
+  console.log(data);
+  var statusData = false;
+  if(data.status != ''){
+    const statusVal = (data.status=='true') ? true : false;
+    statusData = statusVal
+  }
+
+  if(statusData ==true && data.role != ''){
+ return await User.find({ role:data.role , active:statusData, createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}},
+ function(error , result){
+  if(result != undefined && result.length ==0){
+    return 2;
+}
+ });
+}else if(statusData ==true && data.role==''){
+  return await User.find({  active: statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+  {
+      if(result != undefined && result.length ==0){
+          return 2;
+      }
+  });
+}else if(statusData ==false && data.role !=''){
+  console.log('HI')
+  return await User.find({role: data.role,active:statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+  {
+      if(result != undefined && result.length ==0){
+          return 2;
+      }
+  });
+}
+else{
+  return await User.find({createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+        {
+            if(result != undefined && result.length ==0){
+                return 2;
+            }
+        });   
+}
+}
+
 
 async function membershipInactive(data) {
  console.log(data)
@@ -263,7 +343,10 @@ async function insertMembershipToUser(body) {
 }
 
 async function insertMembership(body) {
-  console.log('awa serivece');
+  
+  let errorArray =[];
+  errorArray.length =0;
+
   const UserData = body.UserDatabody;
   const membershipData = body.membershipbody;
 
@@ -272,7 +355,25 @@ async function insertMembership(body) {
  
  const membershipFind = await Membership.findOne({customerID : membershipData.customerID})
 
-  
+ await Membership.findOne({ email: UserData.email },function(error , res){
+  if(res!=null){
+    errorArray.push('email');
+  }
+});
+
+await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
+  if(res!=null){
+    errorArray.push('Nic Number');
+  }
+});
+
+//return phoe number
+await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
+  if(res!=null){
+    errorArray.push('Mobile Number')
+  }
+})
+if(errorArray.length == 0){
 if(!membershipFind){
   //saveing the data 
   await membership.save();
@@ -289,7 +390,7 @@ console.log('update wennai yannne');
       if (err) {
         console.log(err);
       }else{
-        console.log(responses);
+       // console.log(responses);
       }
     }
   );
@@ -297,6 +398,9 @@ console.log('update wennai yannne');
 }
 else{
   return 8;
+}
+}else{
+  return (errorArray);
 }
 
 }

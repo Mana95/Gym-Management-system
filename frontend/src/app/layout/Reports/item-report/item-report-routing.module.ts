@@ -1,4 +1,5 @@
-import { GrnReportComponent } from './grn-report.component';
+import { ItemReportComponent } from './item-report.component';
+
 
 
 import { NgModule } from '@angular/core';
@@ -7,7 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: '', component: GrnReportComponent
+        path: '', component: ItemReportComponent
     }
 ];
 
@@ -15,6 +16,6 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class GRNReportsRoutingModule {
+export class ItemReportsRoutingModule {
     
 }
