@@ -1,5 +1,4 @@
-
-          <div class="card mb-3">
+     <div class="card mb-3">
               <div class="card-header"><p><b>Membership</b>&nbsp; <button type="button" class="btn btn-success  btn-sm" [routerLink]="['/new_cus']">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
               </div>  
               <div class="card-body table-responsive">              
@@ -11,7 +10,6 @@
                         <b>All Membership Status</b>
                       </h1>
                     </div>
- 
                     </div>
                       <hr/>
                       <br/>
@@ -42,13 +40,10 @@
                             <td style="text-align: center; color: green;" *ngIf="data.status == 'true'"><b><i class="fa fa-check" aria-hidden="true"></i></b></td>
                             <td style="text-align: center; color: red;" *ngIf="data.status =='false'"><b><i class="fa fa-exclamation" aria-hidden="true"></i></b></td>
                             <td><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
-                              <button type="button" [disabled]="(data.status != 'true' ?true: false)" (click)="inactiveMembership(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                      
-                             
+                            <button type="button" [disabled]="(data.status != 'true' ?true: false)" (click)="inactiveMembership(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                     
                             </tr>
-                    
                         </tbody>
                       </table>
-
                         </div>
                   </div>
               </div>

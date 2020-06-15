@@ -343,6 +343,8 @@ else if (dayText > 31) {
           text: 'Employee Registered and email send success',
           icon: 'success'
         });
+        
+        this.imageUrl = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
         this.submitted = false;
         this.userRegisterFrom.reset();
         this.loadData();

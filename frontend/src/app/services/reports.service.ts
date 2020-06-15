@@ -1,3 +1,4 @@
+import { User } from 'src/app/_models';
 import { Observable } from 'rxjs';
 import { config } from './../config/config';
 
@@ -17,6 +18,10 @@ export class ReportsService {
 
   generatePurchaseOrderReport(data):Observable<purchaserOrderList[]> {
     return this.http.get<purchaserOrderList[]>(config.PAPYRUS + `/order/poReports/`,  {params:data});
+  }
+
+  getUserSummaryReportDetails(data):Observable<any>{
+    return this.http.get<any>(config.PAPYRUS + `/users/usersReports/`,  {params:data});
   }
 
 }

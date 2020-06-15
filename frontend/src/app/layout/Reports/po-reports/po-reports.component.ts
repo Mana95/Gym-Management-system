@@ -82,10 +82,6 @@ export class PoReportsComponent implements OnInit {
   
     }
 
-
-
-    
-
   get f(){
     return this.reportGroup.controls;
   }

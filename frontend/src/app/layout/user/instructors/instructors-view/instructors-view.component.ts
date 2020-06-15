@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
   selector: 'app-instructors-view',
   templateUrl: './instructors-view.component.html',
@@ -19,6 +21,7 @@ export class InstructorsViewComponent implements OnInit {
     .subscribe(
       response=>{
         this.powers = response;
+       
       }
     )
     this.loadTableData();
@@ -31,6 +34,7 @@ export class InstructorsViewComponent implements OnInit {
       .subscribe(
         res=>{
           this.instructorData = res
+        
         }
       )
     }
@@ -39,6 +43,7 @@ export class InstructorsViewComponent implements OnInit {
       .subscribe(
         response=>{
           this.instructorData = response
+          console.log(response)
         }
       ) 
     }
@@ -53,6 +58,45 @@ export class InstructorsViewComponent implements OnInit {
         this.instructorData = response
       }
     )
+  }
+
+  deleteInstructor(data){
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.authenticationService.deleteInstructorData(data)
+        .subscribe(
+          response=>{
+            console.log(response);
+            if(response)
+            Swal.fire(
+              'Deleted!',
+              'Your imaginary file has been deleted.',
+              'success'
+            )
+            this.loadTableData();
+          }
+        )
+      
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+      }
+    })
+
+  
   }
 
 }

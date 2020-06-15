@@ -154,7 +154,7 @@ this.requestScheduleGroup.controls["date"].setValue(
         
 
 
-
+          this.requestScheduleGroup.reset();
           this.loadNewId();
         }
       )

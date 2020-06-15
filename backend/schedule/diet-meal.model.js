@@ -53,7 +53,7 @@ intervalNames:[{
         } ,
         mearurmentUnit:{
         
-            type:Number
+            type:String
         }   
     }]}
 ]

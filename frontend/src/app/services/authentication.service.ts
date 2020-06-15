@@ -271,6 +271,10 @@ export class AuthenticationService {
         inActiveMembership(memberhipData) {
           return this.http.patch(config.PAPYRUS+`/users/membershipInactive/` ,memberhipData);  
         }
+
+        deleteInstructorData(data){
+          return this.http.patch(config.PAPYRUS+`/users/instrucotrInactive/` ,data);  
+        }
 }
 
 

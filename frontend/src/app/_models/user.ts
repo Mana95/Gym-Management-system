@@ -18,6 +18,8 @@ export class User {
     image: string;
     role:string;
     phonenumber:number; 
+    membershipStatus:boolean;
+    nicNumber:string;
 }
 
 export enum UserRegistrationStatus {

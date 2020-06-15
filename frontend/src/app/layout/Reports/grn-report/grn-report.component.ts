@@ -10,6 +10,9 @@ import { ReportsService } from 'src/app/services/reports.service';
 export class GrnReportComponent implements OnInit {
   reportGroup : FormGroup;
   submitted =false;
+
+
+  statusArray = ['Done' , 'Pending'];
   constructor(
     private formBuilder :FormBuilder,
    private reportsService:ReportsService
@@ -24,10 +27,11 @@ export class GrnReportComponent implements OnInit {
    })
 
   }
-  
+
   get f(){
     return this.reportGroup.controls;
   }
+
   onSubmit() {
     this.submitted = true;
 

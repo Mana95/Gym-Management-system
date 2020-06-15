@@ -1,3 +1,65 @@
-<p>
-  user-report works!
-</p>
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b><i class="fa fa-user-o" aria-hidden="true"></i>
+             User's Summary Report </b></h2>  
+        </div>
+        <div class="card-body">
+          <form [formGroup]="reportGroup" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Date from</b></label>
+                <input type="date" formControlName="fromDate" class="form-control"   [ngClass]="{
+                  'is-invalid':
+                      submitted && f.fromDate.errors
+              }" />
+              <div *ngIf="submitted && f.fromDate.errors" class="invalid-feedback">
+                <div *ngIf="f.fromDate.errors.required">
+                  From date is required
+                </div>
+              </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="userID"><b>Date To</b></label>
+                  <input type="date" formControlName="toDate" class="form-control"   [ngClass]="{
+                    'is-invalid':
+                        submitted && f.toDate.errors
+                }" />
+                <div *ngIf="submitted && f.toDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.toDate.errors.required">
+                    To date is required
+                  </div>
+                </div>
+                  </div>
+
+                  
+
+                  <div class="form-group col-md-3">
+                    <label for="firstName"><b>Role</b></label>
+                    <select  formControlName="role" class="form-control">
+                      <option disabled>Select Role</option>
+                      <option *ngFor="let suit of roleArray">{{suit}}</option>
+                    </select> 
+                  </div>
+                  <div class="form-group col-md-3" >
+                    <label for="firstName"><b>Active InActive </b></label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" formControlName="status"  >
+                               
+                              </div>  
+                    
+                  </div>
+            </div>
+            <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-primary btn-sm" ><i class="fa fa-cogs" aria-hidden="true"></i>  Generate Report</button>
+            </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
