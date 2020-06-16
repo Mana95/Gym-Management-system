@@ -54,7 +54,7 @@
                           <td style="text-align: center; color: green;" *ngIf="data.active ==true"  >  <b><i class="fa fa-check" aria-hidden="true" ngbTooltip="Instructor is active"></i></b> </td>
                          
                           <td style="text-align: center;">{{data.typeName}}</td>
-                          <td style="text-align: center;"><button type="button" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
+                          <td style="text-align: center;"><button type="button" (click)="navigateToEditPage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
                             <button type="button" (click)="deleteInstructor(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                      
                           </tr>
                 

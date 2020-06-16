@@ -26,7 +26,9 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
-
+  getInstructorById(id) {
+    return this.http.get(config.PAPYRUS+`/users/getByIdInstructor/${id}`)
+  }
   getAllMembership(){
     return this.http.get(config.PAPYRUS+`/users/getAllMembership`)
   }

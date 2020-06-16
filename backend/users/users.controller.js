@@ -56,7 +56,7 @@ router.get('/getAllMembership' , getAllMembership);
 router.get('/userById/:id', getById);
 router.get('/loadProfileData/:id' , loadProfileData);
 router.get('/getReleventType/:type' , getReleventType);
-
+router.get('/getByIdInstructor/:id', getByIdInstructor);
 
 router.get('/usersReports', usersReportsDataLoad);
 
@@ -75,6 +75,15 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+
+
+function getByIdInstructor(req ,res , next){
+    userService.getByIdInstructorDetails(req.params.id)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
+
 
 function instructorUpdateStatus(req ,res , next){
     userService.instrucotrInactive(req.body)
