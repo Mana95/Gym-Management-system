@@ -67,11 +67,15 @@ module.exports = {
   getReleventType,
   membershipInactive,
   getUsersReports,
-
+  getByIdInstructorDetails,
   instrucotrInactive,
   
 
 };
+
+async function getByIdInstructorDetails(id){
+  return await Instructor.find({_id:id});
+}
 
 async function instrucotrInactive(data){
   

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
+import { InstructorsEditComponent } from './instructors-edit/instructors-edit.component';
 
 
 @NgModule({

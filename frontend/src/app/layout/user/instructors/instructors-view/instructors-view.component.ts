@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-instructors-view',
@@ -13,6 +14,7 @@ export class InstructorsViewComponent implements OnInit {
   powers:any;
   pow:any;
   constructor(
+    private router: Router,
     private authenticationService : AuthenticationService
   ) { }
 
@@ -98,5 +100,12 @@ export class InstructorsViewComponent implements OnInit {
 
   
   }
+
+  navigateToEditPage(data){
+    console.log('ds')
+    this.router.navigate([ `/edit-instructor-page`, data._id])
+
+  }
+
 
 }
