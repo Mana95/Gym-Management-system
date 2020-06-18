@@ -21,6 +21,10 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    nicNumber:{
+        type: String,
+        required: true
+    },
     birth:{
         type: String,
         required: true

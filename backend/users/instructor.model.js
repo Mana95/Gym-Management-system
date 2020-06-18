@@ -31,6 +31,10 @@ const schema = new Schema({
             type:Number,
             required:true
         },
+        phonenumber1:{
+            type:Number,
+            required:true
+        },
         birth:{
             type:Date,
             required:true
@@ -88,6 +92,9 @@ const schema = new Schema({
             endDate:{
                 type:String,
                 
+            },
+            experinceMonth:{
+                type:Number,
             },
             detail:{
                 type:String,

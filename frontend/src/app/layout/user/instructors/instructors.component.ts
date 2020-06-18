@@ -75,7 +75,6 @@ export class InstructorsComponent implements OnInit {
       address: ["", Validators.required],
       description:[''],
       typeName:['',Validators.required],
-      fileName:[''],
       tickets: new FormArray([]),
       skills: new FormArray([]),
       education: new FormArray([])
