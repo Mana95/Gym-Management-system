@@ -69,9 +69,46 @@ module.exports = {
   getUsersReports,
   getByIdInstructorDetails,
   instrucotrInactive,
+  updateInstructor
   
 
 };
+async function updateInstructor(data){
+  const userData= data.UserData;
+  
+  const instructorData = data.data;
+  
+ 
+  await User.updateOne({
+    user_id:userData.user_id
+  },
+  {
+    $set:userData
+  },
+  function(error , result){
+    if(error){
+      console.log(error);
+      return 'Internal server Error'
+    }
+  })
+
+  return await Instructor.updateOne({
+    isId:instructorData.isId
+  },
+  {$set:instructorData},
+  function(error ,result){
+    if(error){
+      return 'Internal server Error'  
+    }
+    return 1;
+  })
+
+
+
+
+
+  
+}
 
 async function getByIdInstructorDetails(id){
   return await Instructor.find({_id:id});
@@ -798,8 +835,14 @@ async function loadByID(id) {
 }
 
 async function UpdateUserService(newData) {
-  
-  
+  console.log('Hi')
+    const userData = newData.UserData;
+    const employeeData = newData.editUserDetails;
+
+  console.log(userData)
+
+
+  return;
 return await User.updateOne(
     {
       _id: newData._id,

@@ -4,7 +4,11 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 
 import { FileUploader } from "ng2-file-upload";
+import { Observable, forkJoin } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { config } from 'src/app/config/config';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
     selector: "app-instructors-edit",
     templateUrl: "./instructors-edit.component.html",
@@ -17,6 +21,7 @@ export class InstructorsEditComponent implements OnInit {
     submitted = true;
     imageUrl: any =
         "../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png";
+    oldImageUrl: any;
     editFile: boolean = true;
     removeUpload: boolean = false;
     currentTime: any;
@@ -36,7 +41,8 @@ export class InstructorsEditComponent implements OnInit {
         private route: ActivatedRoute,
         private authenticationService: AuthenticationService,
         private formBuilder: FormBuilder,
-        private cd: ChangeDetectorRef
+        private cd: ChangeDetectorRef,
+        private http: HttpClient,
     ) {
         this.id = this.route.snapshot.paramMap.get("id");
     }
@@ -109,15 +115,10 @@ export class InstructorsEditComponent implements OnInit {
         console.log(data);
     }
     getFormData(id) {
-
-      //get schedule id
-      this.authenticationService.getAllSchedule()
-      .subscribe(
-        response=>{
-          this.Type = response
-         
-        }
-      )
+        //get schedule id
+        this.authenticationService.getAllSchedule().subscribe((response) => {
+            this.Type = response;
+        });
         this.authenticationService
             .getInstructorById(id)
             .subscribe((response) => {
@@ -144,6 +145,7 @@ export class InstructorsEditComponent implements OnInit {
                 );
                 this.updateGroup.controls["typeName"].setValue(data.typeName);
                 this.imageUrl = data.image;
+                this.oldImageUrl = data.image;
 
                 const formcontrolTicket = this.f.tickets as FormArray;
                 const formSkillControl = this.f.skills as FormArray;
@@ -305,26 +307,29 @@ export class InstructorsEditComponent implements OnInit {
         return this.updateGroup.get("tickets") as FormArray;
     }
     onClickTicketsRemove(index) {
-      var experinceArrayCount = this.f.tickets.value;
-      if(experinceArrayCount != undefined && experinceArrayCount.length>0){
-        this.t.removeAt(experinceArrayCount.length-1);
-      }
+        var experinceArrayCount = this.f.tickets.value;
+        if (
+            experinceArrayCount != undefined &&
+            experinceArrayCount.length > 0
+        ) {
+            this.t.removeAt(experinceArrayCount.length - 1);
+        }
         //this.t.removeAt(index);
     }
     onClickSkillsRemove(index) {
-      var skillsArrayCount = this.f.skills.value;
-      if(skillsArrayCount != undefined && skillsArrayCount.length>0){
-        this.S.removeAt(skillsArrayCount.length-1);
-      }
-
-       
+        var skillsArrayCount = this.f.skills.value;
+        if (skillsArrayCount != undefined && skillsArrayCount.length > 0) {
+            this.S.removeAt(skillsArrayCount.length - 1);
+        }
     }
     onClickEducationRemove(index) {
-      var educationArrayCount = this.f.education.value;
-      if(educationArrayCount != undefined && educationArrayCount.length>0){
-        this.E.removeAt(educationArrayCount.length-1);
-      }
-        
+        var educationArrayCount = this.f.education.value;
+        if (
+            educationArrayCount != undefined &&
+            educationArrayCount.length > 0
+        ) {
+            this.E.removeAt(educationArrayCount.length - 1);
+        }
     }
 
     onClickEducation(e) {
@@ -426,8 +431,85 @@ export class InstructorsEditComponent implements OnInit {
     }
 
     onSubmit() {
-      this.submitted = true;
+        this.submitted = true;
+
+        //define two relevent objects
+
+        let UserData = {
+            user_id: this.f.id.value,
+            firstName: this.f.firstName.value,
+            email: this.f.email.value,
+            nicNumber: this.f.nicNumber.value,
+            active: true,
+        };
+
+        let instructordata = {
+            isId: this.f.id.value,
+            email: this.f.email.value,
+            firstName: this.f.firstName.value,
+            joinDate: this.f.currnetJoinDate.value,
+            lastName: this.f.lastName.value,
+            phonenumber: this.f.phonenumber.value,
+            phonenumber1:this.f.phonenumber1.value,
+            birth: this.f.birth.value,
+            address: this.f.address.value,
+            description: this.f.description.value,
+            typeName: this.f.typeName.value,
+            nicNumber: this.f.nicNumber.value,
+            // image: this.imageUrl,
+            role: "Instructor",
+            active: true,
+            experince: this.f.tickets.value,
+            skils: this.f.skills.value,
+            education: this.f.education.value,
+        };
+        const formData = new FormData();
+        formData.append('file',  this.newImage);
+        if(this.updateGroup.valid && (this.imageUrl !== '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png')){
+ 
+        const postsImage =  this.uploadImage(formData , this.f.id.value);
+        const updateInstructor = this.authenticationService.updateIstructor(instructordata ,UserData);
+            if(this.oldImageUrl ==this.imageUrl){
+                updateInstructor.subscribe(
+                    response=>{
+                        console.log(response);
+                        if(response.ok !=undefined && response.ok ==1){
+                            Swal.fire({
+                                text: 'Instructor Updated successfully',
+                                icon: 'success'
+                              });      
+                        }
+                    }
+                )
+            }
+            forkJoin([postsImage , updateInstructor])
+            .subscribe(
+               result=>{
+                   if(result[1].ok ==1){
+                    Swal.fire({
+                        text: 'Instructor Updated successfully',
+                        icon: 'success'
+                      });
+                   }
+               }
+            )
 
 
+
+
+
+
+
+
+
+
+        }
     }
+    uploadImage(data:FormData ,uniqueId): Observable<any> {
+        // tslint:disable-next-line:no-debugger
+     // alert("This is the "+ data);
+        return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
+        
+    
+      }
 }

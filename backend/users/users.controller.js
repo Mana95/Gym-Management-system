@@ -66,6 +66,7 @@ router.put('/:id', update);
 
 router.patch('/membershipInactive', memerbershipUpdateStatus);
 
+router.patch('/updateinstructor', updateInstructor);
 router.patch('/instrucotrInactive', instructorUpdateStatus);
 
 router.delete('/deleteRecord', _delete);
@@ -76,6 +77,12 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
+function updateInstructor(req ,res , next){
+   
+    userService.updateInstructor(req.body)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
 
 
 function getByIdInstructor(req ,res , next){

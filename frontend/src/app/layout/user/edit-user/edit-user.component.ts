@@ -3,7 +3,11 @@ import { AuthenticationService } from './../../../services/authentication.servic
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, forkJoin } from 'rxjs';
+import { config } from 'src/app/config/config';
+import { HttpClient } from '@angular/common/http';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -11,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditUserComponent implements OnInit {
 
-
+  employeeName : string;
   submitted = false;
   loading = false;
   removeUpload = false;
@@ -28,14 +32,17 @@ export class EditUserComponent implements OnInit {
   userEditFrom: FormGroup;
   imageUrl: any;
    error = '';
+
    FormValue: any;
    user = new User();
    valueUser: any;
+  oldImageUrl: any;
   constructor(
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private cd: ChangeDetectorRef,
+    private http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -53,7 +60,6 @@ export class EditUserComponent implements OnInit {
       birth: [''],
       age: ['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       firstName: ['', Validators.required],
-      username: ['', Validators.required],
       lastName: ['', Validators.required],
      
       // tslint:disable-next-line:max-line-length
@@ -63,7 +69,7 @@ export class EditUserComponent implements OnInit {
       address: ['', Validators.required],
       description: [''],
       gender: [''],
-      document: ['', Validators.required],
+      document: [''],
     }
     );
 
@@ -75,12 +81,12 @@ export class EditUserComponent implements OnInit {
         this.valueUser = data;
         this.user = this.valueUser;
         this.userEditFrom.controls['id'].setValue(data[0].id);
- 
+      this.employeeName = data[0].firstName
         this._id = data[0]._id
         this.userEditFrom.controls['email'].setValue(data[0].email);
         this.userEditFrom.controls['age'].setValue(data[0].age);
         this.userEditFrom.controls['firstName'].setValue(data[0].firstName);
-        this.userEditFrom.controls['username'].setValue(data[0].username);
+
         this.userEditFrom.controls['lastName'].setValue(data[0].lastName);
         this.userEditFrom.controls['phonenumber'].setValue(data[0].phonenumber);
         this.userEditFrom.controls['Emergency'].setValue(data[0].Emergency);
@@ -90,6 +96,7 @@ export class EditUserComponent implements OnInit {
         this.userEditFrom.controls['birth'].setValue(data[0].birth);
         this.userEditFrom.controls['document'].setValue(data[0].document);
         this.imageUrl = data[0].imagePath;
+        this.oldImageUrl = data[0].imagePath;
       }
     );
   }
@@ -128,9 +135,10 @@ console.log(PO_id);
     this.FormValue = uploadData;
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
-
+      
       // When file uploads set it to file formcontrol
       reader.onload = () => {
+        this.imageUrl = reader.result;
         this.userEditFrom.patchValue({
           file: reader.result
         });
@@ -145,16 +153,23 @@ console.log(PO_id);
 
   onSubmit() {
 
+
+    let UserData = {
+      user_id: this.f.id.value,
+      firstName: this.f.firstName.value,
+      role: "Instructor",
+      email: this.f.email.value,
+      nicNumber:this.f.age.value,
+    }
 //alert('submit');
 const editUserDetails = {
   _id:this._id,
   id: this.f.id.value,
   email: this.f.email.value,
-  image: this.newImage.name,
+  image: this.imageUrl,
   birth: this.f.birth.value,
   age: this.f.age.value,
   firstName: this.f.firstName.value,
-  username: this.f.username.value,
   lastName: this.f.lastName.value,
   phonenumber: this.f.phonenumber.value,
   Emergency: this.f.Emergency.value,
@@ -164,27 +179,55 @@ const editUserDetails = {
   gender: this.f.gender.value,
   description: this.f.description.value,
   active: true,
-  
  };
-console.log(editUserDetails);
- this.authenticationService.updateUser(editUserDetails)
-.subscribe(data => {
+ const formData = new FormData();
+ formData.append('file',  this.newImage);
+   if(this.userEditFrom.valid){
+    const postsImage =  this.uploadImage(formData , this.f.id.value);
+    const updateEmpyee =  this.authenticationService.updateUser(editUserDetails ,UserData)
+      if(this.oldImageUrl == this.imageUrl){
+        this.authenticationService.updateUser(editUserDetails ,UserData)
+        .subscribe(response => {
+        
+          if(response.ok !=undefined && response.ok ==1){
+            Swal.fire({
+                text: 'Employee Updated successfully',
+                icon: 'success'
+              });      
+        }
+         
+        },error=> {
+          this.error = error;
+          this.loading = false;
+        })
+      }
+      forkJoin([postsImage , updateEmpyee])
+      .subscribe(
+         result=>{
+             if(result[1].ok ==1){
+              Swal.fire({
+                  text: 'Employee Updated successfully',
+                  icon: 'success'
+                });
+             }
+         }
+      )
 
-  console.log(data);
-  this.openConfirmationDialog();
-},error=> {
-  this.error = error;
-  this.loading = false;
-})
+
+   }
+
+ 
 
 
 //     console.log("Update"+JSON.stringify(editUserDetails));
 
 }
-
-openConfirmationDialog() {
+uploadImage(data:FormData ,uniqueId): Observable<any> {
+  // tslint:disable-next-line:no-debugger
+// alert("This is the "+ data);
+  return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
+  
 
 }
-
 
 }

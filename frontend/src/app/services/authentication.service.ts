@@ -26,6 +26,13 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+
+
+  updateIstructor(data ,UserData):Observable<any>{
+    return this.http.patch(config.PAPYRUS+`/users/updateinstructor`,{data ,UserData})
+  }
+
+
   getInstructorById(id) {
     return this.http.get(config.PAPYRUS+`/users/getByIdInstructor/${id}`)
   }
@@ -241,9 +248,9 @@ export class AuthenticationService {
         }
 
         //Update user
-        updateUser(UserParamUpdate): Observable<any> {
+        updateUser(UserParamUpdate , userData): Observable<any> {
         
-          return this.http.put<User>(config.PAPYRUS+`/users/userUpdate`, UserParamUpdate)
+          return this.http.put<User>(config.PAPYRUS+`/users/userUpdate`, {UserParamUpdate , userData})
         }
 
         //Get Group data by id 
