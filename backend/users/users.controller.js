@@ -57,7 +57,7 @@ router.get('/userById/:id', getById);
 router.get('/loadProfileData/:id' , loadProfileData);
 router.get('/getReleventType/:type' , getReleventType);
 router.get('/getByIdInstructor/:id', getByIdInstructor);
-
+router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmployee);
 router.get('/usersReports', usersReportsDataLoad);
 
 
@@ -76,6 +76,12 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+function getReleventActivationOfEmployee(req ,res , next){   
+    userService.getReleventActivationOfEmployee(req.params.id)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function updateInstructor(req ,res , next){
    
@@ -396,7 +402,7 @@ function getGroupById (req,res,next){
 
 function UpdateUser(req, res, next){     
     userService.UpdateUserService(req.body)
-     .then(() => res.json({}))
+     .then(user => res.json(user))
     .catch(err => next(err));
 }
 

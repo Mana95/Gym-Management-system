@@ -220,7 +220,11 @@
                             <label for="exampleFormControlTextarea1">Description</label>
                             <textarea class="form-control" formControlName="description" rows="3"></textarea>
                         </div>
-
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" formControlName="active" >
+                            <label class="form-check-label"   for="dietPlan"><b>Employee Active/Inactive</b></label>
+                          </div>  
+                          <br/>
                         <button type="submit" *ngIf="buttonStatus" class="btn btn-primary">
                             Update <i class="fa fa-book" aria-hidden="true"></i>
                         </button>

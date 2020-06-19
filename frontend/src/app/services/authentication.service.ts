@@ -284,6 +284,12 @@ export class AuthenticationService {
         deleteInstructorData(data){
           return this.http.patch(config.PAPYRUS+`/users/instrucotrInactive/` ,data);  
         }
+
+
+        getReleventActivationOfEmployee(status){
+          return this.http.get(config.PAPYRUS+`/users/getReleventActivationOfEmployee/${status}`);  
+        
+        }
 }
 
 

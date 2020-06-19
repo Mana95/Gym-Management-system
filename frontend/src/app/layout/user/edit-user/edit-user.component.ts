@@ -58,10 +58,10 @@ export class EditUserComponent implements OnInit {
       id: [''],
       email: ['', [Validators.required, Validators.email]],
       birth: [''],
-      age: ['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
+      //age: ['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-     
+      active:[''],
       // tslint:disable-next-line:max-line-length
       phonenumber: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       // tslint:disable-next-line:max-line-length
@@ -84,9 +84,9 @@ export class EditUserComponent implements OnInit {
       this.employeeName = data[0].firstName
         this._id = data[0]._id
         this.userEditFrom.controls['email'].setValue(data[0].email);
-        this.userEditFrom.controls['age'].setValue(data[0].age);
+        //this.userEditFrom.controls['age'].setValue(data[0].age);
         this.userEditFrom.controls['firstName'].setValue(data[0].firstName);
-
+        this.userEditFrom.controls['active'].setValue(data[0].active);
         this.userEditFrom.controls['lastName'].setValue(data[0].lastName);
         this.userEditFrom.controls['phonenumber'].setValue(data[0].phonenumber);
         this.userEditFrom.controls['Emergency'].setValue(data[0].Emergency);
@@ -159,7 +159,7 @@ console.log(PO_id);
       firstName: this.f.firstName.value,
       role: "Instructor",
       email: this.f.email.value,
-      nicNumber:this.f.age.value,
+      active: this.f.active.value,
     }
 //alert('submit');
 const editUserDetails = {
@@ -168,7 +168,7 @@ const editUserDetails = {
   email: this.f.email.value,
   image: this.imageUrl,
   birth: this.f.birth.value,
-  age: this.f.age.value,
+//  age: this.f.age.value,
   firstName: this.f.firstName.value,
   lastName: this.f.lastName.value,
   phonenumber: this.f.phonenumber.value,
@@ -178,7 +178,7 @@ const editUserDetails = {
   address: this.f.address.value,
   gender: this.f.gender.value,
   description: this.f.description.value,
-  active: true,
+  active: this.f.active.value,
  };
  const formData = new FormData();
  formData.append('file',  this.newImage);
@@ -188,30 +188,38 @@ const editUserDetails = {
       if(this.oldImageUrl == this.imageUrl){
         this.authenticationService.updateUser(editUserDetails ,UserData)
         .subscribe(response => {
-        
-          if(response.ok !=undefined && response.ok ==1){
+      
+          if(response.ok != undefined && response.ok ==1){
+            console.log('Done')
             Swal.fire({
                 text: 'Employee Updated successfully',
                 icon: 'success'
               });      
-        }
+        }else{
+          Swal.fire('Oops...', `Internal Server Error Please Cotact Admin`, 'error')
+         }
          
         },error=> {
           this.error = error;
           this.loading = false;
         })
-      }
+      }else{
       forkJoin([postsImage , updateEmpyee])
       .subscribe(
          result=>{
-             if(result[1].ok ==1){
+          
+             if(result[1].ok == 1){
+               console.log('sdsdsdsdsd')
               Swal.fire({
                   text: 'Employee Updated successfully',
                   icon: 'success'
                 });
+             }else{
+              Swal.fire('Oops...', `Internal Server Error Please Cotact Admin`, 'error')
              }
          }
       )
+    }
 
 
    }

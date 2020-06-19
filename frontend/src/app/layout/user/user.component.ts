@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -25,7 +26,9 @@ export class UserComponent implements OnInit {
   editMessage = false;
   assigneValue: any;
   deleteMessage: any;
-
+  thisSalectedValue= 'active';
+  showStatus = false;
+  selectOptionStatus = ['Active Employee','Inactive Employee'];
   constructor(
     private modalService: BsModalService,
     private authenticationService: AuthenticationService,
@@ -130,6 +133,58 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
 
 
+  }
+  getChangeValue(event){
+    let selectedValue = event.target.value;
+    switch(selectedValue){
+      case this.selectOptionStatus[0]:
+        this.thisSalectedValue = 'active';
+          this.getStatusvalue(true);
+        break;
+        case this.selectOptionStatus[1]:
+          this.thisSalectedValue = 'inactive';
+          this.getStatusvalue(false);
+        break;
+    }
+
+
+}
+getStatusvalue(status:boolean) {
+  this.authenticationService.getReleventActivationOfEmployee(status)
+      .subscribe(
+        res=>{
+          this.userview = res;
+          console.log(res)
+        }
+      )
+}
+
+
+  activeEmployee(){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success'
+      )
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+      }
+    })
   }
 
 
