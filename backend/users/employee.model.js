@@ -19,7 +19,11 @@ const schema = new Schema({
     
     age:{
         type: String,
-        required: true
+      
+    },
+    description:{
+        type: String,
+      
     },
     nicNumber:{
         type: String,

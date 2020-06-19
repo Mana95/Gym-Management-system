@@ -69,10 +69,18 @@ module.exports = {
   getUsersReports,
   getByIdInstructorDetails,
   instrucotrInactive,
-  updateInstructor
+  updateInstructor,
+  getReleventActivationOfEmployee
   
 
 };
+
+async function getReleventActivationOfEmployee(status){
+  console.log(status)
+  const statusVal = (status =='true')?true:false;
+  return await Employee.find({active:statusVal})
+}
+
 async function updateInstructor(data){
   const userData= data.UserData;
   
@@ -835,29 +843,43 @@ async function loadByID(id) {
 }
 
 async function UpdateUserService(newData) {
-  console.log('Hi')
-    const userData = newData.UserData;
-    const employeeData = newData.editUserDetails;
-
-  console.log(userData)
-
-
-  return;
-return await User.updateOne(
+  
+    const userData = newData.userData;
+    const employeeData = newData.UserParamUpdate;
+ const userUpdate = await User.updateOne(
     {
-      _id: newData._id,
+      _id: userData._id,
     },
     {
-      $set: newData,
+      $set: userData,
     },
     function (err, responses) {
       if (err) {
         console.log(err);
       }else{
-        console.log(responses);
+      
       }
     }
   );
+
+    if(userUpdate){
+    return  await Employee.updateOne(
+        {
+          _id: employeeData._id,
+        },
+        {
+          $set: employeeData,
+        },
+        function (err, responses) {
+          if (err) {
+            console.log(err);
+          }else{
+            
+          }
+        }
+      );
+    }
+
 }
 
 async function groupinsertion(groupData) {
@@ -976,7 +998,7 @@ async function authenticate({ email, password }) {
 
 //Get data
 async function getAll() {
-  return await Employee.find({});
+  return await Employee.find({active:true});
 }
 
 async function getById(id) {
@@ -1029,21 +1051,38 @@ async function update(id, userParam) {
 }
 
 async function _delete(data) {
-  console.log(data);
-  await User.deleteOne({ user_id: data.EmpId }, async function (err, response) {
-    if (err) {
-      //console.log('HEllo')
-      return {
-        message: JSON.stringify(err),
-        error: true,
-      };
-    } else {
-      console.log("user done");
-      await Employee.deleteOne({ _id: data.id });
-      return {
-        message: "record is updated successfully",
-        error: false,
-      };
-    }
+  // await User.updateOne({ user_id: data.EmpId },{$set:{active:false}}, async function (err, response) {
+  //   if (err) {
+  //     //console.log('HEllo')
+  //     return {
+  //       message: JSON.stringify(err),
+  //       error: true,
+  //     };
+  //   } else {
+  //     console.log("user done");
+  //     await Employee.updateOne({ user_id: data.EmpId },{$set:{active:false}},);
+  //     return {
+  //       message: "record is updated successfully",
+  //       error: false,
+  //     };
+  //   }
+  // });
+  await User.updateOne({ user_id: data.EmpId },{$set:{active:false}},function(error , result){
+      if(error){
+        console.log(error);
+      }
   });
+
+  await Employee.updateOne({ id: data.EmpId },{$set:{active:false}},function(error , result){
+    if(error){
+      console.log(error);
+    }else {
+      return 1;
+    }
+});
+
+
+
+
+
 }

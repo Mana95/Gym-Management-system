@@ -34,6 +34,7 @@ export class NewUserComponent implements OnInit {
   removeUpload: boolean = false;
   editFile: boolean = true;
   buttonStatus = false
+  imageErrorMessage = false;
 
   @Input() isChecked = false;
 
@@ -47,6 +48,7 @@ export class NewUserComponent implements OnInit {
   imageData: any;
   newImage:any;
   imageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
+  oldImageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
   profileUrl :any = '../../../../../../backend/uploads/E_BFZXF5AP/0.jpg';
   day:any;
   dateFieldValid = false;
@@ -177,6 +179,7 @@ export class NewUserComponent implements OnInit {
       // When file uploads set it to file formcontrol
       reader.onload = () => {
         this.imageUrl = reader.result;
+        if(this.imageUrl != this.oldImageUrl ){ this.imageErrorMessage = false;}
         this.userRegisterFrom.patchValue({
           file: reader.result
         });
@@ -319,7 +322,7 @@ else if (dayText > 31) {
       image: this.newImage.name,
       email: this.f.email.value,
       birth: this.f.birth.value,
-      age: this.f.age.value,
+      nicNumber: this.f.age.value,
       firstName: this.f.firstName.value,
       username: this.f.username.value,
       lastName: this.f.lastName.value,
@@ -362,8 +365,8 @@ else if (dayText > 31) {
    }
  )
     } else{
-     
-      Swal.fire('Oops...', `Please Employee fill the form properly`, 'error')
+      this.imageErrorMessage = true;
+      Swal.fire('Oops...', `Submission failed as it is asking for personal or sensitive information`, 'error')
     }
 
   }
