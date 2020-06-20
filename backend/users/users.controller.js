@@ -59,6 +59,7 @@ router.get('/getReleventType/:type' , getReleventType);
 router.get('/getByIdInstructor/:id', getByIdInstructor);
 router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmployee);
 router.get('/usersReports', usersReportsDataLoad);
+router.get('/getReleventUserData/:id', getReleventUserData);
 
 
 
@@ -76,6 +77,13 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+function getReleventUserData(req ,res , next){ 
+   
+    userService.getReleventUserData(req.params.id)
+    .then((data) => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function getReleventActivationOfEmployee(req ,res , next){   
     userService.getReleventActivationOfEmployee(req.params.id)

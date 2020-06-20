@@ -36,6 +36,37 @@
         <div class="card-header"><b>Suplier New Record</b></div>
         <div class="card-body">
             <form [formGroup] = "supRegister" (ngSubmit)="onSubmit(userID ,content,contentDone)">
+
+              <div class="form-group">
+                <div class="group-gap">
+                  <div class="avatar-upload">
+                    <div class="avatar-edit">
+
+                      <input type='file' id="imageUpload" formControlName = "document"    accept=".png, .jpg, .jpeg" #fileInput
+                        (change)="uploadFile($event)" [ngClass]="{ 'is-invalid': submitted && f.document.errors }" />
+                        
+                    </div>
+                    <div class="avatar-preview">
+                      <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="imageErrorMessage" style="text-align: center;color: red;"><b>Document is required</b></div>
+                  <!-- Submit Button -->
+                  <button type="button" class="btn btn-primary btn-lg btn-block btn-sm" (click)="fileInput.click()">Upload profile
+                    image</button>
+                    
+                </div>
+                
+                 
+            
+              </div>
+
+
+
+
+
+
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Suplier Id</label>

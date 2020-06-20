@@ -95,6 +95,7 @@ const routes: Routes = [
             { path: 'grn_report', loadChildren: () => import('./Reports/grn-report/grn-report.module').then(m => m.GrnReportModule), canActivate: [AuthGuard]},
         
             {path:'edit-instructor-page/:id' , loadChildren: ()=> import('./user/instructors/instructors-edit/instructors-edit.module').then(m=>m.InstructorsEditModule), canActivate: [AuthGuard]},
+            {path:'edit-supplier-page/:id' , loadChildren: ()=> import('./user/suppliers/edit-suplliers/edit-suplliers.module').then(m=>m.EditSuplliersModule), canActivate: [AuthGuard]},
 
 
 

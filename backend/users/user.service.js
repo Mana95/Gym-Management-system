@@ -70,11 +70,15 @@ module.exports = {
   getByIdInstructorDetails,
   instrucotrInactive,
   updateInstructor,
-  getReleventActivationOfEmployee
+  getReleventActivationOfEmployee,
+  getReleventUserData
   
 
 };
-
+async function getReleventUserData(id){
+  
+  return await Supplier.find({_id:id});
+}
 async function getReleventActivationOfEmployee(status){
   console.log(status)
   const statusVal = (status =='true')?true:false;

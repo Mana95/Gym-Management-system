@@ -27,7 +27,9 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-
+  getReleventUserData(id){
+      return this.http.get(config.PAPYRUS+`/users/getReleventUserData/${id}`)
+  }
   updateIstructor(data ,UserData):Observable<any>{
     return this.http.patch(config.PAPYRUS+`/users/updateinstructor`,{data ,UserData})
   }

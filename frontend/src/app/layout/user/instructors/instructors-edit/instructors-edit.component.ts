@@ -83,6 +83,7 @@ export class InstructorsEditComponent implements OnInit {
             address: ["", Validators.required],
             description: [""],
             typeName: ["", Validators.required],
+            active:[''],
             tickets: new FormArray([]),
             skills: new FormArray([]),
             education: new FormArray([]),
@@ -129,7 +130,8 @@ export class InstructorsEditComponent implements OnInit {
                 this.updateGroup.controls["currnetJoinDate"].setValue(
                     data.joinDate
                 );
-                this.updateGroup.controls["firstName"].setValue(data.firstName);
+                this.updateGroup.controls["firstName"].setValue(data.firstName); 
+                this.updateGroup.controls["active"].setValue(data.active);
                 this.updateGroup.controls["lastName"].setValue(data.lastName);
                 this.updateGroup.controls["phonenumber"].setValue(
                     data.phonenumber
@@ -440,7 +442,7 @@ export class InstructorsEditComponent implements OnInit {
             firstName: this.f.firstName.value,
             email: this.f.email.value,
             nicNumber: this.f.nicNumber.value,
-            active: true,
+            active: this.f.active.value,
         };
 
         let instructordata = {
@@ -456,9 +458,8 @@ export class InstructorsEditComponent implements OnInit {
             description: this.f.description.value,
             typeName: this.f.typeName.value,
             nicNumber: this.f.nicNumber.value,
-            // image: this.imageUrl,
+            active: this.f.active.value,
             role: "Instructor",
-            active: true,
             experince: this.f.tickets.value,
             skils: this.f.skills.value,
             education: this.f.education.value,
