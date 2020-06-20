@@ -26,6 +26,11 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+  updateSupplier(updateSupplier , userData){
+    return this.http.patch(config.PAPYRUS+`/users/updateSupplierData`, {updateSupplier , userData})
+
+  }
+
 
   getReleventUserData(id){
       return this.http.get(config.PAPYRUS+`/users/getReleventUserData/${id}`)

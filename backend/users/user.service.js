@@ -7,6 +7,7 @@ const details = require("details.json");
 
 var moment = require('moment');
 const nodemailer = require("nodemailer");
+const { ok } = require("assert");
 
 const User = db.User;
 const Roles = db.Roles;
@@ -71,10 +72,46 @@ module.exports = {
   instrucotrInactive,
   updateInstructor,
   getReleventActivationOfEmployee,
-  getReleventUserData
+  getReleventUserData,
+  updateSupplierDataService
   
 
 };
+
+
+async function updateSupplierDataService(supplierData){
+  var userData = supplierData.userData;
+  var supplierDetails = supplierData.updateSupplier;
+//console.log(userData);
+  const userUpdateQuery = await User.updateOne(
+    {
+      user_id:userData.user_id
+    },
+    {
+      $set:userData
+    },
+    function(err , result){
+       if(err){
+         console.log(err)
+         return err;
+       }
+    }
+  )
+  const supplierupdateQuery =  await Supplier.updateOne(
+    {sup_id:supplierDetails.id},
+    {$set:supplierDetails}
+  )
+    if(supplierupdateQuery.ok == userUpdateQuery.ok ) return 1;
+  
+
+  
+
+
+
+
+}
+
+
 async function getReleventUserData(id){
   
   return await Supplier.find({_id:id});

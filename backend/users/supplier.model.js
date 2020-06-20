@@ -34,6 +34,9 @@ const schema = new Schema({
         type:String,
         required:true
     },
+    sup_company_address:{
+        type:String,
+    },
     
     sup_phonenumber: {
         type:Number,
