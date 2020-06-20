@@ -1,10 +1,12 @@
 import { PasswordStrengthValidator } from './../../../../_models/password-strength.validators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+
+import { FileUploader } from 'ng2-file-upload';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -19,19 +21,36 @@ export class NewSuppliersComponent implements OnInit {
   supRegister:FormGroup;
   submitted = false;
   loading = false;
+  
+  FormValue: any;
+  imageErrorMessage = false;
   error = '';
+  imageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
+  profileUrl: any = '../../../../../../backend/uploads/';
+  oldImageUrl: any = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
+ 
   userId : any;
   sendMails:any;
   dateFieldValid = false;
   day:any;
   Type = ['All' , 'Nuritions' , 'Equipment'];
+  imageData: any;
+  newImage: any;
+  buttonStatus: boolean;
+  removeUpload: boolean;
+  editFile: boolean;
   constructor( 
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private router: Router,
     private modalService: NgbModal,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,
+    
+    private cd: ChangeDetectorRef,) { }
 
+  public uploader: FileUploader = new FileUploader({
+    isHTML5: true
+  });
   ngOnInit() {
     this.supRegister = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -47,6 +66,7 @@ export class NewSuppliersComponent implements OnInit {
       phonenumber1:['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       description:['',  Validators.required],
       birth:[''],
+      document:[''],
       email: ['', [Validators.required, Validators.email]],
     },
     {
@@ -219,7 +239,7 @@ export class NewSuppliersComponent implements OnInit {
       sup_id: userID.value,
       sup_firstName: this.f.firstName.value,
       sup_lastName:this.f.lastName.value,
-     
+      image: this.imageUrl,
       sup_nicNumber:this.f.nicNumber.value,
       sup_company:this.f.company.value,
       sup_address:this.f.address.value ,
@@ -246,13 +266,14 @@ export class NewSuppliersComponent implements OnInit {
       password:this.f.password.value,
       mail:this.f.email.value
     }
-
+    if(this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'){
+      this.imageErrorMessage = true;
+      this.submitted = true;
+      Swal.fire('Oops...', `${AlertMessages.ERRORMESSAGEFORFORMVALIDATION}`, 'error');
+      return;
+    }
   
-    if(this.supRegister.valid){
-      
-
-
-
+    if(this.supRegister.valid ||  this.imageUrl != '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'){
       this.authenticationService.registerSupplier(sup_data ,UserData ,mailData )
       .subscribe(
         response=>{
@@ -261,6 +282,7 @@ export class NewSuppliersComponent implements OnInit {
               text: 'Supplier Registered successfully',
               icon: 'success'
             });
+            this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'
             this.submitted = false;
             this.supRegister.reset();
             this.loadNewId();
@@ -284,6 +306,8 @@ export class NewSuppliersComponent implements OnInit {
 
     }
     else {
+      this.submitted = true;
+      
       Swal.fire('Oops...', `${AlertMessages.ERRORMESSAGEFORFORMVALIDATION}`, 'error');
     }
 
@@ -297,4 +321,39 @@ export class NewSuppliersComponent implements OnInit {
         }
     }
 
+
+    uploadFile(event) {
+
+
+      const fileEvnet = event.target.files[0];
+      if(fileEvnet){
+        this.buttonStatus = true;
+      }
+      console.log(fileEvnet);
+      this.newImage = fileEvnet;
+   
+      const uploadData = new FormData();
+      let fileItem = this.uploader.queue;
+      // uploadData.append('file', fileItem);
+      this.imageData = event.value;
+      let reader = new FileReader(); // HTML5 FileReader API
+      let file = event.target.files[0];
+      this.FormValue = uploadData;
+      if (event.target.files && event.target.files[0]) {
+        reader.readAsDataURL(file);
+  
+        // When file uploads set it to file formcontrol
+        reader.onload = () => {
+          this.imageUrl = reader.result;
+          if(this.imageUrl != this.oldImageUrl ){ this.imageErrorMessage = false;}
+          this.supRegister.patchValue({
+            file: reader.result
+          });
+          this.editFile = false;
+          this.removeUpload = true;
+        }
+        // ChangeDetectorRef since file is loading outside the zone
+        this.cd.markForCheck();
+      }
+    }
 }

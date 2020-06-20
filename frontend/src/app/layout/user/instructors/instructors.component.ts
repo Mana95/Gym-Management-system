@@ -397,6 +397,7 @@ public uploader: FileUploader = new FileUploader({
     lastName:this.f.lastName.value,
     username:this.f.username.value,
     phonenumber:this.f.phonenumber.value,
+    phonenumber1:this.f.phonenumber1.value,
     birth:this.f.birth.value,
     address:this.f.address.value,
     description:this.f.description.value,

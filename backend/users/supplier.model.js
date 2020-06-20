@@ -15,7 +15,9 @@ const schema = new Schema({
         type:String,
         required:true
     },
-
+    image:{
+        type:String, 
+    },
     sup_company: {
         type:String,
         required:true
