@@ -2,11 +2,13 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { config } from 'src/app/config/config';
 
 
 @Component({
@@ -43,6 +45,7 @@ export class EditSuplliersComponent implements OnInit {
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
+    private http: HttpClient,
     ) { }
     public uploader: FileUploader = new FileUploader({
       isHTML5: true
@@ -55,7 +58,7 @@ export class EditSuplliersComponent implements OnInit {
       companyAddress :['', Validators.required],
       lastName: ['', Validators.required],
       active:[''],
-      gender:[''],
+     // gender:[''],
       address: ['', Validators.required],
       nicNumber:['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       company:['' , Validators.required],
@@ -64,7 +67,7 @@ export class EditSuplliersComponent implements OnInit {
       phonenumber: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       Emergency:['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       description:['',  Validators.required],
-      birth:[''],
+     // birth:[''],
       document:[''],
       email: ['', [Validators.required, Validators.email]],
     });
@@ -84,7 +87,9 @@ export class EditSuplliersComponent implements OnInit {
         this.supllierUpdate.controls['description'].setValue(result[0].sup_description);
         this.supllierUpdate.controls['email'].setValue(result[0].sup_email);
         this.supllierUpdate.controls['active'].setValue(result[0].active);
+        this.supllierUpdate.controls['company'].setValue(result[0].sup_company);
         this.supllierUpdate.controls['address'].setValue(result[0].sup_address);
+           this.supllierUpdate.controls['companyAddress'].setValue(result[0].sup_company_address);
         this. imageUrl = result[0].image;
       }
     )
@@ -97,9 +102,6 @@ export class EditSuplliersComponent implements OnInit {
   }
   uploadFile(event) {
     const fileEvnet = event.target.files[0];
-    
-
-   
     this.newImage = fileEvnet;
 
     const uploadData = new FormData();
@@ -127,10 +129,9 @@ export class EditSuplliersComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     
-    let UserData = {
+     let UserData = {
       user_id: this.f.id.value,
       firstName: this.f.firstName.value,
-      role: "Instructor",
       email: this.f.email.value,
       active: this.f.active.value,
     }
@@ -140,19 +141,46 @@ const supplierDetails = {
   id: this.f.id.value,
   email: this.f.email.value,
   image: this.imageUrl,
-  birth: this.f.birth.value,
+  sup_company_address: this.f.companyAddress.value,
   firstName: this.f.firstName.value,
   lastName: this.f.lastName.value,
   phonenumber: this.f.phonenumber.value,
   Emergency: this.f.Emergency.value,
-  role: 'User',
-  imagePath: this.imageUrl,
   address: this.f.address.value,
-  gender: this.f.gender.value,
   description: this.f.description.value,
   active: this.f.active.value,
  };
+ const formData = new FormData();
+ formData.append('file',  this.newImage);
+ if(this.supllierUpdate.valid){
+//  const postsImage =  this.uploadImage(formData , this.f.id.value);
+  //const updateSupplier =  this.authenticationService.updateUser(supplierDetails ,UserData);
 
- console.log(supplierDetails);
+    this.authenticationService.updateSupplier(supplierDetails ,UserData)
+    .subscribe(response => {
+      console.log(response)
+      if(response ==null){
+        return;
+      }
+      if(response != undefined && response ==1){
+        
+        Swal.fire({
+            text: 'Employee Updated successfully',
+            icon: 'success'
+          });
+          return;      
+    }else{
+      Swal.fire('Oops...', `Internal Server Error Please Cotact Admin`, 'error')
+     }
+     
+    },error=> {
+      console.log(error);
+      Swal.fire('Oops...', `${error.statusText} Please Cotact Admin`, 'error')
+      this.error = error;
+      this.loading = false;
+    })
   }
-}
+
+ }
+  }
+

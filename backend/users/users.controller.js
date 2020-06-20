@@ -69,6 +69,7 @@ router.patch('/membershipInactive', memerbershipUpdateStatus);
 
 router.patch('/updateinstructor', updateInstructor);
 router.patch('/instrucotrInactive', instructorUpdateStatus);
+router.patch('/updateSupplierData', updateSupplierData);
 
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
@@ -77,6 +78,12 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+function updateSupplierData(req ,res , next){ 
+   
+    userService.updateSupplierDataService(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function getReleventUserData(req ,res , next){ 
    
