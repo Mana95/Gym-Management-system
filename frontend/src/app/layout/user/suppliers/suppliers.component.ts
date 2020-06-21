@@ -16,6 +16,10 @@ export class SuppliersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tableLoadData();
+   
+  }
+  tableLoadData() {
     this.authenticationService.getAllSuppliers()
     .subscribe(
       res=>{
@@ -25,7 +29,6 @@ export class SuppliersComponent implements OnInit {
       }
     )
   }
-
   confirm(){
 
   }
@@ -43,9 +46,8 @@ export class SuppliersComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        this.router.navigate(['/edit-supplier-page', data._id]);
-     
-    
+        this.router.navigate(['/edit-supplier-page', data._id]);   
+
       // For more information about handling dismissals please visit
       // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -54,5 +56,46 @@ export class SuppliersComponent implements OnInit {
     })
     
   }
+  deleteSupplier(data) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteSupplierDetails(data);
+     
+    
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+     
+      }
+    })
+  }
 
+
+  deleteSupplierDetails(supplierData) {
+    this.authenticationService.updateSupplierDelettion(supplierData)
+    .subscribe(
+      response=>{       
+        if(response==1){
+          Swal.fire({
+         
+            text: 'Supplier Delete successfully',
+            icon: 'success'
+         
+          });
+
+          this.tableLoadData();
+
+        }
+        else{
+        Swal.fire('Oops...', `Internal Server error`, 'error');
+      }}
+    )
+  }
 }

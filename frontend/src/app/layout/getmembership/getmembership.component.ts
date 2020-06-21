@@ -596,6 +596,7 @@ export class GetmembershipComponent implements OnInit {
       birth: this.f.birth.value,
       customerID : this.f.memberId.value,
       description: this.f.description.value,
+      AcceptedRejectedStatus:'Pending',
       gender: this.f.gender.value,
       age:this.f.age.value,
       BMI: this.f.BMI.value,
