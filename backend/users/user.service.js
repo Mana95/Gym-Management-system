@@ -73,11 +73,34 @@ module.exports = {
   updateInstructor,
   getReleventActivationOfEmployee,
   getReleventUserData,
-  updateSupplierDataService
-  
+  updateSupplierDataService,
+  deleteSupplierDataService,
+  updateActiveIncativeStatusMembership_service
 
 };
+async function updateActiveIncativeStatusMembership_service(data){
+    var updateMembershipStatus = await Membership.updateOne(
+      {_id:data.data._id}, {$set:{AcceptedRejectedStatus:"Rejected"}}
+    )
+    if(updateMembershipStatus.ok==1){
+      return 1;
+    }
+}
 
+async function deleteSupplierDataService(data){
+  
+    var inactiveSupplier = await Supplier.updateOne(
+      {_id:data.data._id} , {$set:{active:false}}
+    )
+    var inactiveUser = await User.updateOne(
+      {user_id:data.data.sup_id} , {$set:{active:false}}
+    )
+    console.log('ijh')
+      if(inactiveSupplier.ok == inactiveUser.ok){
+        return 1;
+      }
+
+}
 
 async function updateSupplierDataService(supplierData){
   var userData = supplierData.userData;
@@ -701,7 +724,8 @@ async function getCatDataRelevent(id) {
 }
 
 async function getSuppliers() {
-  return await Supplier.find({});
+  console.log('dsda')
+  return await Supplier.find({active:true});
 }
 
 async function supRegister(data) {

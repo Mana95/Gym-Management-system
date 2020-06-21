@@ -32,7 +32,6 @@ router.post('/EmployeeCreation' , EmployeeCreation);
 router.post('/updateRole' , updateRole);
 router.post('/checkNIC' , checkNIC);
 
-
 router.get('/u', getAll);
 router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
@@ -61,15 +60,16 @@ router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmploy
 router.get('/usersReports', usersReportsDataLoad);
 router.get('/getReleventUserData/:id', getReleventUserData);
 
-
-
 router.put('/:id', update);
+router.patch('/deleteSupplierData', deleteSupplierData);
 
 router.patch('/membershipInactive', memerbershipUpdateStatus);
 
 router.patch('/updateinstructor', updateInstructor);
 router.patch('/instrucotrInactive', instructorUpdateStatus);
 router.patch('/updateSupplierData', updateSupplierData);
+
+router.patch('/updateActiveIncativeStatusMembership', updateActiveIncativeStatusMembership);
 
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
@@ -78,6 +78,19 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+function updateActiveIncativeStatusMembership(req ,res , next){
+    userService.updateActiveIncativeStatusMembership_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+function deleteSupplierData(req ,res , next){
+    userService.deleteSupplierDataService(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
 function updateSupplierData(req ,res , next){ 
    
     userService.updateSupplierDataService(req.body)

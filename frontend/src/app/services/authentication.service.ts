@@ -26,6 +26,14 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+
+  updateActiveIncativeStatusMembership(data) {
+    return this.http.patch(config.PAPYRUS+`/users/updateActiveIncativeStatusMembership`, {data})
+  }
+  updateSupplierDelettion(data) {
+    return this.http.patch(config.PAPYRUS+`/users/deleteSupplierData`, {data})
+  }
+
   updateSupplier(updateSupplier , userData){
     return this.http.patch(config.PAPYRUS+`/users/updateSupplierData`, {updateSupplier , userData})
 

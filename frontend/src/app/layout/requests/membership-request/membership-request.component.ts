@@ -67,7 +67,20 @@ export class MembershipRequestComponent implements OnInit {
     )
   }
 
+  updateAcceptInactiveStatus(data){
 
+    this.authenticationService.updateActiveIncativeStatusMembership(data)
+    .subscribe(
+      res=>{
+        if(res==1){
+          Swal.fire({  text: 'Membership has bee RejectedI😕!',
+          icon: 'success'
+        }); 
+        this.loadTableData();
+        }
+      }
+    )
+  }
 
 
 }

@@ -18,9 +18,8 @@ const schema = new Schema({
 
         type: String,
         required: true,
-      
-
     },
+    
     firstName: {
         type: String,
         required: true
@@ -87,6 +86,9 @@ const schema = new Schema({
     endDate: {
         type: Date,
         required: true
+    },
+    AcceptedRejectedStatus:{
+       type:String, 
     },
     status: {
         type: String,

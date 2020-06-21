@@ -78,6 +78,7 @@ export class NewCustomerComponent implements OnInit {
    memberId:[''],
    disaster: ['', Validators.required],
    description: [""],
+   age:[''],
    gender: ['', Validators.required],
    currnetJoinDate: [""],
    typeName: ["", Validators.required],
@@ -338,6 +339,7 @@ export class NewCustomerComponent implements OnInit {
           this.dateFieldValid = false;
         }
         let birthday = year+ "-" + month + "-" + this.day
+        this.getAge(birthday);
         this.MembershipGroup.controls['birth'].setValue(birthday);
         this.MembershipGroup.controls['gender'].setValue(gender);
   
@@ -345,6 +347,57 @@ export class NewCustomerComponent implements OnInit {
   }
     
   }
+  
+  getAge(birthday) {
+
+    //get today;
+    var now = new Date();
+    var yearNow = now.getFullYear();
+    var monthNow = now.getMonth();
+    var dateNow = now.getDate();
+
+    const bornday = new Date(birthday);
+
+    var bornyear =bornday.getFullYear();
+    var bornmonth =bornday.getMonth();
+    var bornNow =bornday.getDate();
+    var age = {};
+    var ageString = "";
+    var yearString = "";
+    var monthString = "";
+    var dayString = "";
+    var yearAge = yearNow - bornyear;
+    this.MembershipGroup.controls['age'].setValue(yearAge);
+
+    if (monthNow >= bornmonth)
+    var monthAge = monthNow - bornmonth;
+  else {
+    yearAge--;
+    var monthAge = 12 + monthNow -bornmonth;
+  }
+
+  if (dateNow >= bornNow)
+    var dateAge = dateNow - bornNow;
+  else {
+    monthAge--;
+    var dateAge = 31 + dateNow - bornNow;
+
+    if (monthAge < 0) {
+      monthAge = 11;
+      yearAge--;
+    }
+  }
+   age = {
+    years: yearAge,
+    months: monthAge,
+    days: dateAge
+    };
+    
+
+    console.log(age)
+
+  }
+
 
   get f() {
 
@@ -373,13 +426,14 @@ export class NewCustomerComponent implements OnInit {
       email: this.f.email.value,
       firstName: this.f.firstName.value,
       lastName: this.f.lastName.value,
-      username: this.usernameValue,
+      AcceptedRejectedStatus:'Accepted',
       phonenumber: this.f.phonenumber.value,
       phonenumber1: this.f.phonenumber1.value,
       Height: Number(this.f.Height.value),
       Weight: Number(this.f.Weight.value),
       disaster: this.f.disaster.value,
       birth: this.f.birth.value,
+      age:this.f.age.value,
       customerID : this.f.memberId.value,
       description: this.f.description.value,
       gender: this.f.gender.value,
@@ -399,8 +453,7 @@ export class NewCustomerComponent implements OnInit {
     let userParam = {
       user_id:  this.f.memberId.value,
       nicNumber:this.f.nicNumber.value,
-      username: this.usernameValue,
-      firstName: this.usernameValue,
+      firstName:  this.f.firstName.value,
       password:this.f.password.value,
       role: "Membership",
       email: this.f.email.value,
@@ -439,6 +492,8 @@ export class NewCustomerComponent implements OnInit {
         
 
 
+    }else{
+      Swal.fire('Oops...',`Form Validation failed`, 'error')
     }
 
   }
