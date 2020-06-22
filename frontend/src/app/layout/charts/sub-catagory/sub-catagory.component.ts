@@ -112,6 +112,8 @@ export class SubCatagoryComponent implements OnInit {
               text: 'Inserted successfully',
               icon: 'success'
             });
+            this.submitted = false;
+            this.loadFormData();
           }else{
             Swal.fire('Oops...', `${data} Already inserted `, 'error');
           }

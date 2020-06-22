@@ -49,6 +49,7 @@ export class BsElementComponent implements OnInit {
   avlbleQuantity = 0;
   pushValue = false;
   PushVaribaleCheck: string;
+  errorMessage = false;
 
   constructor(
     private orderService: OrderService,
@@ -138,19 +139,22 @@ export class BsElementComponent implements OnInit {
   get f() { return this.purchaseOrderGroup.controls; }
 
   getCatValue(data) {
-    console.log('TS')
+  
     let catName = data.value;
     console.log(catName)
     this.catagoryService.getchoosenItems(catName)
       .subscribe(
         data => {
-          // console.log(data);
           this.subcat = data;
           this.activecat = true;
-          //  console.log(data)
+          this.errorMessage = false;
+          if(data.length ==0){
+            this.errorMessage = true;
+            this.activecat = false;
+          }
         },
         error => {
-          //  console.log(error);
+        
         });
 
     this.active = true
@@ -340,7 +344,7 @@ export class BsElementComponent implements OnInit {
       time: this.currentDate,
       categoryName: this.f.categoryName.value,
       status: 'Pending',
-      currentUser: this.currentUserSubject.value.username,
+      currentUser: this.currentUserSubject.value.nicNumber,
       ItemDataValues: this.f.credentials.value
     }
     console.log(purchaseOrderData);

@@ -96,10 +96,13 @@
                                         <input type="text" readonly  formControlName="itemName" class="form-control" />
                                         </td>
                                         <td>
-                                        <input type="text"  formControlName="qty" numbersOnly class="form-control"  [ngClass]="{ 'is-invalid': submitted && Table.controls.qty.errors }" />
+                                        <input type="text" (keyup)="CheckQuanity(Table , i)"  formControlName="qty" numbersOnly class="form-control"  [ngClass]="{ 'is-invalid': (submitted && Table.controls.qty.errors) || erroMessageQuatity }" />
                                         <div *ngIf="submitted && Table.controls.qty.errors" class="invalid-feedback">
                                             <div *ngIf="Table.controls.qty.errors.required">Quantity is required</div>
                                           </div>    
+                                          <div *ngIf="erroMessageQuatity" class="invalid-feedback">
+                                            <div>Please select less Quanity</div>
+                                          </div> 
                                     </td>
                                         <td>
                                             <input type="text" appTwoDigitDecimaNumber (input)="changesubTotal(Table)" formControlName="buyingPrice" class="form-control" placeholder="00.00"
@@ -107,6 +110,7 @@
                               <div *ngIf="submitted && Table.controls.buyingPrice.errors" class="invalid-feedback">
                                 <div *ngIf="Table.controls.buyingPrice.errors.required">Buying Price is required</div>
                               </div>
+
                                         </td>
                                         
                                         <td>
@@ -119,6 +123,7 @@
                             
                             </tbody>
                         </table>
+                        
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <div class="form-group col-md-3">
@@ -136,6 +141,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="form-row">
                             <button type="submit" class="btn btn-success">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>
