@@ -32,6 +32,7 @@
             <div class="form-group col-md-6">
                 <label for="inputState">Main Catagory</label>
                 <select formControlName = "mainCatgory" class="form-control" [ngClass]="{ 'is-invalid': submitted && subC.mainCatgory.errors }">
+                  <option disabled selected>Employee Status</option>
                   <option *ngFor= "let data of mainCat">{{data.cat_name}}</option> 
                </select>
               </div>

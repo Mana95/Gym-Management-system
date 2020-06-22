@@ -42,6 +42,7 @@
                 <label for="inputPassword4">Item Type</label>
                 <label for="inputState">State</label>
       <select id="inputState" class="form-control" formControlName=itemType [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
+        <option  selected>Item Status</option>
         <option *ngFor="let data of ArraySelectOption">{{data}}</option>
      
       </select>
@@ -58,6 +59,7 @@
                 <label for="inputPassword4">Main Catagory Name</label>
                 <select class="form-control" #data formControlName=cat_name
                   [ngClass]="{ 'is-invalid': submitted && f.cat_name.errors }">
+                  <option  selected>Main catagory Status</option>
                   <option *ngFor="let data of mainCat">{{data.cat_name}}</option>
                 </select>
                 <div *ngIf="submitted && f.cat_name.errors" class="invalid-feedback">
@@ -68,6 +70,7 @@
                 <label for="inputquantity4">Sub Catagory</label>
                 <select class="form-control" formControlName="sub_cat"
                   [ngClass]="{ 'is-invalid': submitted && f.sub_cat.errors }">
+                  <option  selected>Sub catagory Status</option>
                   <option *ngFor="let data of subcat">{{data.sub_cat_name}}</option>
                 </select>
                 <div *ngIf="submitted && f.sub_cat.errors" class="invalid-feedback">
@@ -166,7 +169,7 @@
                   <td style="text-align: center;">{{ data.item_name}}</td>
                   <td style="text-align: center;">{{data.sub_cat}}</td>
                   <td style="text-align: center;">{{data.cat_name}}</td>
-                  <td style="text-align: center;">{{data.quantity}}</td>
+                  <td style="text-align: center;">{{data?.quantity}}</td>
                   <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
                         class="fa fa-pencil" (click)="openEditModel(data)" aria-hidden="true"></i></button> &nbsp;
                     <button type="button" (click)="inActiveItem(data)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"

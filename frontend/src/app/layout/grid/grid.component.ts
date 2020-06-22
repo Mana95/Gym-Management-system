@@ -27,7 +27,7 @@ export class GridComponent implements OnInit {
     public currentUser: Observable<User>;
 
     grnGroup: FormGroup;
-
+    erroMessageQuatity = false;
     submitted = false;
     loading = false;
     error = "";
@@ -46,6 +46,7 @@ export class GridComponent implements OnInit {
     disableamount = false;
     TotalAmountArray = [0];
     stockId: string;
+    itemDataValueCheck :any;
 
     goodreciveNote = new GoodReaciveNote();
 
@@ -165,12 +166,14 @@ export class GridComponent implements OnInit {
         this.orderService.getByIdPo(id).subscribe((data) => {
             // Iniialize the Formtabe Data
             const ItemArray = data[0].ItemDataValues;
+            this.itemDataValueCheck = data[0].ItemDataValues;
 
             const supplierId = data[0].supplierId;
             // getting data
             this.orderService.getSupplieraddress(supplierId).subscribe(
                 (response1) => {
                     // console.log(response1);
+
                     this.grnGroup.controls["supplierAdress"].setValue(
                         response1[0].sup_address
                     );
@@ -461,5 +464,19 @@ export class GridComponent implements OnInit {
                 ]
             }
         };
+    }
+
+    CheckQuanity(data , index){
+        var formItemArray = this.itemDataValueCheck[index] ;
+        const arrayFormControl = this.f.TableArray as FormArray;
+        this.erroMessageQuatity = false;
+        if(formItemArray.qty < data.value.qty){
+            this.erroMessageQuatity = true;
+            arrayFormControl.controls[index].get('qty').setValue(formItemArray.qty);
+            setTimeout(data=>{
+                this.erroMessageQuatity = false;
+            },1000)
+        }
+    
     }
 }
