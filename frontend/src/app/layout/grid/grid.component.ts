@@ -265,7 +265,7 @@ export class GridComponent implements OnInit {
             grnStatus: "Done",
             supplierAdress: this.f.supplierAdress.value,
             note: this.f.note.value,
-            currentUser: this.currentUserSubject.value.username,
+            currentUser: this.currentUserSubject.value.nicNumber,
             ItemGrnTable: this.f.TableArray.value,
             totalAmount: this.f.totalAmount.value,
         };

@@ -126,6 +126,23 @@ export class SidebarComponent implements OnInit {
             return this.currentUser && this.currentUser.role === Role.Member;
         }
     }
+
+    //Membershihp Module
+    get onlyAdminEmployee() {
+        if(this.currentUser.role === Role.User){
+            return this.currentUser && this.currentUser.role === Role.User;
+        }else if(this.currentUser.role === Role.Admin){
+            return this.currentUser && this.currentUser.role === Role.Admin;
+        }
+
+
+    }
+
+    get onlyMember() {
+        return this.currentUser && this.currentUser.role === Role.Member;
+
+    }
+
     get isAdmin() {
 
         return this.currentUser && this.currentUser.role === Role.Admin;
@@ -158,13 +175,7 @@ export class SidebarComponent implements OnInit {
     get category(){
         if(this.currentUser.role === Role.Admin){
             return this.currentUser && this.currentUser.role === Role.Admin 
-        }
-        else if(this.currentUser.role === Role.Member){
-
-            return this.currentUser && this.currentUser.role === Role.Member;
-        }
-         
-            
+        }        
     }
 get salesOrder () {
     if(this.currentUser.role === Role.Admin){

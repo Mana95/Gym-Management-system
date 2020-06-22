@@ -55,7 +55,7 @@
 
   <!-- Membership -->
   <div class="nested-menu" >
-    <a class="list-group-item" (click)="addMembershipExpandClass('pages')">
+    <a class="list-group-item" (click)="addMembershipExpandClass('pages')" *ngIf="onlyAdminEmployee">
             <i class="fa fa-tags"></i>&nbsp;
         <span>{{ 'Membership' | translate }}</span>
     </a>
@@ -85,7 +85,7 @@
   <!---->
         <!-- Schedule -->
 <div class="nested-menu" >
-    <a class="list-group-item" (click)="addScheduleExpandClass('pages')">
+    <a class="list-group-item" (click)="addScheduleExpandClass('pages')" *ngIf="!onlyMember">
             <i class="fa fa-tags"></i>&nbsp;
         <span>{{ 'Schedule' | translate }}</span>
     </a>
@@ -114,8 +114,8 @@
 </div> 
 
         <!-- Schedule -->
-        <div class="nested-menu" >
-            <a class="list-group-item" (click)="addExerciseExpandClass('pages')">
+        <div class="nested-menu" *ngIf="!onlyMember" >
+            <a class="list-group-item" (click)="addExerciseExpandClass('pages')" >
                     <i class="fa fa-tags"></i>&nbsp;
                 <span>{{ 'Exercise' | translate }}</span>
             </a>
@@ -134,13 +134,13 @@
         
 
 <!--Shcdule Requesting-->
-<a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
+<a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor || !onlyMember">
     <i class="fa fa-cutlery"></i>&nbsp;
     <span>{{ 'Diet Plan' | translate }}</span>
 </a>
 
 <!-- Catagory -->
-<div class="nested-menu" *ngIf ="category">
+<div class="nested-menu" *ngIf ="category || !onlyMember ">
         <a class="list-group-item" (click)="addExpandCatClass('pages')">
                 <i class="fa fa-tags"></i>&nbsp;
             <span>{{ 'Product' | translate }}</span>
@@ -171,7 +171,7 @@
     </div> 
 
       <!-- Request Module -->
-        <div class="nested-menu">
+        <div class="nested-menu" *ngIf="!onlyMember">
             <a  class="list-group-item" (click)="addExpandRequestClass('pages')"  >
                 <i class="fa fa-check-square-o"></i>&nbsp;
                 <span>{{ 'Shop' | translate }}</span>
@@ -220,14 +220,14 @@
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
         </a> -->
-        <a [routerLink]="['/memberexercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf="onlyForMember">
+        <a [routerLink]="['/memberexercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf="onlyForMember || !onlyMember">
             <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
             <span>{{ 'Exercise' | translate }}</span>
         </a>
 
 
 
-        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item"  *ngIf="!onlyForMember">
+        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item"  *ngIf="!onlyMember">
             <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
             <span>{{ 'Exercise' | translate }}</span>
         </a>
@@ -237,9 +237,12 @@
             <span>{{ 'Invoice' | translate }}</span>
         </a>
      
-
+        <a [routerLink]="['/newmembership']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf= "onlyMember">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Request Membership' | translate }}</span>
+        </a>
         <!-- Report Module -->
-        <div class="nested-menu">
+        <div class="nested-menu" *ngIf="!onlyMember">
             <a class="list-group-item" (click)="addReportExpandClass('pages')">
                 <i class="fa fa-clipboard"></i>&nbsp;
             <span>{{ 'Reports' | translate }}</span>
