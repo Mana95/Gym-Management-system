@@ -170,7 +170,22 @@ export class SidebarComponent implements OnInit {
     get category(){
         if(this.currentUser.role === Role.Admin){
             return this.currentUser && this.currentUser.role === Role.Admin 
-        }        
+        }    
+        else if(this.currentUser.role === Role.User){
+
+            return this.currentUser && this.currentUser.role === Role.User;
+        }    
+    }
+    get notshowMembership() {
+        if(this.currentUser.role === Role.Membership){
+            return this.currentUser && this.currentUser.role === Role.Membership 
+        }else if (this.currentUser.role === Role.Member) {
+            return this.currentUser && this.currentUser.role === Role.Member;    
+        }else if(this.currentUser.role === Role.Instructor){
+            return this.currentUser && this.currentUser.role === Role.Instructor;    
+        }else if(this.currentUser.role === Role.Supplier){
+            return this.currentUser && this.currentUser.role === Role.Supplier;    
+        }
     }
 get salesOrder () {
     if(this.currentUser.role === Role.Admin){

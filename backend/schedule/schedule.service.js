@@ -63,13 +63,13 @@ async function saveExercise(data){
 
 
 async function getDietMyPlanID(objectData){
-    console.log(objectData);
+    // console.log(objectData);
         if(objectData.role=='Admin'){
-            return await DietMealPlan.findOne({});
+            return await DietMealPlan.find({});
         }else if(objectData.role=='Membership'){
-            return await DietMealPlan.findOne({membershipId:objectData.id}); 
+            return await DietMealPlan.find({membershipId:objectData.id}); 
         }else if(objectData.role=='Instructor'){
-            return await DietMealPlan.findOne({instructor:objectData.id}); 
+            return await DietMealPlan.find({instructor:objectData.id}); 
         }
 
 
