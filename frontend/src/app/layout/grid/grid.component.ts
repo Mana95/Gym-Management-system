@@ -469,14 +469,31 @@ export class GridComponent implements OnInit {
     CheckQuanity(data , index){
         var formItemArray = this.itemDataValueCheck[index] ;
         const arrayFormControl = this.f.TableArray as FormArray;
+        var buyingPrice = Number(data.value.buyingPrice);
+        var  Total = data.value.qty * buyingPrice;
+     //   console.log(qty)
         this.erroMessageQuatity = false;
         if(formItemArray.qty < data.value.qty){
             this.erroMessageQuatity = true;
             arrayFormControl.controls[index].get('qty').setValue(formItemArray.qty);
             setTimeout(data=>{
                 this.erroMessageQuatity = false;
-            },1000)
+            },1000);
+            return;
         }
-    
+        data.value.subTotal = Total;
+        const arrayData = this.f.TableArray.value;
+        let totAmount = 0;
+        for (let i = 0; i < arrayData.length; i++) {
+            if (arrayData[i].itemId === data.value.itemId) {
+                // assiging a value to formData
+                const faControl = (<FormArray>(
+                    this.grnGroup.controls["TableArray"]
+                )).at(i);
+                faControl["controls"].subTotal.setValue(Total);
+            }
+            totAmount += arrayData[i].subTotal;
+        }
+        this.grnGroup.controls["totalAmount"].setValue(totAmount);
     }
 }

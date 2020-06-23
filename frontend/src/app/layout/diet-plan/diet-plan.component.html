@@ -9,8 +9,11 @@
           <div class="container">
             <div class="row">
               <div class="col-md-7">
-                <h2>
+                <h2 *ngIf="currentUserSubject.value.role !='Admin'">
                   <b>My DietPlans Status</b>                  
+                </h2>
+                <h2 *ngIf="currentUserSubject.value.role =='Admin'">
+                  <b>All DietPlans Status</b>                  
                 </h2>
               </div>                                      
             </div>
@@ -25,16 +28,35 @@
                   <th style="text-align: center;" scope="col">Id</th>   
                   <th style="text-align: center;" scope="col">Schedule Id</th>
                   <th style="text-align: center;" scope="col">Diet plan name</th>
-                  <th style="text-align: center;" scope="col">Create Name</th>
+                  <th style="text-align: center;" scope="col">Owner Name</th>
+                  <th style="text-align: center;" scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of view ; let i = index">
+                    <td>{{data}}</td>
+               
+                 
+                    </tr>
+                </tbody>
+            </table>
+            
+          </div>
+              <!-- <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">Id</th>   
+                  <th style="text-align: center;" scope="col">Schedule Id</th>
+                  <th style="text-align: center;" scope="col">Diet plan name</th>
+                  <th style="text-align: center;" scope="col">Owner Name</th>
                   <th style="text-align: center;" scope="col">Status</th>
             
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor= "let data of dietPlanView">
-                  <td style="text-align: center;" >{{data.date}}</td>
-                  <td style="text-align: center;">{{data.membershipId}}</td>  
-                  <td style="text-align: center;">{{data.Sid}}</td>
+                <tr *ngFor="let data of dietPlanView">
+                  <td style="text-align: center;" >{{data.dietPlanId}}</td>
+                  <td style="text-align: center;">{{data.ScheduleId}}</td>  
+                  <td style="text-align: center;">{{data.dietPlanName}}</td>
                 
                 
                   <td style="text-align: center;">{{data.type}}</td>
@@ -56,7 +78,4 @@
                   
                  
                 </tr>
-              </tbody>
-            </table>
-            
-          </div>
+              </tbody> -->

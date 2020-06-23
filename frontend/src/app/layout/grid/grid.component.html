@@ -96,7 +96,7 @@
                                         <input type="text" readonly  formControlName="itemName" class="form-control" />
                                         </td>
                                         <td>
-                                        <input type="text" (keyup)="CheckQuanity(Table , i)"  formControlName="qty" numbersOnly class="form-control"  [ngClass]="{ 'is-invalid': (submitted && Table.controls.qty.errors) || erroMessageQuatity }" />
+                                        <input type="text" (input)="CheckQuanity(Table , i)"  formControlName="qty" numbersOnly class="form-control"  [ngClass]="{ 'is-invalid': (submitted && Table.controls.qty.errors) || erroMessageQuatity }" />
                                         <div *ngIf="submitted && Table.controls.qty.errors" class="invalid-feedback">
                                             <div *ngIf="Table.controls.qty.errors.required">Quantity is required</div>
                                           </div>    

@@ -140,7 +140,7 @@
 </a>
 
 <!-- Catagory -->
-<div class="nested-menu" *ngIf ="category || !onlyMember ">
+<div class="nested-menu" *ngIf ="!notshowMembership ">
         <a class="list-group-item" (click)="addExpandCatClass('pages')">
                 <i class="fa fa-tags"></i>&nbsp;
             <span>{{ 'Product' | translate }}</span>
