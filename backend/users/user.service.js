@@ -400,7 +400,7 @@ async function savescheduleType(body) {
 }
 
 async function updateById(data) {
-  console.log(data);
+ 
 
   const MembershipUpdate = Membership.updateOne(
     {

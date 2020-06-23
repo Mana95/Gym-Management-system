@@ -41,6 +41,10 @@
                 </tr>
               </thead>
               <tbody>
+                <tr *ngIf="pendingSchedule.length <1">
+                  <td colspan="12" style="text-align: center;"><b>There are no records to show</b></td>
+                </tr>
+                
                 <tr *ngFor="let data of  pendingSchedule | paginate:{ itemsPerPage: 10 ,currentPage: p}">
                   <td style="text-align: center;">{{data.date}}</td>
                  <td style="text-align: center;">{{data.Sid}}</td>  

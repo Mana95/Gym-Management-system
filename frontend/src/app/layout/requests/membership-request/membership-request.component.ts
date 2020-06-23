@@ -4,6 +4,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -13,9 +14,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MembershipRequestComponent implements OnInit {
   membershipData:any;
+  p: number = 1;
+  searchText:any;
+
   constructor(
     private formBuilder:FormBuilder,
     private authenticationService:AuthenticationService,
+    
+    private modal: NgbModal
 
   ) { }
 
@@ -45,7 +51,8 @@ export class MembershipRequestComponent implements OnInit {
   let updatesData = {
     id:rowData.membershipId,
     role:'Membership',
-    status: true
+    status: true,
+    AcceptedRejectedStatus:"Accepted",
     
   }
 
