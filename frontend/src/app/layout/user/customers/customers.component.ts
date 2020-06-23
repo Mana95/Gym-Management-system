@@ -10,7 +10,9 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-
+  searchText:any;
+  
+  p: number = 1;
   cusData:any;
   constructor(
     private authenticationService: AuthenticationService,

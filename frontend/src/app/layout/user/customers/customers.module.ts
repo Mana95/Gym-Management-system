@@ -5,13 +5,15 @@ import { CustomersComponent } from './customers.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomersRoutingModule } from './customers-routing.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
 @NgModule({
   declarations: [CustomersComponent],
   imports: [
-    CommonModule, CustomersRoutingModule ,PageHeaderModule , FormsModule,
+    CommonModule, CustomersRoutingModule ,PageHeaderModule , FormsModule,Ng2SearchPipeModule,NgxPaginationModule,
     ReactiveFormsModule
   ]
 })
