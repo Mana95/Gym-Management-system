@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Role } from './../../../_models/role';
 import { User } from './../../../_models/user';
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ export class SidebarComponent implements OnInit {
     currentUser: User;
     exercise:string;
     showReportMenu:string;
+    showExercieModule:string;
     
     public role_name_array = [];
     @Output() collapsedEvent = new EventEmitter<boolean>();
@@ -293,6 +295,14 @@ get PurchaseOrder(){
     } else {
         this.showSchdulerMenu = element;
     }
+    }
+    addExpandExercisetClass(element:any){
+        
+        if (element === this.showExercieModule) {
+            this.showExercieModule = '0';
+        } else {
+            this.showExercieModule = element;
+        }
     }
 
     addReportExpandClass(element:any){

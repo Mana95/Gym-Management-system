@@ -1,5 +1,5 @@
 import { ScheduleService } from 'src/app/services/schedule.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -43,7 +43,7 @@ export class NewExerciseComponent implements OnInit {
       createdBy:[''],
       exerciseStatus:[''],
       benefits:['', Validators.required],
-      guideNote:['', Validators.required],
+      skills: new FormArray([]),
       createdDate:['']
 
     })
@@ -57,7 +57,9 @@ export class NewExerciseComponent implements OnInit {
     this.loadNewId();
 
   }
-
+  get S() {
+    return this.f.skills as FormArray;
+  }  
   loadNewId(){
     //Id Gen  
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
@@ -123,4 +125,14 @@ export class NewExerciseComponent implements OnInit {
 
   }
 
+
+  onClickDescrip(event) {
+    this.submitted = false;
+    this.S.push(this.formBuilder.group({
+      skillName:['', Validators.required]
+    }));
+  }
+  onClickSkillsRemove(index){
+    this.S.removeAt(index);
+  }
 }

@@ -1,3 +1,4 @@
+import { Exercise } from './../../_models/exercise';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ScheduleService } from 'src/app/services/schedule.service';
@@ -9,7 +10,7 @@ import { ScheduleService } from 'src/app/services/schedule.service';
 })
 export class ExerciseComponent implements OnInit {
   excerciseDetails:any;
-
+  Exercise  = Exercise;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -28,8 +29,9 @@ export class ExerciseComponent implements OnInit {
   }
 
 
-  routePage(){
+  routePage(name){
     
+    this.router.navigate(['/memberexercise', name]);
   }
 
 }

@@ -23,15 +23,14 @@
 
               </div>
               <div class="form-group co-md-4">
-                <label for="email"><b>Exercise for</b></label>
+                <label for="email"><b>Exercise Type</b></label>
                 <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
                 [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }">
                   <div *ngIf="submitted && f.exerciseFor.errors" class="invalid-feedback">
-                    <div *ngIf="f.exerciseFor.errors.required">Exercise for is required</div>  
+                    <div *ngIf="f.exerciseFor.errors.required">Exercise type is required</div>  
                   </div>
               </div>
             </div>
-
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="firstName"><b>Equipment</b></label>
@@ -40,19 +39,36 @@
               <div class="form-group col-md-9">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1"><b>Benefits</b></label>
-                  <textarea class="form-control" formControlName="benefits" rows="3"  [ngClass]="{ 'is-invalid': submitted && f.benefits.errors }"></textarea>
+                  <textarea class="form-control" formControlName="benefits" rows="3" placeholder="Benefits"  [ngClass]="{ 'is-invalid': submitted && f.benefits.errors }"></textarea>
                   <div *ngIf="submitted && f.benefits.errors" class="invalid-feedback">
                     <div *ngIf="f.benefits.errors.required">Benefits are required</div>  
                   </div>
                 </div>
               </div>
             </div>
-            <div class="form-row">
-              <label for="exampleFormControlTextarea1"><b>Guide Note</b></label>
-              <textarea class="form-control" formControlName="guideNote" rows="3"  [ngClass]="{ 'is-invalid': submitted && f.guideNote.errors }"></textarea>
-              <div *ngIf="submitted && f.guideNote.errors" class="invalid-feedback">
-                <div *ngIf="f.guideNote.errors.required">Guide Note is required</div>  
+         
+              <hr/>
+              <div class="card-header">
+              <div class="form-row">
+                <h4 class="card-title"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<b>Guide Steps</b> 
+                </h4>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success" (click)="onClickDescrip($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>       
+                &nbsp;&nbsp;     <button type="button" class="btn btn-danger" (click)="onClickSkillsRemove($event)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+              </div> 
               </div>
+              <div *ngFor="let skills of S.controls; let i = index" class="list-group list-group-flush">
+                <div class="list-group-item" [formGroup]="skills"> 
+                  <div  class="form-row">
+                    <label><b>Step {{i+1}}</b></label>
+                            <input type="text" formControlName="skillName" class="form-control" placeholder="step" [ngClass]="{ 'is-invalid': submitted && skills.controls.skillName.errors }" />
+                            <div *ngIf="submitted && skills.controls.skillName.errors" class="invalid-feedback">
+                                <div *ngIf="skills.controls.skillName.errors.required">steps  is required</div>
+                            </div>
+                    </div>
+    
+                </div>
+              
+              
               </div>
               <br/>
             <button type="submit" class="btn btn-warning"><b>Submit</b> <i class="fa fa-rocket" aria-hidden="true"></i></button>
