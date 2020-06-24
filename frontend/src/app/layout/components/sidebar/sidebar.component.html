@@ -127,6 +127,12 @@
                             <span>{{ 'View Exercise' | translate }}</span>
                         </a>
                     </li>
+                    <li>
+                        <a [routerLink]="['/new-excercise']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
+                            <i class="fa fa-calendar-o"></i>&nbsp;
+                            <span>{{ 'Create Exercise' | translate }}</span>
+                        </a>
+                    </li>
                    
                 </ul>
             </li>
@@ -169,7 +175,19 @@
             </ul>
         </li>
     </div> 
+    <!-- <div class="nested-menu" *ngIf="!onlyMember">
+        <a  class="list-group-item" (click)="addExpandExercisetClass('pages')"  >
+            <i class="fa fa-check-square-o"></i>&nbsp;
+            <span>{{ 'Exercise' | translate }}</span>
+        </a>
+        <li class="nested" [class.expand]="showExercieModule === 'pages'">
+            <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item"  *ngIf="!onlyMember">
+                <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+                <span>{{ 'View Exercise' | translate }}</span>
+            </a>
+            </li>
 
+        </div> -->
       <!-- Request Module -->
         <div class="nested-menu" *ngIf="!onlyMember">
             <a  class="list-group-item" (click)="addExpandRequestClass('pages')"  >
@@ -220,17 +238,14 @@
             <i class="fa fa-cogs"></i>&nbsp;
             <span>{{ 'Sales Order' | translate }}</span>
         </a> -->
-        <a [routerLink]="['/memberexercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf="onlyForMember || !onlyMember">
+        <!-- <a [routerLink]="['/memberexercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf="onlyForMember || !onlyMember">
             <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
             <span>{{ 'Exercise' | translate }}</span>
         </a>
+ -->
 
 
-
-        <a [routerLink]="['/exercise']" [routerLinkActive]="['router-link-active']"  class="list-group-item"  *ngIf="!onlyMember">
-            <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Exercise' | translate }}</span>
-        </a>
+        
         
         <a [routerLink]="['/suppliers']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf= "isAdmin">
             <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;

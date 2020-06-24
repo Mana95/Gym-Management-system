@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class MemberViewExerciseComponent implements OnInit {
   excerciseDetails:any;
-
+  id:any;
   // set dataOfExercise(){
   //   this.scheduleService.sharedData =this.excerciseDetails;
   // }
@@ -20,16 +20,18 @@ export class MemberViewExerciseComponent implements OnInit {
     private route: ActivatedRoute,
     private scheduleService : ScheduleService,
   ) {
-    console.log('awa');
    }
 
   ngOnInit() {
-    this.scheduleService.loadExercise()
-    .subscribe(
-      data=>{
-        this.excerciseDetails = data;
-      }
-    )
+
+    this.id =  this.id = (this.route.snapshot.paramMap.get('name'));
+    console.log(this.id);
+    // this.scheduleService.loadExercise()
+    // .subscribe(
+    //   data=>{
+    //     this.excerciseDetails = data;
+    //   }
+    // )
   }
 
  set exer(data){

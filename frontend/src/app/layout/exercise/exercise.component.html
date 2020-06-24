@@ -1,51 +1,42 @@
-<div class="card mb-12">
-                   
+<div class="card mb-12">                
   <div class="card-body table-responsive">
     <table class="table table-hover table-striped">
       <thead>                  
         <div class="row">
           <div class="container">
             <div class="row">
-              <div class="col-md-7">
+              <div  style="text-align: center;">
                 <h2>
-                  <b><i class="fa fa-futbol-o" aria-hidden="true"></i> All Exercises</b>        
-                  <button type="button" [routerLink]="['/new-excercise']" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> New</button>          
+                  <b>Total Gym Exercises <i class="fa fa-futbol-o" aria-hidden="true" ></i> </b>        
+                  <!-- <button type="button" [routerLink]="['/new-excercise']" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> New</button>           -->
                 </h2>
-                
         </div>                                      
             </div>
             <hr />
-            <br />
-            
-            <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
-              <caption>
-                <b>View Exercise  Details</b>
-              </caption>
+          
+            <table class="table table-image">
               <thead>
                 <tr>
-                  <th style="text-align: center;" scope="col">Exercise Name</th>
-                  <th style="text-align: center;" scope="col">Exercise for</th>
-                  <th style="text-align: center;" scope="col">Equipment</th>
-                  <th style="text-align: center;" scope="col">Created By</th>
-                  <th style="text-align: center;" scope="col">Status</th>         
-            
+                 
+                  <th scope="col">Image</th>
+                  <th style="text-align: center;" scope="col">Exercise Type</th>
+                  <th scope="col">More</th>
+                 
                
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of  excerciseDetails">
-                  <td style="text-align: center;">{{data.exerciseName}}</td>
-                 <td style="text-align: center;">{{data.exerciseFor}}</td>  
-                  <td style="text-align: center;">{{data.equipment}}</td>
-                  <td style="text-align: center;">{{data.createdBy}}</td>
-                  <td style="text-align: center;">{{data.exerciseStatus}}</td>
-               
-                
-
-
+                <tr *ngFor="let data of Exercise">
+                  <td class="w-25">
+                    <img src={{data.image}} class="img-fluid img-thumbnail" alt="Sheep">
+                  </td>
+                  <td style="text-align: center;"><h2><b>{{data.name}}</b></h2></td>
+                  <!-- <td><button type="button" [routerLink]="['/new-excercise']" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>View Exercise</button>   </td> -->
+                <td><a (click) ="routePage(data.name)" class="myButton">View Exercises <i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
+                </td>
                 </tr>
-
-
+                
               </tbody>
-            </table>
-                      </div>
+            </table>  
+                
+          </div>

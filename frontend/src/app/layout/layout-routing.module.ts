@@ -67,7 +67,7 @@ const routes: Routes = [
            { path: 'new-excercise', loadChildren: () => import('./exercise/new-exercise/new-exercise.module').then(m => m.NewExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership ,Role.Instructor , Role.Admin] } },
            
            
-           { path: 'memberexercise', loadChildren: () => import('./exercise/member-view-exercise/member-view-exercise.module').then(m => m.MemberViewExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership] } },
+           { path: 'memberexercise/:name', loadChildren: () => import('./exercise/member-view-exercise/member-view-exercise.module').then(m => m.MemberViewExerciseModule), canActivate: [AuthGuard] },
            { path: 'memberdetailsexercise', loadChildren: () => import('./exercise/member-view-exercise/member-details-exercise/member-details-exercise.module').then(m => m.MemberDetailsExerciseModule), canActivate: [AuthGuard] , data: { roles: [Role.Membership , Role.Admin]} },
            
 
