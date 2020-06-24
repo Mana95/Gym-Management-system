@@ -228,6 +228,21 @@ get PurchaseOrder(){
             
     }
 
+  get shopAllow(){
+    if(this.currentUser.role === Role.Admin){
+        return this.currentUser && this.currentUser.role === Role.Admin 
+    }
+    else if(this.currentUser.role === Role.Instructor){
+
+        return this.currentUser && this.currentUser.role === Role.Instructor;
+    }
+    else if(this.currentUser.role === Role.Membership){
+
+        return this.currentUser && this.currentUser.role === Role.Membership;
+    }
+     
+  }
+
 
     eventCalled() {
         this.isActive = !this.isActive;
