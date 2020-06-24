@@ -45,7 +45,6 @@ export class ScheduleComponent implements OnInit {
     .subscribe(
       response=>{
         this.schedule = response;
-          if(response[0].dietPlan = true){this.dietPlanStatus=true};
       }
     )
   }
@@ -59,4 +58,9 @@ export class ScheduleComponent implements OnInit {
     this.router.navigate(['/view-diet-plan', data.Sid]);
   }
 
+  CheckDietPlanStatus(data){
+    var status = (data.dietPlan ==true)?true:false;
+    return status;
+
+}
 }

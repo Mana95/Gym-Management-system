@@ -129,7 +129,7 @@ const cartValue = data.CartValues;
 async function getCartItems() {
 
     //Only load not null values 😄
-    return await ItemData.find({ "itemType": "Cart Items" , "selling_price" :{$ne : null}});
+    return await ItemData.find({ "itemType": "Equipment" , "selling_price" :{$ne : null}});
 }
 
 async function routeIdData(data) {
