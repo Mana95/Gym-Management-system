@@ -7,6 +7,7 @@ import { User } from 'src/app/_models';
 
 import * as moment from "moment";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-new-exercise',
@@ -33,7 +34,9 @@ export class NewExerciseComponent implements OnInit {
 
 
    }
-
+   public uploader: FileUploader = new FileUploader({
+    isHTML5: true
+  });
   ngOnInit() {
     this.exerciseGroup = this.formBuilder.group({
       exerciseId :[''],
@@ -78,7 +81,34 @@ export class NewExerciseComponent implements OnInit {
   }
 
   onSubmit(){
+   
+    var imageArray = [];
+    imageArray.length = 0;
     this.submitted = true;
+    for (var i = 0; i < this.uploader.queue.length; i++) {
+      const fileItem = this.uploader.queue[i]._file;
+      console.log("Here is the UploadSubmit method" + fileItem);
+      if (fileItem.size > 10000000) {
+        alert('Each File should be less than 10 MB of size.');
+        return;
+      }
+    }
+    for(var j=0;j<this.uploader.queue.length;j++){
+      let data = new FormData();
+      let reader = new FileReader(); 
+      let fileItem = this.uploader.queue[j]._file;
+      reader.readAsDataURL(fileItem);
+      reader.onload =() =>{
+       
+        let image = {
+          imageName:reader.result
+        }
+        imageArray.push(image);
+      }
+      
+    }
+    console.log(imageArray);
+    
     let exerciseData = {
       exerciseId:this.f.exerciseId.value,
       exerciseName:this.f.exerciseName.value,
@@ -86,8 +116,9 @@ export class NewExerciseComponent implements OnInit {
       equipment:this.f.equipment.value,
       createdBy:  this.createdName ,
       exerciseStatus:true,
+      imageExercise:imageArray,
       benefits:this.f.benefits.value,
-      guideNote:this.f.guideNote.value,
+      skills:this.f.skills.value,
       createdDate:this.currentDate,
       createdId:this.createdId
     }
@@ -121,8 +152,7 @@ export class NewExerciseComponent implements OnInit {
     }
 
 
-
-
+  
   }
 
 

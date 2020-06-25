@@ -24,6 +24,7 @@ const schema = new Schema({
       
     
     },
+    
     createdBy:{
         type: String,
         required: true,
@@ -35,15 +36,23 @@ const schema = new Schema({
     
     },
     benefits:{
+
         type: String,
         required: true,
     
     },
-    guideNote:{
-        type: String,
-        required: true,
-    
-    },
+    imageExercise:[
+            {
+                imageName: {
+                    type:String
+                },
+            }
+        ],
+    skills: [{
+        skillName:{
+            type:String,
+        }
+    }],
     createdDate:{
         type: String,
         required: true,
