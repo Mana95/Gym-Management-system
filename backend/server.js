@@ -44,8 +44,8 @@ var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
         //initial upload path
         //  console.log("Methnain thamai patha eka hadenne"+ req.params.uniqueId);
-        let destination = path.join(__dirname, '../frontend/src/assets/u/'); //uploading
-        shell.mkdir('-p', '../frontend/src/assets/u/' + req.params.uniqueId);
+        let destination = path.join(__dirname, '../frontend/src/assets/exercise/'); //uploading
+        shell.mkdir('-p', '../frontend/src/assets/exercise/' + req.params.uniqueId);
         destination = path.join(destination, '', req.params.uniqueId);
         cb(null, destination);
     },
@@ -58,6 +58,22 @@ var storage = multer.diskStorage({ //multers disk storage settings
 var upload = multer({ //multer settings
     storage: storage
 }).single('file');
+
+/** API path that will upload the files */
+app.post('/upload/:uniqueId', function (req, res) {
+    upload(req, res, function (err) {
+        //console.log("This is the api file uploaf" + JSON.stringify(req.file));
+        console.log(req.params.uniqueId);
+        // console.log(req.path);
+        if (err) {
+            res.json({ error_code: 1, err_desc: err });
+            return;
+        } else {
+            var fileDetails = req.file;
+            return res.json(req.file);
+        }
+    });
+});
 
 // schedule tasks to be run on the server   
 cron.schedule("* * * * *", function () {
@@ -72,25 +88,6 @@ cron.schedule("* * * * *", function () {
     });
     
 });
-
-
-/** API path that will upload the files */
-app.post('/upload/:uniqueId', function (req, res) {
-    upload(req, res, function (err) {
-        //console.log("This is the api file uploaf" + JSON.stringify(req.file));
-        console.log(req.params.uniqueId);
-
-        // console.log(req.path);
-        if (err) {
-            res.json({ error_code: 1, err_desc: err });
-            return;
-        } else {
-            var fileDetails = req.file;
-            return res.json(req.file);
-        }
-    });
-});
-
 app.listen('4000', function () {
     console.log('running on 4000...');
 });
