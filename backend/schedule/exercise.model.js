@@ -41,13 +41,13 @@ const schema = new Schema({
         required: true,
     
     },
-    imageExercise:[
-            {
-                imageName: {
-                    type:String
-                },
+   
+    imageExercise: [{
+        imageName:{
+                type:String,
+                required: true,
             }
-        ],
+        }],
     skills: [{
         skillName:{
             type:String,

@@ -8,12 +8,15 @@ import { User } from 'src/app/_models';
 import * as moment from "moment";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { FileUploader } from 'ng2-file-upload';
+import { config } from 'src/app/config/config';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-exercise',
   templateUrl: './new-exercise.component.html',
   styleUrls: ['./new-exercise.component.scss']
 })
+
 export class NewExerciseComponent implements OnInit {
   exerciseGroup:FormGroup;
   private currentUserSubject: BehaviorSubject<User>;
@@ -22,17 +25,19 @@ export class NewExerciseComponent implements OnInit {
   createdName : string;
   createdId : string;
   currentDate:any;
+  locaionPath: any;
+  imageUrl: string | ArrayBuffer;
   
+
   constructor(
     private formBuilder:FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private scheduleService : ScheduleService,
+    private http: HttpClient,
   ) {
   this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-
-
    }
    public uploader: FileUploader = new FileUploader({
     isHTML5: true
@@ -47,6 +52,7 @@ export class NewExerciseComponent implements OnInit {
       exerciseStatus:[''],
       benefits:['', Validators.required],
       skills: new FormArray([]),
+      exerciseImageLocation: new FormArray([]),
       createdDate:['']
 
     })
@@ -63,6 +69,9 @@ export class NewExerciseComponent implements OnInit {
   get S() {
     return this.f.skills as FormArray;
   }  
+  get exe() {
+    return this.f.exerciseImageLocation as FormArray;
+  }
   loadNewId(){
     //Id Gen  
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
@@ -93,21 +102,30 @@ export class NewExerciseComponent implements OnInit {
         return;
       }
     }
-    for(var j=0;j<this.uploader.queue.length;j++){
-      let data = new FormData();
+    for(var j=0;j<this.uploader.queue.length;j++) {
       let reader = new FileReader(); 
       let fileItem = this.uploader.queue[j]._file;
-      reader.readAsDataURL(fileItem);
-      reader.onload =() =>{
-       
-        let image = {
-          imageName:reader.result
-        }
-        imageArray.push(image);
+      imageArray.push(fileItem);
+    
+      reader.onload =(event:any) =>{
+        console.log(event.target.result);
+        this.imageUrl = event.target.result;
+        this.exe.push(this.formBuilder.group({
+          imageName: this.imageUrl,
+        }));
       }
+      reader.readAsDataURL(fileItem);
       
     }
-    console.log(imageArray);
+    
+  
+
+
+  
+  }
+
+  SaveExerciseData() {
+
     
     let exerciseData = {
       exerciseId:this.f.exerciseId.value,
@@ -116,7 +134,7 @@ export class NewExerciseComponent implements OnInit {
       equipment:this.f.equipment.value,
       createdBy:  this.createdName ,
       exerciseStatus:true,
-      imageExercise:imageArray,
+      imageExercise:this.f.exerciseImageLocation.value,
       benefits:this.f.benefits.value,
       skills:this.f.skills.value,
       createdDate:this.currentDate,
@@ -150,11 +168,7 @@ export class NewExerciseComponent implements OnInit {
     }else{
       Swal.fire('Oops...', `Please fill the field properly!`, 'error')
     }
-
-
-  
   }
-
 
   onClickDescrip(event) {
     this.submitted = false;
@@ -164,5 +178,13 @@ export class NewExerciseComponent implements OnInit {
   }
   onClickSkillsRemove(index){
     this.S.removeAt(index);
+  }
+
+  uploadFile(data: FormData, uniqueId: any): Observable<any> {
+    // tslint:disable-next-line:no-debugger
+  //  alert("This is the "+uniqueId);
+    return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
+    
+
   }
 }
