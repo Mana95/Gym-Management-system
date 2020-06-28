@@ -6,7 +6,7 @@ import { AcceptedScheduleRoutingModule } from './accepted-schedule-routing.modul
 import { AcceptedScheduleComponent } from './accepted-schedule.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AcceptedScheduleComponent],
   imports: [
-    CommonModule ,AcceptedScheduleRoutingModule, ReactiveFormsModule,SharedModule ,NgbModule ,FormModule
+    CommonModule ,AcceptedScheduleRoutingModule,FormsModule, ReactiveFormsModule,SharedModule ,NgbModule ,FormModule
   ]
 })
 export class AcceptedScheduleModule { 

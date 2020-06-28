@@ -88,6 +88,7 @@ export class MemberLoginComponent implements OnInit {
       firstName:this.f.firstName.value,
       email:this.f.email.value,
       password:this.f.password.value,
+      membershipStatus: false,
       role:'Member',
       active : true
     }

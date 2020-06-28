@@ -23,14 +23,19 @@ export class AcceptedScheduleComponent implements OnInit {
   ScheduleId :any;
   buttonDisplay = false;
   ScheduleMakeGroup:FormGroup;
-
+  //day2CheckBox:boolean = false;;
   DietPlanGroup :FormGroup;
   dietSubmitted = false;
   displayDietPlan = false;
   displaySubmitbutton = false;
   disaledButton = true;
   dietPlanStatus = false;
-
+  tabTwo = false;
+  tabThree = false;
+  tabFour=false;
+  tabFive = false;
+  tabSix = false;
+  tabSeven = false;
 
   submitted = false;
   id:any;
@@ -58,6 +63,7 @@ export class AcceptedScheduleComponent implements OnInit {
      }
 
   ngOnInit() {
+    
     this.ScheduleMakeGroup = this.formBuilder.group({
       id:[''],
       type:[''],
@@ -85,6 +91,8 @@ export class AcceptedScheduleComponent implements OnInit {
       friday:new FormArray([]),
       satarday:new FormArray([]),
       sunday:new FormArray([]),
+      day2CheckBox:[false] ,day1checkBox:[''] ,day2checkBox:[''] ,day3checkBox:[''] ,day4checkBox:[''] ,day5checkBox:[''],
+      day6checkBox:['']
     })
 
     this.DietPlanGroup = this.formBuilder.group({
@@ -443,7 +451,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      sun_startDate:['',Validators.required]
+      sun_startDate:['']
   }));
   }
 
@@ -452,7 +460,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      s_startDate:['',Validators.required]
+      s_startDate:['']
   }));
   }
 
@@ -467,7 +475,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      f_startDate:['',Validators.required]
+      f_startDate:['']
   }));
   }
 
@@ -476,7 +484,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      th_startDate:['',Validators.required]
+      th_startDate:['']
   }));
   }
 
@@ -485,7 +493,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      w_startDate:['',Validators.required]
+      w_startDate:['']
   }));
   }
   onclickTuesday(e){
@@ -493,7 +501,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      t_startDate:['',Validators.required]
+      t_startDate:['']
   }));
   }
   onClickTickets(e){
@@ -501,7 +509,7 @@ pushValuetoTable(controls){
       normalExerciseName: ['', Validators.required],
       normalExerciseRepetition: ['', Validators.required],
       normalExerciseRounds:['',Validators.required],
-      startDate:['',Validators.required]
+      startDate:['']
   }));
   }
   onclickRemoveThursday(i){
@@ -594,7 +602,7 @@ pushValuetoTable(controls){
       contact:this.f.contact.value,
       endDate:this.f.endDate.value,
       note: this.f.note.value,
-      dietPlan:this.dietPlanStatus,
+      dietPlan:this.f.dietPlan.value,
       nameOfSchedule:this.f.scheduleName.value,    
       changeStatus:this.f.changeStatus.value, 
       validMonthDay:this.f.validMonthDay.value,      
@@ -610,13 +618,14 @@ pushValuetoTable(controls){
       normal: this.f.normal.value
 
     }
-    if(this.displayDietPlan == true){
+    console.log(sceduleData);
+  
+    if(this.displayDietPlan == true  && this.getValidationField()){
       //dekama save wenna ona ne
       this.submitted = true;
       this.dietSubmitted = true;
       //dietplan Object
       let dietPlan = {
-
         dietPlanId: this.dietPlan.dietPlanId.value,
         membershipId: this.f.membershipId.value,
         ScheduleId:this.ScheduleId,
@@ -626,33 +635,41 @@ pushValuetoTable(controls){
         createdContact:this.f.contact.value,
         dietPlanNote:this.dietPlan.dietPlanNote.value,
         intervalNames:this.dietPlan.intervalNames.value
-
       }
 
       console.log(dietPlan);
       if(this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid){
 
+
+        return;
       this.scheduleService.insertscheduleDietData(sceduleData ,dietPlan)
       .subscribe(
         response=>{
+          if(response == 1){
+            Swal.fire({
+              text: 'Schedule Plan create with diet plan successfully Created',
+              icon: 'success'
+            });
+           
+            this.clearTabData();
+            this.submitted = false;
+          //  this.ScheduleMakeGroup.reset();
+          //  this.loadFormUniqueId();
+            this.router.navigate(['/dashboard']);
+          }
           console.log(response);
         }
       )}else{
         console.log('naha valid')
       }
-
-
-
-
-
-      
-
     }else{
       //normal form eka submitwenwa dietPlanStatus
     this.submitted = true;
     
     console.log(sceduleData);
  if(this.ScheduleMakeGroup.valid){
+
+    return;
     this.scheduleService.createSchedule(sceduleData)
     .subscribe(
       response=>{
@@ -693,6 +710,78 @@ pushValuetoTable(controls){
   )
   onSubmitDietPlan() {
     this.dietSubmitted = true;
+
+  }
+
+  getValidationField() {
+    // if(this.f.normal.value.length >0 || this.f.tickets.value.length >0 || this.f.tuesday.value.length >0 || this.f.normal.value.length >0
+    //   ||  )
+      return true;
+  }
+
+  ValidateCheckBoxDisabality(data) {
+    var tabValueControl = data
+    switch(data){
+      case 'tab-01':
+        if(this.ScheduleMakeGroup.controls.tickets.valid){
+          return true;
+        }
+        return false;
+        break;
+        case 'tab-02':
+          if(this.ScheduleMakeGroup.controls.tuesday.valid){
+            return true;
+          }
+          return false;
+          break;
+          case 'tab-03':
+            if(this.ScheduleMakeGroup.controls.wednesday.valid){
+              return true;
+            }
+            return false;
+            break;
+            case 'tab-04':
+              if(this.ScheduleMakeGroup.controls.thursday.valid){
+                return true;
+              }
+              return false;
+              break;
+              case 'tab-05':
+                if(this.ScheduleMakeGroup.controls.friday.valid){
+                  return true;
+                }
+                return false;
+                break;
+    } 
+  
+  }
+
+  enablitityTabs(data){
+    switch(data){
+      case 'tab-01':
+        this.tabTwo = true;
+        break;
+        case 'tab-02':
+        // this.tabTwo = true;
+        this.tabThree = true;
+        break;
+        case 'tab-03':
+          this.tabFour = true;
+        break;
+        case 'tab-04':
+        this.tabFive = true;
+        break;
+        case 'tab-05':
+        this.tabSix = true;
+        break;
+        case 'tab-06':
+          this.tabTwo = true;
+          break;
+          case 'tab-07':
+            this.tabTwo = true;
+            break;
+
+    }
 
   }
 }
