@@ -60,6 +60,7 @@ export class GetmembershipComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationSercive: AuthenticationService,
     private router: Router,
+    
     private route: ActivatedRoute,
     private membershipService : MembershipService
   ) {
@@ -70,6 +71,11 @@ export class GetmembershipComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+    this.checkRoleOfTheMemberShip();
+
+
     this.getMembershipGroup = this.formBuilder.group({
       membershipId: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
@@ -148,6 +154,7 @@ export class GetmembershipComponent implements OnInit {
         text: 'Membership Request success',
         icon: 'success'
       });
+    
   }
 
 
@@ -607,7 +614,7 @@ export class GetmembershipComponent implements OnInit {
       endDate: this.f.endDate.value,
       status: false,
       nicNumber: this.f.nicNumber.value,
-      role: "Membership",
+      role: "Member",
       noteDisaster: this.f.noteDisaster.value
 
     };
@@ -629,8 +636,22 @@ export class GetmembershipComponent implements OnInit {
       this.authenticationSercive.saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
           response => {
+            if(response.length == 2){
+              if(response[0]=='memberhipMessage'){
+                Swal.fire('Oops...', `${response[1]}`, 'error');
+              }
+              if(response[0]=='memberhipRoleChanged'){
+                Swal.fire('Oops...', `${response[1]}`, 'error');
+              }
+            }
+            if(response.length == 1){
+            
+              Swal.fire('Oops...', `${response[0]} Already available `, 'error');
+            }else if(response.length == 1)
+            console.log(response);
               if(UserRegistrationStatus.SUCCESS == response){
               this.opensweetalert();
+              this.router.navigate(['/dashboard'])
               this.submitted = false;
               this.getMembershipGroup.reset();
               this.loadAutoGenId();     
@@ -651,6 +672,10 @@ export class GetmembershipComponent implements OnInit {
 
 
         }
-    
+        //check the Role
+        checkRoleOfTheMemberShip() {
+            var nicNumber = this.currentUserSubject.value.nicNumber;
+            // this.authenticationSercive.
+        }
   
 }

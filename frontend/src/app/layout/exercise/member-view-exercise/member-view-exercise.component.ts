@@ -9,7 +9,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class MemberViewExerciseComponent implements OnInit {
   excerciseDetails:any;
-  id:any;
+  name:any;
+  powers :any;
   // set dataOfExercise(){
   //   this.scheduleService.sharedData =this.excerciseDetails;
   // }
@@ -24,9 +25,9 @@ export class MemberViewExerciseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.id =  this.id = (this.route.snapshot.paramMap.get('name'));
-    console.log(this.id);
-    // this.scheduleService.loadExercise()
+    this.name = (this.route.snapshot.paramMap.get('name'));
+    console.log(this.name);
+    // this.scheduleService.loadExercise(this.name)
     // .subscribe(
     //   data=>{
     //     this.excerciseDetails = data;
@@ -40,5 +41,7 @@ export class MemberViewExerciseComponent implements OnInit {
     // this.router.navigate(['/memberdetailsexercise']);
 
   }
+  getChangeValue(data){
 
+  }
 }

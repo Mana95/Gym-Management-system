@@ -455,39 +455,67 @@ async function insertMembershipToUser(body) {
   }
 }
 
-async function insertMembership(body) {
-  
+async function insertMembership(body) { 
   let errorArray =[];
+  let memberhipMessage = ['memberhipMessage'];
+  let membershipChanged =['memberhipRoleChanged'];
   errorArray.length =0;
-
   const UserData = body.UserDatabody;
   const membershipData = body.membershipbody;
+  //check whether the userId is Available
+  var checkUserId = await Membership.findOne({membershipId:membershipData.membershipId});
+ if(checkUserId){
+   //check that user already send a Membership request
+  await Membership.findOne({membershipId:membershipData.membershipId}, {$and:[{role:'Member'} , {AcceptedRejectedStatus:'Pending'}]}
+  ,function(error ,res){
+    if(res!==null){
+      console.log('Membership thiyenwa');
+      memberhipMessage.push('Memberhip request already sended🙎‍♂')
+     //throw (memberhipMessage);
+    }
+ })
+     //check the membership Role Changed
+     await Membership.findOne({membershipId:membershipData.membershipId},{role:'MemberMembership'} ,function(err, res){
+      if(res!==null){
+        membershipChanged.push('You are Membership request is accepted.Login again😊.')
+      }
+    })
 
- //create objects
- const membership = new Membership(body.membershipbody);
- 
- const membershipFind = await Membership.findOne({customerID : membershipData.customerID})
 
+
+ if(membershipChanged.length ==2){
+  return (membershipChanged);
+ }
+ if(memberhipMessage.length == 2){
+   console.log('membership message')
+      return (memberhipMessage);
+ }
+ //check the email of the membership
  await Membership.findOne({ email: UserData.email },function(error , res){
   if(res!=null){
     errorArray.push('email');
   }
 });
-
+//check the nicNumber of the membership
 await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
   if(res!=null){
     errorArray.push('Nic Number');
   }
 });
-
 //return phoe number
 await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
   if(res!=null){
     errorArray.push('Mobile Number')
   }
 })
+
+  
+ }else{
+
+ }
+ //create objects
+ const membership = new Membership(body.membershipbody);
 if(errorArray.length == 0){
-if(!membershipFind){
   //saveing the data 
   await membership.save();
 console.log('update wennai yannne');
@@ -508,10 +536,7 @@ console.log('update wennai yannne');
     }
   );
   return 1;
-}
-else{
-  return 8;
-}
+
 }else{
   return (errorArray);
 }

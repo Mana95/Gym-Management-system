@@ -343,12 +343,25 @@
                                 </button>
                               
                             </div>
+                          
                         </div>
+                      
                         </div>
+
                 </div>
+                <div class="form-row" *ngIf="this.f.tickets.value.length > 0 && ValidateCheckBoxDisabality('tab-01')">
+                    <div class="form-group col-6">
+                        <small class="text-muted">If you want to create Day-02  schedule, click the checkbox</small>
+                        <div class="form-check">
+                            <input type="checkbox"  class="form-check-input" formControlName="day1checkBox" (click)="enablitityTabs('tab-01')" >
+                            <label class="form-check-label"   for="dietPlan"><b>Add day-02</b></label>
+                          </div>  
+               
+                    </div> 
+                      </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab>
+            <ngb-tab *ngIf="tabTwo">
                 <ng-template ngbTabTitle><b>Day-02</b></ng-template>
                 <ng-template ngbTabContent>
                     <br />
@@ -485,10 +498,23 @@
                                 </div>
                             </div>
                         </div>
+                    
                     </div>
+                    <div class="form-row" *ngIf="this.f.tuesday.value.length > 0 && ValidateCheckBoxDisabality('tab-02')">
+                        <div class="form-group col-6">
+                            <small class="text-muted">If you want to create Day-03  schedule, click the checkbox</small>
+                            <div class="form-check">
+                                <input type="checkbox"  class="form-check-input" formControlName="day2checkBox" (click)="enablitityTabs('tab-02')" >
+                                <label class="form-check-label"   for="dietPlan"><b>Add day-03</b></label>
+                              </div>  
+                   
+                        </div> 
+                          </div>
                 </ng-template>
+
+                
             </ngb-tab>
-            <ngb-tab>
+            <ngb-tab *ngIf="tabThree">
                 <ng-template ngbTabTitle><b>Day-03</b></ng-template>
                 <ng-template ngbTabContent>
                     <br />
@@ -626,9 +652,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row" *ngIf="this.f.wednesday.value.length > 0 && ValidateCheckBoxDisabality('tab-03')">
+                        <div class="form-group col-6">
+                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                            <div class="form-check">
+                                <input type="checkbox"  class="form-check-input" formControlName="daycheckBox" (click)="enablitityTabs('tab-03')" >
+                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
+                              </div>  
+                   
+                        </div> 
+                          </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab >
+            <ngb-tab *ngIf="tabFour">
                 <ng-template ngbTabTitle ><div ><b>Day-04</b></div></ng-template>
                 <ng-template ngbTabContent><br />
                     <div class="form-row">
@@ -765,9 +801,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row" *ngIf="this.f.thursday.value.length > 0 && ValidateCheckBoxDisabality('tab-04')">
+                        <div class="form-group col-6">
+                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                            <div class="form-check">
+                                <input type="checkbox"  class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-04')" >
+                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
+                              </div>  
+                   
+                        </div> 
+                          </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab>
+            <ngb-tab *ngIf="tabFive">
                 <ng-template ngbTabTitle><b>Day-05</b></ng-template>
                 <ng-template ngbTabContent><br />
                     <div class="form-row">
@@ -904,9 +950,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row" *ngIf="this.f.friday.value.length > 0 && ValidateCheckBoxDisabality('tab-05')">
+                        <div class="form-group col-6">
+                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                            <div class="form-check">
+                                <input type="checkbox"  class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-05')" >
+                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
+                              </div>  
+                   
+                        </div> 
+                          </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab>
+            <ngb-tab *ngIf="tabSix">
                 <ng-template ngbTabTitle><b>Day-06</b></ng-template>
                 <ng-template ngbTabContent><br />
                     <div class="form-row">
@@ -1043,7 +1099,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab>
+            <ngb-tab *ngIf="tabSeven">
                 <ng-template ngbTabTitle><b>Day-07</b></ng-template>
                 <ng-template ngbTabContent><br />
                     <div class="form-row">
