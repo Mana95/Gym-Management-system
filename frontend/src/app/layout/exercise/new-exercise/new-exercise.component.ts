@@ -180,10 +180,10 @@ export class NewExerciseComponent implements OnInit {
     this.S.removeAt(index);
   }
 
-  uploadFile(data: FormData, uniqueId: any): Observable<any> {
+  uploadFile(event) {
     // tslint:disable-next-line:no-debugger
   //  alert("This is the "+uniqueId);
-    return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
+    //return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
     
 
   }
