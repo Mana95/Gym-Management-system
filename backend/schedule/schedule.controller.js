@@ -32,10 +32,10 @@ router.get('/getmembershipDetais/:id' ,getmembershipDetais);
 router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
 router.get('/getDietMyPlanID' , getDietMyPlanID);
-router.get('/getAllExercise' , getAllExercise);
+router.get('/getAllExercise/:name' , getAllExercise);
 
 function getAllExercise(req ,res, next){
-    scheduleService.getAllExercise()
+    scheduleService.getAllExercise(req.params.name)
     .then(sch => res.json(sch))
     .catch(err => next(err));
 }

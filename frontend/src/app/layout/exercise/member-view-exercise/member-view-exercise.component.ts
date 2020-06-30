@@ -27,12 +27,13 @@ export class MemberViewExerciseComponent implements OnInit {
 
     this.name = (this.route.snapshot.paramMap.get('name'));
     console.log(this.name);
-    // this.scheduleService.loadExercise(this.name)
-    // .subscribe(
-    //   data=>{
-    //     this.excerciseDetails = data;
-    //   }
-    // )
+    this.scheduleService.loadExercise(this.name)
+    .subscribe(
+      data=>{
+        console.log(data);
+        this.excerciseDetails = data;
+      }
+    )
   }
 
  set exer(data){

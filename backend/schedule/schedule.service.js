@@ -41,8 +41,9 @@ module.exports = {
 
 };
 
-async function getAllExercise(){
-    return await Exercise.find({});
+async function getAllExercise(name){
+    console.log(name)
+    return await Exercise.find({exerciseFor:name});
 
 }
 

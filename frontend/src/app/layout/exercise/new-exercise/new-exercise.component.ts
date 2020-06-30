@@ -27,8 +27,8 @@ export class NewExerciseComponent implements OnInit {
   currentDate:any;
   locaionPath: any;
   imageUrl: string | ArrayBuffer;
-  
-
+  uploadButtonStatus = false;
+  selectOption= ['Abs Exercises' ,'Back Exercises','Chest Exercises', 'Legs Exercises','Shoulder Exercises','Biceps Exercises','Triceps Exercises'];
   constructor(
     private formBuilder:FormBuilder,
     private router: Router,
@@ -49,6 +49,7 @@ export class NewExerciseComponent implements OnInit {
       exerciseFor:['', Validators.required],
       equipment:['' ],
       createdBy:[''],
+      jobname:[''],
       exerciseStatus:[''],
       benefits:['', Validators.required],
       skills: new FormArray([]),
@@ -66,6 +67,16 @@ export class NewExerciseComponent implements OnInit {
     this.loadNewId();
 
   }
+
+
+
+  RemoveItem(item){
+    item.remove();
+    if(this.uploader.queue.length == 0){
+      this.uploadButtonStatus = false;
+    }
+  }
+
   get S() {
     return this.f.skills as FormArray;
   }  
@@ -80,8 +91,9 @@ export class NewExerciseComponent implements OnInit {
     for (var i = 0; i < string_length; i++) {
       var rnum = Math.floor(Math.random() * chars.length);
       id += chars.substring(rnum, rnum + 1);
-      this.exerciseGroup.controls["exerciseId"].setValue(id);
+      
     }
+    this.exerciseGroup.controls["exerciseId"].setValue(id);
      }
 
      
@@ -90,7 +102,7 @@ export class NewExerciseComponent implements OnInit {
   }
 
   onSubmit(){
-   
+    this.uploadButtonStatus =true
     var imageArray = [];
     imageArray.length = 0;
     this.submitted = true;
@@ -106,27 +118,40 @@ export class NewExerciseComponent implements OnInit {
       let reader = new FileReader(); 
       let fileItem = this.uploader.queue[j]._file;
       imageArray.push(fileItem);
-    
+      let data = new FormData();
+      reader.readAsDataURL(fileItem);
       reader.onload =(event:any) =>{
-        console.log(event.target.result);
+      //  console.log(event.target.result);
         this.imageUrl = event.target.result;
         this.exe.push(this.formBuilder.group({
           imageName: this.imageUrl,
         }));
       }
-      reader.readAsDataURL(fileItem);
-      
+  
+     const imageIpload =  this.uploadAPIImage(data , this.f.exerciseId.value).subscribe(
+        res =>{
+       //   console.log(res.path);
+          // this.exe.push(this.formBuilder.group({
+          //       imageName: res.path
+          //     }));
+        }
+      )
+
+       //this.sa
     }
     
   
-
+//this.SaveExerciseData();
 
   
   }
 
   SaveExerciseData() {
 
-    
+    if(this.uploadButtonStatus==false){
+      Swal.fire('Oops...', `Please Submit the images!`, 'error');
+      return;
+    }
     let exerciseData = {
       exerciseId:this.f.exerciseId.value,
       exerciseName:this.f.exerciseName.value,
@@ -148,13 +173,14 @@ export class NewExerciseComponent implements OnInit {
           response=>{
             console.log(response);
             if(response=1){
+              this.loadNewId();
               Swal.fire({
                 text: 'Exercise Created Success',
                 icon: 'success'
               });
            
               this.submitted = false;
-              this.loadNewId();
+            //  this.loadNewId();
               this.exerciseGroup.reset();
             }else{
               Swal.fire('Oops...', `Exercise Name is already inserted`, 'error')
@@ -187,4 +213,20 @@ export class NewExerciseComponent implements OnInit {
     
 
   }
+
+ uploadAPIImage(data: FormData, uniqueId: any): Observable<any> {
+  // tslint:disable-next-line:no-debugger
+//  alert("This is the "+uniqueId);
+  return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
+  
+}
+
+clearQueue() {
+  this.uploader.clearQueue();
+  this.uploadButtonStatus = false;
+  // if(this.uploader.queue.length == 0){
+  //   this.uploadButtonStatus = false;
+  // }
+}
+
 }
