@@ -66,10 +66,13 @@
                 </div>
               </div>
               <hr>
-              <div class="form-group ">
-                <h4>Select your Images to add to exercise view</h4>
-                <input type="file" accept=".jpg,.png" ng2FileSelect class="form-control" [uploader]="uploader"
+              <div class="form-group ">s
+                <h4>Select your Images to add to exercise view</h4>   
+                
+                <input type="file" accept=".jpg,.png" ng2FileSelect #fileInput class="form-control" [uploader]="uploader" (change)="uploadFile($event)"
                     multiple /><br />
+                    <button type="button" class="btn btn-primary btn-lg btn-block" (click)="fileInput.click()">Upload
+                      Image</button>
         </div>
         <h4>Upload Images</h4>
         <p>Images: {{ uploader?.queue?.length }}</p>

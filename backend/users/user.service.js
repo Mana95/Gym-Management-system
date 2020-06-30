@@ -475,8 +475,9 @@ async function insertMembership(body) {
     }
  })
      //check the membership Role Changed
-     await Membership.findOne({membershipId:membershipData.membershipId},{role:'MemberMembership'} ,function(err, res){
+     await Membership.findOne({$and:[{membershipId:membershipData.membershipId ,role:'Membership'}]  } ,function(err, res){
       if(res!==null){
+        console.log('ds')
         membershipChanged.push('You are Membership request is accepted.Login again😊.')
       }
     })
