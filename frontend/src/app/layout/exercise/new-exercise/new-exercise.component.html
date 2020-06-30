@@ -6,7 +6,7 @@
           <h2><b>New Exercise</b></h2>
         </div>
         <div class="card-body">
-          <form [formGroup]="exerciseGroup" (ngSubmit)="onSubmit()">
+          <form [formGroup]="exerciseGroup" (ngSubmit)="SaveExerciseData()">
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="userID"><b>Exercise ID</b></label>
@@ -22,8 +22,12 @@
               </div>
               <div class="form-group co-md-4">
                 <label for="email"><b>Exercise Type</b></label>
-                <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
-                [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }">
+                <!-- <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
+                [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }"> -->
+                <select class="form-control" id="power" required formControlName = "exerciseFor" [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }">
+                  <option selected>Exercise Type Status</option>
+                  <option *ngFor="let pow of selectOption" >{{pow}}</option>
+                </select>
                   <div *ngIf="submitted && f.exerciseFor.errors" class="invalid-feedback">
                     <div *ngIf="f.exerciseFor.errors.required">Exercise type is required</div>  
                   </div>
@@ -66,13 +70,18 @@
                 </div>
               </div>
               <hr>
-              <div class="form-group ">s
+              <div class="form-group ">
                 <h4>Select your Images to add to exercise view</h4>   
                 
-                <input type="file" accept=".jpg,.png" ng2FileSelect #fileInput class="form-control" [uploader]="uploader" (change)="uploadFile($event)"
-                    multiple /><br />
-                    <button type="button" class="btn btn-primary btn-lg btn-block" (click)="fileInput.click()">Upload
+                <input type="file" accept=".jpg,.png" ng2FileSelect fromcontrolName="jobname" [uploader]="uploader"
+                            multiple /><br />
+                            <br/>
+                    <button type="button" class="btn btn-primary btn-sm"   [disabled]="!uploader.queue.length" (click)="onSubmit()">Upload
                       Image</button>
+                      <br/> <br/>
+                      <div class="alert alert-success" *ngIf = "uploadButtonStatus && uploader.queue.length>0">
+                        <strong>Success!</strong> Images are uploaded successfully!
+                      </div>
         </div>
         <h4>Upload Images</h4>
         <p>Images: {{ uploader?.queue?.length }}</p>
@@ -81,7 +90,6 @@
                         <tr>
                             <th width="50%">Name</th>
                             <th>Size</th>
-                            <th>Progress</th>
                             <!-- <th>Choose Template</th> -->
                             <th>Actions</th>
                         </tr>
@@ -92,21 +100,15 @@
                                         <strong>{{ item?.file?.name }}</strong>
                                     </td>
                                     <td>{{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB</td>
-                                    <td>
-                                        <div class="progress" style="margin-bottom: 0;">
-                                            <div class="progress-bar" role="progressbar"
-                                                [ngStyle]="{ width: item.progress + '%' }"></div>
-                                        </div>
-                                    </td>
                                     <td nowrap>
-                                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                            <button type="button" class="btn btn-danger btn-xs" (click)="RemoveItem(item)">
                                                 <span class="glyphicon glyphicon-trash"></span> Remove
                                             </button>
                                         </td>
                             </tr>
                     </tbody>
         </table>
-        <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+        <button type="button" class="btn btn-danger btn-s" (click)="clearQueue()"
                                                 [disabled]="!uploader.queue.length">
                                                 <span class="glyphicon glyphicon-trash"></span> Remove all images
                                             </button>
@@ -114,7 +116,7 @@
     <br/>
     <hr>
               <br/>
-            <button type="submit" class="btn btn-warning"><b>Submit</b> <i class="fa fa-rocket" aria-hidden="true"></i></button>
+            <button type="submit"  [disabled]="!uploader.queue.length" class="btn btn-warning"><b>Submit</b> <i class="fa fa-rocket" aria-hidden="true"></i></button>
           </form>
         </div>
       </div>

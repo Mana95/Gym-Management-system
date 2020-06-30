@@ -18,8 +18,8 @@ export class ScheduleService {
     this.currentUser = this.currentUserSubject.asObservable();
    }
 
-   loadExercise(){
-    return this.http.get(config.PAPYRUS+`/shedule/getAllExercise/`)
+   loadExercise(name){
+    return this.http.get(config.PAPYRUS+`/shedule/getAllExercise/${name}`)
    }
 
    saveExercise(data){

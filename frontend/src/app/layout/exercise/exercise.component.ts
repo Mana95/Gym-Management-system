@@ -18,12 +18,12 @@ export class ExerciseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.scheduleService.loadExercise()
-    .subscribe(
-      data=>{
-        this.excerciseDetails = data;
-      }
-    )
+    // this.scheduleService.loadExercise()
+    // .subscribe(
+    //   data=>{
+    //     this.excerciseDetails = data;
+    //   }
+    // )
 
 
   }
