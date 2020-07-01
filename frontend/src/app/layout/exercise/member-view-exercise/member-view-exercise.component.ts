@@ -1,3 +1,4 @@
+import { ExerciseDetails } from './../../../_models/ExerciseDetails';
 import { ScheduleService } from './../../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,6 +12,13 @@ export class MemberViewExerciseComponent implements OnInit {
   excerciseDetails:any;
   name:any;
   powers :any;
+  showcomponent = false;
+  image:any;
+  Steps:any;
+  exerciseId:any;
+  exerciseName: any;
+  exerciseFor: any;
+  equipment: any;
   // set dataOfExercise(){
   //   this.scheduleService.sharedData =this.excerciseDetails;
   // }
@@ -44,5 +52,19 @@ export class MemberViewExerciseComponent implements OnInit {
   }
   getChangeValue(data){
 
+  }
+  navigateBack(){
+    this.showcomponent = false;
+  }
+  navigateToPage(data){
+    
+    this.image = data.imageExercise;
+    this.Steps = data.skills;
+    console.log(this.image)
+    this.exerciseId=data.exerciseId;
+    this.exerciseName = data.exerciseName;
+    this.exerciseFor = data.exerciseFor;
+    this.equipment = data.equipment;
+    this.showcomponent = true;
   }
 }
