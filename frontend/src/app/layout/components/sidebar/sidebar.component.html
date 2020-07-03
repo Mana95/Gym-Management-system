@@ -128,7 +128,7 @@
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['/new-excercise']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
+                        <a [routerLink]="['/new-excercise']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf="adminInstructor">
                             <i class="fa fa-calendar-o"></i>&nbsp;
                             <span>{{ 'Create Exercise' | translate }}</span>
                         </a>

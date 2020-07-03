@@ -450,7 +450,6 @@ if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/defaul
 
 
 
-
   funcA(response1){
     this.registrationGroup.reset();
     this.loadNewId();
