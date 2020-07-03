@@ -110,7 +110,9 @@ export class NewExerciseComponent implements OnInit {
       const fileItem = this.uploader.queue[i]._file;
       console.log("Here is the UploadSubmit method" + fileItem);
       if (fileItem.size > 10000000) {
-        alert('Each File should be less than 10 MB of size.');
+       
+          Swal.fire('Oops...', `Each File should be less than 10 MB of size.`, 'error');
+   
         return;
       }
     }
@@ -147,9 +149,12 @@ export class NewExerciseComponent implements OnInit {
   }
 
   SaveExerciseData() {
-
+    if(this.f.skills.value ==''){
+      Swal.fire('Oops...', `Please mention about the exercise steps!`, 'error');
+      return;
+    }
     if(this.uploadButtonStatus==false){
-      Swal.fire('Oops...', `Please Submit the images!`, 'error');
+      Swal.fire('Oops...', `Please upload the images!`, 'error');
       return;
     }
     let exerciseData = {
@@ -178,9 +183,9 @@ export class NewExerciseComponent implements OnInit {
                 text: 'Exercise Created Success',
                 icon: 'success'
               });
-           
+              this.uploader.clearQueue();
               this.submitted = false;
-            //  this.loadNewId();
+            this.loadNewId();
               this.exerciseGroup.reset();
             }else{
               Swal.fire('Oops...', `Exercise Name is already inserted`, 'error')

@@ -245,6 +245,15 @@ get PurchaseOrder(){
      
   }
 
+  get adminInstructor() {
+    if(this.currentUser.role === Role.Admin){
+        return this.currentUser && this.currentUser.role === Role.Admin 
+    }  else if(this.currentUser.role === Role.Instructor){
+
+        return this.currentUser && this.currentUser.role === Role.Instructor;
+    }
+  }
+
 
     eventCalled() {
         this.isActive = !this.isActive;

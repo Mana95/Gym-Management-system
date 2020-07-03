@@ -73,7 +73,7 @@
               <div class="form-group ">
                 <h4>Select your Images to add to exercise view</h4>   
                 
-                <input type="file" accept=".jpg,.png" ng2FileSelect fromcontrolName="jobname" [uploader]="uploader"
+                <input type="file" accept=".jpg,.png ,.gif" ng2FileSelect fromcontrolName="jobname" [uploader]="uploader"
                             multiple /><br />
                             <br/>
                     <button type="button" class="btn btn-primary btn-sm"   [disabled]="!uploader.queue.length" (click)="onSubmit()">Upload
