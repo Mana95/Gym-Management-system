@@ -10,8 +10,8 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
 
-  saveCartData(data) {
-    return this.http.post(config.PAPYRUS + `/order/saveCartData`, data);
+  saveCartData(cartData ,invoiceData) {
+    return this.http.post(config.PAPYRUS + `/order/saveCartData`, { cartData,invoiceData});
   }
 
   insertItemCart(data) {

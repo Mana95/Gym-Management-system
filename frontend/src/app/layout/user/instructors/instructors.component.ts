@@ -10,7 +10,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { map, mergeMap } from 'rxjs/operators';
-
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
@@ -18,6 +17,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   templateUrl: './instructors.component.html',
   styleUrls: ['./instructors.component.scss']
 })
+
 export class InstructorsComponent implements OnInit {
 
   hoveredDate: NgbDate;
@@ -84,14 +84,17 @@ export class InstructorsComponent implements OnInit {
   }
 
   loadNewId(){
-    //Id Gen  
-    this.currentTime = moment().format("LT");
-    this.currentDate = moment()
+
+  //Id Gen  
+  this.currentTime = moment().format("LT");
+  this.currentDate = moment()
       .subtract(10, "days")
       .calendar();
-    this.registrationGroup.controls["currnetJoinDate"].setValue(
+      
+  this.registrationGroup.controls["currnetJoinDate"].setValue(
       this.currentDate
     );
+
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
     var string_length = 8;
     var id = "SCH_" + "";
@@ -374,11 +377,12 @@ public uploader: FileUploader = new FileUploader({
   }
 
 
-  onSubmit() {
+onSubmit() {
  
   //define two relevent objects
 
-  let UserData = {
+
+let UserData = {
     user_id: this.f.id.value,
     username: this.f.username.value,
     firstName: this.f.username.value,
@@ -387,7 +391,7 @@ public uploader: FileUploader = new FileUploader({
     nicNumber:this.f.nicNumber.value,
     active: true,
     password: this.f.password.value
-  }
+}
 
   let instructordata = {
     isId : this.f.id.value,
@@ -448,9 +452,7 @@ if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/defaul
 }
   }
 
-
-
-  funcA(response1){
+funcA(response1){
     this.registrationGroup.reset();
     this.loadNewId();
     console.log("Hello")

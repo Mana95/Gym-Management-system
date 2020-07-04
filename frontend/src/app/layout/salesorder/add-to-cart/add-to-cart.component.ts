@@ -1,3 +1,4 @@
+import { CheckoutComponent } from './../checkout/checkout.component';
 import { CatagoryService } from './../../../services/catagory.service';
 import { Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
@@ -122,25 +123,39 @@ export class AddToCartComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.cartData);
     let cartData = {
-        cartTotal :this.totalValue,
-        CartValues : this.cartData,
-        cartId:this.cartId
-    }
-    if(cartData.cartTotal!=undefined && cartData.CartValues !=undefined && cartData.cartId !=undefined){
-  //  const saveData = this.orderService.saveCartData(cartData);
-  console.log('hi')
-  this.orderService.saveCartData(cartData)
-  .subscribe(
-    reponse=>{
+      cartTotal :this.totalValue,
+      CartValues : this.cartData,
+      cartId:this.cartId
+  }
 
-      if(reponse==1){
 
+
+    const modelRef = this.modalService.open(CheckoutComponent, {size:'lg'});
+
+    modelRef.componentInstance.user = cartData;
+    modelRef.result.then((result) => {
+      if (result) {
+      //  this.loadData();
       }
-    }
-  )
-    }
+      });
+
+
+    console.log(this.cartData);
+  
+  //   if(cartData.cartTotal!=undefined && cartData.CartValues !=undefined && cartData.cartId !=undefined){
+  // //  const saveData = this.orderService.saveCartData(cartData);
+  // console.log('hi')
+  // this.orderService.saveCartData(cartData)
+  // .subscribe(
+  //   reponse=>{
+
+  //     if(reponse==1){
+
+  //     }
+  //   }
+  // )
+  //   }
 
 
 
