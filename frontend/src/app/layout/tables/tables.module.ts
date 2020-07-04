@@ -23,3 +23,4 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     entryComponents: [EditItemComponent]
 }) 
 export class TablesModule {}
+ 

@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/_models';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Cart } from 'src/app/_models/cart';
 
 @Component({
     selector: 'app-header',
@@ -14,22 +15,30 @@ export class HeaderComponent implements OnInit {
     private currentUserSubject: BehaviorSubject<User>;
     public currentLoginUser: Observable<User>;
     public pushRightClass: string;
+    // public cartItemsSubject:BehaviorSubject<Cart>;
+    // public cartItemsUser:Observable<Cart>;
     currentUser:any;
+    cartItem:any;
 
     constructor(
         private translate: TranslateService,
          public router: Router,
         private authenticationService:AuthenticationService
         ) {
+            // this.cartItemsSubject = new BehaviorSubject<Cart>(
+            //     JSON.parse(localStorage.getItem("cartObject"))
+            // )
             this.currentUserSubject = new BehaviorSubject<User>(
                 JSON.parse(localStorage.getItem("currentUser"))
               );
 
               
     this.currentLoginUser = this.currentUserSubject.asObservable();
- 
-
-
+    // this.cartItemsUser  = this.cartItemsSubject.asObservable();
+    this.cartItem = this.authenticationService.cartDataValue;
+                // console.log(this.cartItemsSubject.value);
+                console.log('HI')
+                console.log(this.cartItem);
         this.router.events.subscribe(val => {
             if (
                 val instanceof NavigationEnd &&

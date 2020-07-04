@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../_models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Cart } from '../_models/cart.js';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,28 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
+  public cartItemsSubject:BehaviorSubject<Cart>;
+  public cartItemsUser:Observable<Cart>;
+
   constructor(
 
     private http: HttpClient
   ) { 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
+    this.cartItemsSubject = new BehaviorSubject<Cart>(
+      JSON.parse(localStorage.getItem("cartObject"))
+  )
+  this.cartItemsUser  = this.cartItemsSubject.asObservable();
+
   }
 
   
+  public get cartDataValue(){
+   //onsole.log(this.cartItemsSubject.value)
+    return this.cartItemsSubject.value;
+  }
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
