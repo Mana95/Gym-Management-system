@@ -5,6 +5,30 @@ const schema = new Schema({
         type:Number,
         required :true
     },
+    invoiceId:{
+        type:String,
+        required:true,
+    },
+    currentUserName:{
+        type:String,
+        required:true,
+    },
+    email:{
+        type:String,
+        required:true,   
+    },
+    payingPrice:{
+        type:String,
+        required:true, 
+    },
+    paymentDate:{
+        type:String,
+        required:true, 
+    },
+    userId:{
+        type:String,
+        required:true, 
+    },
     createdDate: {
         type: Date,
         default: Date.now
@@ -13,6 +37,7 @@ const schema = new Schema({
     cartId:{
         type:String
     },
+
     CartValues: [
         {
             id: {

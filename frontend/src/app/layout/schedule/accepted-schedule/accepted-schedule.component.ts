@@ -641,7 +641,7 @@ pushValuetoTable(controls){
       if(this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid){
 
 
-        return;
+      //  return;
       this.scheduleService.insertscheduleDietData(sceduleData ,dietPlan)
       .subscribe(
         response=>{

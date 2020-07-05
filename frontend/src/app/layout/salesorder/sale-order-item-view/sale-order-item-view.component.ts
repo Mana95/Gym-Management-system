@@ -21,6 +21,8 @@ export class SaleOrderItemViewComponent implements OnInit {
   displayTotal ='0.00';
   displayAlert = false;
   maxNumber :any;
+  viewCartEnalability = false;
+  cartData:any;
   constructor(
     private orderService: OrderService, 
     private route: ActivatedRoute,
@@ -34,6 +36,15 @@ export class SaleOrderItemViewComponent implements OnInit {
 
   ngOnInit() {
     this.loadItemDetails()
+    this.cartData= this.authenticationService.cartDataValue;
+    console.log('dsadsadsadas');
+    console.log(this.cartData)
+    if(this.cartData != undefined){
+    if(this.cartData.length>0){
+      this.viewCartEnalability = true;
+    }
+  }
+    
   }
 
   //Load the relevent Item data
@@ -111,7 +122,9 @@ export class SaleOrderItemViewComponent implements OnInit {
 }
 
 routePage() {
+
   this.router.navigate(['/addToCart']);
+ 
 }
 
   onSubmit() {
@@ -121,6 +134,8 @@ routePage() {
 
 
 if(this.viewCartForm.valid){
+  this.viewCartEnalability = true;
+  this.viewCartEnalability =true;
   this.submitted = true;
   let itemCartData = {
     id: this.itemCart.id.value,

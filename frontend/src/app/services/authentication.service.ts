@@ -297,6 +297,16 @@ export class AuthenticationService {
           this.currentUserSubject.next(null);
         }
 
+        deleteCartItem(data): void{
+        var cartdata = this.cartItemsSubject.value;
+
+          if(cartdata!=undefined){
+            console.log(cartdata);
+          }
+          localStorage.removeItem('cartObject');
+
+        }
+
         loadProfileData(id) {
       
           return this.http.get<any>(config.PAPYRUS+`/users/loadProfileData/${id}`);

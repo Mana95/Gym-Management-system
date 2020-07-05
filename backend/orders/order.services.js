@@ -62,26 +62,49 @@ async function return_report_purchase_order(data){
 }
 
 async function saveCartData(data) {
+    var cartitemDetails = data.cartData;
+    var ivoiceData = data.invoiceData;
+    const cart = new Cart(cartitemDetails);
+    console.log('iiui')
+//console.log(cartitemDetails)
+    //return;
+var updateItemData = cartitemDetails.CartValues.forEach((cart, index)=>{
+console.log(cart.itemId);
+    ItemData.updateOne(
+        {id:cart.itemId},
+        {
+            $inc:{quantity: -Number(cart.qty)}
+           },  {new: true } , function (err, responses) {
+               if (err) {
+                   console.log(err);
+                   return 4;
+                   
+               }else{
+                   console.log(responses)
+               }
+           });
 
-   
-const cartValue = data.CartValues;
+})
+
+if(updateItemData){
+    await cart.save();
+}
+
+//         cartValue.forEach((cart , index)=>{
+//             let itemId = cart.itemId;
+//          //   ItemData.findOne({id:itemId , stock :{ $elemMatch:{ itemId: }} });
 
 
-        cartValue.forEach((cart , index)=>{
-            let itemId = cart.itemId;
-         //   ItemData.findOne({id:itemId , stock :{ $elemMatch:{ itemId: }} });
+// //             console.log(itemId)
+// //   ItemData.find({}, {id:itemId , stockItem:{$elemMatch: {
+// //     itemId:itemId
+// //   }}},function(error , result){
+// //        console.log(error)
+// //    })
+// //    const value =  ItemData.find().sort({_id :-1}).limit(1);
+// //    console.log(value)
 
-
-//             console.log(itemId)
-//   ItemData.find({}, {id:itemId , stockItem:{$elemMatch: {
-//     itemId:itemId
-//   }}},function(error , result){
-//        console.log(error)
-//    })
-//    const value =  ItemData.find().sort({_id :-1}).limit(1);
-//    console.log(value)
-
-//             ItemData.updateOne({id:itemId  ,stockItem })
+// //             ItemData.updateOne({id:itemId  ,stockItem })
 
           
 
@@ -90,7 +113,7 @@ const cartValue = data.CartValues;
 
 
 
-        })
+//         })
     
 
 //     const cart = new Cart(data);
