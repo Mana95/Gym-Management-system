@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Cart } from 'src/app/_models/cart';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -158,6 +159,34 @@ export class AddToCartComponent implements OnInit {
   //   }
 
 
+
+  }
+
+  deleteCartItems(data) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this selected item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your selected item has been deleted.',
+        'success'
+      )
+      this.authenticationService.deleteCartItem(data);
+      this.loadDataCart();
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your selected item is safe :)',
+        'error'
+      )
+      }
+    })
 
   }
 }

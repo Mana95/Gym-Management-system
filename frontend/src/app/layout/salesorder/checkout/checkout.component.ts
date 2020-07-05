@@ -45,13 +45,38 @@ export class CheckoutComponent implements OnInit {
       payingPrice:['',Validators.required]
     })
     var m = moment();
-    this.currentDate =m.format('LL');
+    this.currentDate =m.format('L');
     this.checkoutDetail = this.user.CartValues;
   this.paymentGroup.controls['userID'].setValue(this.logInUserData.user_id);
   this.paymentGroup.controls['firstName'].setValue(this.logInUserData.firstName);
   this.paymentGroup.controls['lastName'].setValue(this.logInUserData.lastName);
   this.paymentGroup.controls['email'].setValue(this.logInUserData.email);
   this.paymentGroup.controls['totalPrice'].setValue(this.user.cartTotal);
+  this.generateId();
+  }
+  generateId() {
+      //Id cart Gen  
+      var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
+      var string_length = 8;
+      var id = "CI_" + "";
+      for (var i = 0; i < string_length; i++) {
+        var rnum = Math.floor(Math.random() * chars.length);
+        id += chars.substring(rnum, rnum + 1);
+        
+      }
+      this.paymentGroup.controls['cartId'].setValue(id);
+
+  //    gen invoice ID
+  //Id cart Gen  
+  var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
+  var string_length = 8;
+  var iId = "I_" +moment().format('YYYY')+"";
+  for (var i = 0; i < string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    iId += chars.substring(rnum, rnum + 1);
+    
+  }
+    this.invoiceId =iId;
   }
   closeModel() {
     this.activeModal.close();
@@ -71,10 +96,10 @@ this.submitted=true;
     invoiceId :this.invoiceId,
     userId:this.f.userID.value,
     email:this.f.email.value, 
-    cartDetails:this.user.CartValues,
+    CartValues:this.user.CartValues,
     paymentDate:moment().format('L'),
-    currentUserName:this.f.firstNam.value,
-    paymentTotal:this.f.totalPrice.value,
+    currentUserName:this.f.firstName.value,
+    cartTotal:this.f.totalPrice.value,
     payingPrice:this.f.payingPrice.value,
     balancePrice:this.f.balance.value
   
@@ -87,7 +112,7 @@ this.submitted=true;
      email:this.f.email.value,
      paymentTotal:this.f.totalPrice.value,
  }
-
+ console.log(cartData);
  this.orderService.saveCartData(cartData ,invoiceData)
  .subscribe(
    res=>{
