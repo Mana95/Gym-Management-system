@@ -68,7 +68,7 @@ async function saveCartData(data) {
     console.log('iiui')
 //console.log(cartitemDetails)
     //return;
-var updateItemData = cartitemDetails.CartValues.forEach((cart, index)=>{
+cartitemDetails.CartValues.forEach((cart, index)=>{
 console.log(cart.itemId);
     ItemData.updateOne(
         {id:cart.itemId},
@@ -81,14 +81,14 @@ console.log(cart.itemId);
                    
                }else{
                    console.log(responses)
+                   
                }
            });
 
 })
 
-if(updateItemData){
     await cart.save();
-}
+    return 1;
 
 //         cartValue.forEach((cart , index)=>{
 //             let itemId = cart.itemId;
