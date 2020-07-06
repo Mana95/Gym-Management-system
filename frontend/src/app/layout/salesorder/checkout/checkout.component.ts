@@ -117,6 +117,7 @@ this.submitted=true;
  .subscribe(
    res=>{
      if(res==1){
+       console.log(res);
       Swal.fire({
         text: 'Payment is Success',
         icon: 'success'
