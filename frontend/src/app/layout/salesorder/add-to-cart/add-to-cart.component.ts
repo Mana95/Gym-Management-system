@@ -22,7 +22,7 @@ export class AddToCartComponent implements OnInit {
   cartData: any;
   totalValue = 0;
   cartId: any;
-
+  showMessage = false;
   constructor(
     private orderService: OrderService,
     private router: Router,
@@ -76,9 +76,10 @@ export class AddToCartComponent implements OnInit {
   }
 
   changeValue(inputNumber, data) {
-
+    if(this.checkQuanityOfTheItem(data ,inputNumber)){
     this.changeCartData(inputNumber.value, data)
     this.loadDataCart();
+  }
   }
 
 
@@ -189,4 +190,21 @@ export class AddToCartComponent implements OnInit {
     })
 
   }
+
+  checkQuanityOfTheItem(data ,inputNumber) {
+    if(data!=undefined){
+    var selectedQuanity = Number(inputNumber.value);
+    var quantityValue = data.avlableQty;
+    var curentQty =  data.qty;
+    if(selectedQuanity>=quantityValue){
+      data.qty = curentQty
+      this.showMessage = true;
+        return false;
+    }
+
+  }
+  this.showMessage = false;
+  return true;
+  }
+
 }

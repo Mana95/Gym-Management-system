@@ -31,8 +31,9 @@
 					{{ data.qty }}
 				</td>
 				<td data-th="Quantity">
-					<input type="text" numbersOnly #inputNumber class="form-control text-center" />
-					<small class="text-muted">Input Quantity Value</small>
+					<input type="text" numbersOnly #inputNumber  class="form-control text-center" />
+					<small class="text-muted" *ngIf ="!showMessage">Input Quantity Value</small>
+					<small class="error" *ngIf ="showMessage">Input Quantity Must less than AvlQuantity</small>
 				</td>
 				<td data-th="Subtotal" class="text-center">
 					{{ data.totalPrice }}
