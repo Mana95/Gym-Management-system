@@ -23,6 +23,7 @@ export class AddToCartComponent implements OnInit {
   totalValue = 0;
   cartId: any;
   showMessage = false;
+  showPaymentButtondisabled = false;
   constructor(
     private orderService: OrderService,
     private router: Router,
@@ -199,12 +200,21 @@ export class AddToCartComponent implements OnInit {
     if(selectedQuanity>=quantityValue){
       data.qty = curentQty
       this.showMessage = true;
+      this.showPaymentButtondisabled = true;
         return false;
     }
 
   }
   this.showMessage = false;
+  this.showPaymentButtondisabled = false;
   return true;
   }
-
+  enabalityOfPaymentButton(inputNumber){
+    var inputValue = inputNumber.value;
+    if(inputValue !=""){
+      this.showPaymentButtondisabled = true;
+      return;
+    }
+    this.showPaymentButtondisabled = false;
+  }
 }

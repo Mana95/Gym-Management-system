@@ -2,7 +2,7 @@ import { CatagoryService } from './../../../../services/catagory.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-main-new-catagory',
@@ -23,6 +23,7 @@ export class MainNewCatagoryComponent implements OnInit {
     private catagoryService: CatagoryService,
     private router: Router,
     private route: ActivatedRoute,
+    public activeModal: NgbActiveModal,
   ) { }
 
   ngOnInit() {
@@ -89,6 +90,7 @@ if(this.catagoryResgiter.valid) {
   this.catagoryService.insertMainCat(mainCatData)
   .subscribe(
     data => {
+   this.activeModal.close('Update Done');
     console.log(data);
   },
     error => {
@@ -98,6 +100,7 @@ if(this.catagoryResgiter.valid) {
     () =>{
       this.submitted = false;
       this.catagoryResgiter.reset();
+      this.activeModal.close('Update Done');
       this.loadingId();
     });
     
@@ -109,5 +112,9 @@ if(this.catagoryResgiter.valid) {
 
   }
 
-
+  closeModel(){
+    //this.imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+    this.activeModal.close();
+  }
+  
 }

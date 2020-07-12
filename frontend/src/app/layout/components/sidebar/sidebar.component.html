@@ -79,6 +79,12 @@
                     <span>{{ 'View Membership' | translate }}</span>
                 </a>
             </li>
+            <li>
+                <a href="javascript:void(0)" [routerLink]="['/new_cus']" [routerLinkActive]="['router-link-active']" >
+                    <i class="fa fa-address-book"></i>&nbsp;
+                    <span>{{ 'Create Membership' | translate }}</span>
+                </a>
+            </li>
         </ul>
     </li>
 </div> 
@@ -154,17 +160,18 @@
         <li class="nested" [class.expand]="showMenuCat === 'pages'">
             <ul class="submenu">
                 <li>
-                    <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
-                        <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
-                        <span>{{ 'Sub Catagory' | translate }}</span>
-                    </a>
-                </li>
-                <li>
                     <a [routerLink]="['/mainCat']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
                         <i class="fa fa-shopping-bag"></i>&nbsp;
                         <span>{{ 'Main Catagory' | translate }}</span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript:void(0)" [routerLink]="['/newSubCat']" [routerLinkActive]="['router-link-active']" >
+                        <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
+                        <span>{{ 'Sub Catagory' | translate }}</span>
+                    </a>
+                </li>
+                
                 <li>
                
         <a [routerLink]="['/catagory']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "category">

@@ -263,12 +263,17 @@ else{
 
 async function membershipInactive(data) {
  console.log(data)
+    var updateData={
+       role:'Member',
+       membershipStatus : false,
+    }
+
    const userUpdate = await User.updateOne(
     {
       user_id: data.membershipId,
     },
     {
-      $set: {membershipStatus:false},
+      $set: updateData,
     },
     function (err, responses) {
       if (err) {
@@ -933,10 +938,43 @@ async function loadByID(id) {
   return await Groups.findById(id);
 }
 
+async function checkEmployeeValidation(userData , phoneNumber){
+  let errorArray =[];
+  errorArray.length =0;
+
+  await Membership.findOne({ email: UserData.email },function(error , res){
+    if(res!=null){
+      errorArray.push('email');
+    }
+  });
+  await Membership.findOne({ phonenumber: phoneNumber },function(error , res){
+    if(res!=null){
+      errorArray.push('PhoneNumber');
+    }
+  });
+
+  if(errorArray.length == 0){
+      return 'ok';
+  }else{
+    return (errorArray);
+  }
+
+
+}
+
 async function UpdateUserService(newData) {
   
     const userData = newData.userData;
     const employeeData = newData.UserParamUpdate;
+    
+    const phoneNumber = employeeData.phonenumber
+  
+
+
+ //var checkValidation = checkEmployeeValidation(userData , phoneNumber);
+
+    
+    // return;
  const userUpdate = await User.updateOne(
     {
       _id: userData._id,
@@ -952,7 +990,7 @@ async function UpdateUserService(newData) {
       }
     }
   );
-
+    
     if(userUpdate){
     return  await Employee.updateOne(
         {
