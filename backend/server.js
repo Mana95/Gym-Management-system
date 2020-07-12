@@ -77,15 +77,19 @@ app.post('/upload/:uniqueId', function (req, res) {
 
 // schedule tasks to be run on the server   
 cron.schedule("* * * * *", function () {
-    var today = new Date();  
-    
+    var today = new Date(); 
+    //console.log(today); 
+   // 2020-07-10T15:57:37.009Z
     Membership.updateMany({"endDate":{$lt:today}}, { $set:{"status":"false"}},function(error , result){
     
     });
-
-    User.updateMany({"endDate":{$lt:today}}, { $set:{"membershipStatus":false}},function(error , result){
+    var updateData = {
+        "membershipStatus":false,
+        "role":"Member"  
+    }
+    //User.updateMany({"createdDate":{$lt:today}},{$set:updateData} ,function(error , result){
       
-    });
+    // });
     
 });
 app.listen('4000', function () {

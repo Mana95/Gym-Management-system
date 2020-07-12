@@ -13,6 +13,7 @@ import { MainNewCatagoryComponent } from './main-new-catagory/main-new-catagory.
   declarations: [MainCatagoryComponent,MainNewCatagoryComponent],
   imports: [
     CommonModule, MainCatagoryRoutingModule ,PageHeaderModule ,NgbModule , ReactiveFormsModule , FormModule
-  ]
+  ],
+  entryComponents: [MainNewCatagoryComponent]
 })
 export class MainCatagoryModule { }

@@ -17,7 +17,7 @@ import { OrderService } from 'src/app/services/order.service';
 export class DietPlanComponent implements OnInit {
   dietPlanGroup : FormGroup;
   submitted = false;
-  view= [1,2,3,4,5,6,6,7,5,4,4];
+  view:any;
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   id:any;
@@ -43,14 +43,7 @@ export class DietPlanComponent implements OnInit {
       role:this.role
     }
     console.log(this.id);
-    this.scheduleService.getDietMyPlanID(this.id ,  this.role)
-    .subscribe(
-      response=>{
-    // this.view = response
-      this.dietPlanView = response; 
-      console.log( this.dietPlanView );
-      }
-    )
+  
 
   }
 

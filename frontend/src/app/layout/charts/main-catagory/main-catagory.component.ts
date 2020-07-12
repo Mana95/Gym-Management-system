@@ -2,6 +2,8 @@ import { CatagoryService } from './../../../services/catagory.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MainNewCatagoryComponent } from './main-new-catagory/main-new-catagory.component';
 
 @Component({
   selector: 'app-main-catagory',
@@ -18,9 +20,16 @@ export class MainCatagoryComponent implements OnInit {
     private catagoryService: CatagoryService,
     private authenticationService: AuthenticationService,
     private router: Router,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
+    this.loadData();
+    
+   
+  }
+
+  loadData() {
     this.catagoryService.getAll()
     .subscribe(
       data => {
@@ -28,11 +37,6 @@ export class MainCatagoryComponent implements OnInit {
         console.log(data);
       }
     );
-   
-  }
-
-  loadData(data) {
-    alert(data)
   }
 
   deleteRecord(data) {
@@ -51,6 +55,17 @@ export class MainCatagoryComponent implements OnInit {
 
     });
     location.reload();
+  }
+
+  openModal() {
+    const modelRef = this.modalService.open(MainNewCatagoryComponent);
+    
+   //modelRef.componentInstance.user = rowData;
+    modelRef.result.then((result) => {
+      if (result) {
+        this.loadData();
+      }
+      });
   }
 
 }

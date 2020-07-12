@@ -8,8 +8,6 @@ import { CustomersRoutingModule } from './customers-routing.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
-
 @NgModule({
   declarations: [CustomersComponent],
   imports: [

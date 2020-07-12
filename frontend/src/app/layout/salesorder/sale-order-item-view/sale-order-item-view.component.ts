@@ -105,6 +105,9 @@ export class SaleOrderItemViewComponent implements OnInit {
    this.maxNumber = this.itemCart.avlableQty.value
     if(inputNumber >= this.itemCart.avlableQty.value){
       this.displayAlert = true;
+      this.viewCartForm.controls['qty'].setValue(0);
+      
+      this.displayTotal =price.toFixed(2); 
       setTimeout(()=>{ 
         this.displayAlert = false; }, 2000);
         return;
