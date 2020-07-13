@@ -7,6 +7,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -29,6 +30,8 @@ export class CheckoutComponent implements OnInit {
     private authenticationService:AuthenticationService,
     private formBuilder:FormBuilder,
     private orderService:OrderService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { 
     this.logInUserData =this.authenticationService.currentUserValue;
     
@@ -120,7 +123,7 @@ this.submitted=true;
 const documentDefinition = this.getDocumentDefinition(invoiceData ,cartData);
 pdfMake.createPdf(documentDefinition).open();
 
- return;
+
  this.orderService.saveCartData(cartData ,invoiceData)
  .subscribe(
    res=>{
@@ -130,6 +133,10 @@ pdfMake.createPdf(documentDefinition).open();
         text: 'Payment is Success',
         icon: 'success'
       });
+      this.activeModal.close();
+      localStorage.removeItem('cartObject');
+      this.router.navigate(['/sales_order_cart']);
+
      }
    }
  )
@@ -477,7 +484,7 @@ return {
               margin: [0, 5, 0, 5],
             },
             {
-              text:  `Rs : ${cartData.balancePrice}`,
+              text:  `Rs : ${-cartData.balancePrice}`,
               border: [false, false, false, true],
               fillColor: '#f5f5f5',
               alignment: 'right',

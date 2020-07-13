@@ -1,6 +1,7 @@
 	  <!-- addToCart -->
-	  <form [formGroup]="viewCartForm"  (ngSubmit)="onSubmit()" >
+	
 		  <div class="card mb-12"  *ngFor =" let data of itemCartData">
+			<form [formGroup]="viewCartForm"  (ngSubmit)="onSubmit()" >
 			<div class="row no-gutters">
 			  <div class="col-md-4">
 				<img [src]="data.image" class="card-img" alt="...">
@@ -36,6 +37,10 @@
 				</div>
 			  </div>
 			</div>
+			
+			</form>
+
+
 			<div class="">
 				<div class="card-header">
 					<ngb-tabset>
@@ -57,14 +62,12 @@
 						<ngb-tab>
 						  <ng-template ngbTabTitle><b>Comments</b></ng-template>
 						  <ng-template ngbTabContent>
-							  <br/>
-							  <h3>Comments</h3>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-							<p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-							craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
-							cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
-							yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
-							shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
-							sint qui sapiente accusamus tattooed echo park.</p>
+							<br/>
+					
+
+
+
+
 						  </ng-template>
 						</ngb-tab>
 						<ngb-tab title="Disabled" [disabled]="true">
@@ -76,4 +79,25 @@
 				</div>
 				</div>	
 		  </div>
-		  </form>
+		  <div class="container">
+			<div class="card">
+				<div class="commentbox">
+					<br/>
+					<!-- <div class="col-12 col-sm-12 header">
+						<h4>Add Comments here</h4>
+					</div> -->
+					<div class="col-12 col-sm-12 body">
+						<div class="comment-container">
+								<div class="comment-form">
+								 <!-- <app-comment (usercomment)="receiveComment($event)"></app-comment> -->
+							<app-comment (usercomment)="receiveComment($event)"></app-comment>
+								</div>
+						</div>
+
+						
+					   
+					</div>
+				  </div>
+			<app-reply-comment  [postComment]="comments"   (countComments)="recieveCount($event)"></app-reply-comment>
+			  </div>
+		</div> 

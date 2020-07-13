@@ -21,6 +21,7 @@ const Membership = db.Membership;
 const ScheduleType = db.ScheduleType;
 const Employee = db.Employee;
 const Instructor = db.Instructor;
+const Comment = db.Comment;
 
 module.exports = {
   authenticate,
@@ -75,9 +76,16 @@ module.exports = {
   getReleventUserData,
   updateSupplierDataService,
   deleteSupplierDataService,
-  updateActiveIncativeStatusMembership_service
+  updateActiveIncativeStatusMembership_service,
+  saveCommentController_service
 
 };
+
+async function saveCommentController_service(commentData){
+  const comment = new Comment(commentData);
+  await comment.save();
+}
+
 async function updateActiveIncativeStatusMembership_service(data){
     var updateMembershipStatus = await Membership.updateOne(
       {_id:data.data._id}, {$set:{AcceptedRejectedStatus:"Rejected"}}

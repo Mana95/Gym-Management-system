@@ -246,7 +246,7 @@ export class TablesComponent implements OnInit {
  
 
   }
-
+  getColor() {}
   onEditSubmit(data){
       this.submitted = true;
       if(this.editItemGroup.valid){

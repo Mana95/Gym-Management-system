@@ -23,6 +23,9 @@ export class SaleOrderItemViewComponent implements OnInit {
   maxNumber :any;
   viewCartEnalability = false;
   cartData:any;
+  comments: string;
+  count: number;
+
   constructor(
     private orderService: OrderService, 
     private route: ActivatedRoute,
@@ -46,7 +49,17 @@ export class SaleOrderItemViewComponent implements OnInit {
   }
     
   }
+  receiveComment($event) {
+    //alert("here is")
+    this.comments = $event;
+    this.count = this.comments.length;
+    console.log(this.comments.length);
+  }
 
+  recieveCount($event) {
+    this.comments = $event;
+    this.count = this.comments.length;
+  }
   //Load the relevent Item data
   loadItemDetails(){
 

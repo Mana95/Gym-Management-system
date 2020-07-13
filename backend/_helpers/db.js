@@ -20,10 +20,10 @@ module.exports = {
     Employee: require('../users/employee.model'),
     SalesOrder:require('../orders/soOrder.model'),
     Cart:require('../orders/cart.model'),
-
+    Comment:require('../users/comment.model'),
     Schedule: require('../schedule/newschedule.model'),
     Instructor:require('../users/instructor.model'),
-   
+    Invoice:require('../orders/invoice.model'),
     ItemData: require('../catagory/item.model'),
     //Now added
     Uplds: require('../uplds/upload.model'),

@@ -37,7 +37,9 @@ export class AuthenticationService {
     return this.cartItemsSubject.value;
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue() {
+    //console.log('HIDHSDHSDSADSA')
+   // console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
 
@@ -328,6 +330,10 @@ export class AuthenticationService {
         getReleventActivationOfEmployee(status){
           return this.http.get(config.PAPYRUS+`/users/getReleventActivationOfEmployee/${status}`);  
         
+        }
+
+        saveComments(data){
+            return this.http.post<any>(config.PAPYRUS+ `/users/saveComment`, data);
         }
 }
 
