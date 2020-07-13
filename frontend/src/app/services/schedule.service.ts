@@ -22,13 +22,13 @@ export class ScheduleService {
     return this.http.get(config.PAPYRUS+`/shedule/getAllExercise/${name}`)
    }
 
-   saveExercise(data){
+   saveExercise(data): Observable<any>{
     return this.http.post(config.PAPYRUS+`/shedule/saveExercise/`,data);
    }
 
 
    getDietMyPlanID(id, role) {
-    return this.http.get(config.PAPYRUS+`/shedule/getDietMyPlanID/`,
+    return this.http.get<any>(config.PAPYRUS+`/shedule/getDietMyPlanID/`,
     {params:{
       id:id,
       role:role

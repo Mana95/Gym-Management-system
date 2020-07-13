@@ -13,20 +13,17 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [DietPlanComponent],
   imports: [
-    CommonModule ,DietPlanRoutingModule ,ReactiveFormsModule ,
+    CommonModule ,DietPlanRoutingModule ,ReactiveFormsModule ,NgxPaginationModule,Ng2SearchPipeModule,
      SharedModule , 
      NgbModule,
      FormsModule,
-     CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    FlatpickrModule.forRoot()
-    
+  
      
    
   ]

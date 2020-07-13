@@ -1,3 +1,4 @@
+import { OrderService } from './../../services/order.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { User } from 'src/app/_models';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -6,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderService } from 'src/app/services/order.service';
+
 
 @Component({
   selector: 'app-diet-plan',
@@ -21,9 +22,11 @@ export class DietPlanComponent implements OnInit {
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   id:any;
+  searchText;
+  p: number = 1;
   dietPlanView :any;
   role : any;
-  
+  detailsOfDietPlan :any;
   constructor(
     private formBuilder : FormBuilder,
   
@@ -42,8 +45,14 @@ export class DietPlanComponent implements OnInit {
       id :this.id,
       role:this.role
     }
-    console.log(this.id);
-  
+    console.log(data);
+    this.scheduleService.getDietMyPlanID(data.id , data.role)
+    .subscribe(
+      response=>{
+        this.detailsOfDietPlan = response
+        console.log(this.detailsOfDietPlan)
+      }
+    )
 
   }
 

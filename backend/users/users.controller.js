@@ -18,7 +18,7 @@ router.post('/savemember', savemember);
 router.post('/updateStatus' , updateStatus);
 router.post('/supplierMail' ,supplierMail);
 router.post('/instructor' , instructorSave);
-
+router.post('/saveComment' , saveCommentController);
 router.post('/userCreation', userCreation);
 router.post('/cusCreation' , cusRegister)
 router.post('/supCreation' , supRegister)
@@ -78,6 +78,11 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+function saveCommentController(req ,res , next){
+    userService.saveCommentController_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function updateActiveIncativeStatusMembership(req ,res , next){
     userService.updateActiveIncativeStatusMembership_service(req.body)
