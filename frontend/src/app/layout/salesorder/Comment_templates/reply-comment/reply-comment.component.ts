@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Component, OnInit, Input, Output, EventEmitter, ViewContainerRef, Directive, ViewChildren, QueryList, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChildboxComponent } from '../childbox/childbox.component';
@@ -20,22 +21,39 @@ export class DatacontainerDirective  {
 })
 export class ReplyCommentComponent implements OnInit {
   @Input() postComment: Array<object> = [];
+  @Input() itemId:any;
   @Output() countComments = new EventEmitter();
   public loadComponent = false;
   public commentIndex = 0;
   public reply: Array<object> = [];
   commentData: any;
   uniqueId: any;
-
+ 
   @ViewChildren (DatacontainerDirective) entry: QueryList<DatacontainerDirective>;
+  
   
   constructor(
     private resolver: ComponentFactoryResolver,
     private route: ActivatedRoute,
-  ) { }
+    private authenticationService:AuthenticationService
+  ) { 
+   
+  }
 
   ngOnInit() {
     console.log(this.postComment);
+    this.commentLoad();
+  }
+
+  commentLoad() {
+      this.authenticationService.loadCommentDataForId(this.itemId)
+      .subscribe(
+        result=>{
+          console.log('result');
+          console.log(result);
+          this.commentData = result;
+        }
+      )
   }
 
   ngOnChanges() {

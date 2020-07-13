@@ -335,6 +335,10 @@ export class AuthenticationService {
         saveComments(data){
             return this.http.post<any>(config.PAPYRUS+ `/users/saveComment`, data);
         }
+
+        loadCommentDataForId(id){
+          return this.http.get(config.PAPYRUS+`/users/getCommentData/${id}`);  
+        }
 }
 
 

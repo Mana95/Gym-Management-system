@@ -25,6 +25,7 @@ export class SaleOrderItemViewComponent implements OnInit {
   cartData:any;
   comments: string;
   count: number;
+  itemId:any;
 
   constructor(
     private orderService: OrderService, 
@@ -86,8 +87,9 @@ export class SaleOrderItemViewComponent implements OnInit {
     this.orderService.loadNavigateItemDetials(id)
     .subscribe(
       data=>{
-        console.log('data')
-        console.log(data);
+        console.log('HIIIIIIIIIIIIIIIIIIIIIIIi')
+        console.log(data[0].id);
+       this.itemId = data[0].id;
         this.itemCartData = data;
         this.viewCartForm.controls['id'].setValue(id);
         this.viewCartForm.controls['itemId'].setValue(data[0].id);

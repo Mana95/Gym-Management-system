@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../../../../services/authentication.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { User } from 'src/app/_models';
 })
 export class CommentComponent implements OnInit {
   @Output() usercomment = new EventEmitter();
+  @Input() itemId:any;
   submitted = false;
   commentForm: FormGroup;
   commentInfo: Array<object> = [];
@@ -20,6 +21,7 @@ export class CommentComponent implements OnInit {
   currentUser: User;
   uniqueId: any;
   id:any
+  
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -36,9 +38,7 @@ export class CommentComponent implements OnInit {
      
   });
 
-  this.uniqueId = this.authenticationService.cartDataValue[0].itemId;
-  console.log('Crt item')
-  console.log(this.uniqueId);
+
   }
   get f() {
     return this.commentForm.controls;
@@ -71,7 +71,7 @@ export class CommentComponent implements OnInit {
 
     let commentData = {
 
-      "itemId": this.uniqueId, "firstName": this.currentUser.firstName , "comment": this.f.comment.value, "createDate": this.currentDate, "createdTime": this.currentTime
+      "itemId": this.itemId, "email":this.currentUser.email, "firstName": this.currentUser.firstName , "comment": this.f.comment.value, "createDate": this.currentDate, "createdTime": this.currentTime
 
     }
 

@@ -59,7 +59,7 @@ router.get('/getByIdInstructor/:id', getByIdInstructor);
 router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmployee);
 router.get('/usersReports', usersReportsDataLoad);
 router.get('/getReleventUserData/:id', getReleventUserData);
-
+router.get('/getCommentData/:id', getCommentDataController);
 router.put('/:id', update);
 router.patch('/deleteSupplierData', deleteSupplierData);
 
@@ -78,6 +78,15 @@ router.post('/new-password' , NewPassword)
 
 
 module.exports = router;
+
+function getCommentDataController(req ,res , next){
+    userService.getCommentDataController_service(req.params.id)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+
 function saveCommentController(req ,res , next){
     userService.saveCommentController_service(req.body)
     .then(data => res.json(data))

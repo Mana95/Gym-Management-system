@@ -77,10 +77,13 @@ module.exports = {
   updateSupplierDataService,
   deleteSupplierDataService,
   updateActiveIncativeStatusMembership_service,
-  saveCommentController_service
+  saveCommentController_service,
+  getCommentDataController_service
 
 };
-
+async function getCommentDataController_service(id){
+  return await Comment.find({itemId:id});
+}
 async function saveCommentController_service(commentData){
   const comment = new Comment(commentData);
   await comment.save();

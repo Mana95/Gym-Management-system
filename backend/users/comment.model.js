@@ -19,6 +19,9 @@ const schema = new Schema({
     },
     createdTime: {
         type:String
+    },
+    email:{
+        type:String
     }
 
 });
