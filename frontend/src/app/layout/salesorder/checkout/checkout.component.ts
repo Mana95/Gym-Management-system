@@ -91,7 +91,7 @@ export class CheckoutComponent implements OnInit {
   }
   onSubmit() {
 this.submitted=true;
- if(Number(this.f.totalPrice.value) >= Number(this.f.payingPrice.value)){
+ if(Number(this.f.totalPrice.value) > Number(this.f.payingPrice.value)){
   Swal.fire('Oops...', `Please check your paying price is correct😊`, 'error');
   return;
  }

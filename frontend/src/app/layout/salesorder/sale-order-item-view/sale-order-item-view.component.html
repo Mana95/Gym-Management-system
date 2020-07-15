@@ -63,41 +63,13 @@
 						  <ng-template ngbTabTitle><b>Comments</b></ng-template>
 						  <ng-template ngbTabContent>
 							<br/>
-					
-
-
-
-
+								<app-comment [itemId]="itemId" (usercomment)="receiveComment($event)"></app-comment>
+							<app-reply-comment [itemId]="itemId"  [postComment]="comments"   (countComments)="recieveCount($event)"></app-reply-comment>
 						  </ng-template>
 						</ngb-tab>
-						<ngb-tab title="Disabled" [disabled]="true">
-						  <ng-template ngbTabContent>
-							<p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
-						  </ng-template>
-						</ngb-tab>
+						
 					  </ngb-tabset>
 				</div>
 				</div>	
 		  </div>
-		  <div class="container">
-			<div class="card">
-				<div class="commentbox">
-					<br/>
-					<!-- <div class="col-12 col-sm-12 header">
-						<h4>Add Comments here</h4>
-					</div> -->
-					<div class="col-12 col-sm-12 body">
-						<div class="comment-container">
-								<div class="comment-form">
-								 <!-- <app-comment (usercomment)="receiveComment($event)"></app-comment> -->
-							<app-comment (usercomment)="receiveComment($event)"></app-comment>
-								</div>
-						</div>
-
-						
-					   
-					</div>
-				  </div>
-			<app-reply-comment  [postComment]="comments"   (countComments)="recieveCount($event)"></app-reply-comment>
-			  </div>
-		</div> 
+		

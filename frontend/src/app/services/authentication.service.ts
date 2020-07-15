@@ -83,7 +83,7 @@ export class AuthenticationService {
   }
 
   saveMembership(data){
-    console.log(data);
+    //console.log(data);
     return this.http.post(config.PAPYRUS+`/users/savemember`,data)
   }
 
@@ -334,6 +334,10 @@ export class AuthenticationService {
 
         saveComments(data){
             return this.http.post<any>(config.PAPYRUS+ `/users/saveComment`, data);
+        }
+
+        loadCommentDataForId(id){
+          return this.http.get(config.PAPYRUS+`/users/getCommentData/${id}`);  
         }
 }
 

@@ -44,7 +44,11 @@ const schema = new Schema({
         type: Date,
         default: Date.now
 
+    },
+    ScheduleAccptedRejected:{
+        type: String,
     } 
+
 });
 
 //schema.set('toJSON', { virtuals: true });

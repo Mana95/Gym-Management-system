@@ -19,6 +19,13 @@ const schema = new Schema({
     },
     createdTime: {
         type:String
+    },
+    email:{
+        type:String
+    },
+    rating:{
+        type:Number,
+        required:true
     }
 
 });

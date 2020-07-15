@@ -12,13 +12,13 @@ import { CommentComponent } from './Comment_templates/comment/comment.component'
 import { ReplyCommentComponent } from './Comment_templates/reply-comment/reply-comment.component';
 import { ChildboxComponent } from './Comment_templates/childbox/childbox.component';
 
-
+import { NgxStarRatingModule } from 'ngx-star-rating';
 
 @NgModule({
   declarations: [SalesorderComponent, CommentComponent, ReplyCommentComponent, ChildboxComponent],
  
   imports: [
-    CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule
+    CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule ,NgxStarRatingModule
   ]
 })
 export class SalesorderModule { }

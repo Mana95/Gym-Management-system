@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     error = '';
     statusMessage = false;
-
+     erroShow = false;
     constructor(
         private formBuilder: FormBuilder,
       public router: Router,
@@ -65,6 +65,10 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          if(data==null){
+            this.erroShow = true
+          }
+             this.erroShow = false
           this.statusMessage = true;
           this.backendMessage = data;
          //console.log(data)

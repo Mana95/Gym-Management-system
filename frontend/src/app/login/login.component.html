@@ -25,8 +25,8 @@
     <a  [routerLink]="['/request-reset-password']">Forgot Password</a>
 </div>
 <div *ngIf="statusMessage"  style="color: red;" class="input-lg"><b>{{backendMessage}}</b></div>
- <div *ngIf="error" style="color: red;" class="input-lg"><b>{{error}}</b></div>
-            
+ <div *ngIf="error" style="color: red;" class="input-lg"><b>{{backendMessage}}</b></div>
+ <div *ngIf="error" style="color: red;" class="input-lg"><b>{{error}}</b></div>          
                     </div>
                 </div>
               
@@ -34,7 +34,7 @@
                 <!-- <a class="btn rounded-btn" [routerLink]="['/']" (click)="onLoggedin()">{{ 'Log in' | translate }}</a>
                 &nbsp; -->
                 <a class="btn rounded-btn" [routerLink]="['/memberSignup']">{{ 'Register' | translate }}</a>
-            <div *ngIf="error" style="color: red;" class="input-lg"><b>{{error}}</b></div>
+        
             
             </form>
         </div>

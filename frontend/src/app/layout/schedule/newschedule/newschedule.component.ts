@@ -137,6 +137,8 @@ this.requestScheduleGroup.controls["date"].setValue(
             });
             this.alertDisplay = false;
             this.showMsg = true;
+            
+            this.submitted = false
           }else{
             Swal.fire('Oops...', `Already send a Schedule Request`, 'error')
             this.showMsg = false;

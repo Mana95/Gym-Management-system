@@ -77,10 +77,13 @@ module.exports = {
   updateSupplierDataService,
   deleteSupplierDataService,
   updateActiveIncativeStatusMembership_service,
-  saveCommentController_service
+  saveCommentController_service,
+  getCommentDataController_service
 
 };
-
+async function getCommentDataController_service(id){
+  return await Comment.find({itemId:id});
+}
 async function saveCommentController_service(commentData){
   const comment = new Comment(commentData);
   await comment.save();
@@ -565,7 +568,7 @@ async function savememberData(data) {
   if (await User.findOne({ email: data.email })) {
     return 'Email "' + data.email + '" is already taken';
   } else if (await User.findOne({ nicNumber: data.nicNumber })) {
-    return 'UserName "' + data.nicNumber + '" is already taken';
+    return 'NicNumber "' + data.nicNumber + '" is already taken';
   }
   const user = new User(data);
   // hash password

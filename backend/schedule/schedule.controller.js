@@ -33,6 +33,13 @@ router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvail
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
 router.get('/getDietMyPlanID' , getDietMyPlanID);
 router.get('/getAllExercise/:name' , getAllExercise);
+router.get('/loadMyAllSchedule/:role' , loadMyAllSchedule_controller);
+
+function loadMyAllSchedule_controller(req ,res, next){
+    scheduleService.loadMyAllSchedule_Service(req.params.role)
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
 
 function getAllExercise(req ,res, next){
     scheduleService.getAllExercise(req.params.name)
