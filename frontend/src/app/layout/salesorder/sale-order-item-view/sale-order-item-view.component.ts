@@ -87,7 +87,7 @@ export class SaleOrderItemViewComponent implements OnInit {
     this.orderService.loadNavigateItemDetials(id)
     .subscribe(
       data=>{
-        console.log('HIIIIIIIIIIIIIIIIIIIIIIIi')
+     //   console.log('HIIIIIIIIIIIIIIIIIIIIIIIi')
         console.log(data[0].id);
        this.itemId = data[0].id;
         this.itemCartData = data;
@@ -148,10 +148,10 @@ routePage() {
   onSubmit() {
 //console.log(this.itemCart.image.value);
 
+console.log(typeof this.itemCart.qty.value)
 
 
-
-if(this.viewCartForm.valid){
+if(this.viewCartForm.valid && this.itemCart.qty.value>0){
   this.viewCartEnalability = true;
   this.viewCartEnalability =true;
   this.submitted = true;

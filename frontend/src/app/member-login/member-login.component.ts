@@ -2,7 +2,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-member-login',
   templateUrl: './member-login.component.html',
@@ -102,6 +102,13 @@ export class MemberLoginComponent implements OnInit {
             console.log(response);
             this.error = response;
             if(response ==1){
+
+              Swal.fire({
+                text: 'Registered  success',
+                icon: 'success'
+              });
+
+
               this.memberGroup.reset();
              this.router.navigate(['/login']);
             }

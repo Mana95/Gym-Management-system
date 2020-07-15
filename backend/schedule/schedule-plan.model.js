@@ -9,6 +9,10 @@ const schema = new Schema({
             required:true,
             type:String
         }, 
+        instructorId:{ 
+          required:true,
+          type:String
+        },
         ScheduleId: {
           required:true,
           type:String 

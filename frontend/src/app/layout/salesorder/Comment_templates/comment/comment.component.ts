@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { User } from 'src/app/_models';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -20,6 +21,7 @@ export class CommentComponent implements OnInit {
   currentTime: any;
   currentUser: User;
   uniqueId: any;
+  currentUserRole:any;
   id:any
   
   constructor(
@@ -29,22 +31,25 @@ export class CommentComponent implements OnInit {
     private authenticationService:AuthenticationService
   ) {
     this.currentUser = this.authenticationService.currentUserValue;
-    console.log(this.currentUser);
-   }
-
+     this.currentUserRole= this.currentUser.role;
+    }
   ngOnInit() {
     this.commentForm = this.formBuilder.group({
-      comment: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
+      comment: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
+      rating:['',Validators.required]
      
   });
 
 
+  }onlyInstructor() {
+    return this.currentUserRole
   }
   get f() {
     return this.commentForm.controls;
    }   
 
   onSubmit() {
+    console.log(this.f.rating.value)
     this.submitted = true;
     const comStat = this.f.comment.value
    
@@ -53,8 +58,10 @@ export class CommentComponent implements OnInit {
     this.currentDate = moment().subtract(10, 'days').calendar();
     let Time = this.currentTime
     
-    if (this.commentForm.invalid) {
-      return false;
+    if (this.f.rating.invalid) {
+      Swal.fire('Oops...', `Please make rate for your comment`, 'error')
+    }else if (this.f.comment.invalid){
+      Swal.fire('Oops...', `Please make sure to insert a comment before submit`, 'error')
     }
      else {
       this.commentInfo.push({
@@ -62,6 +69,7 @@ export class CommentComponent implements OnInit {
         currentDate : new Date(),
         currentTime : Time,
         currentUser : this.currentUser.firstName,
+        rating:this.f.rating.value,
         email:this.currentUser.email,
         commentTxt: this.commentForm.controls['comment'].value,
         replyComment: []
@@ -71,16 +79,17 @@ export class CommentComponent implements OnInit {
 
     let commentData = {
 
-      "itemId": this.itemId, "email":this.currentUser.email, "firstName": this.currentUser.firstName , "comment": this.f.comment.value, "createDate": this.currentDate, "createdTime": this.currentTime
+      "itemId": this.itemId,"rating":this.f.rating.value,"email":this.currentUser.email, "firstName": this.currentUser.firstName , "comment": this.f.comment.value, "createDate": this.currentDate, "createdTime": this.currentTime
 
     }
-
+    if(this.commentForm.valid){
     this.authenticationService.saveComments(commentData)
     .subscribe(
       response=>{
         console.log(response);
       }
     )
+  }
     
 
 

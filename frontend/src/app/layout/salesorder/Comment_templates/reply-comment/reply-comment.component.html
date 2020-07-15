@@ -1,7 +1,7 @@
 
 <div class="container">
-  <h2  *ngIf="postComment!==undefined" class="text-center"><b>New  Comments</b></h2>
-	<table #dataTable id="mytable" *ngIf="postComment!==undefined">
+  <h2  *ngIf="postComment!==undefined" class="text-center" ><b>New  Comments</b></h2>
+	<table #dataTable id="mytable" *ngIf="postComment!==undefined ">
     <thead>
       <tr *ngFor=" let post of postComment">
 	<div class="card">
@@ -14,12 +14,10 @@
         	    <div class="col-md-9">
         	        <p>
         	            <a class="float-left" style="color:thistle"><strong>{{post.currentUser}} : {{post.email}} </strong></a>
-        	            <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-        	            <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-        	            <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                       
 
-        	       </p>
+                   </p>
+                   <ngx-star-rating  [(ngModel)]="post.rating" [id]="'rating1'" [disabled] ="true"></ngx-star-rating>
         	       <div class="clearfix"></div>
         	        <p>{{post.commentTxt}}</p>
         	       
@@ -35,6 +33,16 @@
 <hr/>
 
 <h2 class="text-center" *ngIf="commentData?.length>0"><b>Old  Comments</b></h2>
+<div class="row">
+    <label for="staticEmail" class=" col-form-label"><b>Rate <i class="fa fa-star" aria-hidden="true"></i></b></label>
+    <div class="col-md-4">
+    <select class="form-control" #rateValue  (change)="loadData(rateValue.value)">
+        <option de>{{data}}</option>
+        <option *ngFor= "let data of [1,2,3,4,5]">{{data}}</option>
+        </select>
+        </div>
+</div>
+    <br>
 <table #dataTable id="mytable">
   <thead>
     <tr *ngFor=" let post of commentData">
@@ -46,12 +54,11 @@
                 <p class="text-secondary text-center">{{post.createDate | date}} {{post.createdTime}}</p>
             </div>
             <div class="col-md-9">
+          
+                <ngx-star-rating  [(ngModel)]="post.rating" [id]="'rating2'" [disabled] ="true"></ngx-star-rating>
                 <p>
-                    <a class="float-left" style="color:thistle"><strong>{{post.firstName}} : {{post.email}} </strong></a>
-                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-                      <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                    <a class="float-left" style="color:thistle"><strong>{{post.firstName}}</strong></a>
+                   
 
                </p>
                <div class="clearfix"></div>

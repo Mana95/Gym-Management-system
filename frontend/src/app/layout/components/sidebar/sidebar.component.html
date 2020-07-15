@@ -104,6 +104,12 @@
                 </a>
             </li>
             <li>
+                <a href="javascript:void(0)" [routerLink]="['/allSchedule']" [routerLinkActive]="['router-link-active']" *ngIf ="Instructor" >
+                    <i class="fa fa-address-book"></i>&nbsp;
+                    <span>{{ 'All Schedule' | translate }}</span>
+                </a>
+            </li>
+            <li>
                 <a [routerLink]="['/viewSchedule']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor">
                     <i class="fa fa-shopping-bag"></i>&nbsp;
                     <span>{{ 'Accepted Schedule' | translate }}</span>

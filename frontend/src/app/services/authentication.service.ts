@@ -83,7 +83,7 @@ export class AuthenticationService {
   }
 
   saveMembership(data){
-    console.log(data);
+    //console.log(data);
     return this.http.post(config.PAPYRUS+`/users/savemember`,data)
   }
 

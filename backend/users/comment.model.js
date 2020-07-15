@@ -22,6 +22,10 @@ const schema = new Schema({
     },
     email:{
         type:String
+    },
+    rating:{
+        type:Number,
+        required:true
     }
 
 });

@@ -11,6 +11,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 
 import { SchedulePlanComponent } from './schedule-plan/schedule-plan.component';
+import { AllSchedulesComponent } from './all-schedules/all-schedules.component';
 
 
 @NgModule({

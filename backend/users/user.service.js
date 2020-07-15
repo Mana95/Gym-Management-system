@@ -568,7 +568,7 @@ async function savememberData(data) {
   if (await User.findOne({ email: data.email })) {
     return 'Email "' + data.email + '" is already taken';
   } else if (await User.findOne({ nicNumber: data.nicNumber })) {
-    return 'UserName "' + data.nicNumber + '" is already taken';
+    return 'NicNumber "' + data.nicNumber + '" is already taken';
   }
   const user = new User(data);
   // hash password

@@ -598,6 +598,7 @@ pushValuetoTable(controls){
       weight:this.f.weight.value,
       gender:this.f.gender.value,
       BMI:this.f.BMI.value,
+      instructorId: this.currentUserSubject.value.user_id,
       instructorName:this.f.instructorName.value,
       contact:this.f.contact.value,
       endDate:this.f.endDate.value,

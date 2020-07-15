@@ -290,7 +290,7 @@ async function NewPassword(req, res) {
 
 
 function savemember(req ,res ,next){
-    console.log(req.body)
+    //console.log(req.body)
     userService.savememberData(req.body)
     .then(member => res.json(member))
     .catch(err => next(err));

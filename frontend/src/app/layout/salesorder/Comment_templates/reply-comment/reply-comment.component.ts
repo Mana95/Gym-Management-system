@@ -22,12 +22,14 @@ export class DatacontainerDirective  {
 export class ReplyCommentComponent implements OnInit {
   @Input() postComment: Array<object> = [];
   @Input() itemId:any;
+  rating:any;
   @Output() countComments = new EventEmitter();
   public loadComponent = false;
   public commentIndex = 0;
   public reply: Array<object> = [];
   commentData: any;
   uniqueId: any;
+  currentUserRole:any;
  
   @ViewChildren (DatacontainerDirective) entry: QueryList<DatacontainerDirective>;
   
@@ -37,7 +39,9 @@ export class ReplyCommentComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService:AuthenticationService
   ) { 
-   
+   this.currentUserRole =  this.authenticationService.currentUserValue.role
+   console.log('sdaasd')
+   console.log(this.currentUserRole)
   }
 
   ngOnInit() {
@@ -99,5 +103,34 @@ export class ReplyCommentComponent implements OnInit {
     });
     console.log(this.reply);
     this.loadComponent = false;
+  }
+
+  loadData(rateValue){
+    // var newCommentData = [];
+    // newCommentData.length = 0;
+   var commentDetails = this.commentData
+  
+    // commentDetails.forEach((cmnt,index)=>{
+    //   if(cmnt.rating == Number(rateValue)){
+    //     newCommentData.push(cmnt)
+    //   }
+    // })
+    // this.commentData = newCommentData;
+    if(rateValue != null){
+    var data =   this.commentData.filter(cmnt=> cmnt.rating == Number(rateValue));
+    this.commentData = data;
+    return;
+    }
+ this.commentData = commentDetails;
+
+
+
+  }
+  // commentDataMethod() {
+  //     if()
+  // }
+
+  onlyInstructor() {
+    return this.currentUserRole
   }
 }
