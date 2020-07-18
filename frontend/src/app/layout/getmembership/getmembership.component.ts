@@ -631,7 +631,7 @@ export class GetmembershipComponent implements OnInit {
       
     };
     console.log(UserData)
-    
+     
     if (this.getMembershipGroup.valid) {
       this.authenticationSercive.saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
@@ -639,10 +639,15 @@ export class GetmembershipComponent implements OnInit {
             if(response.length == 2){
               if(response[0]=='memberhipMessage'){
                 Swal.fire('Oops...', `${response[1]}`, 'error');
+                return;
               }
               if(response[0]=='memberhipRoleChanged'){
                 Swal.fire('Oops...', `${response[1]}`, 'error');
+                return;
               }
+           
+                Swal.fire('Oops...', `${response[1]} and ${response[0]} Already available`, 'error');
+              
             }
             if(response.length == 1){
             

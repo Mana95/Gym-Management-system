@@ -48,9 +48,9 @@
                             <td style="text-align: center;">{{data.endDate | date }}</td>
                             <td style="text-align: center;">{{data.email}} </td>
                             <td style="text-align: center;">{{data.phonenumber}} </td>
-                            <td style="text-align: center; color: green;" *ngIf="data.status == 'true'"><b><i class="fa fa-check" aria-hidden="true"></i></b></td>
-                            <td style="text-align: center; color: red;" *ngIf="data.status =='false'"><b><i class="fa fa-exclamation" aria-hidden="true"></i></b></td>
-                            <td><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button> &nbsp;
+                            <td style="text-align: center; color: green;" *ngIf="data.status == 'true'" ><b><i class="fa fa-check" aria-hidden="true"  ngbTooltip="Membership active" ></i></b></td>
+                            <td style="text-align: center; color: red;" *ngIf="data.status =='false'"><b><i class="fa fa-exclamation" aria-hidden="true"  ngbTooltip="Membership inactive"></i></b></td>
+                            <td><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true" ></i></button> &nbsp;
                             <button type="button" [disabled]="(data.status != 'true' ?true: false)" (click)="inactiveMembership(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                     
                             </tr>
                         </tbody>

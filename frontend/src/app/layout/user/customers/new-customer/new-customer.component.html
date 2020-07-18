@@ -3,9 +3,10 @@
     <div class="col-md-12">
       <div class="card bg-light mb-2">
         <div class="card-header">
-          <h2><b> <i class="fa fa-handshake-o" aria-hidden="true"></i>
-             New Membership </b></h2>  
-           
+          <h2><b>
+             <i class="fa fa-handshake-o" aria-hidden="true"></i>
+             New Membership 
+            </b></h2>     
         </div>
         <div class="card-body">
           <form [formGroup]="MembershipGroup" (ngSubmit)="onSubmit()">
@@ -21,10 +22,7 @@
               <div class="form-group col-md-3">
                 <label for="email"><b>Email Address</b></label>
                 <input type="email" class="form-control inputClass" formControlName="email"  placeholder="Email"
-                  [ngClass]="{
-                                        'is-invalid':
-                                            submitted && f.email.errors
-                                    }" />
+                  [ngClass]="{'is-invalid':submitted && f.email.errors}" />
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                   <div *ngIf="f.email.errors.required">
                     Emailname is required
@@ -230,7 +228,7 @@
               <div class="form-group col-md-3">
                   <label for="firstName"><b>Disaster </b></label>
                   <select class="form-control" formControlName="disaster" (click)="appearDiscription($event)" [ngClass]="{ 'is-invalid': submitted && f.disaster.errors }">
-                    <option selected>Choose...</option>
+                    <option value="">Choose...</option>
                     <option *ngFor="let data of display">{{data.id}}</option>
                   </select>
                   <div *ngIf="submitted && f.disaster.errors" class="invalid-feedback">
@@ -250,21 +248,24 @@
             </div>
 
             <div class="form-row">
-              <div class="form-group col-md-3" (change)="displayAmount(data)" >
+              <div class="form-group col-md-3" >
                 <label for="inputPassword4">Membership Type</label>
-                <select class="form-control"  #data  formControlName="typeName"   [ngClass]="{
+                <select class="form-control"  (change)="displayAmount($event)"   formControlName="typeName"   [ngClass]="{
                                         'is-invalid':
                                             submitted && f.typeName.errors
                                     }">
-                                   
+                                    <option value="">Choose...</option>            
                   <option *ngFor="let data of Type" >{{ data.membershipName }}</option>
                 
                 </select>
                 <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
+                  <div *ngIf="f.typeName.errors.required">Type name is required</div>
+                </div> 
+                <!-- <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
                   <div *ngIf="f.typeName.errors.required">
                     Type name is required
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="form-group col-md-3">
                 <label for="inputPassword4">Amount</label>
@@ -293,17 +294,39 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="alert alert-info" role="alert">
+              <!-- <div class="alert alert-info" role="alert">
                      This is a info alert—check it out!
-                </div>
+                </div> -->
             </div>
 
-            <b><h4>Payment</h4></b>
+            <b><h4>Cash only payment</h4></b>
             <hr/>
+            <div *ngIf ="showMembershipType"  class="alert alert-danger" role="alert">
+             Please choose a membership type 😒!
+            </div>
+            <div *ngIf ="paymentAlertMessage"  class="alert alert-warning" role="alert">
+              Payament price is still not correct 😊!
+            </div>
+            <div *ngIf ="paymentAlertMessageSuccess" class="alert alert-success" role="alert">
+              Payment price is correct 😊
+            </div>
             <div class="form-row">
-        
+              <div class="form-group col-md-3" *ngIf = "showPayingPriceInputField">
+                <label for="inputPassword4">Paying Price</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <b>Rs:</b>
+                    </div>
+                  </div>
+                  <input type="text"  appTwoDigitDecimaNumber class="form-control" (input)="inputPrice($event)"  id="inlineFormInputGroup" placeholder="00.00"
+                  formControlName="payingPrice"  />
+                  
+                  
+                </div>
+              </div>
               <div class="form-group col-md-3">
-                <label for="inputPassword4">Pacakage Price</label>
+                <label for="inputPassword4">Package Price</label>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -316,15 +339,15 @@
                 </div>
               </div>
               <div class="form-group col-md-3">
-                <label for="inputPassword4">Paying price</label>
+                <label for="inputPassword4">Balance</label>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <b>Rs:</b>
                     </div>
                   </div>
-                  <input type="text" class="form-control" disabled id="inlineFormInputGroup" placeholder="00.00"
-                  formControlName="amount" />
+                  <input type="text" class="form-control"  disabled id="inlineFormInputGroup" placeholder="00.00"
+                  formControlName="balancePrice"  />
                   
                 </div>
               </div>
@@ -357,10 +380,11 @@
           
           </p>
           
-          </div>
-          
+          </div>      
         </div>
       </div>
     </div>
   </div>
 </div>
+
+

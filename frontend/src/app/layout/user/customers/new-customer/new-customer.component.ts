@@ -44,6 +44,10 @@ export class NewCustomerComponent implements OnInit {
   BMIField = false;
   disaster = false;
   alertDisplay = false;
+  paymentAlertMessage = false;
+  showPayingPriceInputField = false;
+  paymentAlertMessageSuccess = false;
+  showMembershipType = false;
   display = [{
     "id": "Yes"
   },
@@ -93,6 +97,9 @@ export class NewCustomerComponent implements OnInit {
    nicNumber: ['', [Validators.required, Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
    noteDisaster: [''],
    password:['',Validators.required],
+   balancePrice: [''],
+   packagePrice:[''],
+   payingPrice:['']
    
     
 
@@ -155,7 +162,27 @@ export class NewCustomerComponent implements OnInit {
   }
   displayAmount(event) {
     //console.log(data.value);
-    const membershipName = event.value;
+    // if(this.f.typeName.value == ''){
+      
+    //   return
+    // }
+    this.paymentAlertMessageSuccess = false;
+    this.MembershipGroup.controls['payingPrice'].setValue('');
+    const membershipName = event.target.value;
+    if(membershipName == "" ){
+      this.showPayingPriceInputField = false;
+      this.paymentAlertMessage = false;
+      this.paymentAlertMessageSuccess = false;
+      this.showMembershipType = true;
+      this.MembershipGroup.controls['amount'].setValue("");
+     
+      this.MembershipGroup.controls['VMonth'].setValue("");
+      this.MembershipGroup.controls['VMonth'].setValue("");
+     // this.MembershipGroup.controls['typeName'].setValue("Choose...");
+      return;
+    }  
+    this.showMembershipType = false;
+    this.showPayingPriceInputField = true;
     let dm = moment();
       let month = "";
       const date1 = new Date(this.f.currnetJoinDate.value);
@@ -351,6 +378,24 @@ export class NewCustomerComponent implements OnInit {
   }
     
   }
+  inputPrice(event) {
+  
+    this.showMembershipType = false;
+    var inputValue = Number(event.target.value);
+    var packagePrice = Number(this.f.amount.value);
+  
+    if(inputValue >= packagePrice ){
+      var balancePrice = inputValue - packagePrice;
+      this.MembershipGroup.controls['balancePrice'].setValue(balancePrice);
+        this.paymentAlertMessage = false;
+        this.paymentAlertMessageSuccess = true;
+    }else{
+     this.paymentAlertMessage = true;
+     this.paymentAlertMessageSuccess = false;
+         
+    }
+
+  }
   
   getAge(birthday) {
 
@@ -423,8 +468,11 @@ export class NewCustomerComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-
-
+    if(this.f.typeName.value == ''){
+      this.showMembershipType = true;
+      return
+    }
+  
     let cus_data = {
       membershipId:  this.f.membershipId.value,
       email: this.f.email.value,
@@ -450,7 +498,9 @@ export class NewCustomerComponent implements OnInit {
       status: true,
       nicNumber: this.f.nicNumber.value,
       role: "Membership",
-      noteDisaster: this.f.noteDisaster.value
+      noteDisaster: this.f.noteDisaster.value,
+      payingPrice:this.f.payingPrice.value,
+      balancePrice:this.f.balancePrice.value
 
     }
 
@@ -464,8 +514,13 @@ export class NewCustomerComponent implements OnInit {
       membershipStatus: 'true',
       active: true,
   }
-  
+
     if(this.MembershipGroup.valid){
+      if(this.paymentAlertMessageSuccess == false){
+        Swal.fire('Oops...',`Payament is not correct please check again`, 'error')
+        return;
+      }
+  
       ///alert('Valid');
       this.authenticationService.registerCustomer(cus_data ,userParam)
       .subscribe(
@@ -473,8 +528,8 @@ export class NewCustomerComponent implements OnInit {
           if(response==1){
             console.log(1);
             //create the invoice report
-const documentDefinition = this.getDocumentDefinition(cus_data ,userParam);
-pdfMake.createPdf(documentDefinition).open();
+            const documentDefinition = this.getDocumentDefinition(cus_data ,userParam);
+            pdfMake.createPdf(documentDefinition).open();
             Swal.fire({
               text: 'Membership Registered success',
               icon: 'success'
@@ -508,7 +563,8 @@ pdfMake.createPdf(documentDefinition).open();
 
  //Membership card
  getDocumentDefinition(cus_data ,userParam) {
-  var dd = {
+   
+  return {
     content: [
       {
         columns: [
@@ -540,7 +596,7 @@ pdfMake.createPdf(documentDefinition).open();
                       alignment: 'right',
                     },
                     {
-                      text: '2019-06-08',
+                      text: `${cus_data.currnetJoinDate}`,
                       bold: true,
                       color: '#333333',
                       fontSize: 12,
@@ -560,7 +616,7 @@ pdfMake.createPdf(documentDefinition).open();
                       alignment: 'right',
                     },
                     {
-                      text: 'MB_1545SD',
+                      text: `${cus_data.membershipId}`,
                       bold: true,
                       color: '#333333',
                       fontSize: 12,
@@ -580,7 +636,7 @@ pdfMake.createPdf(documentDefinition).open();
                       width: '*',
                     },
                     {
-                      text: 'One month',
+                      text: `${cus_data.VMonth}`,
                       bold: true,
                       fontSize: 14,
                       alignment: 'right',
@@ -600,7 +656,7 @@ pdfMake.createPdf(documentDefinition).open();
                       width: '*',
                     },
                     {
-                      text: 'Manoj',
+                      text: `${cus_data.firstName}`,
                       bold: true,
                       fontSize: 14,
                       alignment: 'right',
@@ -637,13 +693,13 @@ pdfMake.createPdf(documentDefinition).open();
       {
         columns: [
           {
-            text: '2019-06-08',
+            text: `${cus_data.currnetJoinDate}`,
             bold: true,
             color: '#333333',
             alignment: 'left',
           },
           {
-            text: '2019-08-05',
+            text: `${cus_data.endDate}`,
             bold: true,
             color: '#333333',
             alignment: 'left',
@@ -750,14 +806,14 @@ pdfMake.createPdf(documentDefinition).open();
             ],
             [
               {
-                text: 'Monthly package',
+                text: `${cus_data.typeName}`,
                 border: [false, false, false, true],
                 margin: [0, 5, 0, 5],
                 alignment: 'left',
               },
               {
                 border: [false, false, false, true],
-                text: 'Rs 1500',
+                text: `Rs ${cus_data.price}`,
                 fillColor: '#f5f5f5',
                 alignment: 'right',
                 margin: [0, 5, 0, 5],

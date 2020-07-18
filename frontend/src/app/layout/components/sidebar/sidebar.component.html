@@ -67,6 +67,7 @@
                     <span>{{ 'Get Membership' | translate }}</span>
                 </a>
             </li>
+            
             <li>
                 <a href="javascript:void(0)" [routerLink]="['/requestMemberShipType']" [routerLinkActive]="['router-link-active']"  >
                     <i class="fa fa-address-book"></i>
@@ -256,7 +257,10 @@
             <span>{{ 'Exercise' | translate }}</span>
         </a>
  -->
-
+ <a [routerLink]="['/membsehipStatus']" [routerLinkActive]="['router-link-active']"  class="list-group-item" *ngIf= "onlyMember">
+    <i class="fa fa-address-card-o" aria-hidden="true"></i>&nbsp;
+    <span>{{ 'My membship Status' | translate }}</span>
+</a>
 
         
         

@@ -42,7 +42,9 @@ export class AuthenticationService {
    // console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
-
+  getReleventMembshipStatusData(email) {
+    return this.http.get(config.PAPYRUS+`/users/getReleventMembshipStatusData/${email}`)
+  }
   updateActiveIncativeStatusMembership(data) {
     return this.http.patch(config.PAPYRUS+`/users/updateActiveIncativeStatusMembership`, {data})
   }

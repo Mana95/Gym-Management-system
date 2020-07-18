@@ -33,6 +33,7 @@ router.post('/updateRole' , updateRole);
 router.post('/checkNIC' , checkNIC);
 
 router.get('/u', getAll);
+router.get('/getReleventMembshipStatusData/:email', getReleventMembshipStatusData_controller);
 router.get('/groups', getAllGroups);
 router.post('/groupCreation', groupCreation);
 router.put('/userUpdate', UpdateUser);
@@ -80,6 +81,11 @@ router.post('/new-password' , NewPassword)
 
 module.exports = router;
 
+function getReleventMembshipStatusData_controller (req ,res ,next){
+    userService.getReleventMembshipStatusData_service(req.params.email)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function loadAllinvoiceData_Controller (req ,res ,next){
     userService.loadAllinvoiceData_service()

@@ -23,6 +23,7 @@ const Employee = db.Employee;
 const Instructor = db.Instructor;
 const Comment = db.Comment;
 const Invoice =db.Invoice;
+const MembershipStatus =db.MembershipStatus;
 
 module.exports = {
   authenticate,
@@ -80,10 +81,14 @@ module.exports = {
   updateActiveIncativeStatusMembership_service,
   saveCommentController_service,
   getCommentDataController_service,
-  loadAllinvoiceData_service
+  loadAllinvoiceData_service,
+  getReleventMembshipStatusData_service
 
 };
 
+async function getReleventMembshipStatusData_service(email){
+  return await MembershipStatus.find({email:email});
+}
 
 async function loadAllinvoiceData_service(){
   return await Invoice.find({});
@@ -98,12 +103,66 @@ async function saveCommentController_service(commentData){
 }
 
 async function updateActiveIncativeStatusMembership_service(data){
-    var updateMembershipStatus = await Membership.updateOne(
-      {_id:data.data._id}, {$set:{AcceptedRejectedStatus:"Rejected"}}
-    )
-    if(updateMembershipStatus.ok==1){
-      return 1;
-    }
+  var tempArray = [];
+  //const membershipStatus = new MembershipStatus(tempArray[0]);
+  //find the date in the data base
+   await Membership.findOne({_id:data.data._id},function(error ,result){
+      if(result){
+        tempArray.push(result);
+      }else if(error){
+        return ;
+      }
+    })
+    let memberShipDetials = {
+      membershipId:  tempArray[0].membershipId,
+      email: tempArray[0]. email,
+      firstName: tempArray[0].firstName,
+      lastName: tempArray[0].lastName,
+      phonenumber: tempArray[0].phonenumber,
+      phonenumber1: tempArray[0].phonenumber1,
+      Height:tempArray[0].Height,
+      Weight: tempArray[0].Weight,
+      disaster: tempArray[0].disaster,
+      birth: tempArray[0].birth,
+      customerID : tempArray[0].customerID,
+      description: tempArray[0].description,
+      AcceptedRejectedStatus:'Rejected',
+      gender:  tempArray[0].gender,
+      age: tempArray[0].age,
+      BMI: tempArray[0].BMI,
+      currnetJoinDate: tempArray[0].currnetJoinDate,
+      typeName:  tempArray[0].typeName,
+      amount:  tempArray[0].amount,
+      VMonth:  tempArray[0].VMonth,
+      endDate:  tempArray[0].endDate,
+      status: false,
+      nicNumber:  tempArray[0].nicNumber,
+      role: "Member",
+      noteDisaster:  '',
+    };
+    //then delete the document 
+    await Membership.deleteOne({ _id:data.data._id })
+    const membershipStatus = new MembershipStatus(memberShipDetials);
+   const saveMembershipStatus = await membershipStatus.save();
+
+   if(saveMembershipStatus){
+     return 1;
+   }
+    
+// return
+//   await Membership.deleteOne({
+//     _id:data.data._id
+//   })
+
+//  // db.collection.deleteOne()
+
+//   return 1;
+//     var updateMembershipStatus = await Membership.updateOne(
+//       {_id:data.data._id}, {$set:{AcceptedRejectedStatus:"Rejected"}}
+//     )
+//     if(updateMembershipStatus.ok==1){
+//       return 1;
+//     }
 }
 
 async function deleteSupplierDataService(data){
@@ -505,9 +564,6 @@ async function insertMembership(body) {
         membershipChanged.push('You are Membership request is accepted.Login again😊.')
       }
     })
-
-
-
  if(membershipChanged.length ==2){
   return (membershipChanged);
  }
@@ -515,28 +571,27 @@ async function insertMembership(body) {
    console.log('membership message')
       return (memberhipMessage);
  }
- //check the email of the membership
- await Membership.findOne({ email: UserData.email },function(error , res){
-  if(res!=null){
-    errorArray.push('email');
-  }
-});
-//check the nicNumber of the membership
-await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
-  if(res!=null){
-    errorArray.push('Nic Number');
-  }
-});
-//return phoe number
-await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
-  if(res!=null){
-    errorArray.push('Mobile Number')
-  }
-})
-
-  
  }else{
-
+  console.log(membershipData.phonenumber)
+  //check the email of the membership
+  await Membership.findOne({ email: UserData.email },function(error , res){
+   if(res!=null){
+     errorArray.push('email');
+   }
+ });
+ //check the nicNumber of the membership
+ await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
+   if(res!=null){
+     errorArray.push('Nic Number');
+   }
+ });
+ //return phoe number
+ await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
+   if(res!=null){
+     errorArray.push('Mobile Number')
+   }
+ })
+ 
  }
  //create objects
  const membership = new Membership(body.membershipbody);
@@ -889,7 +944,7 @@ async function cusRegister(data) {
           await membership.save();
       
       mailSendMethod('employee' , userParam.email);
-       
+       return 1;
         
     }else{
       return (errorArray);

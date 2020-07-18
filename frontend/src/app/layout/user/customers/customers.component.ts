@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-customers',
@@ -17,6 +18,7 @@ export class CustomersComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
+    private modal: NgbModal
   ) { }
 
   ngOnInit() {

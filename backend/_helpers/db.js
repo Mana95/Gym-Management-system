@@ -25,7 +25,7 @@ module.exports = {
     Instructor:require('../users/instructor.model'),
     Invoice:require('../orders/invoice.model'),
     ItemData: require('../catagory/item.model'),
-    //Now added
+    MembershipStatus : require('../users/membershipStatus.model'),
     Uplds: require('../uplds/upload.model'),
     Comments: require('../comments/comment.model'),
     Roles: require('../users/roles/role.model'),

@@ -3,11 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
