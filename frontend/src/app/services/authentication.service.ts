@@ -339,6 +339,10 @@ export class AuthenticationService {
         loadCommentDataForId(id){
           return this.http.get(config.PAPYRUS+`/users/getCommentData/${id}`);  
         }
+
+        loadAllinvoiceData() {
+          return this.http.get(config.PAPYRUS+`/users/loadAllinvoiceData`);  
+        }
 }
 
 

@@ -101,6 +101,8 @@ const routes: Routes = [
 
 
 
+            {path:'invoice' , loadChildren: ()=> import('./invoice/invoice.module').then(m=>m.InvoiceModule), canActivate: [AuthGuard]},
+
 
 
         ]
