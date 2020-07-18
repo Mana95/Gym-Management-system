@@ -6,12 +6,10 @@ const schema = new Schema({
     membershipId: {
         type: String,
         required: true,
-        unique:true
     },
     customerID: {
         type: String,
         required: true,
-        unique:true
    
     },
     email: {
@@ -123,4 +121,4 @@ const schema = new Schema({
 
 schema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('membership', schema);
+module.exports = mongoose.model('membership-status', schema);

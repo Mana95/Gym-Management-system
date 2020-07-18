@@ -102,6 +102,8 @@ const routes: Routes = [
 
 
             {path:'invoice' , loadChildren: ()=> import('./invoice/invoice.module').then(m=>m.InvoiceModule), canActivate: [AuthGuard]},
+            { path: 'membsehipStatus', loadChildren: () => import('./getmembership/request-member-status/request-member-status.module').then(m => m.RequestMemberStatusModule), canActivate: [AuthGuard]},
+          
 
 
 
