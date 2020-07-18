@@ -5,6 +5,7 @@ import { routerTransition } from '../router.animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -67,6 +68,7 @@ export class LoginComponent implements OnInit {
           console.log(data);
           if(data==null){
             this.erroShow = true
+            Swal.fire('Oops...', 'Password did not match', 'error')
           }
              this.erroShow = false
           this.statusMessage = true;

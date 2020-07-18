@@ -22,6 +22,7 @@ const ScheduleType = db.ScheduleType;
 const Employee = db.Employee;
 const Instructor = db.Instructor;
 const Comment = db.Comment;
+const Invoice =db.Invoice;
 
 module.exports = {
   authenticate,
@@ -78,9 +79,16 @@ module.exports = {
   deleteSupplierDataService,
   updateActiveIncativeStatusMembership_service,
   saveCommentController_service,
-  getCommentDataController_service
+  getCommentDataController_service,
+  loadAllinvoiceData_service
 
 };
+
+
+async function loadAllinvoiceData_service(){
+  return await Invoice.find({});
+}
+
 async function getCommentDataController_service(id){
   return await Comment.find({itemId:id});
 }
