@@ -47,7 +47,9 @@ export class OrderService {
 
 
   }
-
+  loadAllinvoiceData() {
+    return this.http.get(config.PAPYRUS + `/order/loadAllinvoiceData`);
+  }
 
   loadNavigateItemDetials(id) {
     // console.log(id);

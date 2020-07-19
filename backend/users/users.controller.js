@@ -3,8 +3,6 @@ const router = express.Router();
 const userService = require('./user.service');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-
-
 const db = require('_helpers/db');
 const User = db.User;
 const passwordResetToken =db.passwordResetToken;
@@ -50,6 +48,7 @@ router.get('/pendingMembership' , pendingMembership);
 router.get('/getAllSchedule', getAllSchedule);
 router.get('/getreleventRoleData/:id', getreleventRoleData);
 router.get('/roles', getAllRoles);
+router.get('/getReleventMembshipStatusDataPending/:email', getReleventMembshipStatusDataPending_Controller);
 router.get('/current', getCurrent);
 router.get('/responseAllInstructorData', responseAllInstructorData);
 router.get('/getAllMembership' , getAllMembership);
@@ -78,8 +77,25 @@ router.get('/role', getbyrole);
 router.post('/d', deleteRecord);
 router.post('/new-password' , NewPassword)
 
+router.post('/saveMembershipReciptDetails' , saveMembershipReciptDetails_controller)
+
 
 module.exports = router;
+
+function saveMembershipReciptDetails_controller (req ,res ,next){
+    userService.saveMembershipReciptDetails_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+function getReleventMembshipStatusDataPending_Controller (req ,res ,next){
+    userService.getReleventMembshipStatusDataPending_service(req.params.email)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
 
 function getReleventMembshipStatusData_controller (req ,res ,next){
     userService.getReleventMembshipStatusData_service(req.params.email)

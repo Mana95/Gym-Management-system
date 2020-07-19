@@ -1,5 +1,7 @@
+import { MembershipPaymentComponent } from './membership-payment/membership-payment.component';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-request-member-status',
@@ -9,11 +11,13 @@ import { Component, OnInit } from '@angular/core';
 export class RequestMemberStatusComponent implements OnInit {
   requestMembershipStatus :any;
   searchText;
+  pendingText : any;
   p =1;
   email : string;
+  approvedStatus:any;
   constructor(
-    private authenticationService :AuthenticationService
-
+    private authenticationService :AuthenticationService,
+    private modalService: NgbModal,
   ) { 
    this.email =  this.authenticationService.currentUserValue.email;
   }
@@ -23,7 +27,18 @@ export class RequestMemberStatusComponent implements OnInit {
   }
 
   loadTableData() {
-    console.log(this.email)
+
+    //get the pending membership status
+    this.authenticationService.getReleventMembshipStatusDataPending(this.email)
+    .subscribe(
+      response=>{
+        console.log(response);
+        this.pendingText = response;
+        this.approvedStatus = response;
+      }
+    )
+
+    //get the rejeced status of the membership
     this.authenticationService.getReleventMembshipStatusData(this.email)
     .subscribe(
       response=>{
@@ -33,6 +48,18 @@ export class RequestMemberStatusComponent implements OnInit {
     )
 
 
+
+
+  }
+//make the payment
+  makePayment (data) {
+    const modelRef = this.modalService.open(MembershipPaymentComponent, {size:'lg'});
+    modelRef.componentInstance.user = data;
+    modelRef.result.then((result) => {
+      if (result) {
+      //  this.loadData();
+      }
+      });
 
 
   }

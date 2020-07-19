@@ -50,9 +50,10 @@ export class MembershipRequestComponent implements OnInit {
 
   let updatesData = {
     id:rowData.membershipId,
-    role:'Membership',
+    role:'Member',
     status: true,
     AcceptedRejectedStatus:"Accepted",
+    paymentStatus:false 
     
   }
 
@@ -61,7 +62,7 @@ export class MembershipRequestComponent implements OnInit {
       response =>{
        
         if(response == 1 ){
-          Swal.fire({  text: 'Membership Registered done!',
+          Swal.fire({  text: 'Membership Accepted done!',
           icon: 'success'
         }
         );

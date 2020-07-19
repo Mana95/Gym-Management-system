@@ -45,6 +45,9 @@ export class AuthenticationService {
   getReleventMembshipStatusData(email) {
     return this.http.get(config.PAPYRUS+`/users/getReleventMembshipStatusData/${email}`)
   }
+  getReleventMembshipStatusDataPending(email) {
+    return this.http.get(config.PAPYRUS+`/users/getReleventMembshipStatusDataPending/${email}`)
+  }
   updateActiveIncativeStatusMembership(data) {
     return this.http.patch(config.PAPYRUS+`/users/updateActiveIncativeStatusMembership`, {data})
   }
@@ -89,7 +92,9 @@ export class AuthenticationService {
     return this.http.post(config.PAPYRUS+`/users/savemember`,data)
   }
 
-
+  saveMembershipReciptDetails(data){
+    return this.http.post(config.PAPYRUS+`/users/saveMembershipReciptDetails`,data)
+  }
 
   findCustomer(data){
     return this.http.get(config.PAPYRUS+`/users/findCustomer/${data}`)

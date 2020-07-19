@@ -8,7 +8,6 @@ const schema = new Schema({
     },
     transactionId:{
         type : String,
-        required: true,
         unique: true,
     },
     userId:{
@@ -27,6 +26,19 @@ const schema = new Schema({
     paymentTotal: {
         type:Number,
         required: true,   
+    },
+    paymentrecipt: {
+        type : String,
+    },
+    invoicePrinted: {
+        type:Boolean
+    },
+    invoiceDetails: {
+        type : String,
+    },
+    rejectedReason:{
+        type : String,
     }
+
 });
 module.exports = mongoose.model('invoice', schema);

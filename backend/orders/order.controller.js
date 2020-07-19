@@ -22,11 +22,19 @@ router.get('/getsId/:id' , getSupplierId);
 router.get('/getAllSo', getAllSo);
 router.get('/getAllCartItems', getAllCartItems);
 router.get('/poReports', return_report_purchase_order);
+router.get('/loadAllinvoiceData', loadAllinvoiceData_controller);
 
 router.post('/saveCartData', saveCartData);
 router.post('/updateStatus', UpdateStatus);
 
 ///report
+
+function loadAllinvoiceData_controller(req ,res ,next){
+    orderService.loadAllinvoiceData_service()
+    .then(cart => res.json(cart))
+    .catch(err => next(err));
+}
+
 function return_report_purchase_order(req ,res ,next){
     orderService.return_report_purchase_order(req.query)
     .then(cart => res.json(cart))

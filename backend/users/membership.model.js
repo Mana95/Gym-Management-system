@@ -117,7 +117,17 @@ const schema = new Schema({
 
     balancePrice:{
         type:Number, 
+    },
+    membershipCountTimes:{
+        type:Number,  
+    },
+    paymentStatus: {
+        type:Boolean
+    },
+    paymentDetails: {
+        type:String
     }
+
 
 });
 
