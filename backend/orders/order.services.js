@@ -26,8 +26,13 @@ module.exports = {
     getCartItems,
     routeIdData,
     saveCartData,
-    return_report_purchase_order
+    return_report_purchase_order,
+    loadAllinvoiceData_service
 };
+
+async function loadAllinvoiceData_service() {
+    return  await Invoice.find({});
+}
 
 async function return_report_purchase_order(data){
     if(data.supplierName != '' && data.status != ''){

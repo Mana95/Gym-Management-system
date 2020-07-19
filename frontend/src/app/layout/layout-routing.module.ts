@@ -86,7 +86,9 @@ const routes: Routes = [
               { path: 'stores', loadChildren: () => import('./form/form.module').then(m => m.FormModule) },
               { path: 'GRN', loadChildren: () => import('./grid/grid.module').then(m => m.GridModule) },
             { path: 'components', loadChildren: () => import('./bs-component/bs-component.module').then(m => m.BsComponentModule) },
-            { path: 'blank-page', loadChildren: () => import('./blank-page/blank-page.module').then(m => m.BlankPageModule) },
+
+            //payment
+            { path: 'payment', loadChildren: () => import('./blank-page/blank-page.module').then(m => m.BlankPageModule) },
 
 
 

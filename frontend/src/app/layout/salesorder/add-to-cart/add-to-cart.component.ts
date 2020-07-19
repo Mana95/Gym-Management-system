@@ -133,7 +133,7 @@ export class AddToCartComponent implements OnInit {
   }
 
 
-
+ 
     const modelRef = this.modalService.open(CheckoutComponent, {size:'lg'});
 
     modelRef.componentInstance.user = cartData;

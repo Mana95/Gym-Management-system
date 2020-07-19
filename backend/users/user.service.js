@@ -82,9 +82,52 @@ module.exports = {
   saveCommentController_service,
   getCommentDataController_service,
   loadAllinvoiceData_service,
-  getReleventMembshipStatusData_service
+  getReleventMembshipStatusData_service,
+  getReleventMembshipStatusDataPending_service,
+  saveMembershipReciptDetails_service
 
 };
+
+async function saveMembershipReciptDetails_service(data){
+  
+  //save data to invoice table
+  const invoice = new Invoice(data);
+  await invoice.save();
+
+  //update the membeship table  and the paymentDetails must be created
+  await Membership.updateOne(
+    {
+      membershipId:data.userId
+    },
+    {
+      paymentDetails:'Created'
+    },
+    function(err , result){
+       if(err){
+         console.log(err)
+         return err;
+       }
+    }
+  )
+  
+  
+      return 1;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+async function getReleventMembshipStatusDataPending_service(email){
+  return await Membership.find({email:email});
+}
 
 async function getReleventMembshipStatusData_service(email){
   return await MembershipStatus.find({email:email});
@@ -500,8 +543,8 @@ async function updateById(data) {
   );
   let userData = {
     id: data.id,
-    role:'Membership',
-    membershipStatus: true,
+    role:'Member',
+    membershipStatus: false,
   };
 
  const Userpdate =  User.updateOne(
@@ -561,7 +604,7 @@ async function insertMembership(body) {
      await Membership.findOne({$and:[{membershipId:membershipData.membershipId ,role:'Membership'}]  } ,function(err, res){
       if(res!==null){
         console.log('ds')
-        membershipChanged.push('You are Membership request is accepted.Login again😊.')
+        membershipChanged.push('Your request is accepted,Go to My membership status and make the payment😊.')
       }
     })
  if(membershipChanged.length ==2){
