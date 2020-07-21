@@ -62,10 +62,10 @@
                       <td style="text-align: center;">{{data.email}}</td>
                       <td style="text-align: center;">{{data.invoicePrinted}}</td>
                       <td style="text-align: center;">Rs:{{data.paymentTotal}}</td>
-                      <td style="text-align: center;" *ngIf="data.invoiceDetails == 'Peniding' ">
-                        <button type="button" class="btn btn-info btn-sm" (click)="popmodalPaymentDetails(data)" ><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <td style="text-align: center;" >
+                        <button type="button" *ngIf="data.invoiceDetails == 'Pending' " class="btn btn-info btn-sm" (click)="popmodalPaymentDetails(data)" ><i class="fa fa-eye" aria-hidden="true"></i></button>
                         <i style="color: green;" class="fa fa-check-circle" aria-hidden="true" *ngIf="data.invoiceDetails == 'Success' "></i>
-                        <i style="color: red;" class="fa fa-ban" aria-hidden="true" *ngIf="data.invoiceDetails == 'rejected' "  ngbTooltip="data.rejectedReason"  ></i>
+                        <i style="color: red;" class="fa fa-ban" aria-hidden="true" *ngIf="data.invoiceDetails == 'Rejected' "  ngbTooltip="{{data.rejectedReason}}"  ></i>
                     
                     </td>
                   

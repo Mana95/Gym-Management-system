@@ -293,16 +293,31 @@ async function getByMySchedule(id){
 }
 
 async function insertSchData(data){ 
-    const schduleFind = await Schedule.findOne({membershipId:data.membershipId , status:1})
 
+    //v
+    //find membreshipId
+    const findMembershipId = await Membership.find( {$and:[{customerID:data.userId ,membershipExpire:false}]})
+    data.membershipId = findMembershipId[0].membershipId;
+    
+    const schduleFind = await Schedule.findOne({membershipId:data.membershipId , status:1})
+    //min count 3
+    const schduleCount = await Schedule.find({$and:[{membershipId:data.membershipId ,scheduleActive:true}]}).countDocuments()
+
+       
+   // console.log(schduleCount);
+    if(schduleCount == 3){
+
+        return 'You can make maximum 3 schedules only'
+    }
     if(!schduleFind){
-        console.log('ehama ekak na')
+        //console.log('ehama ekak na')
+
+    
         const schedule = new Schedule(data);  
         await schedule.save();
         return 1;
     }else {
-        console.log('ehama ekak thiyenwa')
-        return 3;
+        return 'Your schedule already pending process please wait for approve that';
     }
 
 

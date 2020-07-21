@@ -6,10 +6,6 @@ const schema = new Schema({
         required: true,
         unique: true,
     },
-    transactionId:{
-        type : String,
-        unique: true,
-    },
     userId:{
         type : String,
         required: true,
@@ -37,6 +33,9 @@ const schema = new Schema({
         type : String,
     },
     rejectedReason:{
+        type : String,
+    },
+    membershipId: {
         type : String,
     }
 

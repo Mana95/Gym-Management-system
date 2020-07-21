@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="user.paymentDetails != 'Rejected'">
   <br> <h3  class="text-center">Payment of Id:<b>{{user.membershipId}}</b> </h3>
   <hr>
   
@@ -57,3 +57,81 @@
   </div> <!-- row.// -->
   
   </div> 
+
+
+
+
+
+
+
+
+
+  <div class="container" *ngIf="user.paymentDetails == 'Rejected'">
+    <br> <h3  class="text-center">Payment of Id:<b>{{user.membershipId}}</b> </h3>
+    <hr>
+    
+    <div class="row">
+      <aside class="col">
+    <article class="card">
+    <div class="card-body p-5">
+  <h3><b>Membership Details</b></h3>
+  <hr/>
+    <p class="alert alert-success" *ngIf="payamentRecipt">Payment reciept is uploaded</p>
+    <p class="alert alert-danger" *ngIf="payamentRecipt == false">Payment reciept did not uploaded!</p>
+    
+    <form [formGroup] = "paymentRejectGroup" (ngSubmit)="onSubmitAgian()">
+  
+    <div class="form-group">
+    <label for="username">Membership Name</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-user"></i></span>
+      </div>
+      <input type="text" formControlName="firstName" disabled  class="form-control" name="firstName" placeholder="" required="">
+    </div> <!-- input-group.// -->
+    </div> <!-- form-group.// -->
+    
+    <div class="form-group">
+    <label for="cardNumber">Payment price</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Rs :</span>
+      </div>
+      <input type="text"  formControlName="paymentPrice" disabled class="form-control" name="paymentPrice" placeholder="">
+    </div> <!-- input-group.// -->
+    </div> <!-- form-group.// -->
+
+    <div class="form-group">
+      <label for="cardNumber" style="color: red;"><b>Rejected reason</b></label>
+      <div class="input-group">
+      
+        <textarea type="text"  formControlName="rejectReason" disabled class="form-control" name="paymentPrice" placeholder=""></textarea>
+      </div> <!-- input-group.// -->
+      </div>
+
+    <div class="form-group">
+    
+  <br>
+      <div class="form-group">
+        <label for="cardNumber">Upload bank/payment recipe</label>
+        <div class="input-group">
+          
+          <input type='file' id="imageUpload" formControlName = "document"    accept=".png, .jpg, .jpeg" #fileInput
+                          (change)="uploadFile($event)" [ngClass]="{ 'is-invalid': submitted && f.document.errors }" />  </div> <!-- input-group.// -->
+        </div> 
+      </div>
+      <img [src]="imageUrl" *ngIf="imageUrl" style="height: 300px; width:500px">
+   <!-- row.// -->
+   <hr>
+    <button class="subscribe btn btn-primary btn-block" type="submit"><i class="fa fa-check" aria-hidden="true"></i>  Confirm  </button>
+    </form>
+    </div> <!-- card-body.// -->
+    </article> <!-- card.// -->
+    
+    
+      </aside> <!-- col.// -->
+     
+    </div> <!-- row.// -->
+    
+    </div> 
+  

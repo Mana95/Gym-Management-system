@@ -41,7 +41,11 @@ const schema = new Schema({
         type: Date,
         default: Date.now
 
+    },
+    membershipId: {
+        type: String,
     }
+
 });
 
 
