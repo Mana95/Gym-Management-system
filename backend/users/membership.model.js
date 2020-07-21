@@ -126,6 +126,18 @@ const schema = new Schema({
     },
     paymentDetails: {
         type:String
+    },
+    rejectedReason:{
+        type:String
+    },
+    invoiceId:{
+        type:String    
+    },
+    Membership:{
+        type:Boolean       
+    },
+    membershipExpire:{
+        type:Boolean
     }
 
 

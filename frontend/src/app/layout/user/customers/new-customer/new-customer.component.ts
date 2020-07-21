@@ -14,7 +14,7 @@ import { MembershipService } from 'src/app/services/membership.service';
 
 
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 @Component({
   selector: 'app-new-customer',
   templateUrl: './new-customer.component.html',

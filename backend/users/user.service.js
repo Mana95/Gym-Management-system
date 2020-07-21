@@ -84,9 +84,116 @@ module.exports = {
   loadAllinvoiceData_service,
   getReleventMembshipStatusData_service,
   getReleventMembshipStatusDataPending_service,
-  saveMembershipReciptDetails_service
+  saveMembershipReciptDetails_service,
+  updateInvoice_Controller_service,
+  updateMembershipCardStatus_service,
+  getInvoiceData_service,
+  updateMembershipReciptDetails_service
 
 };
+
+async function updateMembershipReciptDetails_service(data){
+
+  await Invoice.updateOne({
+    invoiceId : data.invoiceId 
+  },
+   {$set:data}
+  )
+
+ await Membership.updateOne({
+  membershipId : data.userId 
+  },
+   {$set:{paymentDetails:'Created'}}
+  )
+  return 1;
+
+}
+
+async function getInvoiceData_service(id){
+    console.log(id)
+    return await Invoice.findOne({invoiceId:id})
+}
+
+async function updateMembershipCardStatus_service(data){
+  //console.log(data);
+  await Invoice.updateOne({
+    email:data.email
+  },
+  {
+    $set:{invoicePrinted:true}
+  }
+  )
+  //update the login User table
+  let updateMembrData = {
+    paymentStatus:true,
+    role:'Membership'
+
+  }
+  //update the Membership table data
+  await Membership.updateOne({
+    membershipId:data.membershipId
+  },
+  {
+    $set:updateMembrData
+  }
+  )
+
+  //update the login User table
+  let updateUserData = {
+    role:'Membership',
+    membershipStatus:true
+
+  }
+
+  await User.updateOne({
+    user_id:data.customerID
+  },
+  {
+    $set:updateUserData
+  }
+  )
+
+    return 1;
+
+
+}
+
+
+
+async function updateInvoice_Controller_service(data) {
+  console.log(data);
+  //update the invoice table
+ 
+  await Invoice.updateOne({
+    invoiceId:data.inoviceId
+  },
+  {
+    $set:data
+  }
+  )
+
+  if(data.invoiceDetails == 'Rejected'){
+    await Membership.updateOne({
+       membershipId:data.membershipId
+    },
+    {
+      $set:{ paymentDetails: 'Rejected'}
+    }
+    )
+  }else {
+    await Membership.updateOne({
+      membershipId:data.membershipId
+    },
+    {
+      $set:{ paymentDetails: 'Sucess'}
+    }
+    )
+  }
+
+  return 1;
+
+}
+
 
 async function saveMembershipReciptDetails_service(data){
   
@@ -94,13 +201,18 @@ async function saveMembershipReciptDetails_service(data){
   const invoice = new Invoice(data);
   await invoice.save();
 
+
+  let membershipData= {
+    paymentDetails:'Created',
+    invoiceId:data.invoiceId
+  }
   //update the membeship table  and the paymentDetails must be created
   await Membership.updateOne(
     {
-      membershipId:data.userId
+      membershipId:data.membershipId
     },
     {
-      paymentDetails:'Created'
+      $set:membershipData
     },
     function(err , result){
        if(err){
@@ -589,29 +701,37 @@ async function insertMembership(body) {
   const UserData = body.UserDatabody;
   const membershipData = body.membershipbody;
   //check whether the userId is Available
-  var checkUserId = await Membership.findOne({membershipId:membershipData.membershipId});
+  /////////nAtethuhuh
+  //console.log(body);
+  var checkUserId = await Membership.findOne({$and:[{customerID:membershipData.customerID ,membershipExpire:false}]},function(err, result){
+    // console.log(result);
+  });
+
+
+
+ // return;
  if(checkUserId){
    //check that user already send a Membership request
-  await Membership.findOne({membershipId:membershipData.membershipId}, {$and:[{role:'Member'} , {AcceptedRejectedStatus:'Pending'}]}
+  await Membership.findOne({customerID:membershipData.customerID}, {$and:[{role:'Member'} , {AcceptedRejectedStatus:'Pending'}]}
   ,function(error ,res){
     if(res!==null){
-      console.log('Membership thiyenwa');
+    //  console.log('Membership thiyenwa');
       memberhipMessage.push('Memberhip request already sended🙎‍♂')
      //throw (memberhipMessage);
     }
  })
      //check the membership Role Changed
-     await Membership.findOne({$and:[{membershipId:membershipData.membershipId ,role:'Membership'}]  } ,function(err, res){
+     await Membership.findOne({$and:[{customerID:membershipData.customerID ,role:'Membership'}]  } ,function(err, res){
       if(res!==null){
-        console.log('ds')
-        membershipChanged.push('Your request is accepted,Go to My membership status and make the payment😊.')
+       // console.log('ds')
+        membershipChanged.push('Cannot submit,You are now membership please login again😊.')
       }
     })
  if(membershipChanged.length ==2){
   return (membershipChanged);
  }
  if(memberhipMessage.length == 2){
-   console.log('membership message')
+  // console.log('membership message')
       return (memberhipMessage);
  }
  }else{
@@ -641,7 +761,8 @@ async function insertMembership(body) {
 if(errorArray.length == 0){
   //saveing the data 
   await membership.save();
-console.log('update wennai yannne');
+
+ //console.log('update wennai yannne');
   //updateing the usertable
   await User.updateOne(
     {

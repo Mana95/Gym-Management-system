@@ -31,7 +31,7 @@ const schema = new Schema({
     },
     date:{
         type: String,
-        required: true,
+      
     },
     dietPlan:{
         type: Boolean,
@@ -47,7 +47,16 @@ const schema = new Schema({
     },
     ScheduleAccptedRejected:{
         type: String,
-    } 
+    } ,
+    userId: {
+        type:String
+    },
+    scheduleActive:{
+        type:Boolean
+    },
+    scheduleRejectedReason:{
+        type:String
+    }
 
 });
 

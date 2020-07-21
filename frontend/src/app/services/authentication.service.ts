@@ -59,7 +59,9 @@ export class AuthenticationService {
     return this.http.patch(config.PAPYRUS+`/users/updateSupplierData`, {updateSupplier , userData})
 
   }
-
+  updateMembershipCardStatus(data){
+    return this.http.post(config.PAPYRUS+`/users/updateMembershipCardStatus`, data)
+  }
 
   getReleventUserData(id){
       return this.http.get(config.PAPYRUS+`/users/getReleventUserData/${id}`)
@@ -67,15 +69,20 @@ export class AuthenticationService {
   updateIstructor(data ,UserData):Observable<any>{
     return this.http.patch(config.PAPYRUS+`/users/updateinstructor`,{data ,UserData})
   }
-
-
+  updateMembershipReciptDetails(data)
+{
+  return this.http.post(config.PAPYRUS+`/users/updateMembershipReciptDetails`,data)
+}
   getInstructorById(id) {
     return this.http.get(config.PAPYRUS+`/users/getByIdInstructor/${id}`)
   }
   getAllMembership(){
     return this.http.get(config.PAPYRUS+`/users/getAllMembership`)
   }
-
+  getInvoiceData(id):Observable<any>{
+    
+    return this.http.get(config.PAPYRUS+`/users/getInvoiceData/${id}`)
+  }
 
   responseAllInstructorData() {
     return this.http.get(config.PAPYRUS+`/users/responseAllInstructorData`)
@@ -301,6 +308,20 @@ export class AuthenticationService {
 
         logout(): void {
           // remove user from local storage to log user out
+          // var currentUser = this.currentUserSubject.value
+          // if(currentUser.role == 'Member'){
+          //   let data = {
+          //     customerID: currentUser.user_id,
+          //     email :currentUser.email
+
+          //   }
+          //     this.updateMembershipCardStatus(data)
+          //     .subscribe(
+          //       response=>{
+          //        // console.log(response)
+          //       }
+          //     )
+          // }
           localStorage.removeItem('currentUser');
           localStorage.removeItem('cartObject');
           this.currentUserSubject.next(null);
@@ -341,6 +362,10 @@ export class AuthenticationService {
 
         saveComments(data){
             return this.http.post<any>(config.PAPYRUS+ `/users/saveComment`, data);
+        }
+
+        updateInvoice(data){
+          return this.http.post<any>(config.PAPYRUS+ `/users/updateInvoice`, data);
         }
 
         loadCommentDataForId(id){

@@ -589,8 +589,10 @@ export class GetmembershipComponent implements OnInit {
     this.submitted = true;
     this.loading = true;
 
+
+    
     let memberShipDetials = {
-      membershipId:  this.userID,
+      membershipId:  this.f.membershipId.value,
       email: this.f.email.value,
       firstName: this.f.firstName.value,
       lastName: this.f.lastName.value,
@@ -615,7 +617,10 @@ export class GetmembershipComponent implements OnInit {
       status: false,
       nicNumber: this.f.nicNumber.value,
       role: "Member",
-      noteDisaster: this.f.noteDisaster.value
+      paymentDetails:'Pending',
+      noteDisaster: this.f.noteDisaster.value,
+      membershipExpire:false,
+
 
     };
     console.log(memberShipDetials)

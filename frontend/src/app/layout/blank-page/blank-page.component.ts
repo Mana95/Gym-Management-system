@@ -39,6 +39,7 @@ export class BlankPageComponent implements OnInit {
         
      modelRef.componentInstance.user = data;
      modelRef.result.then((result) => {
+        this.loadTableData();
         if (result) {
         //  this.loadData();
         }

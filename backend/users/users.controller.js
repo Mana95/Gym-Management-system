@@ -75,12 +75,42 @@ router.patch('/updateActiveIncativeStatusMembership', updateActiveIncativeStatus
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
 router.post('/d', deleteRecord);
-router.post('/new-password' , NewPassword)
+router.post('/new-password' , NewPassword);
+router.post('/updateInvoice' , updateInvoice_Controller)
 
 router.post('/saveMembershipReciptDetails' , saveMembershipReciptDetails_controller)
+router.post('/updateMembershipCardStatus' , updateMembershipCardStatus_controller)
 
+router.post('/updateMembershipReciptDetails' , updateMembershipReciptDetails_controller)
+
+router.get('/getInvoiceData/:id',getInvoiceData_Controller);
 
 module.exports = router;
+
+function updateMembershipReciptDetails_controller(req ,res ,next){
+    userService.updateMembershipReciptDetails_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+function getInvoiceData_Controller(req ,res ,next){
+    userService.getInvoiceData_service(req.params.id)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+function updateMembershipCardStatus_controller(req ,res ,next){
+    userService.updateMembershipCardStatus_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+function updateInvoice_Controller (req ,res ,next){
+    userService.updateInvoice_Controller_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function saveMembershipReciptDetails_controller (req ,res ,next){
     userService.saveMembershipReciptDetails_service(req.body)

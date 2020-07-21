@@ -116,12 +116,13 @@ this.requestScheduleGroup.controls["date"].setValue(
       dietPlan:false,
       status:1,
       date:this.f.date.value,
-      description:this.f.description.value
+      description:this.f.description.value,
+      userId:this.currentUserSubject.value.user_id,
+      scheduleActive:true,
     }
     
       const memberId = this.f.mId.value;
       const currentDate = this.f.date.value
-      console.log(formData);
 
     if(this.requestScheduleGroup.valid){
      // this.ValidationCheckDate(memberId , currentDate);
@@ -140,7 +141,7 @@ this.requestScheduleGroup.controls["date"].setValue(
             
             this.submitted = false
           }else{
-            Swal.fire('Oops...', `Already send a Schedule Request`, 'error')
+            Swal.fire('Oops...', `${response}`, 'error')
             this.showMsg = false;
             this.alertDisplay = true;
           }
