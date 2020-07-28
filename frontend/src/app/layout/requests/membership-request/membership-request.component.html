@@ -68,13 +68,13 @@
                       
                       <!-- <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus"  class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Pending Schedule" ><i
                         class="fa fa-thumbs-up" aria-hidden="true"></i></button>     -->
-                        <button type="button" *ngIf="'Accepted' == data.AcceptedRejectedStatus|| 'Rejected' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Pending Schedule" ><i
-                          class="fa fa-thumbs-up" aria-hidden="true"></i></button>           
+                        <button type="button" *ngIf="'Accepted' == data.AcceptedRejectedStatus|| 'Rejected' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Schedule is registered" ><i class="fa fa-check-circle" aria-hidden="true"></i>
+                        </button>           
                       <!-- <button type="button" *ngIf="'true' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Pending Schedule" ><i
                         class="fa fa-thumbs-up" aria-hidden="true"></i></button>
   -->
-                      <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus" class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ><i
-                          class="fa fa-thumbs-up" aria-hidden="true"></i></button> &nbsp;
+                      <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus" class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ><i class="fa fa-check-circle" aria-hidden="true"></i>
+                      </button> &nbsp;
                       <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus " class="btn btn-danger btn-sm" (click)="updateAcceptInactiveStatus(data)" ><i class="fa fa-ban"
                           aria-hidden="true"></i></button></td> 
   

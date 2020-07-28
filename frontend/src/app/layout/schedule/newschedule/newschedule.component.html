@@ -46,7 +46,7 @@
               <div class="form-group col-md-3">
                 <label for="firstName"><b>Schedule Type</b></label>
                 <select class="form-control" formControlName="typeName" #data [ngClass]="{ 'is-invalid': submitted && f.typeName.errors }">
-                  <option selected>Choose...</option>
+                  <option value="">Choose...</option>
                   <option *ngFor="let data of Type">{{data.type}}</option>
                 </select>
                 <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
@@ -57,7 +57,7 @@
               <div class="form-group col-md-9">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">Description</label>
-                  <textarea class="form-control" formControlName="description" rows="3"></textarea>
+                  <textarea class="form-control" placeholder="Schdule reason" formControlName="description" rows="3"></textarea>
                 </div>
               </div>
             </div>
@@ -68,7 +68,8 @@
       </div>
     </div>
 
-
-
+  
+ 
+ 
   </div>
 </div>

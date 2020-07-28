@@ -23,45 +23,41 @@
               <thead>
                 <tr>
                   <th style="text-align: center;" scope="col">Date</th>
-                  <th style="text-align: center;" scope="col">Schedule Name</th>
-                  <th style="text-align: center;" scope="col">Owner Name</th>
+                  <th style="text-align: center;" scope="col">Schedule Id</th>
+                  <th style="text-align: center;" scope="col">Schedule Owner</th>
+                  <th style="text-align: center;" scope="col">Owner email</th>
                   <th style="text-align: center;" scope="col">Schedule Type</th>
-                  <th style="text-align: center;" scope="col">Valid Type</th>
-                  <th style="text-align: center;" scope="col">Valid period</th>
-                  <th style="text-align: center;" scope="col">more</th>         
-                  <th style="text-align: center;" scope="col">Action</th>
+                  <th style="text-align: center;" scope="col">Diet Plan</th>
+                  <th style="text-align: center;" scope="col">Schedule</th>
+                  <!-- <th style="text-align: center;" scope="col">more</th>         
+                  <th style="text-align: center;" scope="col">Action</th> -->
                
                 </tr>
               </thead>
               <tbody>
-                <tr *ngIf="AllSchedule.length <1">
+                <tr *ngIf="AllSchedule?.length <1">
                   <td colspan="12" style="text-align: center;"><b>There are no records to show</b></td>
                 </tr>
                 <tr *ngFor="let data of  AllSchedule | paginate:{ itemsPerPage: 10 ,currentPage: p}">
-                  <td style="text-align: center;">{{data.date}}</td>
-                 <td style="text-align: center;"  ngbTooltip="{{data.ScheduleId}} ">{{data.nameOfSchedule}}</td>  
-                  <td style="text-align: center;"  ngbTooltip="{{data.membershipId}} " >{{data.memberName}}</td>
-                  <td style="text-align: center;">{{data.type}}</td>
-                  <td style="text-align: center;">{{data.changeStatus}}</td>
-                  <td style="text-align: center;">{{data.validMonthDay}}</td>
-                  <td  *ngIf="2 == data.status" style="color:lightgreen; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i><b></b></td>
-                  <td  *ngIf="3 == data.status" style="color:darkgreen; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i><b></b></td>
-                  <td style="text-align: center;">
-                    <button type="button" class="btn btn-warning btn-sm" (click) ="routePage(data)" ><i
-                    class="fa fa-folder-open" aria-hidden="true"></i></button> &nbsp;
-                
-
-
-                </td>
-
-
-                  <td style="text-align: center;">
-                    <button type="button" class="btn btn-warning btn-sm" (click) ="routePage(data)" ><i
-                    class="fa fa-folder-open" aria-hidden="true"></i></button> &nbsp;
-                
-
-
-                </td>
+                  <td style="text-align: center;" >{{data.date}}</td>
+                  <td style="text-align: center;" >{{data.Sid}}</td>
+                  <td style="text-align: center;"><i class="fa fa-user" aria-hidden="true" ngbTooltip="{{data.userId}}"></i> {{data.scheduleOwner}}</td>  
+                  <td style="text-align: center;">{{data.scheduleOwnerEmail}}</td>
+                  <td style="text-align: center;" >{{data.type}}</td>
+                  <td  style="text-align: center;">
+                  
+                    <button type="button" (click) ="routeToDietPage(data)" *ngIf="CheckDietPlanStatus(data)" class="btn btn-sm btn-success"><i class="fa fa-cutlery" aria-hidden="true"></i></button>
+                    <i class="fa fa-clock-o" aria-hidden="true" *ngIf="!CheckDietPlanStatus(data)"  ngbTooltip="Diet plan not created"></i>
+                  </td>     
+                   <td  *ngIf="3 == data.status" style="text-align: center; color: greenyellow; "><i class="fa fa-spinner fa-pulse fa-lg fa-fw" ngbTooltip="Schedule Accepted"></i>
+                    <span class="sr-only">Loading...</span></td>
+                   <td  *ngIf="4 == data.status" style="text-align: center; "><button type="button" (click) ="routePage(data)" class="btn btn-sm btn-info"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+                  
+                   <td  *ngIf="1 == data.status" style="text-align: center; color: yellow;"><i class="fa fa-spinner fa-pulse fa-lg fa-fw"  ngbTooltip="Pending Schedule"></i>
+                    <span class="sr-only">Loading...</span>
+                    <td  *ngIf="2 == data.status" style="text-align: center; color: red;" ><i class="fa fa-frown-o" aria-hidden="true" ngbTooltip={{data.scheduleRejectedReason}}></i></td>
+                  
+                 
 
 
               </tbody>

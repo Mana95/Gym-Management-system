@@ -102,6 +102,14 @@ export class SidebarComponent implements OnInit {
         }
        
     }
+    get InstructorAndAdmin() {
+        if(this.currentUser.role == Role.Admin){
+            
+            return this.currentUser && this.currentUser.role === Role.Admin;
+        } else if(this.currentUser.role == Role.Instructor) {
+            return this.currentUser && this.currentUser.role === Role.Instructor;
+        }   
+    }
     get OnlyMembership() {
         if(this.currentUser.role === Role.Membership){
             return this.currentUser && this.currentUser.role === Role.Membership 

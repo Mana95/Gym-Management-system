@@ -53,8 +53,20 @@ const schema = new Schema({
     },
     scheduleActive:{
         type:Boolean
-    },
+    }, 
     scheduleRejectedReason:{
+        type:String
+    },
+    createdInstructorId: {
+        type:String
+    },
+    createrName: {
+        type:String
+    },
+    scheduleOwner : {
+        type:String
+    },
+    scheduleOwnerEmail: {
         type:String
     }
 

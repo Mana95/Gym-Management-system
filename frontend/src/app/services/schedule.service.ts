@@ -47,12 +47,10 @@ export class ScheduleService {
      return this.http.get(config.PAPYRUS+`/shedule/getById/${id}`)
    }
    
-   insertscheduleDietData(scheduleData , dietPlanData):Observable<any> {
-    return this.http.post(config.PAPYRUS+`/shedule/createScheduleAndDiet` , {scheduleData , dietPlanData});
+   insertscheduleDietData(scheduleData):Observable<any> {
+    return this.http.post(config.PAPYRUS+`/shedule/createScheduleAndDiet` , scheduleData);
    }
-   createSchedule(data){
-    return this.http.post(config.PAPYRUS+`/shedule/createSchedule` , data);
-   }
+ 
 
    loadInstrucotrData(id) {
     return this.http.get(config.PAPYRUS+`/shedule/loadInstrucotrData/${id}`)
@@ -74,10 +72,11 @@ export class ScheduleService {
     return this.http.get(config.PAPYRUS+`/shedule/getAcceptedSchedule`)
   }
 
-   RejectRecord(id){
+   RejectRecord(formData , reasonData){
      //console.log(id);
      let data = {
-       id:id
+      reasonData:reasonData,
+       formData:formData
      }
     return this.http.post(config.PAPYRUS+`/shedule/RejectRecord` , data);
    }

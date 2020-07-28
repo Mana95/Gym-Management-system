@@ -66,7 +66,10 @@ const schema = new Schema({
         type: Date,
         default: Date.now
 
-    } 
+    } ,
+    exerciseGender: {
+        type:String
+    }
 });
 
 module.exports = mongoose.model('exercise', schema);
