@@ -11,7 +11,6 @@ module.exports = router;
 
 
 router.post('/RejectRecord' , RejectRecord);
-router.post('/createSchedule' , createSchedule);
 router.post('/createScheduleAndDiet' , createScheduleAndDiet);
 router.post('/insertData' , insertData);
 router.post('/updateRecord' , updateRecord);
@@ -128,12 +127,7 @@ function getById(req ,res, next){
 
 
 
-function createSchedule(req ,res ,next){
-    
-    scheduleService.createSchedule(req.body)
-    .then(sch => res.json(sch))
-    .catch(err => next(err));
-}
+
 function loadInstrucotrData(req ,res ,next){
     scheduleService.loadInstrucotrData(req.params.id)
     .then(sch => res.json(sch))
@@ -162,7 +156,7 @@ function RejectRecord(req ,res ,next){
         _id:req.body.id,
         status:2
     }
-    scheduleService.RejectRecord(data)
+    scheduleService.RejectRecord(req.body)
     .then(sch => res.json(sch))
     .catch(err => next(err));
 }

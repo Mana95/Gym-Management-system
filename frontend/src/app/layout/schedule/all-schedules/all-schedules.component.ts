@@ -26,6 +26,17 @@ export class AllSchedulesComponent implements OnInit {
   ngOnInit() {
     this.loadTableData();
   }
+  
+  routeToDietPage(data) {
+    this.router.navigate(['/view-diet-plan', data.Sid]);
+  }
+
+  CheckDietPlanStatus(data){
+    
+    var status = (data.dietPlan ==true)?true:false;
+    return status;
+
+}
   loadTableData() {
     this.scheduleService.loadMyAllSchedule(this.userId)
     .subscribe(
@@ -37,11 +48,11 @@ export class AllSchedulesComponent implements OnInit {
     )
   }
   
-  routePage(data) {
-    console.log(JSON.stringify(data));
-    this.router.navigate(['/acceptedSchedule', data._id]);
-    // this.router.navigate(['/schedule_plan', data.membershipId]);
-    
+  routePage(data){
+ 
+    this.router.navigate(['/schedule_plan', data.Sid]);
+ 
   }
+
 
 }

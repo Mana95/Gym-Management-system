@@ -12,7 +12,7 @@
                 <label for="userID"><b>Exercise ID</b></label>
                  <input type="text" class="form-control inputClass" readonly="true" formControlName="exerciseId" >
               </div>
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-3">
                 <label for="email"><b>Exercise Name</b></label>
                 <input type="email"  class="form-control inputClass" formControlName="exerciseName" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.exerciseName.errors }">
                 <div *ngIf="submitted && f.exerciseName.errors" class="invalid-feedback">
@@ -20,24 +20,38 @@
                 </div>
 
               </div>
-              <div class="form-group co-md-4">
+              <div class="form-group col-md-3">
                 <label for="email"><b>Exercise Type</b></label>
                 <!-- <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
                 [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }"> -->
                 <select class="form-control" id="power" required formControlName = "exerciseFor" [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }">
-                  <option selected>Exercise Type Status</option>
+                  <option value=''>Exercise Type Status</option>
                   <option *ngFor="let pow of selectOption" >{{pow}}</option>
                 </select>
                   <div *ngIf="submitted && f.exerciseFor.errors" class="invalid-feedback">
                     <div *ngIf="f.exerciseFor.errors.required">Exercise type is required</div>  
                   </div>
               </div>
+              <div class="form-group col-md-3">
+                <label for="email"><b>Exercise Gender</b></label>
+                <!-- <input type="text" class="form-control inputClass"  placeholder="Shoulders" formControlName="exerciseFor"
+                [ngClass]="{ 'is-invalid': submitted && f.exerciseFor.errors }"> -->
+                <select class="form-control" id="power" required formControlName = "exerciseGender" [ngClass]="{ 'is-invalid': submitted && f.exerciseGender.errors }">
+                  <option value=''>choose gender</option>
+                  <option *ngFor="let pow of ['Male' , 'Female']" >{{pow}}</option>
+                </select>
+                  <div *ngIf="submitted && f.exerciseGender.errors" class="invalid-feedback">
+                    <div *ngIf="f.exerciseGender.errors.required">Exercise gender type is required</div>  
+                  </div>
+              </div>
+              
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="firstName"><b>Equipment</b></label>
                 <input type="email"  class="form-control inputClass" formControlName="equipment" placeholder="Name" >
               </div>
+              
               <div class="form-group col-md-9">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1"><b>Benefits</b></label>

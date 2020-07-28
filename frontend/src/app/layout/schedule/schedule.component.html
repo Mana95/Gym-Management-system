@@ -45,7 +45,7 @@
               </thead>
               <tbody>
                 <!-- <tr *ngFor="let data of tableData |filter:searchText |paginate:{itemsPerPage:7,currentPage:p};">
- --> <tr *ngIf="schedule.length <1">
+ --> <tr *ngIf="schedule?.length <1">
   <td colspan="6" style="text-align: center;"><b>There are no records to show</b></td>
 </tr>
 
@@ -54,8 +54,6 @@
                   <td style="text-align: center;" >{{data.date}}</td>
                   <td style="text-align: center;">{{data.membershipId}}</td>  
                   <td style="text-align: center;">{{data.Sid}}</td>
-                
-                
                   <td style="text-align: center;" >{{data.type}}</td>
                   <td  style="text-align: center;">
                   
@@ -68,7 +66,7 @@
                   
                    <td  *ngIf="1 == data.status" style="text-align: center; color: yellow;"><i class="fa fa-spinner fa-pulse fa-lg fa-fw"  ngbTooltip="Pending Schedule"></i>
                     <span class="sr-only">Loading...</span>
-                    <td  *ngIf="2 == data.status" style="text-align: center; color: red;" ><i class="fa fa-frown-o" aria-hidden="true" ngbTooltip="Schedule rejected"></i></td>
+                    <td  *ngIf="2 == data.status" style="text-align: center; color: red;" ><i class="fa fa-frown-o" aria-hidden="true" ngbTooltip={{data.scheduleRejectedReason}}></i></td>
                   
                  
                 </tr>

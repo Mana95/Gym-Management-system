@@ -693,6 +693,7 @@ async function insertMembershipToUser(body) {
   }
 }
 
+
 async function insertMembership(body) { 
   let errorArray =[];
   let memberhipMessage = ['memberhipMessage'];

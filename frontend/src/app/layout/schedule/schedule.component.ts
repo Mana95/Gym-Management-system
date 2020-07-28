@@ -44,6 +44,7 @@ export class ScheduleComponent implements OnInit {
     this.scheduleService.getMySchedule(userId)
     .subscribe(
       response=>{
+       // console.log(response)
         this.schedule = response;
       }
     )
@@ -54,11 +55,14 @@ export class ScheduleComponent implements OnInit {
  
   }
 
+  
+
   routeToDietPage(data) {
     this.router.navigate(['/view-diet-plan', data.Sid]);
   }
 
   CheckDietPlanStatus(data){
+    
     var status = (data.dietPlan ==true)?true:false;
     return status;
 

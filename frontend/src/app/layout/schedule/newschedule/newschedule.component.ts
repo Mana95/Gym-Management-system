@@ -105,8 +105,9 @@ this.requestScheduleGroup.controls["date"].setValue(
    this.requestScheduleGroup.controls["id"].setValue(id);
  }
   }
-
+ 
   onSubmit() {
+    const m = moment();
     this.submitted = true;
     this.loading = true;
     let formData = {
@@ -115,10 +116,12 @@ this.requestScheduleGroup.controls["date"].setValue(
       type:this.f.typeName.value,
       dietPlan:false,
       status:1,
-      date:this.f.date.value,
+      date:m.format('L'),
       description:this.f.description.value,
       userId:this.currentUserSubject.value.user_id,
       scheduleActive:true,
+      scheduleOwner:this.currentUserSubject.value.firstName,
+      scheduleOwnerEmail :this.currentUserSubject.value.email
     }
     
       const memberId = this.f.mId.value;

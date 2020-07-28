@@ -21,7 +21,7 @@ const routes: Routes = [
             { path: 'membershiptype', loadChildren: () => import('./user/membershiptype/membershiptype.module').then(m => m.MembershiptypeModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'new_cus', loadChildren: () => import('./user/customers/new-customer/new-customer.module').then(m => m.NewCustomerModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
             { path: 'new_sup', loadChildren: () => import('./user/suppliers/new-suppliers/new-suppliers.module').then(m => m.NewSuppliersModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin] } },
-            { path: 'allSchedule', loadChildren: () => import('./schedule/all-schedules/all-schedules.module').then(m => m.AllSchedulesModule), canActivate: [AuthGuard] , data: { roles: [Role.Instructor] } },
+            { path: 'allSchedule', loadChildren: () => import('./schedule/all-schedules/all-schedules.module').then(m => m.AllSchedulesModule), canActivate: [AuthGuard] , data: { roles: [Role.Instructor , Role.Admin] } },
 
             { path: 'mainCat', loadChildren: () => import('./charts/main-catagory/main-catagory.module').then(m => m.MainCatagoryModule), canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User] } },
             { path: 'newSubCat', loadChildren: () => import('./charts/sub-catagory/sub-catagory.module').then(m => m.SubCatagoryModule) , canActivate: [AuthGuard] , data: { roles: [Role.Admin , Role.User] } },

@@ -54,7 +54,8 @@ export class NewExerciseComponent implements OnInit {
       benefits:['', Validators.required],
       skills: new FormArray([]),
       exerciseImageLocation: new FormArray([]),
-      createdDate:['']
+      createdDate:[''],
+      exerciseGender:['',Validators.required]
 
     })
     const today = moment();
@@ -168,7 +169,8 @@ export class NewExerciseComponent implements OnInit {
       benefits:this.f.benefits.value,
       skills:this.f.skills.value,
       createdDate:this.currentDate,
-      createdId:this.createdId
+      createdId:this.createdId,
+      exerciseGender:this.f.exerciseGender.value
     }
     console.log(exerciseData);
     if(this.exerciseGroup.valid){

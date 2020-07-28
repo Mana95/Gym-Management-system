@@ -25,7 +25,6 @@ module.exports = {
     getAcceptedSchedule,
     loadById,
     loadInstrucotrData,
-    createSchedule,
     getById,
     loadInstructor,
     checkAvl,
@@ -42,8 +41,13 @@ module.exports = {
 
 };
 async function loadMyAllSchedule_Service(id){
-    
-    return await Schedule_Plan.find({instructorId:id});
+
+    console.log(id);
+    const checkUserAdmin = await User.findOne({user_id:id})
+    if(checkUserAdmin.role == 'Admin'){
+        return await Schedule.find({});
+    }
+    return await Schedule.find({createdInstructorId:id});
 
 }
 
@@ -91,42 +95,68 @@ async function DietPlangetById(id){
 }
 
 async function createScheduleAndDiet(data){
-    const dietPlan = data.dietPlanData;
-    const shcduleData = data.scheduleData;
-
+    const shcduleData = data.sceduleData;
     const schedule_Plan = new Schedule_Plan(shcduleData); 
-    const dietPlan_data = new DietMealPlan(dietPlan);
+    if(data.sceduleData.dietPlan){
+        const dietPlan = data.dietPlan;
+        const dietPlan_data = new DietMealPlan(dietPlan);
 
-
-console.log(shcduleData);
-
-
-    let updateData = {
-        Sid: shcduleData.ScheduleId,
-        dietPlan:true,
-        status: 4
+        let updateData = {
+            Sid: shcduleData.ScheduleId,
+            dietPlan:true,
+            status: 4,
+            createdInstructorId:shcduleData.instructorId,
+            createrName :shcduleData.instructorName
+            }
+       
+    
+        if((await schedule_Plan.save() && await dietPlan_data.save())){
+            console.log('HI');
+            Schedule.updateOne(
+                {
+                    Sid: updateData.Sid
+                },
+                {
+                    $set: updateData
+                }, function (err, responses) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            return 1;
+        } else{
+            return 2
         }
-   
 
-    if((await schedule_Plan.save() && await dietPlan_data.save())){
-        console.log('HI');
-        Schedule.updateOne(
-            {
-                Sid: updateData.Sid
-            },
-            {
-                $set: updateData
-            }, function (err, responses) {
-                if (err) {
-                    console.log(err);
+    }else {
+        console.log(shcduleData);
+            let updateData = {
+                Sid: shcduleData.ScheduleId,
+                    status: 4,
+                    createdInstructorId:shcduleData.instructorId,
+                    createrName :shcduleData.instructorName
                 }
-            });
-        return 1;
-    } else{
-        return 2
+       
+            if(await schedule_Plan.save()){
+             
+                Schedule.updateOne(
+                    {
+                        Sid: updateData.Sid
+                    },
+                    {
+                        $set: updateData
+                    }, function (err, responses) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                return 1;
+            } else{
+                return 2
+            }
+        
+        
     }
-
-
 }
 
 
@@ -198,34 +228,7 @@ async function  getById(id){
 }
 
 
-async function createSchedule(data) {
-       let updateData = {
-        Sid: data.ScheduleId,
-            status: 4
-        }
-    const schedule_Plan = new Schedule_Plan(data);  
-    if(await schedule_Plan.save()){
-     
-        Schedule.updateOne(
-            {
-                Sid: updateData.Sid
-            },
-            {
-                $set: updateData
-            }, function (err, responses) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-        return 1;
-    } else{
-        return 2
-    }
 
-
-
-
-}
 
 async function loadInstrucotrData(id){
     return await Instructor.find({isId:id})
@@ -254,17 +257,22 @@ async function getAcceptedSchedule() {
 
 
 async function RejectRecord(data){
+
+    // console.log(data);
+    // return
     Schedule.updateOne(
         {
-            _id: data._id
+            _id: data.formData._id
         },
         {
-            $set: data
+            $set: data.reasonData
         }, function (err, responses) {
             if (err) {
                 console.log(err);
             }
         });
+
+        return 1;
 }
 
 
@@ -289,7 +297,10 @@ async function PendingSchedule() {
 }
 
 async function getByMySchedule(id){
-    return await Schedule.find({membershipId:id})
+    const findMembershipId = await Membership.find( {$and:[{customerID:id ,membershipExpire:false}]})
+
+
+    return await Schedule.find({membershipId:findMembershipId[0].membershipId})
 }
 
 async function insertSchData(data){ 
