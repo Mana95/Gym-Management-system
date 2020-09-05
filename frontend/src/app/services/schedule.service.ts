@@ -31,14 +31,8 @@ export class ScheduleService {
    }
 
 
-   getDietMyPlanID(id, role) {
-    return this.http.get<any>(config.PAPYRUS+`/shedule/getDietMyPlanID/`,
-    {params:{
-      id:id,
-      role:role
-    },
-  }
-    )
+   getDietMyPlanID(id): Observable<any> {
+    return this.http.get<any>(config.PAPYRUS+`/shedule/getDietMyPlanID/${id}`);
    }
    getDietMyPlan(id): Observable<diet> {
     return this.http.get<diet>(config.PAPYRUS+`/shedule/DietPlangetById/${id}`)

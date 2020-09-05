@@ -30,7 +30,7 @@ router.get('/loadSchedule/:id' ,loadSchedule);
 router.get('/getmembershipDetais/:id' ,getmembershipDetais);
 router.get('/getmembershipcheckEmailAvailable/:id' ,getmembershipcheckEmailAvailable);
 router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernameAvailable);
-router.get('/getDietMyPlanID' , getDietMyPlanID);
+router.get('/getDietMyPlanID/:id' , getDietMyPlanID);
 router.get('/getAllExercise/:name' , getAllExercise);
 router.get('/loadMyAllSchedule/:role' , loadMyAllSchedule_controller);
 
@@ -51,15 +51,13 @@ function saveExercise(req ,res, next){
     .then(sch => res.json(sch))
     .catch(err => next(err));
 }
-
+ 
 function getDietMyPlanID(req ,res, next){
     
-    scheduleService.getDietMyPlanID(req.query)
+    scheduleService.getDietMyPlanID(req.params.id)
     .then(sch => res.json(sch))
     .catch(err => next(err));
 }
-
-
 
 
 function DietPlangetById(req ,res, next){
