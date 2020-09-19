@@ -74,7 +74,7 @@ export class AcceptedScheduleComponent implements OnInit {
       gender: [''],
       instructorName: [''],
       contact: [''],
-      endDate: [''],
+      endDate: ['', Validators.required],
       dietPlan: [false],
       scheduleCategoryType: ['', Validators.required],
       scheduleName: ['', Validators.required],
@@ -655,6 +655,11 @@ export class AcceptedScheduleComponent implements OnInit {
       dietPlan: dietPlan
     }
     //submit 
+    if(this.f.dietPlan.value == true && this.DietPlanGroup.valid == false){
+      Swal.fire('Oops...', `You have apply the dietplan but did not fill the dietplan`, 'error');
+      return;
+    }
+
     if (this.ScheduleMakeGroup.valid) {
       this.saveScheduleData(schduleObject);
     } else if (this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid) {

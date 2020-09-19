@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ConfirmMessageComponent } from 'src/app/message/confirm-message/confirm-message.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -30,10 +32,11 @@ export class UserComponent implements OnInit {
   showStatus = false;
   selectOptionStatus = ['Active Employee','Inactive Employee'];
   constructor(
-    private modalService: BsModalService,
+  
     private authenticationService: AuthenticationService,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private modalService: NgbModal
   ) { }
 
 
@@ -42,55 +45,45 @@ export class UserComponent implements OnInit {
   }
 
 
-  openModal(data, template: TemplateRef<any>) {
+  deleteRowData(data) {
     this.deleteMessage = data;
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    //this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    const modalRef = this.modalService.open(ConfirmMessageComponent);
+    modalRef.componentInstance.displayMessage =`Are you sure you want to delete ${data.firstName}? ` ;
+    modalRef.result.then((result) => {
+    }).catch( (result) => {
+      console.log(result)
+      if(result){
+        let idData = {
+          "id": this.deleteMessage._id,
+          "EmpId": this.deleteMessage.id
+        };
+        this.authenticationService.deleteRecord(idData)
+          .subscribe(data => {
+
+            this.loadTableData();
+          },
+            error => {
+              this.error = error;
+              this.loading = false;
+    
+            });
+        this.loadTableData();
+      }
+     
+    });
+
+      
+    
 
   }
 
   openModalEdit(data, template: TemplateRef<any>) {
-
-    this.assigneValue = data;
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
-    if (this.editMessage == true) {
-      this.modalRef.hide();
-
-
-    }
+    // id = this.assigneValue.userId;
+    this.router.navigate(['/editUser', data._id]);
+    
   }
-
-  //confirm dialog for edit
-  confirmEdit() {
-    this.editMessage = true;
-    let id = this.assigneValue.userId;
-    this.router.navigate(['/editUser', this.assigneValue._id]);
-    this.modalRef.hide();
-  }
-
-  //confrim dialog to delete user
-  confirm() {
-    let idData = {
-      "id": this.deleteMessage._id,
-      "EmpId": this.deleteMessage.id
-    }
-
-    this.authenticationService.deleteRecord(idData)
-      .subscribe(data => {
-        this.modalRef.hide();
-        this.loadTableData();
-      },
-        error => {
-          this.error = error;
-          this.loading = false;
-
-        });
-    this.loadTableData();
-  }
-
-  decline() {
-    this.message = 'Declined!';
-    this.modalRef.hide();
-  }
+ 
 
   loadTableData() {
     this.authenticationService.getAllUsers()
@@ -130,7 +123,7 @@ export class UserComponent implements OnInit {
   deleteRecord(data, template: TemplateRef<any>) {
     // alert(data);
     this.deleteMessage = data;
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  //  this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
 
 
   }

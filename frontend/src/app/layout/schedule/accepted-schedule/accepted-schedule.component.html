@@ -122,7 +122,12 @@
                             <div class="form-group col-md-3" >
                                 <label for="userID"><b>Schedule end</b></label>
                                 <input type="text" placeholder="06/07/2020" class="form-control" [readonly]="true" id="scend"
-                                    formControlName="endDate" />
+                                    formControlName="endDate" [ngClass]="{'is-invalid':submitted && f.endDate.errors}" />
+                                     <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                                        <div *ngIf="f.endDate.errors.required">
+                                           end Date is be required
+                                        </div>
+                                    </div>
                             </div>
 
 

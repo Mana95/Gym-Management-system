@@ -83,7 +83,7 @@ export class ResponseresetpasswordComponent implements OnInit {
           setTimeout(() => {
             this.successMessage = null;
             this.router.navigate(['login']);
-          }, 3000);
+          }, 2000);
         },
         err => {
           if (err.error.message) {

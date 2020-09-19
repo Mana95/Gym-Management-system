@@ -542,9 +542,12 @@ function getAllGroups(req, res , next){
 function EmployeeCreation(req ,res ,next){
     userService.EmployeeCreation(req.body)
     .then(user =>{
-        if(user){
+        if(user != undefined && user.errorStatus !=undefined && user.errorStatus ==true){
+            res.status(500).send({
+                message: user
+            })
+        }else{
             res.json(user)
-          
         }
     }
     )
@@ -585,7 +588,24 @@ function signUp(req, res, next){
 function authenticate(req, res, next) {
   //  console.log(req.body)
     userService.authenticate(req.body)
-        .then(user => res.json(user))
+        .then(user => {
+            
+            if(user != undefined && user.errorStatus !=undefined && user.errorStatus ==true){
+                res.status(500).send({
+                    message: user
+                })
+            }else if(user == undefined){
+                res.status(500).send({
+                    message :{message: 'The password you entered is incorrect',
+                    errorStatus:true}  
+                });
+            }else{
+                res.json(user)
+            }
+          
+            // res.json(user)
+
+        })
         .catch(err => next(err));
 }
 

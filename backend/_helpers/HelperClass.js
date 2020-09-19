@@ -1,5 +1,10 @@
 module.exports = checkDupplicatesValues;
+
+
+module.exports = sendEmail;
+
 const db = require("./db");
+const { static } = require("express");
 const User = db.User;
 const Roles = db.Roles;
 
@@ -49,3 +54,50 @@ await Membership.findOne({phonenumber: params.phonenumber},function(error , res)
 }
 
 
+ function sendEmail(email){
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "manaalex3@gmail.com",
+    pass: 'QAZ(*&jker":',
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+var mailOptions = {
+
+
+  to: email,
+  from: "your email",
+  subject: "Gym Membership registration",
+  text:
+    "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+    "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+    "http://localhost:4200/response-reset-password/" +
+    +
+    "\n\n" +
+    "If you did not request this, please ignore this email and your password will remain unchanged.\n" +
+    "<br>Thank You.\n",
+};
+transporter.sendMail(mailOptions, (err, info) => {
+  if(err){
+    console.log('error')
+    console.log(err);
+    return 'error'
+  }else if(info){
+    return 1;
+  }
+  
+});
+
+
+
+
+
+
+
+}

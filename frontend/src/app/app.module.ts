@@ -22,6 +22,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ChartsModule } from 'ng2-charts';
+import { ConfirmMessageComponent } from './message/confirm-message/confirm-message.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ChartsModule } from 'ng2-charts';
           FlatpickrModule.forRoot()
          
     ],
-    declarations: [AppComponent, PasswordchangeComponent, ResponseresetpasswordComponent],
+    declarations: [AppComponent, PasswordchangeComponent, ResponseresetpasswordComponent, ConfirmMessageComponent],
+    entryComponents:[ConfirmMessageComponent],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
 })

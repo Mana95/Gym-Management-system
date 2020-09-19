@@ -235,6 +235,7 @@ export class AuthenticationService {
    // console.log('Authentication' + firstName + password);
    return this.http.post<any>(config.PAPYRUS+ `/users/authenticate`, { email, password })
      .pipe(map(user => {
+       console.log(user);
        // login successfull if there is a jwt token in the response
        if (user && user.token) {
          // store user details and jwt token in local storage to keep user logged in between page refreshes

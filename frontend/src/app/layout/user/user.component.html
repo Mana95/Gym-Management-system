@@ -1,24 +1,5 @@
-<ng-template #template>
-  <div class="modal-body text-center">
-    <p>Do you want to Delete the Employee?</p>
-    <button type="button" class="btn btn-danger" (click)="confirm()">
-      Yes</button>&nbsp;
-    <button type="button" class="btn btn-primary" (click)="decline()">
-      No
-    </button>
-  </div>
-</ng-template>
 
-<ng-template #templateEdit>
-  <div class="modal-body text-center">
-    <p>Do you want to edit the Employee?</p>
-    <button type="button" class="btn btn-success" (click)="confirmEdit()">
-      Yes</button>&nbsp;
-    <button type="button" class="btn btn-danger" (click)="decline()">
-      No
-    </button>
-  </div>
-</ng-template>
+
 <div class="card mb-12">
   <div class="card-header">
     <p>
@@ -78,9 +59,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="
-                                        let data of userview
-                                            | paginate
+                <tr *ngFor="let data of userview | paginate
                                                 : {
                                                       itemsPerPage: 10,
                                                       currentPage: p
@@ -108,19 +87,16 @@
                   <td style="text-align: center;">
                     <button type="button" (click)="
                                                 openModalEdit(
-                                                    data,
-                                                    templateEdit
+                                                    data
+                                                    
                                                 )
-                                            " class="btn btn-primary btn-sm">
+                                            " class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="edit Employee">
                       <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
                     &nbsp;
-                    <button type="button" *ngIf="data.active == true" (click)="openModal(data, template)" class="btn btn-danger btn-sm">
-                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <button type="button" *ngIf="data.active == true" (click)="deleteRowData(data)" class="btn btn-danger btn-sm">
+                      <i class="fa fa-trash-o" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="delete Employee"></i>
                     </button>
-                    <!-- <button type="button" *ngIf="showStatus"  (click)="activeEmployee()" class="btn btn-sucess btn-sm">
-                      <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    </button> -->
                   </td>
                 </tr>
               </tbody>

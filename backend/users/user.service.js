@@ -25,6 +25,9 @@ const Comment = db.Comment;
 const Invoice =db.Invoice;
 const MembershipStatus =db.MembershipStatus;
 
+
+
+
 module.exports = {
   authenticate,
   getAll,
@@ -1268,13 +1271,14 @@ async function getGroups() {
   return await Groups.find({});
 }
 async function EmployeeCreation(data) {
-  
   // console.log(data)
   let errorArray =[];
   errorArray.length =0;
 
   const employee = new Employee(data.UserCreationParam);
   const user = new User(data.UserData);
+
+  
 
   await User.findOne({ email: data.UserData.email },function(error , res){
     if(res!=null){
@@ -1295,13 +1299,41 @@ await Employee.findOne({phonenumber: data.UserCreationParam.phonenumber},functio
 })
 
 if(errorArray.length == 0){
-  user.hash = bcrypt.hashSync(data.UserData.password, 10);
-  await user.save();
-  await employee.save();
-  return 1;
+  var _sendEmailSuccess = sendEmployeeEmail(data.UserData.email);
+ 
+  if(_sendEmailSuccess == false){
+    user.hash = bcrypt.hashSync(data.UserData.password, 10);
+    await user.save();
+    await employee.save();
+    return {errorMessage:'User registered done', errorStatus:false}
+  }else{
+    console.log(_sendEmailSuccess)
+    return {errorMessage:'User Register Failed please try agian', errorStatus:true}
+  }
+
 }else{
-  return (errorArray);
+  return {errorMessage:errorArray, errorStatus:true};
 }
+
+
+// //sending the email
+//  if(errorArray.length == 0){
+
+// console.log('awa')
+//   var _sendEmailSuccess = sendEmployeeEmail(data.UserData.email);
+ 
+// if(_sendEmailSuccess == true){
+//   console.log('awasdsdsd')
+//   user.hash = bcrypt.hashSync(data.UserData.password, 10);
+//   await user.save();
+//   await employee.save();
+//   return 1;
+// }
+// return 2
+// }else{
+//     return (errorArray);
+//   }
+
 }
 
 
@@ -1343,15 +1375,13 @@ async function signUpUser(data) {
 async function authenticate({ email, password }) {
 
   if (await User.findOne({ email: email, active: false })) {
-    return "User is not Activated please contact admin department";
+    return {errorStatus:true , message:"User is not Activated please contact admin department"}
   } else if (!(await User.findOne({ email: email }))) {
-    return "There is no sufficient user in the system";
-  }
 
+    return {errorStatus:true , message:"There is no sufficient user in the system"}
+  };
   const user = await User.findOne({ email });
   const userActive = await User.findOne({});
-
-
   if (user.active == true) {
     if (user && bcrypt.compareSync(password, user.hash)) {
       const { hash, ...userWithoutHash } = user.toObject();
@@ -1359,6 +1389,7 @@ async function authenticate({ email, password }) {
       return {
         ...userWithoutHash,
         token,
+        errorStatus:false,
       };
     }
   }
@@ -1449,8 +1480,56 @@ async function _delete(data) {
     }
 });
 
-
-
+ 
 
 
 }
+
+
+ function sendEmployeeEmail(email){
+
+
+  var checkMail = false;
+
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "manaalex3@gmail.com",
+    pass: 'QAZ(*&jker":',
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+var mailOptions = {
+  to: email,
+  from: "your email",
+  subject: "Gym Membership registration",
+  text:
+    "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+    "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+    "http://localhost:4200/response-reset-password/" +
+    +
+    "\n\n" +
+    "If you did not request this, please ignore this email and your password will remain unchanged.\n" +
+    "<br>Thank You.\n",
+};
+ transporter.sendMail(mailOptions, function(err, info){
+  if(err != null){
+    console.log('errr')
+    console.log(info);
+  return false;
+  
+  }else if(info){
+    console.log('err sssdsdr')
+    checkMail = true;
+  }
+  transporter.close();
+});
+    return checkMail;
+}
+

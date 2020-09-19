@@ -95,68 +95,71 @@ async function DietPlangetById(id){
 }
 
 async function createScheduleAndDiet(data){
-    const shcduleData = data.sceduleData;
-    const schedule_Plan = new Schedule_Plan(shcduleData); 
-    if(data.sceduleData.dietPlan){
-        const dietPlan = data.dietPlan;
-        const dietPlan_data = new DietMealPlan(dietPlan);
+    console.log(data);
 
-        let updateData = {
-            Sid: shcduleData.ScheduleId,
-            dietPlan:true,
-            status: 4,
-            createdInstructorId:shcduleData.instructorId,
-            createrName :shcduleData.instructorName
-            }
+    console.log('HI');
+    // const shcduleData = data.sceduleData;
+    // const schedule_Plan = new Schedule_Plan(shcduleData); 
+    // if(data.sceduleData.dietPlan){
+    //     const dietPlan = data.dietPlan;
+    //     const dietPlan_data = new DietMealPlan(dietPlan);
+
+    //     let updateData = {
+    //         Sid: shcduleData.ScheduleId,
+    //         dietPlan:true,
+    //         status: 4,
+    //         createdInstructorId:shcduleData.instructorId,
+    //         createrName :shcduleData.instructorName
+    //         }
        
     
-        if((await schedule_Plan.save() && await dietPlan_data.save())){
-            console.log('HI');
-            Schedule.updateOne(
-                {
-                    Sid: updateData.Sid
-                },
-                {
-                    $set: updateData
-                }, function (err, responses) {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            return 1;
-        } else{
-            return 2
-        }
+    //     if((await schedule_Plan.save() && await dietPlan_data.save())){
+    //         console.log('HI');
+    //         Schedule.updateOne(
+    //             {
+    //                 Sid: updateData.Sid
+    //             },
+    //             {
+    //                 $set: updateData
+    //             }, function (err, responses) {
+    //                 if (err) {
+    //                     console.log(err);
+    //                 }
+    //             });
+    //         return 1;
+    //     } else{
+    //         return 2
+    //     }
 
-    }else {
-        console.log(shcduleData);
-            let updateData = {
-                Sid: shcduleData.ScheduleId,
-                    status: 4,
-                    createdInstructorId:shcduleData.instructorId,
-                    createrName :shcduleData.instructorName
-                }
+    // }else {
+    //     console.log(shcduleData);
+    //         let updateData = {
+    //             Sid: shcduleData.ScheduleId,
+    //                 status: 4,
+    //                 createdInstructorId:shcduleData.instructorId,
+    //                 createrName :shcduleData.instructorName
+    //             }
        
-            if(await schedule_Plan.save()){
+    //         if(await schedule_Plan.save()){
              
-                Schedule.updateOne(
-                    {
-                        Sid: updateData.Sid
-                    },
-                    {
-                        $set: updateData
-                    }, function (err, responses) {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
-                return 1;
-            } else{
-                return 2
-            }
+    //             Schedule.updateOne(
+    //                 {
+    //                     Sid: updateData.Sid
+    //                 },
+    //                 {
+    //                     $set: updateData
+    //                 }, function (err, responses) {
+    //                     if (err) {
+    //                         console.log(err);
+    //                     }
+    //                 });
+    //             return 1;
+    //         } else{
+    //             return 2
+    //         }
         
         
-    }
+    // }
 }
 
 

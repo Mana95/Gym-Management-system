@@ -23,8 +23,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 })
 export class NewUserComponent implements OnInit {
   userRegisterFrom: FormGroup;
-
-
   //Alert message
   alertDisplayUser = false;
   alertDisplay = false;
@@ -63,15 +61,20 @@ export class NewUserComponent implements OnInit {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private modalService: NgbModal
-  ) { }
+  ) {
+
+   };
+
   Url:any;
   pdfSrc : '/backend/uploads/E_P3IB1U2R'
   ngOnInit() {
 
-
     this.loadData();
+    
     //let Phonenumber = "^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$"
+    
     this.Url = this.sanitizer.bypassSecurityTrustUrl(this.pdfSrc);
+
     ///bypassSecurityTrustResourceUrl
   }
   //validation the phone number
@@ -341,9 +344,9 @@ else if (dayText > 31) {
  this.authenticationService.EmployeeCreate(UserCreationParam , UserData)
  .subscribe(
    result=>{
-      if(result !=undefined && result ==1){
+      if(result.errorStatus == false){
         Swal.fire({
-          text: 'Employee Registered and email send success',
+          text: result.errorMessage,
           icon: 'success'
         });
         
@@ -352,21 +355,32 @@ else if (dayText > 31) {
         this.userRegisterFrom.reset();
         this.loadData();
 
-      }else if(result.length==1){
-
-        Swal.fire('Oops...', `${result[0]} already inserted`, 'error')
-      }else if(result.length==2){
-
-        Swal.fire('Oops...', `${result[0]} and ${result[1]} already inserted`, 'error')
-      }else if(result.length==3){
-
-        Swal.fire('Oops...', `${result[0]},${result[1]} and ${result[2]} already inserted`, 'error')
+      } 
+   },error=>{
+      if(error.error !=undefined && error.error.message.errorStatus == true){
+        if(error.error.message.errorMessage.length >0){
+        if(error.error.message.errorMessage.length==1){
+          var result = error.error.message.errorMessage
+          Swal.fire('Oops...', `${error.error.message.errorMessage[0]} already inserted`, 'error');
+        }else if(error.error.message.errorMessage.length==2){
+          Swal.fire('Oops...', `${error.error.message.errorMessage[0]} and ${error.error.message.errorMessage[1]} already inserted`, 'error');
+        }else if(error.error.message.errorMessage.length==3){
+          
+          Swal.fire('Oops...', `${error.error.message.errorMessage[0]},${error.error.message.errorMessage[1]} and ${error.error.message.errorMessage[2]} already inserted`, 'error');
+        
+        }else {
+          Swal.fire('Oops...', `${error.error.message.errorMessage}`, 'error');
+       
+        }
       }
+      }
+      console.log(error);
+
    }
  )
-    } else{
+} else{
       this.imageErrorMessage = true;
-      Swal.fire('Oops...', `Submission failed as it is asking for personal or sensitive information`, 'error')
+      Swal.fire('Oops...', `Something went wrong.form Validated failed!`, 'error')
     }
 
   }
@@ -396,7 +410,6 @@ else if (dayText > 31) {
     // tslint:disable-next-line:no-debugger
     //alert("This is the " + data);
     return this.http.post<any>(config.PAPYRUS + `/upload/${uniqueId}`, data);
-
 
   }
 
