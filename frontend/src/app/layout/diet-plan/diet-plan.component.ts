@@ -27,6 +27,8 @@ export class DietPlanComponent implements OnInit {
   dietPlanView :any;
   role : any;
   detailsOfDietPlan :any;
+
+
   constructor(
     private formBuilder : FormBuilder,
   
@@ -37,25 +39,27 @@ export class DietPlanComponent implements OnInit {
 {
   this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
   this.currentUser = this.currentUserSubject.asObservable(); 
+  this.id =  this.currentUserSubject.value.user_id;
+
+  this.loadDietMeal();
 }
   ngOnInit(){
-    this.id =  this.currentUserSubject.value.user_id;
-    this.role =  this.currentUserSubject.value.role;
-    let data = {
-      id :this.id,
-      role:this.role
-    }
-    console.log(data);
-    this.scheduleService.getDietMyPlanID(data.id , data.role)
-    .subscribe(
-      response=>{
-        this.detailsOfDietPlan = response
-        console.log(this.detailsOfDietPlan)
-      }
-    )
+    
+    //this.role =  this.currentUserSubject.value.role;
+   
+    
 
   }
-
+  loadDietMeal() {
+    //this.dietPlanView = [{id:1}];
+    this.scheduleService.getDietMyPlanID(this.id)
+    .subscribe(
+      response=>{
+        this.dietPlanView = response;
+        //console.log(this.dietPlanView.length);
+      }
+    )
+  }
   onSubmit(){
 
   }

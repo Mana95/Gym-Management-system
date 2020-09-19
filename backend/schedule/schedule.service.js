@@ -73,20 +73,23 @@ async function saveExercise(data){
 
 
 
-async function getDietMyPlanID(objectData){
-    // console.log(objectData);
-        if(objectData.role=='Admin'){
-            return await DietMealPlan.find({});
-        }else if(objectData.role=='Membership'){
-            return await DietMealPlan.find({membershipId:objectData.id}); 
-        }else if(objectData.role=='Instructor'){
-            return await DietMealPlan.find({instructor:objectData.id}); 
+async function getDietMyPlanID(id){
+    const userRole = await User.findOne({user_id:id});
+    if(userRole.role = "Admin"){
+        console.log('admisdsan')
+        return await DietMealPlan.find({},function(error , result){
+            
+        });
+    }else{
+      
+        console.log(userRole.role)
+        if(userRole.role = "Instructor"){
+            return await DietMealPlan.find({instructor:id}); 
+        }else if(userRole.role = "Membership"){
+            return await DietMealPlan.find({membershipId:id}); 
         }
-
-
-
-
-   // 
+       
+    } // 
 }
 
 
@@ -361,4 +364,17 @@ async function insertSchData(data){
 
 async function getByName(){
     return await ScheduleType.find({});
+}
+
+
+
+//Common Methods
+
+async function CheckIfAdmin (id) {
+    const userRole = await User.findOne({user_id:id});
+    if(userRole.role == 'Admin'){
+       // console.log(subadmin)
+        return true;
+    }
+    return false;
 }
