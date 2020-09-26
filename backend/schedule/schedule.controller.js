@@ -66,9 +66,20 @@ function DietPlangetById(req ,res, next){
     .catch(err => next(err));
 }
 
+
+
 function createScheduleAndDiet(req ,res ,next){
     scheduleService.createScheduleAndDiet(req.body)
-    .then(sch => res.json(sch))
+    .then(sch =>{
+        if(sch != undefined && sch.errorStatus !=undefined && sch.errorStatus ==true){
+            res.status(500).send({
+                sch
+            })
+        }else{
+            res.json(sch)
+        }
+    }
+    )
     .catch(err => next(err));
 }
 
@@ -191,4 +202,5 @@ function getAllSchedule(req ,res ,next){
     scheduleService.getByName()
     .then(sch => res.json(sch))
     .catch(err => next(err));
+    console.log('Hi');
 }

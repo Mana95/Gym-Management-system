@@ -1,43 +1,36 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const schema = new Schema({
-    cartTotal: {
-        type:Number,
-        required :true
-    },
-    invoiceId:{
-        type:String,
-        required:true,
-    },
-    currentUserName:{
-        type:String,
-        required:true,
-    },
-    email:{
-        type:String,
-        required:true,   
-    },
-    payingPrice:{
-        type:String,
-      
-    },
-    paymentDate:{
-        type:String,
-        required:true, 
+    orderId:{
+        type : String,
+        required: true,
+        unique: true,
     },
     userId:{
-        type:String,
-        required:true, 
+        type : String,
+        required: true,
+    },
+    email:{
+        type : String,
+        required: true,   
+    },
+    invoicePrinted: {
+        type:Boolean
+    },
+    orderAction: {
+        type : Number,
+    },
+    rejectedReason:{
+        type : String,
+    },
+    orderApprovedName: {
+        type : String,
     },
     createdDate: {
         type: Date,
         default: Date.now
 
     },
-    cartId:{
-        type:String
-    },
-
     CartValues: [
         {
             id: {
@@ -73,8 +66,17 @@ const schema = new Schema({
                 required :true
             }
         }
-    ]
-
-
+    ],
+    paymentTotal: {
+        type:Number,
+        required: true,   
+    },
 });
-module.exports = mongoose.model('Cart', schema);
+module.exports = mongoose.model('myorder', schema);
+
+
+//My oder action
+// Pending - 1;
+// Completed -2;
+// rejected - 3;
+// expired -4;

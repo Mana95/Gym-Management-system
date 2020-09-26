@@ -23,12 +23,18 @@ router.get('/getAllSo', getAllSo);
 router.get('/getAllCartItems', getAllCartItems);
 router.get('/poReports', return_report_purchase_order);
 router.get('/loadAllinvoiceData', loadAllinvoiceData_controller);
+router.get('/getMyOrders/:id', getMyOrders_controller);
 
 router.post('/saveCartData', saveCartData);
 router.post('/updateStatus', UpdateStatus);
 
 ///report
 
+function getMyOrders_controller(req ,res, next){
+    orderService.getMyOrders_service(req.params.id)
+    .then(cart => res.json(cart))
+    .catch(err => next(err));
+}
 function loadAllinvoiceData_controller(req ,res ,next){
     orderService.loadAllinvoiceData_service()
     .then(cart => res.json(cart))

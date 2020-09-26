@@ -1,3 +1,4 @@
+import { GymAdapterClass } from './../../../common-class/gym-adapterClass';
 import { UserRegistrationStatus } from 'src/app/_models/user';
 import { config } from './../../../config/config';
 import { FileUploader } from 'ng2-file-upload';
@@ -204,7 +205,8 @@ export class NewUserComponent implements OnInit {
     }
 }
 onKey(event){
-
+//  GymAdapterClass.getNicNumber(nic);
+ 
   let NICNo  = event.target.value;
   ///console.log(event.target.value);
   var dayText = 0;

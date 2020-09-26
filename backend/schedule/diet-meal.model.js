@@ -49,7 +49,7 @@ intervalNames:[{
         },
         quantity:{
             required:true,
-            type:Number
+            type:String
         } ,
         mearurmentUnit:{
         

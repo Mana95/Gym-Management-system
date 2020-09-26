@@ -33,6 +33,7 @@ module.exports = {
     Schedule_Plan:require('../schedule/schedule-plan.model'),
     DietMealPlan:require('../schedule/diet-meal.model'),
     Exercise: require('../schedule/exercise.model'),
+    MyOrder: require('../orders/myorder.model'),
 
     
 

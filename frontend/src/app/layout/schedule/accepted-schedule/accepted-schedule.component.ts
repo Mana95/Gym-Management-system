@@ -50,7 +50,8 @@ export class AcceptedScheduleComponent implements OnInit {
   selections = ['Months wise', 'Day wise'];
   commonStatus = false;
   ScheduleCategories = ['Normal', 'Advanced'];
-
+  showErroMessage :boolean = false;
+  displayErrorMesage : string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -579,32 +580,44 @@ export class AcceptedScheduleComponent implements OnInit {
           'error'
         )
       }
-    })
-
-    // console.log(index)
-    // this.intervalArray.removeAt(index);
+    });
   }
 
   onSubmit() {
     this.submitted = true;
-    if (this.f.scheduleCategoryType.value == 'Normal') {
-      if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Normal') == true) {
-        Swal.fire('Oops...', `Please Create the Schedule steps and intervals`, 'error')
-        return
-      } else if (this.f.normal.value.length == 0) {
-        Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
-        return;
-      }
-    } else if (this.f.scheduleCategoryType.value == 'Advanced') {
-      if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Advanced') == true) {
-        Swal.fire('Oops...', `Please Create the Schedule steps and intervals `, 'error');
-        return
-      } else if (this.f.tickets.value.length == 0) {
-        Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
-        return;
-      }
-    }
 
+
+
+
+
+
+
+  //   if (this.f.scheduleCategoryType.value == 'Normal') {
+  //     if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Normal') == true) {
+  //       Swal.fire('Oops...', `Please Create the Schedule steps and intervals`, 'error')
+  //       return
+  //     } else if (this.f.normal.value.length == 0) {
+  //       Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
+  //       return;
+  //     }
+  //   } else if (this.f.scheduleCategoryType.value == 'Advanced') {
+  //     if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Advanced') == true) {
+  //       Swal.fire('Oops...', `Please Create the Schedule steps and intervals `, 'error');
+  //       return
+  //     } else if (this.f.tickets.value.length == 0) {
+  //       Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
+  //       return;
+  //     }
+  //   }
+  // //submit 
+  // if(this.f.dietPlan.value == true && this.DietPlanGroup.valid == false){
+  //   Swal.fire('Oops...', `You have apply the dietplan but did not fill the dietplan`, 'error');
+  //   return;
+  // }
+  // if (this.f.dietPlan.value == true && this.dietPlan.intervalNames.value.length == 0) {
+  //   Swal.fire('Oops...', `Please add diet plan intervals`, 'error');
+  //   return;
+  // }
     let sceduleData = {
       id: this.f.id.value,
       type: this.f.type.value,
@@ -654,12 +667,12 @@ export class AcceptedScheduleComponent implements OnInit {
       sceduleData: sceduleData,
       dietPlan: dietPlan
     }
-    //submit 
-    if(this.f.dietPlan.value == true && this.DietPlanGroup.valid == false){
-      Swal.fire('Oops...', `You have apply the dietplan but did not fill the dietplan`, 'error');
-      return;
-    }
 
+
+  
+  
+
+//return 
     if (this.ScheduleMakeGroup.valid) {
       this.saveScheduleData(schduleObject);
     } else if (this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid) {
@@ -671,10 +684,7 @@ export class AcceptedScheduleComponent implements OnInit {
       //dekama save wenna ona ne
       this.submitted = true;
       this.dietSubmitted = true;
-      if (this.dietPlan.intervalNames.value.length == 0) {
-        Swal.fire('Oops...', `Please add diet plan intervals😊`, 'error');
-        return;
-      }
+     
       //       
     }
   }
@@ -686,9 +696,9 @@ export class AcceptedScheduleComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          if (response == 1) {
+          if (response.errorStatus == false) {
             Swal.fire({
-              text: 'Schedule Plan create with diet plan successfully Created',
+              text: response.message,
               icon: 'success'
             });
             this.clearTabData();
@@ -697,7 +707,11 @@ export class AcceptedScheduleComponent implements OnInit {
           }
         },
         error=>{
-          console.log(error);
+          if(error)
+          if (error.errorStatus) {
+            Swal.fire('Oops...', `${error.message}`, 'error')
+          }
+
         },
         ()=>{
           console.log('done')
@@ -853,5 +867,39 @@ export class AcceptedScheduleComponent implements OnInit {
 
     }
 
+  }
+
+  nextStepper(stepNumber) {
+    switch (stepNumber) {
+      case 'tab-01':
+        if(this.f.tickets.value.length>0){
+          this.showErroMessage = false
+        this.tabTwo = true;
+       
+        break;
+        }
+        this.displayErrorMesage = 'Please fill the routing'
+        this.showErroMessage = true;
+      case 'tab-02':
+        // this.tabTwo = true;
+        this.tabThree = true;
+        break;
+      case 'tab-03':
+        this.tabFour = true;
+        break;
+      case 'tab-04':
+        this.tabFive = true;
+        break;
+      case 'tab-05':
+        this.tabSix = true;
+        break;
+      case 'tab-06':
+        this.tabTwo = true;
+        break;
+      case 'tab-07':
+        this.tabTwo = true;
+        break;
+
+    }
   }
 }

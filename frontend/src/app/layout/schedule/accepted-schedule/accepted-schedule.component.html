@@ -14,30 +14,25 @@
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Schedule Id</b></label>
-                                <input type="text" class="form-control inputClass" formControlName="id"
-                                    [readonly]="true" />
+                                <input type="text" class="form-control inputClass" formControlName="id" [readonly]="true" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="email"><b>Schedule Type</b></label>
-                                <input type="email" class="form-control inputClass" [readonly]="true"
-                                    formControlName="type" />
+                                <input type="email" class="form-control inputClass" [readonly]="true" formControlName="type" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="email"><b>Membership Id</b></label>
-                                <input type="text" class="form-control inputClass" [readonly]="true"
-                                    formControlName="membershipId" />
+                                <input type="text" class="form-control inputClass" [readonly]="true" formControlName="membershipId" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="email"><b>Date</b></label>
-                                <input type="text" class="form-control inputClass" [readonly]="true"
-                                    formControlName="date" />
+                                <input type="text" class="form-control inputClass" [readonly]="true" formControlName="date" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Member Name</b></label>
-                                <input type="text" class="form-control inputClass" formControlName="memberName"
-                                    [readonly]="true" />
+                                <input type="text" class="form-control inputClass" formControlName="memberName" [readonly]="true" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Height</b></label>
@@ -47,8 +42,7 @@
                                             <b>Inch:</b>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" [readonly]="true" id="inlineFormInputGroup"
-                                        formControlName="height" />
+                                    <input type="text" class="form-control" [readonly]="true" id="inlineFormInputGroup" formControlName="height" />
                                 </div>
                             </div>
 
@@ -60,44 +54,40 @@
                                             <b>Kg:</b>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" [readonly]="true" id="inlineFormInputGroup"
-                                        formControlName="weight" />
+                                    <input type="text" class="form-control" [readonly]="true" id="inlineFormInputGroup" formControlName="weight" />
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Gender</b></label>
-                                <input type="text" class="form-control inputClass" formControlName="gender"
-                                    [readonly]="true" />
+                                <input type="text" class="form-control inputClass" formControlName="gender" [readonly]="true" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Instructor Name</b></label>
-                                <input id="typeahead-format" placeholder="Kevin Fernando" formControlName="instructorName" type="text"
-                                    class="form-control" [ngbTypeahead]="search" [resultFormatter]="formatter" />
+                                <input id="typeahead-format" placeholder="Kevin Fernando" formControlName="instructorName" type="text" class="form-control" [ngbTypeahead]="search" [resultFormatter]="formatter" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Instructor Contact</b></label>
                                 <input type="text" class="form-control" placeholder="0758665666" id="contact" formControlName="contact" />
                             </div>
-                           
+
                             <div class="form-group col-md-3">
                                 <label for="userID"><b>Months/Day Status</b></label>
                                 <select class="custom-select" (change)="changeStatus($event)" formControlName="changeStatus" [ngClass]="{'is-invalid': submitted && f.changeStatus.errors}">
                                     <option value="">Choose your selection</option>
                                     <option *ngFor="let selection of selections" [ngValue]="selection">{{selection}}</option>
                                  </select>
-                                 <div *ngIf="submitted && f.changeStatus.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && f.changeStatus.errors" class="invalid-feedback">
                                     <div *ngIf="f.changeStatus.errors.required">
                                         Months/Day Status is required
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3" *ngIf ="commonStatus">
-                                <label for="userID" *ngIf ="dayawise"><b>No of Days</b></label>
-                                <label for="userID"  *ngIf ="monthwise"><b>Valid Months</b></label>
-                                <input type="number"  (keyup)="preventInput($event)"  placeholder="00" class="form-control" [min]="0" [max]="7" (change)="DateCalculator(this)"
-                                    id="scend" formControlName="validMonthDay" [ngClass]="{
+                            <div class="form-group col-md-3" *ngIf="commonStatus">
+                                <label for="userID" *ngIf="dayawise"><b>No of Days</b></label>
+                                <label for="userID" *ngIf="monthwise"><b>Valid Months</b></label>
+                                <input type="number" (keyup)="preventInput($event)" placeholder="00" class="form-control" [min]="0" [max]="7" (change)="DateCalculator(this)" id="scend" formControlName="validMonthDay" [ngClass]="{
                                         'is-invalid':
                                             submitted && f.validMonthDay.errors
                                     }" />
@@ -111,44 +101,42 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                         </div>
-                            <!--  -->
-                            <div class="form-row">
-                           
+                        <!--  -->
+                        <div class="form-row">
 
 
-                            
-                            <div class="form-group col-md-3" >
+
+
+                            <div class="form-group col-md-3">
                                 <label for="userID"><b>Schedule end</b></label>
-                                <input type="text" placeholder="06/07/2020" class="form-control" [readonly]="true" id="scend"
-                                    formControlName="endDate" [ngClass]="{'is-invalid':submitted && f.endDate.errors}" />
-                                     <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
-                                        <div *ngIf="f.endDate.errors.required">
-                                           end Date is be required
-                                        </div>
+                                <input type="text" placeholder="06/07/2020" class="form-control" [readonly]="true" id="scend" formControlName="endDate" [ngClass]="{'is-invalid':submitted && f.endDate.errors}" />
+                                <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                                    <div *ngIf="f.endDate.errors.required">
+                                        end Date is be required
                                     </div>
+                                </div>
                             </div>
 
 
                             <div class="form-group col-md-6">
                                 <label for="userID"><b>Schedule Name</b></label>
-                                <input type="text" placeholder="6 Days Work plan/2 Month Work plan" class="form-control"  id="scend"
-                                    formControlName="scheduleName"  [ngClass]="{'is-invalid':submitted && f.scheduleName.errors}" />
-                                    <div *ngIf="submitted && f.scheduleName.errors" class="invalid-feedback">
-                                        <div *ngIf="f.scheduleName.errors.required">
-                                            name Of Schedule is required
-                                        </div>
+                                <input type="text" placeholder="6 Days Work plan/2 Month Work plan" class="form-control" id="scend" formControlName="scheduleName" [ngClass]="{'is-invalid':submitted && f.scheduleName.errors}" />
+                                <div *ngIf="submitted && f.scheduleName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.scheduleName.errors.required">
+                                        name Of Schedule is required
                                     </div>
+                                </div>
                             </div>
                         </div>
 
-                    <div class="form-row">
-                        <label for="Note"><b>Note</b></label>
-                        <textarea class="form-control" id="note" placeholder="Note" formControlName = "note" rows="3"></textarea>
-                    </div>
+                        <div class="form-row">
+                            <label for="Note"><b>Note</b></label>
+                            <textarea class="form-control" id="note" placeholder="Note" formControlName="note" rows="3"></textarea>
+                        </div>
 
-            
+
 
                         <hr />
                         <div class="card-header">
@@ -157,97 +145,99 @@
                                     <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; <b>Schedule Table</b>
                                 </h4>
                                 &nbsp;
-                                <div class="form-group col-md-4" >
-                                <select class="custom-select" (change)="changeScheduleCategoryType($event)" formControlName="scheduleCategoryType" [ngClass]="{'is-invalid': submitted && f.scheduleCategoryType.errors}">
+                                <div class="form-group col-md-4">
+                                    <select class="custom-select" (change)="changeScheduleCategoryType($event)" formControlName="scheduleCategoryType" [ngClass]="{'is-invalid': submitted && f.scheduleCategoryType.errors}">
                                     <option value="">Choose your Schedule Category</option>
                                     <option *ngFor="let selection of ScheduleCategories" [ngValue]="selection">{{selection}}</option>
                                  </select>
-                                 <div *ngIf="submitted && f.scheduleCategoryType.errors" class="invalid-feedback">
-                                    <div *ngIf="f.scheduleCategoryType.errors.required">
-                                        Schedule categoryType is required !
+                                    <div *ngIf="submitted && f.scheduleCategoryType.errors" class="invalid-feedback">
+                                        <div *ngIf="f.scheduleCategoryType.errors.required">
+                                            Schedule categoryType is required !
+                                        </div>
                                     </div>
-                                </div> 
-                            </div> &nbsp;&nbsp;
-                            <div *ngIf="begginer">
-                                <button type="button" class="btn btn-primary" (click)="onClickBeginner($event)">
+                                </div> &nbsp;&nbsp;
+                                <div *ngIf="begginer">
+                                    <button type="button" class="btn btn-primary" (click)="onClickBeginner($event)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                                &nbsp;
-                                <button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)">
+                                </button> &nbsp;
+                                    <button type="button" class="btn btn-danger" (click)="onClickRemoveBeginner($event)">
                                             <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                                         </button>
-                            </div>
-
-                            <div *ngIf="Display">
-                               
-                                <button type="button" class="btn btn-primary" (click)="onClickTickets($event)">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                        &nbsp;<button type="button" class="btn btn-danger"(click)=" onClickRemove( $event )">
-                            <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
-                        </button>
                                 </div>
+
+
                             </div>
                         </div>
                         <hr />
                         <!-- cALENDER deTAILS -->
                         <div *ngIf="begginer">
-                                <div *ngFor = " let normal of normalSch.controls; let i =index"  class="list-group list-group-flush">
-                                    <div  class="list-group-item" [formGroup]="normal">
-                                        <div class="form-row">
-                                            <div class="form-group col-6">
-                                                <input type="text" formControlName="normalExerciseName" class="form-control"  placeholder="Exersice Name"
-                                                [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseName.errors}"/>
-                                                <div *ngIf="submitted && normal.controls.normalExerciseName.errors" class="invalid-feedback">
-                                                    <div *ngIf="normal.controls.normalExerciseName.errors.required">Skill Name is required</div>
-                                                </div>
-                                                </div>
-                                                
-                                                <div class="form-group col-2">
-                                                    <input type="text" formControlName="normalExerciseRepetition" class="form-control"  placeholder="Repetition No"
-                                                    [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRepetition.errors}"/>
-                                                    <div *ngIf="submitted && normal.controls.normalExerciseRepetition.errors" class="invalid-feedback">
-                                                        <div *ngIf="normal.controls.normalExerciseRepetition.errors.required">Repetition Number is required</div>
-                                                    </div>
-                                                    </div>
+                            <div *ngFor=" let normal of normalSch.controls; let i =index" class="list-group list-group-flush">
+                                <div class="list-group-item" [formGroup]="normal">
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Exersice Name" [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseName.errors}" />
+                                            <div *ngIf="submitted && normal.controls.normalExerciseName.errors" class="invalid-feedback">
+                                                <div *ngIf="normal.controls.normalExerciseName.errors.required">Skill Name is required</div>
+                                            </div>
+                                        </div>
 
-                                                    <div class="form-group col-2">
-                                                        <input type="text" formControlName="normalExerciseRounds" class="form-control"  placeholder="Rounds"
-                                                        [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRounds.errors}"/>
-                                                        <div *ngIf="submitted && normal.controls.normalExerciseRounds.errors" class="invalid-feedback">
-                                                            <div *ngIf="normal.controls.normalExerciseRounds.errors.required">Rounds Number is required</div>
-                                                        </div>
-                                                        </div>
-                                                        <div class="form-group col-2">
-                                                            <button type="button" class="btn btn-danger" (click)="
+                                        <div class="form-group col-2">
+                                            <input type="text" formControlName="normalExerciseRepetition" class="form-control" placeholder="Repetition No" [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRepetition.errors}" />
+                                            <div *ngIf="submitted && normal.controls.normalExerciseRepetition.errors" class="invalid-feedback">
+                                                <div *ngIf="normal.controls.normalExerciseRepetition.errors.required">Repetition Number is required</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-2">
+                                            <input type="text" formControlName="normalExerciseRounds" class="form-control" placeholder="Rounds" [ngClass]="{ 'is-invalid': submitted && normal.controls.normalExerciseRounds.errors}" />
+                                            <div *ngIf="submitted && normal.controls.normalExerciseRounds.errors" class="invalid-feedback">
+                                                <div *ngIf="normal.controls.normalExerciseRounds.errors.required">Rounds Number is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button type="button" class="btn btn-danger" (click)="
                                                             onClickRemoveBeginner(i)
                                                         ">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                     </button>
-                                                        </div>
                                         </div>
-                                        </div>
-                                        </div>
-                                  
                                     </div>
-<!-- <--PRO--> 
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <--PRO-->
 
 
 
 
 
-<div class="card-header" *ngIf="Display">
-    <ngb-tabset>
-        <ngb-tab title="Day-01">
-            <ng-template ngbTabContent>
-                <br>
-                <div *ngFor="let ticket of t.controls; let i = index" >
-                    <div [formGroup]="ticket">
-                        <div class="form-row">
-                            <div class="form-group col-3">
-                                
-                                <input type="text" formControlName="normalExerciseName"
-                                    class="form-control" placeholder="Exerxise Name" [ngClass]="{
+                        <div class="card-header" *ngIf="Display">
+                            <ngb-tabset>
+                                <ngb-tab title="Day-01">
+                                    <ng-template ngbTabContent>
+                                        <br>
+                                        <div class="alert alert-warning" role="alert" *ngIf="showErroMessage">
+                                            {{displayErrorMesage}}
+                                        </div>
+                                        <br>
+                                        <div *ngIf="Display">
+
+                                            <button type="button" class="btn btn-primary" (click)="onClickTickets($event)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button> &nbsp;
+                                            <button type="button" class="btn btn-danger" (click)=" onClickRemove( $event )">
+                                    <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
+                                </button>
+
+                                        </div>
+                                        <br>
+                                        <div *ngFor="let ticket of t.controls; let i = index">
+                                            <div [formGroup]="ticket">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Exerxise Name" [ngClass]="{
                                         'is-invalid':
                                             submitted &&
                                             ticket
@@ -255,30 +245,27 @@
                                                 .normalExerciseName
                                                 .errors
                                     }" />
-                                <div *ngIf="
+                                                        <div *ngIf="
                                         submitted &&
                                         ticket
                                             .controls
                                             .normalExerciseName
                                             .errors
                                     " class="invalid-feedback">
-                                    <div *ngIf="
+                                                            <div *ngIf="
                                             ticket
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                                 .required
                                         ">
-                                        Exersice
-                                        Name is
-                                        required
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-3">
-                             
-                                <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                    placeholder="Repetition" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="Repetition" class="form-control" [ngClass]="{
                                         'is-invalid':
                                             submitted &&
                                             ticket
@@ -286,31 +273,28 @@
                                                 .normalExerciseRepetition
                                                 .errors
                                     }" />
-                                <div *ngIf="
+                                                        <div *ngIf="
                                         submitted &&
                                         ticket
                                             .controls
                                             .normalExerciseRepetition
                                             .errors
                                     " class="invalid-feedback">
-                                    <div *ngIf="
+                                                            <div *ngIf="
                                             ticket
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                                 .required
                                         ">
-                                        Reps is
-                                        required
-                                    </div>
-                                </div>
-                            </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                            <div class="form-group col-3">
-                                <!-- <label>Sets</label> -->
-                                <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                    placeholder="Repetition" class="form-control"
-                                    [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <!-- <label>Sets</label> -->
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Repetition" class="form-control" [ngClass]="{
                                         'is-invalid':
                                             submitted &&
                                             ticket
@@ -318,89 +302,93 @@
                                                 .normalExerciseRounds
                                                 .errors
                                     }" />
-                                <div *ngIf="
+                                                        <div *ngIf="
                                         submitted &&
                                         ticket
                                             .controls
                                             .normalExerciseRounds
                                             .errors
                                     " class="invalid-feedback">
-                                    <div *ngIf="
+                                                            <div *ngIf="
                                             ticket
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                                 .required
                                         ">
-                                        Sets is
-                                        required
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-3">
-                             
-                                <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+
+                                                        <button type="button" class="btn btn-danger" (click)="
                                         onClickRemove(
                                             i
                                         )
                                     ">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
-                              
-                            </div>
-                          
-                        </div>
-                      
-                        </div>
 
-                </div>
-                <div class="form-row" *ngIf="this.f.tickets.value.length > 0 && ValidateCheckBoxDisabality('tab-01')">
-                    <div class="form-group col-6">
-                        <small class="text-muted">If you want to create Day-02  schedule, click the checkbox</small>
-                        <div class="form-check">
-                            <input type="checkbox"  class="form-check-input" formControlName="day1checkBox" (click)="enablitityTabs('tab-01')" >
-                            <label class="form-check-label"   for="dietPlan"><b>Add day-02</b></label>
-                          </div>  
-               
-                    </div> 
-                      </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="tabTwo">
-                <ng-template ngbTabTitle><b>Day-02</b></ng-template>
-                <ng-template ngbTabContent>
-                    <br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row" *ngIf="this.f.tickets.value.length > 0 && ValidateCheckBoxDisabality('tab-01')">
+                                            <div class="form-group col-6">
+                                                <small class="text-muted">If you want to create Day-02  schedule, click the checkbox</small>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" formControlName="day1checkBox" (click)="enablitityTabs('tab-01')">
+                                                    <label class="form-check-label" for="dietPlan"><b>Add day-02</b></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="nextStepper('tab-01')">Next Day <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </ng-template>
+
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabTwo">
+                                    <ng-template ngbTabTitle><b>Day-02</b></ng-template>
+                                    <ng-template ngbTabContent>
+                                        <br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickTuesday(
                                         $event
                                     )
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickRemoveTuesday(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let tuesday of T.controls;
                             let i = index
                         ">
-                        <div [formGroup]="tuesday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="tuesday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 tuesday
@@ -408,30 +396,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             tuesday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 tuesday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 tuesday
@@ -439,31 +424,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             tuesday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 tuesday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 tuesday
@@ -471,89 +453,91 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             tuesday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 tuesday
                                                     .controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickRemoveTuesday(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    
-                    </div>
-                    <div class="form-row" *ngIf="this.f.tuesday.value.length > 0 && ValidateCheckBoxDisabality('tab-02')">
-                        <div class="form-group col-6">
-                            <small class="text-muted">If you want to create Day-03  schedule, click the checkbox</small>
-                            <div class="form-check">
-                                <input type="checkbox"  class="form-check-input" formControlName="day2checkBox" (click)="enablitityTabs('tab-02')" >
-                                <label class="form-check-label"   for="dietPlan"><b>Add day-03</b></label>
-                              </div>  
-                   
-                        </div> 
-                          </div>
-                </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                
-            </ngb-tab>
-            <ngb-tab *ngIf="tabThree">
-                <ng-template ngbTabTitle><b>Day-03</b></ng-template>
-                <ng-template ngbTabContent>
-                    <br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                        </div>
+                                        <div class="form-row" *ngIf="this.f.tuesday.value.length > 0 && ValidateCheckBoxDisabality('tab-02')">
+                                            <div class="form-group col-6">
+                                                <small class="text-muted">If you want to create Day-03  schedule, click the checkbox</small>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" formControlName="day2checkBox" (click)="enablitityTabs('tab-02')">
+                                                    <label class="form-check-label" for="dietPlan"><b>Add day-03</b></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="nextStepper('tab-02')">Next Day <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+
+
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabThree">
+                                    <ng-template ngbTabTitle><b>Day-03</b></ng-template>
+                                    <ng-template ngbTabContent>
+                                        <br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickwednesday(
                                         $event
                                     )
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickRemovewednesday(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let wednesday of W.controls;
                             let i = index
                         ">
-                        <div [formGroup]="wednesday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="wednesday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 wednesday
@@ -561,30 +545,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             wednesday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 wednesday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 wednesday
@@ -592,31 +573,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             wednesday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 wednesday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 wednesday
@@ -624,85 +602,89 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             wednesday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 wednesday
                                                     .controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickRemovewednesday(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row" *ngIf="this.f.wednesday.value.length > 0 && ValidateCheckBoxDisabality('tab-03')">
-                        <div class="form-group col-6">
-                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
-                            <div class="form-check">
-                                <input type="checkbox"  class="form-check-input" formControlName="daycheckBox" (click)="enablitityTabs('tab-03')" >
-                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
-                              </div>  
-                   
-                        </div> 
-                          </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="tabFour">
-                <ng-template ngbTabTitle ><div ><b>Day-04</b></div></ng-template>
-                <ng-template ngbTabContent><br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="this.f.wednesday.value.length > 0 && ValidateCheckBoxDisabality('tab-03')">
+                                            <div class="form-group col-6">
+                                                <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" formControlName="daycheckBox" (click)="enablitityTabs('tab-03')">
+                                                    <label class="form-check-label" for="dietPlan"><b>Add day-04</b></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="nextStepper('tab-03')">Next Day <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabFour">
+                                    <ng-template ngbTabTitle>
+                                        <div><b>Day-04</b></div>
+                                    </ng-template>
+                                    <ng-template ngbTabContent><br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickThursday(
                                         $event
                                     )
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickRemoveThursday(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let thursday of Th.controls;
                             let i = index
                         ">
-                        <div [formGroup]="thursday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="thursday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 thursday
@@ -710,30 +692,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             thursday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 thursday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 thursday
@@ -741,31 +720,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             thursday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 thursday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 thursday
@@ -773,85 +749,82 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             thursday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 thursday
                                                     .controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickRemovewednesday(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row" *ngIf="this.f.thursday.value.length > 0 && ValidateCheckBoxDisabality('tab-04')">
-                        <div class="form-group col-6">
-                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
-                            <div class="form-check">
-                                <input type="checkbox"  class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-04')" >
-                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
-                              </div>  
-                   
-                        </div> 
-                          </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="tabFive">
-                <ng-template ngbTabTitle><b>Day-05</b></ng-template>
-                <ng-template ngbTabContent><br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="this.f.thursday.value.length > 0 && ValidateCheckBoxDisabality('tab-04')">
+                                            <div class="form-group col-6">
+                                                <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-04')">
+                                                    <label class="form-check-label" for="dietPlan"><b>Add day-04</b></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabFive">
+                                    <ng-template ngbTabTitle><b>Day-05</b></ng-template>
+                                    <ng-template ngbTabContent><br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickFriday(
                                         $event
                                     )
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickRemoveFriday(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let friday of Fr.controls;
                             let i = index
                         ">
-                        <div [formGroup]="friday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="friday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 friday
@@ -859,30 +832,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             friday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 friday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 friday
@@ -890,31 +860,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             friday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 friday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 friday
@@ -922,83 +889,80 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             friday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 friday
                                                     .controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickRemoveFriday(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row" *ngIf="this.f.friday.value.length > 0 && ValidateCheckBoxDisabality('tab-05')">
-                        <div class="form-group col-6">
-                            <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
-                            <div class="form-check">
-                                <input type="checkbox"  class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-05')" >
-                                <label class="form-check-label"   for="dietPlan"><b>Add day-04</b></label>
-                              </div>  
-                   
-                        </div> 
-                          </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="tabSix">
-                <ng-template ngbTabTitle><b>Day-06</b></ng-template>
-                <ng-template ngbTabContent><br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="this.f.friday.value.length > 0 && ValidateCheckBoxDisabality('tab-05')">
+                                            <div class="form-group col-6">
+                                                <small class="text-muted">If you want to create Day-04  schedule, click the checkbox</small>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" formControlName="day4checkBox" (click)="enablitityTabs('tab-05')">
+                                                    <label class="form-check-label" for="dietPlan"><b>Add day-04</b></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabSix">
+                                    <ng-template ngbTabTitle><b>Day-06</b></ng-template>
+                                    <ng-template ngbTabContent><br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickSat($event)
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickremoveSta(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let satarday of S.controls;
                             let i = index
                         ">
-                        <div [formGroup]="satarday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="satarday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 satarday
@@ -1006,30 +970,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             satarday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 satarday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 satarday
@@ -1037,31 +998,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             satarday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 satarday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 satarday
@@ -1069,75 +1027,72 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             satarday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 satarday
                                                     .controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickremoveSta(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="tabSeven">
-                <ng-template ngbTabTitle><b>Day-07</b></ng-template>
-                <ng-template ngbTabContent><br />
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <button type="button" class="btn btn-primary" (click)="
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab *ngIf="tabSeven">
+                                    <ng-template ngbTabTitle><b>Day-07</b></ng-template>
+                                    <ng-template ngbTabContent><br />
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <button type="button" class="btn btn-primary" (click)="
                                     onclickSunday(
                                         $event
                                     )
                                 ">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger"
-                                (click)="
+                            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="
                                     onclickremoveSunday(
                                         $event
                                     )
                                 ">
                                 <b></b>&nbsp;<i class="fa fa-eraser" aria-hidden="true"></i>
                             </button>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
 
-                    <div *ngFor="
+                                        <div *ngFor="
                             let sunday of Sun.controls;
                             let i = index
                         ">
-                        <div [formGroup]="sunday">
-                            <div class="form-row">
-                                <div class="form-group col-3">
-                                    <label>Exersice
+                                            <div [formGroup]="sunday">
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <label>Exersice
                                         Name</label>
-                                    <input type="text" formControlName="normalExerciseName"
-                                        class="form-control" placeholder="Leg Press" [ngClass]="{
+                                                        <input type="text" formControlName="normalExerciseName" class="form-control" placeholder="Leg Press" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 sunday
@@ -1145,30 +1100,27 @@
                                                     .normalExerciseName
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             sunday
                                                 .controls
                                                 .normalExerciseName
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 sunday
                                                     .controls
                                                     .normalExerciseName
                                                     .errors
                                                     .required
                                             ">
-                                            Exersice
-                                            Name is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Reps</label>
-                                    <input type="text" formControlName="normalExerciseRepetition" numbersOnly
-                                        placeholder="2" class="form-control" [ngClass]="{
+                                                                Exersice Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Reps</label>
+                                                        <input type="text" formControlName="normalExerciseRepetition" numbersOnly placeholder="2" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 sunday
@@ -1176,31 +1128,28 @@
                                                     .normalExerciseRepetition
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             sunday
                                                 .controls
                                                 .normalExerciseRepetition
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 sunday
                                                     .controls
                                                     .normalExerciseRepetition
                                                     .errors
                                                     .required
                                             ">
-                                            Reps is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
+                                                                Reps is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="form-group col-3">
-                                    <label>Sets</label>
-                                    <input type="text" formControlName="normalExerciseRounds" numbersOnly
-                                        placeholder="Ex:Full Time" class="form-control"
-                                        [ngClass]="{
+                                                    <div class="form-group col-3">
+                                                        <label>Sets</label>
+                                                        <input type="text" formControlName="normalExerciseRounds" numbersOnly placeholder="Ex:Full Time" class="form-control" [ngClass]="{
                                             'is-invalid':
                                                 submitted &&
                                                 sunday
@@ -1208,57 +1157,56 @@
                                                     .normalExerciseRounds
                                                     .errors
                                         }" />
-                                    <div *ngIf="
+                                                        <div *ngIf="
                                             submitted &&
                                             sunday
                                                 .controls
                                                 .normalExerciseRounds
                                                 .errors
                                         " class="invalid-feedback">
-                                        <div *ngIf="
+                                                            <div *ngIf="
                                                 sunday.controls
                                                     .normalExerciseRounds
                                                     .errors
                                                     .required
                                             ">
-                                            Sets is
-                                            required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label>Delete</label>
-                                    <br />
-                                    <button type="button" class="btn btn-danger" (click)="
+                                                                Sets is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-3">
+                                                        <label>Delete</label>
+                                                        <br />
+                                                        <button type="button" class="btn btn-danger" (click)="
                                             onclickremoveSunday(
                                                 i
                                             )
                                         ">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+
+
+                            </ngb-tabset>
+                        </div>
+
+                        <hr/>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <small class="text-muted">If you want to create diet plan to this schedule, click the checkbox</small>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" formControlName="dietPlan" (change)="viewDietPlan()">
+                                    <label class="form-check-label" for="dietPlan"><b>Add Diet Plan</b></label>
                                 </div>
+
                             </div>
                         </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-
-              
-        </ngb-tabset>
-    </div>
-
-                      <hr/>         
-                      <div class="form-row">
-                        <div class="form-group col-6">
-                            <small class="text-muted">If you want to create diet plan to this schedule, click the checkbox</small>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" formControlName="dietPlan" (change) ="viewDietPlan()" >
-                                <label class="form-check-label"   for="dietPlan"><b>Add Diet Plan</b></label>
-                              </div>  
-                   
-                        </div> 
-                          </div>
-                        <button type="button" class="btn btn-primary"  *ngIf="!displaySubmitbutton" (click)="onSubmit()">
+                        <button type="button" class="btn btn-primary" *ngIf="!displaySubmitbutton" (click)="onSubmit()">
                             Submit <i class="fa fa-book" aria-hidden="true"></i>
                         </button>
                         <hr/>
@@ -1266,117 +1214,113 @@
                         <div class="form-row">
                             <div class="form-group col-3">
 
-</div>
- </div>
+                            </div>
+                        </div>
 
 
 
                     </form>
 
-                    
-                    <form  [formGroup]="DietPlanGroup" (ngSubmit)="onSubmitDietPlan()"   *ngIf="displayDietPlan">
-                    <div class="card-header">
-                        <div class="form-row">
-                            <h4>
-                                <i class="fa fa-cutlery" aria-hidden="true"></i>&nbsp; <b>Diet Meal Plan</b>
-                            </h4>
-</div>
-                    </div>
-                    <hr />
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="userID"><b>Meal diet plan Id</b></label>
-                                <input type="text" class="form-control inputClass" [readonly] = "true" formControlName="dietPlanId"
-                                     />
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="email"><b>Diet Plan Name</b></label>
-                                <input type="email" class="form-control inputClass"  placeholder="300 muscle diet"
-                                [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.dietPlanName.errors}" formControlName="dietPlanName" />
-                                <div *ngIf=" dietSubmitted && dietPlan.dietPlanName.errors" class="invalid-feedback">
-                                    <div *ngIf="dietPlan.dietPlanName.errors.required">Diet plan Name is required</div>
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-2">
-                                <label for="email"><b>Add intervals</b></label>
-                                <button type="button" (click) ="addIntervals()" class="form-control btn btn-success">
+                    <form [formGroup]="DietPlanGroup" (ngSubmit)="onSubmitDietPlan()" *ngIf="displayDietPlan">
+                        <div class="card-header">
+                            <div class="form-row">
+                                <h4>
+                                    <i class="fa fa-cutlery" aria-hidden="true"></i>&nbsp; <b>Diet Meal Plan</b>
+                                </h4>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="userID"><b>Meal diet plan Id</b></label>
+                                    <input type="text" class="form-control inputClass" [readonly]="true" formControlName="dietPlanId" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="email"><b>Diet Plan Name</b></label>
+                                    <input type="email" class="form-control inputClass" placeholder="300 muscle diet" [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.dietPlanName.errors}" formControlName="dietPlanName" />
+                                    <div *ngIf=" dietSubmitted && dietPlan.dietPlanName.errors" class="invalid-feedback">
+                                        <div *ngIf="dietPlan.dietPlanName.errors.required">Diet plan Name is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="email"><b>Add intervals</b></label>
+                                    <button type="button" (click)="addIntervals()" class="form-control btn btn-success">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>  
+                                </button>
                                 </div>
 
                                 <div class="form-group col-md-2">
                                     <label for="email"><b>Remove All</b></label>
-                                    <button type="button" (click) ="removeIntervals($event)" [disabled] ="disaledButton" class="form-control btn btn-danger">
+                                    <button type="button" (click)="removeIntervals($event)" [disabled]="disaledButton" class="form-control btn btn-danger">
                                         <i class="fa fa-minus" aria-hidden="true"></i>
-                                    </button>  
-                                    </div>
-
-                        </div>
-                        <div class="form-row">
-                            <label for="Note"><b>Note</b></label>
-                            <textarea class="form-control" id="note" placeholder="Note" formControlName = "dietPlanNote" rows="3"></textarea>
-                        </div>
-                        
-                        <div *ngFor = "let dietPlan of DietPlanGroup.get('intervalNames').controls; let i =index"  class="list-group list-group-flush">
-                            <div  class="list-group-item" [formGroup]="dietPlan">
-                            <div class="form-row">
-                                <div class="form-group col-md-2">
-                                    <button type="button" (click) ="pushValuetoTable(dietPlan.controls.intervalItemArray)" class="btn btn-success">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                    </button>  
-                                    &nbsp;
-                                    <button type="button" (click) ="popValuetoTable(i , dietPlan.controls.intervalItemArray)" class="btn btn-danger">
-                                       <i class="fa fa-minus" aria-hidden="true"></i>
-                                    </button>  
+                                    </button>
                                 </div>
-                            <div class="form-group col-md-6">
-                                    <input type="text" formControlName="intervalName" class="form-control"  placeholder="Interval Name"
-                                    [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.controls.intervalName.errors}"/>
-                                    <div *ngIf="dietSubmitted && dietPlan.controls.intervalName.errors" class="invalid-feedback">
-                                        <div *ngIf="dietPlan.controls.intervalName.errors.required">Skill Name is required</div>
-                                    </div>
+
                             </div>
-                         
+                            <div class="form-row">
+                                <label for="Note"><b>Note</b></label>
+                                <textarea class="form-control" id="note" placeholder="Note" formControlName="dietPlanNote" rows="3"></textarea>
                             </div>
-                            <div *ngFor="let data of dietPlan.get('intervalItemArray').controls; let i = index">
-                                <div  class="list-group-item" [formGroup]="data">
+
+                            <div *ngFor="let dietPlan of DietPlanGroup.get('intervalNames').controls; let i =index" class="list-group list-group-flush">
+                                <div class="list-group-item" [formGroup]="dietPlan">
                                     <div class="form-row">
-                                        <div class="form-group col-md-3">
-                                            <input type="text" formControlName="foodItemName" class="form-control"  placeholder="Food item Name" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.foodItemName.errors}"/>
-                                            <div *ngIf="dietSubmitted && data.controls.foodItemName.errors" class="invalid-feedback">
-                                                <div *ngIf="data.controls.foodItemName.errors.required">Food item Name is required</div>
+                                        <div class="form-group col-md-2">
+                                            <button type="button" (click)="pushValuetoTable(dietPlan.controls.intervalItemArray)" class="btn btn-success">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button> &nbsp;
+                                            <button type="button" (click)="popValuetoTable(i , dietPlan.controls.intervalItemArray)" class="btn btn-danger">
+                                       <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" formControlName="intervalName" class="form-control" placeholder="Interval Name" [ngClass]="{ 'is-invalid': dietSubmitted && dietPlan.controls.intervalName.errors}" />
+                                            <div *ngIf="dietSubmitted && dietPlan.controls.intervalName.errors" class="invalid-feedback">
+                                                <div *ngIf="dietPlan.controls.intervalName.errors.required">Skill Name is required</div>
                                             </div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" formControlName="quantity" numbersOnly class="form-control"  placeholder="Quanity Number" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.quantity.errors}"/>
-                                                <div *ngIf="dietSubmitted && data.controls.quantity.errors" class="invalid-feedback">
-                                                    <div *ngIf="data.controls.quantity.errors.required">Quanity Number is required</div>
-                                                </div>
+                                        </div>
+
+                                    </div>
+                                    <div *ngFor="let data of dietPlan.get('intervalItemArray').controls; let i = index">
+                                        <div class="list-group-item" [formGroup]="data">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" formControlName="foodItemName" class="form-control" placeholder="Food item Name" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.foodItemName.errors}" />
+                                                    <div *ngIf="dietSubmitted && data.controls.foodItemName.errors" class="invalid-feedback">
+                                                        <div *ngIf="data.controls.foodItemName.errors.required">Food item Name is required</div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <input type="text" formControlName="mearurmentUnit"   class="form-control"  placeholder="mearurment Unit" />
-                                                    
+                                                    <input type="text" formControlName="quantity" numbersOnly class="form-control" placeholder="Quanity Number" [ngClass]="{ 'is-invalid': dietSubmitted && data.controls.quantity.errors}" />
+                                                    <div *ngIf="dietSubmitted && data.controls.quantity.errors" class="invalid-feedback">
+                                                        <div *ngIf="data.controls.quantity.errors.required">Quanity Number is required</div>
                                                     </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" formControlName="mearurmentUnit" class="form-control" placeholder="mearurment Unit" />
 
-                                                    <div class="form-group col-md-2">
-                                                    <button type="button" (click) ="popSubValuetoTable(i)" class="btn btn-danger">
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                    <button type="button" (click)="popSubValuetoTable(i)" class="btn btn-danger">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                     </button>  
-                                                     </div>
+                                                     </button>
+                                                </div>
+
+                                            </div>
 
                                         </div>
-                        
-                            </div> 
-                            </div>
-                            </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" *ngIf = "displaySubmitbutton" (click)="onSubmit()">
+                        <button type="button" class="btn btn-primary" *ngIf="displaySubmitbutton" (click)="onSubmit()">
                             Submit <i class="fa fa-book" aria-hidden="true"></i>
                         </button>
-                </form>
+                    </form>
                 </div>
             </div>
         </div>

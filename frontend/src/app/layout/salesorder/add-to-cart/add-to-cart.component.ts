@@ -77,6 +77,14 @@ export class AddToCartComponent implements OnInit {
   }
 
   changeValue(inputNumber, data) {
+    if(inputNumber.value == ""){
+      Swal.fire(
+        'Oops',
+        'Quantity value is empty',
+        'error'
+      )
+      return;
+    }
     if(this.checkQuanityOfTheItem(data ,inputNumber)){
     this.changeCartData(inputNumber.value, data)
     this.loadDataCart();
@@ -138,8 +146,9 @@ export class AddToCartComponent implements OnInit {
 
     modelRef.componentInstance.user = cartData;
     modelRef.result.then((result) => {
-      if (result) {
-      //  this.loadData();
+      if (result == undefined) {
+        localStorage.removeItem('cartObject');
+        this.router.navigate(['/myOrder']);
       }
       });
 
@@ -209,7 +218,12 @@ export class AddToCartComponent implements OnInit {
   this.showPaymentButtondisabled = false;
   return true;
   }
-  enabalityOfPaymentButton(inputNumber){
+  enabalityOfPaymentButton(inputNumber ,data){
+    this.showMessage = false;
+ if(Number(inputNumber.value)> data.avlableQty){
+  this.showMessage = true;
+  inputNumber.value = data.avlableQty -1;
+ }
     var inputValue = inputNumber.value;
     if(inputValue !=""){
       this.showPaymentButtondisabled = true;

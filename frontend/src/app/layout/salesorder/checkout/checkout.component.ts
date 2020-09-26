@@ -27,6 +27,7 @@ export class CheckoutComponent implements OnInit {
   submitted = false;
   showStatus = false;
   showMessage = false;
+  myOrderId : string;
   invoiceId:any;
   constructor(
     public activeModal: NgbActiveModal,
@@ -50,7 +51,7 @@ export class CheckoutComponent implements OnInit {
       email:[''],
       totalPrice:[''],
       balance:[''],
-      payingPrice:['',Validators.required]
+      payingPrice:['']
     })
     var m = moment();
     this.currentDate =m.format('L');
@@ -85,6 +86,22 @@ export class CheckoutComponent implements OnInit {
     
   }
     this.invoiceId =iId;
+
+  //My order payment
+   //Id cart Gen  
+   var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
+   var string_length = 8;
+   var oId = "O_" + "";
+   for (var i = 0; i < string_length; i++) {
+     var rnum = Math.floor(Math.random() * chars.length);
+     oId += chars.substring(rnum, rnum + 1);
+     
+   }
+   this.myOrderId = oId;
+
+
+
+
   }
   closeModel() {
     this.activeModal.close();
@@ -94,10 +111,10 @@ export class CheckoutComponent implements OnInit {
   }
   onSubmit() {
 this.submitted=true;
- if(Number(this.f.totalPrice.value) > Number(this.f.payingPrice.value)){
-  Swal.fire('Oops...', `Please check your paying price is correct😊`, 'error');
-  return;
- }
+//  if(Number(this.f.totalPrice.value) > Number(this.f.payingPrice.value)){
+//   Swal.fire('Oops...', `Please check your paying price is correct😊`, 'error');
+//   return;
+//  }
  if(this.paymentGroup.valid){
   let cartData ={
     cartId:this.f.cartId.value,
@@ -120,14 +137,25 @@ this.submitted=true;
      email:this.f.email.value,
      paymentTotal:this.f.totalPrice.value,
  }
- console.log(cartData);
 
+  let myOrderData= {
+    orderId : this.myOrderId,
+    invoicePrinted: false,
+    email:this.f.email.value,
+    userId:this.f.userID.value,
+    orderAction:1,
+    CartValues:this.user.CartValues,
+    paymentTotal:this.f.totalPrice.value,
+
+  }
+ console.log(cartData);
+ 
 //create the invoice report
 const documentDefinition = this.getDocumentDefinition(invoiceData ,cartData);
 pdfMake.createPdf(documentDefinition).open();
 
 
- this.orderService.saveCartData(cartData ,invoiceData)
+ this.orderService.saveCartData(cartData ,invoiceData ,myOrderData)
  .subscribe(
    res=>{
      if(res==1){
@@ -137,8 +165,7 @@ pdfMake.createPdf(documentDefinition).open();
         icon: 'success'
       });
       this.activeModal.close();
-      localStorage.removeItem('cartObject');
-      this.router.navigate(['/sales_order_cart']);
+     
 
      }
    }
@@ -189,7 +216,7 @@ return {
         },
         [
           {
-            text: 'Item Invoice',
+            text: 'Order Recipt',
             color: '#333333',
             width: '*',
             fontSize: 28,
@@ -202,7 +229,7 @@ return {
               {
                 columns: [
                   {
-                    text: 'Invoice No.',
+                    text: 'Order No.',
                     color: '#aaaaab',
                     bold: true,
                     width: '*',
@@ -464,36 +491,8 @@ return {
         headerRows: 1,
         widths: ['*', 'auto'],
         body: [
-          [
-            {
-              text: 'Paying Price',
-              border: [false, true, false, true],
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-            },
-            {
-              border: [false, true, false, true],
-              text: `Rs : ${cartData.payingPrice}`,
-              alignment: 'right',
-              fillColor: '#f5f5f5',
-              margin: [0, 5, 0, 5],
-            },
-          ],
-          [
-            {
-              text: 'Payment Balance',
-              border: [false, false, false, true],
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-            },
-            {
-              text:  `Rs : ${-cartData.balancePrice}`,
-              border: [false, false, false, true],
-              fillColor: '#f5f5f5',
-              alignment: 'right',
-              margin: [0, 5, 0, 5],
-            },
-          ],
+          
+        
           [
             {
               text: 'Total Amount',
@@ -522,7 +521,7 @@ return {
       style: 'notesTitle',
     },
     {
-      text: 'Some notes goes here \n Notes second line',
+      text: 'Hi Customer show this recipt to casier and buy your order',
       style: 'notesText',
     },
   ],

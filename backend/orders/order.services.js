@@ -9,6 +9,7 @@ const GRN = db.GRN;
 const SalesOrder = db.SalesOrder;
 const Cart = db.Cart;
 const Invoice = db.Invoice;
+const MyOrder = db.MyOrder;
 var stockId = "";
 module.exports = {
     InsertData,
@@ -27,8 +28,13 @@ module.exports = {
     routeIdData,
     saveCartData,
     return_report_purchase_order,
-    loadAllinvoiceData_service
+    loadAllinvoiceData_service,
+    getMyOrders_service
 };
+
+async function getMyOrders_service(id){
+    return  await MyOrder.find({userId:id});
+}
 
 async function loadAllinvoiceData_service() {
     return  await Invoice.find({});
@@ -68,10 +74,13 @@ async function return_report_purchase_order(data){
 }
 
 async function saveCartData(data) {
+    //console.log(data.myOrderData);
     var cartitemDetails = data.cartData;
     var ivoiceData = data.invoiceData;
+    var myOrderData = data.myOrderData;
     const cart = new Cart(cartitemDetails);
     const invoice = new Invoice(ivoiceData);
+    const myOrder = new MyOrder(myOrderData);
     console.log('iiui')
 //console.log(cartitemDetails)
     //return;
@@ -96,6 +105,7 @@ console.log(cart.itemId);
 
     await cart.save();
     await invoice.save();
+    await myOrder.save();
     return 1;
 
 //         cartValue.forEach((cart , index)=>{

@@ -64,7 +64,9 @@ export class DietPlanComponent implements OnInit {
 
   }
 
-
+get getDietPlanData(){
+  return this.dietPlanView;
+}
 
 }
 

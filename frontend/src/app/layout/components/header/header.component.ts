@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     // public cartItemsUser:Observable<Cart>;
     currentUser:any;
     cartItem:any;
-
+    public currentCart: Observable<Cart>;
     constructor(
         private translate: TranslateService,
          public router: Router,
@@ -37,8 +37,7 @@ export class HeaderComponent implements OnInit {
     // this.cartItemsUser  = this.cartItemsSubject.asObservable();
     this.cartItem = this.authenticationService.cartDataValue;
                 // console.log(this.cartItemsSubject.value);
-                console.log('HI')
-                console.log(this.cartItem);
+        
         this.router.events.subscribe(val => {
             if (
                 val instanceof NavigationEnd &&
@@ -49,10 +48,19 @@ export class HeaderComponent implements OnInit {
             }
         });
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      
     }
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
+
+        this.authenticationService.cartItemsUser.subscribe(
+            cart=>{
+            this.cartItem = cart;
+             
+            }
+        )
+
      
     }
 
@@ -85,5 +93,12 @@ export class HeaderComponent implements OnInit {
     }
     changeLang(language: string) {
         this.translate.use(language);
+    }
+
+    getCartData() {
+        if(this.cartItem){
+            return this.cartItem.length
+        }
+            return 0;
     }
 }

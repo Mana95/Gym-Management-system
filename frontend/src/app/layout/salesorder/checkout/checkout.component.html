@@ -114,15 +114,7 @@
           </div>
         </div> -->
         <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="cc-name">Paying Price Rs:</label>
-            
-            <input type="text" class="form-control" (input)="checkwithTotal($event)" formControlName="payingPrice" appTwoDigitDecimaNumber id="cc-name" placeholder="45000" [ngClass]="{ 'is-invalid': submitted && f.payingPrice.errors }">
-            <!-- <small class="text-muted">Full name as displayed on card</small> -->
-            <div *ngIf="submitted && f.payingPrice.errors" class="invalid-feedback">
-              <div *ngIf="f.payingPrice.errors.required">Paying price is required</div>
-            </div>
-          </div>
+      
           <div class="col-md-6 mb-3">
             <label for="cc-number">Totol Payment Rs:</label>
             <input type="text" class="form-control" formControlName ="totalPrice" readonly="true" id="cc-number" placeholder="" required>
@@ -133,16 +125,12 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="cc-number">Balance Rs:</label>
-            <input type="text" class="form-control" formControlName ="balance" readonly="true" id="cc-number" placeholder="0" required>
-         
-          </div>
+   
          
         </div>
       
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit"> <i class="fa fa-check" aria-hidden="true"></i> Genarate invoice</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit"> <i class="fa fa-check" aria-hidden="true"></i> Genarate Reciept</button>
       </form> 
     </div>
   </div>

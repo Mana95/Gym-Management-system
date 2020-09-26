@@ -92,7 +92,7 @@ export class InstructorsComponent implements OnInit {
       .calendar();
       
   this.registrationGroup.controls["currnetJoinDate"].setValue(
-      this.currentDate
+    moment().format('YYYY-MM-DD')
     );
 
     var chars = "ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890";
