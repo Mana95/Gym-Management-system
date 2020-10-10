@@ -29,8 +29,78 @@ module.exports = {
     saveCartData,
     return_report_purchase_order,
     loadAllinvoiceData_service,
-    getMyOrders_service
+    getMyOrders_service,
+    getOrderById_service,
+    updateOrderInvoiceStatus_service
 };
+async function updateOrderInvoiceStatus_service(bodyData){
+    let cartitemDetails = bodyData.orderData;
+    let invoiceData = bodyData.invoice;
+    cartitemDetails.CartValues.forEach((cart, index)=>{
+            ItemData.updateOne(
+                {id:cart.itemId},
+                {
+                    $inc:{quantity: -Number(cart.qty)}
+                   },  {new: true } , function (err, responses) {
+                       if (err) {
+                           console.log(err);
+                           return {mesage:'Internal server error query updated failed' , errorStatus:true}
+                           
+                       }else{
+                          // console.log(responses)
+                           
+                       }
+                   });
+        
+        });
+        let updateInfoOrder = {
+            orderAction:2,
+            invoicePrinted:true
+        }
+
+        var _updateOrder = await MyOrder.updateOne(
+            {_id:cartitemDetails._id},{
+                $set: updateInfoOrder,
+            },function(error , res){
+                if(error){
+                    console.log('Order')
+                    return {mesage:'Internal server error query updated failed' , errorStatus:true}
+                }else{
+                 //   console.log('Ordersssss')
+                }
+            }
+        );
+        if(_updateOrder){
+            let _updateInfoInvoice = {
+                invoicePrinted:true,
+                orderAction:2,
+                invoiceDetails : "Success",
+            }
+            
+            var updateInvoice = await Invoice.updateOne(
+                {_id:invoiceData._id},{
+                    $set: _updateInfoInvoice,
+                },function(error , res){
+                    if(error){
+                        console.log('Invoice')
+                        return {mesage:'Internal server error query updated failed' , errorStatus:true}
+                    }else{
+                        //console.log('Invoice sssss')
+                    }
+                }
+            );
+            if(updateInvoice){
+                return {mesage:'Transaction is completed' ,  errorStatus:false}
+            }
+        }
+
+
+
+}
+
+async function getOrderById_service(id){
+    return  await MyOrder.find({orderId:id});
+}
 
 async function getMyOrders_service(id){
     return  await MyOrder.find({userId:id});
@@ -84,24 +154,7 @@ async function saveCartData(data) {
     console.log('iiui')
 //console.log(cartitemDetails)
     //return;
-cartitemDetails.CartValues.forEach((cart, index)=>{
-console.log(cart.itemId);
-    ItemData.updateOne(
-        {id:cart.itemId},
-        {
-            $inc:{quantity: -Number(cart.qty)}
-           },  {new: true } , function (err, responses) {
-               if (err) {
-                   console.log(err);
-                   return 4;
-                   
-               }else{
-                   console.log(responses)
-                   
-               }
-           });
 
-})
 
     await cart.save();
     await invoice.save();

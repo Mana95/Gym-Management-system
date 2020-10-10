@@ -374,10 +374,19 @@ function getAllSchedule(req ,res,next){
     .catch(err => next(err));
 }
 
-        function saveScheduleType (req , res, next )
+ function saveScheduleType (req , res, next )
 {
     userService.savescheduleType(req.body)
-    .then(membership => res.json(membership))
+    .then(user =>{
+        if(user != undefined && user.errorStatus !=undefined && user.errorStatus ==true){
+            res.status(500).send({
+                message: user
+            })
+        }else{
+            res.json(user)
+        }
+    }
+    )
     .catch(err => next(err));
 }
     function updateStatus(req ,res, next){

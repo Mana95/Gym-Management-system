@@ -41,13 +41,13 @@ export class DietPlanComponent implements OnInit {
   this.currentUser = this.currentUserSubject.asObservable(); 
   this.id =  this.currentUserSubject.value.user_id;
 
-  this.loadDietMeal();
+ 
 }
   ngOnInit(){
     
     //this.role =  this.currentUserSubject.value.role;
    
-    
+    this.loadDietMeal();
 
   }
   loadDietMeal() {
@@ -56,7 +56,7 @@ export class DietPlanComponent implements OnInit {
     .subscribe(
       response=>{
         this.dietPlanView = response;
-        //console.log(this.dietPlanView.length);
+   console.log(this.dietPlanView.length);
       }
     )
   }

@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+
+    
         // this.authenticationService.autoUpdateStatus()
         // .subscribe(
         //     response=>{

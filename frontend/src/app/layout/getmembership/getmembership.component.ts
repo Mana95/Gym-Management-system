@@ -11,10 +11,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User, UserRegistrationStatus } from "src/app/_models";
-import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
-import { membershipPeriodType ,NicCheck, AlertMessages } from 'src/app/_models/schedule-status';
-import { map } from 'rxjs/operators';
-import { usernameStrengthVaidate } from 'src/app/_models/usernamValidation';
+import { membershipPeriodType, AlertMessages } from 'src/app/_models/schedule-status';
 
 @Component({
   selector: "app-getmembership",

@@ -63,40 +63,33 @@ export class InstructorsViewComponent implements OnInit {
   }
 
   deleteInstructor(data){
-
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
+      text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
-      if (result.value) {
+      if (result.isConfirmed) {
         this.authenticationService.deleteInstructorData(data)
         .subscribe(
           response=>{
-            console.log(response);
-            if(response)
-            Swal.fire(
-              'Deleted!',
-              'Your imaginary file has been deleted.',
-              'success'
-            )
+          
+      if(response)
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
             this.loadTableData();
           }
         )
-      
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire(
-        'Cancelled',
-        'Your imaginary file is safe :)',
-        'error'
-      )
+
       }
     })
+   
 
   
   }

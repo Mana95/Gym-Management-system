@@ -22,7 +22,7 @@
             </div>
         </div><br/>
 
-          <table class="table table-striped table-hover table-bordered" id="mytable">
+          <table class="table table-striped table-hover table-bordered table-sm" id="mytable">
             <caption>
               <b>View my order Details</b>
             </caption>
@@ -47,7 +47,7 @@
                 <td style="text-align: center; color: red;" *ngIf="data.invoicePrinted ==false"><b><i class="fa fa-clock-o" aria-hidden="true"  ngbTooltip="Invoice print pending"></i></b></td>
                 
                 <td style="text-align: center; color: darkgoldenrod;" *ngIf="data.orderAction ==1"><b>Pending</b></td>
-                <td style="text-align: center; color: red;" *ngIf="data.orderAction ==2"><b>Completed</b></td>
+                <td style="text-align: center; color: green;" *ngIf="data.orderAction ==2"><b>Completed</b></td>
                 <td style="text-align: center; color: red;" *ngIf="data.orderAction ==3"><b>Rejected</b></td>
                 <td style="text-align: center; color: red;" *ngIf="data.orderAction ==4"><b>Expired</b></td>
                  

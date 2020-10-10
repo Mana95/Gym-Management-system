@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from "moment";
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 @Component({
   selector: 'app-schedule-type',
   templateUrl: './schedule-type.component.html',
@@ -116,9 +117,14 @@ if(this.scheduleTypeGroup.valid){
   this.autenticationService.saveScheduleType(schedule)
   .subscribe(
     data=>{
-      console.log(data)
+
+      MessageAlertDisplay.SuccessToastMessage('Schedule Type successfully created');
     },
     error=>{
+      if(error && error.errorStatus){
+
+      }
+
       console.log(error);
     },
     () =>

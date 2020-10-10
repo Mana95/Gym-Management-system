@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit {
     showSchdulerMenu:string;
     showMenuCat: string;
     showMenuRequest: string;
+    dietPlan:string;
     addMembership:string;
     pushRightClass: string;
     showMenuSch:string;
@@ -282,6 +283,14 @@ get PurchaseOrder(){
             this.showMenuCat = element;
         }
     }
+    addExpandDietClass(element:any) {
+        if (element === this.dietPlan) {
+            this.dietPlan = '0';
+        } else {
+            this.dietPlan = element;
+        }
+    }
+
     addMembershipExpandClass(element:any){
         if (element === this.addMembership) {
             this.addMembership = '0';

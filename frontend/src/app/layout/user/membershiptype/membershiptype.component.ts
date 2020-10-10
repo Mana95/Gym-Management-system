@@ -1,3 +1,4 @@
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 import { FormGroup, Form, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -6,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { distinct } from 'rxjs/operators';
 import { states } from 'src/app/_models/common';
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-membershiptype',
   templateUrl: './membershiptype.component.html',
@@ -148,7 +149,12 @@ this.autenticationService.getAllMembershipType()
 onSubmit() {
     this.submitted = true;
     this.loading = true;
+    if(this.f.amount.value != "")
     var amount =  this.f.amount.value.toFixed(2);
+
+    // if(this.membershipGroup.valid && this.f.amount.value <= 1500){
+    //     return;
+    // }
    
     let typeData = {
       membership_type_id: this.f.membership_type_id.value,
@@ -161,27 +167,35 @@ onSubmit() {
       status:true
 
     }
-    console.log(typeData);
+  
+if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value == "")){
 
-   this.autenticationService.insertMembershipTypeData(typeData)
-   .subscribe(
-     response=> {
-       console.log(response);
-     },
-     error=>{
-       console.log(error);
-     },
-     ()=>{
-       console.log("Your Membership Data is succesfully inserted into Mongodb Collection");
-       this.submitted = false;
-       this.membershipGroup.reset();
-       this.AssignData();
-      
-     }
+  this.autenticationService.insertMembershipTypeData(typeData)
+  .subscribe(
+    response=> {
+      console.log(response);
+      MessageAlertDisplay.errorMessage();
+    },
+    error=>{
+      MessageAlertDisplay.responseErrorMessage(`${typeData.membershipName} is already inserted`);
+      console.log(error);
+    },
+    ()=>{
+      console.log("Your Membership Data is succesfully inserted into Mongodb Collection");
+      MessageAlertDisplay.SuccessToastMessage('Membership Type successfully created');
+      this.submitted = false;
+      this.membershipGroup.reset();
+      this.AssignData();
+     
+    }
 
-   )
+  )
 
 
+}else{
+  MessageAlertDisplay.errorMessage();
+}
+   
 
   }
 
@@ -204,4 +218,12 @@ onSubmit() {
     }
   }
 
+
+  getFormValidation () {
+    if(( this.f.amount.value =="" && 
+    this.f.membershipCatagory.value =="" &&  this.f.typeName.value =="" &&  this.f.note.value =="") && (this.f.YMDValue.value == "" || this.f.month.value == "" )){
+      return false;
+    }
+    return true;
+  }
 }

@@ -15,7 +15,7 @@ import { ChildboxComponent } from './Comment_templates/childbox/childbox.compone
 import { NgxStarRatingModule } from 'ngx-star-rating';
 
 @NgModule({
-  declarations: [SalesorderComponent, CommentComponent, ReplyCommentComponent, ChildboxComponent],
+  declarations: [SalesorderComponent, ReplyCommentComponent, ChildboxComponent],
  
   imports: [
     CommonModule , SalesOrderRoutingModule,ReactiveFormsModule,FormModule ,NgbModule ,NgxStarRatingModule

@@ -24,11 +24,44 @@ router.get('/getAllCartItems', getAllCartItems);
 router.get('/poReports', return_report_purchase_order);
 router.get('/loadAllinvoiceData', loadAllinvoiceData_controller);
 router.get('/getMyOrders/:id', getMyOrders_controller);
+router.get('/getOrderById/:id', getOrderById_controller);
+
 
 router.post('/saveCartData', saveCartData);
 router.post('/updateStatus', UpdateStatus);
 
+router.patch('/updateOrderInvoiceStatus', updateOrderInvoiceStatus_controller);
+
 ///report
+function updateOrderInvoiceStatus_controller(req ,res, next){
+
+  orderService.updateOrderInvoiceStatus_service(req.body)
+  .then(cart => {
+            
+    if(cart != undefined && cart.errorStatus !=undefined && cart.errorStatus ==true){
+        res.status(500).send({
+            message: cart
+        })
+    
+    }else{
+        res.json(cart)
+    }
+  
+    // res.json(user)
+
+})
+.catch(err => next(err));
+}
+
+
+
+
+function getOrderById_controller(req ,res, next){
+    orderService.getOrderById_service(req.params.id)
+    .then(cart => res.json(cart))
+    .catch(err => next(err));
+}
+
 
 function getMyOrders_controller(req ,res, next){
     orderService.getMyOrders_service(req.params.id)

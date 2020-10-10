@@ -13,7 +13,7 @@
                 <h2>
                   <b>My Membership Status</b>
                 </h2>
-                <div class="alert alert-warning" role="alert" *ngIf="requestMembershipStatus.length==0">
+                <div class="alert alert-warning" role="alert" *ngIf="!approvedStatus">
                   Get your membership <a href="http://localhost:4200/newmembership">click here</a>
                 </div>
           

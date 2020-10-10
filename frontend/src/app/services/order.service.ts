@@ -125,4 +125,12 @@ export class OrderService {
     return this.http.get(config.PAPYRUS + `/order/getMyOrders/${id}`);
   }
 
+
+  getOrderById(id){
+    return this.http.get(config.PAPYRUS + `/order/getOrderById/${id}`);
+  }
+
+  updateOrderInvoiceStatus(invoice, orderData){
+    return this.http.patch(config.PAPYRUS + `/order/updateOrderInvoiceStatus`,{invoice, orderData});
+  }
 }

@@ -14,6 +14,13 @@ const schema = new Schema({
         type : String,
         required: true,   
     },
+    clientName:{
+        type : String,
+       
+    },
+    cashierName:{
+        type : String,
+    },
     invoicePrinted: {
         type:Boolean
     },

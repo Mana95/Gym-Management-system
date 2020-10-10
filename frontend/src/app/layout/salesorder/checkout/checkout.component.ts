@@ -1,3 +1,4 @@
+import { GymAdapterClass } from 'src/app/common-class/gym-adapterClass';
 import { OrderService } from 'src/app/services/order.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -54,8 +55,8 @@ export class CheckoutComponent implements OnInit {
       payingPrice:['']
     })
     var m = moment();
-    this.currentDate =m.format('L');
-    this.checkoutDetail = this.user.CartValues;
+  this.currentDate =m.format('L');
+  this.checkoutDetail = this.user.CartValues;
   this.paymentGroup.controls['userID'].setValue(this.logInUserData.user_id);
   this.paymentGroup.controls['firstName'].setValue(this.logInUserData.firstName);
   this.paymentGroup.controls['lastName'].setValue(this.logInUserData.lastName);
@@ -136,6 +137,8 @@ this.submitted=true;
      invoiceType:'cart Process',
      email:this.f.email.value,
      paymentTotal:this.f.totalPrice.value,
+     orderId:this.myOrderId,
+     orderAction:1
  }
 
   let myOrderData= {
@@ -146,12 +149,13 @@ this.submitted=true;
     orderAction:1,
     CartValues:this.user.CartValues,
     paymentTotal:this.f.totalPrice.value,
+    clientName:this.f.firstName.value,
 
   }
  console.log(cartData);
  
 //create the invoice report
-const documentDefinition = this.getDocumentDefinition(invoiceData ,cartData);
+const documentDefinition = GymAdapterClass.getDocumentDefinition(myOrderData);
 pdfMake.createPdf(documentDefinition).open();
 
 

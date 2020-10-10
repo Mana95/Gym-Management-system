@@ -153,10 +153,38 @@
         
 
 <!--Shcdule Requesting-->
-<a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor || !onlyMember">
+<!-- <a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf = "Instructor || !onlyMember">
     <i class="fa fa-cutlery"></i>&nbsp;
     <span>{{ 'Diet Plan' | translate }}</span>
+</a> -->
+
+<!-- diet plan -->
+<div class="nested-menu" *ngIf = "Instructor || !onlyMember">
+    <a class="list-group-item" (click)="addExpandDietClass('pages')">
+        <i class="fa fa-tags"></i>&nbsp;
+        <span>{{ 'Diet Plan' | translate }}</span>
 </a>
+<li class="nested" [class.expand]="dietPlan === 'pages'">
+    <ul class="submenu">
+        <li>
+            <a [routerLink]="['/diet_plan']" [routerLinkActive]="['router-link-active']"  class="list-group-item">
+                <i class="fa fa-shopping-bag"></i>&nbsp;
+                <span>{{ 'All DietPlan' | translate }}</span>
+            </a>
+        </li>
+        <!-- <li>
+            <a href="javascript:void(0)" [routerLink]="['/new-diet-plan']" [routerLinkActive]="['router-link-active']" >
+                <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
+                <span>{{ 'New DietPlan' | translate }}</span>
+            </a>
+        </li>
+         -->
+        </ul>
+</li>
+
+
+</div>
+
 
 <!-- Catagory -->
 <div class="nested-menu" *ngIf ="!notshowMembership ">

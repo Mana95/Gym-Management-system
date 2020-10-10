@@ -7,12 +7,16 @@
         <h4 class="modal-title" id="modal-basic-title">
           <b>New Membership type</b>
         </h4>
+        
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form [formGroup]="membershipGroup" (ngSubmit)="onSubmit()">
+          <div class="alert alert-warning" role="alert" *ngIf="f.amount.value < 1500">
+           Amount is less than Rs :1500.00
+          </div>
           <div class="form-group">
             <div class="group-gap">
               <div class="form-row">
@@ -70,7 +74,7 @@
                     <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="00.00"
                       formControlName="amount" [ngClass]="{
                                                 'is-invalid':
-                                                    submitted && f.amount.errors
+                                                    (submitted && f.amount.errors) || f.amount.value==0
                                             }" />
 
                     <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
@@ -78,7 +82,15 @@
                         Amount Price is required
                       </div>
                     </div>
+                    <div *ngIf="submitted && !f.amount.errors" class="invalid-feedback">
+                      <div *ngIf="f.amount.value==0">
+                        Amount Price can't be 0
+                      </div>
+                    </div>
                   </div>
+                  <!-- <div class="alert alert-danger" role="alert" *ngIf="this.f.amount.value==0">
+                   Amount cannot be 0
+                  </div> -->
                 </div>
               </div>
               <div class="form-row">

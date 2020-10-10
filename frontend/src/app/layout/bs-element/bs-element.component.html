@@ -27,7 +27,10 @@
                 </thead>
                 <tbody>
                   <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
-  
+                  <tr *ngIf="supData?.length <1">
+                    <td colspan="12" style="text-align: center;"><b>There are no records to show</b></td>
+                  </tr>
+
                   <tr *ngFor="let data of supData">
   
                     <td style="text-align: center;">{{data.sup_id}}</td>

@@ -164,16 +164,24 @@ export class BsElementComponent implements OnInit {
     //alert(content.value);
     console.log(supplierName.value);
     let data = supplierName.value
-
+      if(data == ''){
+        data = 'empty'
+      }
     this.authenticationService.getReleventSuppliers(data)
       .subscribe(
         response => {
           if (response) {
+            if(response.length == 0) {
+
+              Swal.fire('Oops...', `Unfortunately there are no suppliers available in the system`, 'error');
+
+
+            }
             //  console.log(response);
             this.supData = response;
             this.active = true;
             if (response == '') {
-              alert('Empty')
+           //   alert('Empty')
             }
           }
         },

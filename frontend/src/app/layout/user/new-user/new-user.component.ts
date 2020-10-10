@@ -16,6 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 @Component({
   selector: 'app-new-user',
 
@@ -347,11 +348,11 @@ else if (dayText > 31) {
  .subscribe(
    result=>{
       if(result.errorStatus == false){
-        Swal.fire({
-          text: result.errorMessage,
-          icon: 'success'
-        });
-        
+        // Swal.fire({
+        //   text: result.errorMessage,
+        //   icon: 'success'
+        // });
+        MessageAlertDisplay.SuccessToastMessage(result.errorMessage);    
         this.imageUrl = '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
         this.submitted = false;
         this.userRegisterFrom.reset();

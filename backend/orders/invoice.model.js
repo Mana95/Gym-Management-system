@@ -11,6 +11,9 @@ const schema = new Schema({
         required: true,
    
     },
+    orderId:{
+        type : String,
+    },
     invoiceType:{
         type : String,
         required: true,
@@ -18,6 +21,9 @@ const schema = new Schema({
     email:{
         type : String,
         required: true,   
+    },
+    orderAction: {
+        type : Number,
     },
     paymentTotal: {
         type:Number,
@@ -37,7 +43,12 @@ const schema = new Schema({
     },
     membershipId: {
         type : String,
-    }
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now
+
+    },
 
 });
 module.exports = mongoose.model('invoice', schema);

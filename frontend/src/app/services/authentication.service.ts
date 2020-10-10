@@ -167,7 +167,7 @@ export class AuthenticationService {
  requestReset(body): Observable<any> {
     return this.http.post(config.PAPYRUS +`/users/req-reset-password`, body);
   }
-  getReleventSuppliers(data) {
+  getReleventSuppliers(data): Observable<any> {
     return this.http.get(config.PAPYRUS+`/users/getreleventData/${data}`)
   }
 
