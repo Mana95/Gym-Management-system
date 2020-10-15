@@ -26,7 +26,7 @@ export class MembershiptypeComponent implements OnInit {
   monthToMonth = false ;
   yearToyear = false;
   dayToDay = false;
-
+  membershipCatagoryValue:string;
   Week1 = false;
   Week2 = false;
 
@@ -225,5 +225,48 @@ if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value ==
       return false;
     }
     return true;
+  }
+
+ 
+  onClickEditPopUp(data, content) {
+
+    this.membershipGroup.controls['membership_type_id'].setValue(data.membership_type_id);
+    this.membershipGroup.controls['typeName'].setValue(data.membershipName);
+    this.membershipGroup.controls['month'].setValue(data.month);
+    this.membershipCatagoryValue = data.membershipCatagory;
+    this.membershipGroup.controls['membershipCatagory'].setValue(data.membershipCatagory);
+    this.membershipGroup.controls['periodType'].setValue(data.periodType);
+    this.membershipGroup.controls['YMDValue'].setValue(data.YMDValue);
+    this.membershipGroup.controls['amount'].setValue(data.amount);
+    this.membershipGroup.controls['note'].setValue(data.note);
+
+    const modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+
+    modalRef.componentInstance.user = data;
+
+    modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+      console.log(receivedEntry);
+    })
+  }
+
+  onClickDeleteRow(data) {
+  let _isConfirmed = MessageAlertDisplay.confirmationMessage().then((result) => {
+    if (result.value ==true) {
+      this.autenticationService.inActiveScheduleType(data._id)
+    .subscribe(res=>{
+      if(res == 1){
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      }
+    })
+    }
+  });
+  }
+  get getMemberCat() {
+    
+return this.f.membershipCatagory.value;
   }
 }

@@ -71,6 +71,8 @@ router.patch('/instrucotrInactive', instructorUpdateStatus);
 router.patch('/updateSupplierData', updateSupplierData);
 
 router.patch('/updateActiveIncativeStatusMembership', updateActiveIncativeStatusMembership);
+router.patch('/patchScheduleType', patchScheduleType_controller);
+router.patch('/inActiveScheduleType/:id', inActiveScheduleType_controller);
 
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
@@ -82,10 +84,31 @@ router.post('/saveMembershipReciptDetails' , saveMembershipReciptDetails_control
 router.post('/updateMembershipCardStatus' , updateMembershipCardStatus_controller)
 
 router.post('/updateMembershipReciptDetails' , updateMembershipReciptDetails_controller)
-
+router.get('/getMembershipTypByCatagory/:cat',getMembershipTypByCatagory_controller);
 router.get('/getInvoiceData/:id',getInvoiceData_Controller);
 
 module.exports = router;
+
+
+function inActiveScheduleType_controller(req , res, next){
+
+    userService.inActiveScheduleType_service(req.params.id)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+
+function patchScheduleType_controller(req ,res ,next){
+    userService.patchScheduleType_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+function getMembershipTypByCatagory_controller(req ,res ,next){
+    userService.getMembershipTypByCatagory_service(req.params.cat)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function updateMembershipReciptDetails_controller(req ,res ,next){
     userService.updateMembershipReciptDetails_service(req.body)

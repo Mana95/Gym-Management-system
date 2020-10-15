@@ -79,8 +79,8 @@ const schema = new Schema({
     stock: [{
         stockId: {
             type: String,
-            required: true,
-            unique: true,
+         
+           
         },
         itemId:{
             type: String,

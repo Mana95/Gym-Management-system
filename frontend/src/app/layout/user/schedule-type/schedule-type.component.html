@@ -97,10 +97,10 @@
 
                   <td style="text-align: center;">{{data.id}}</td>
                   <td style="text-align: center;">{{ data.type}}</td>
-                  <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
-                        class="fa fa-pencil" aria-hidden="true"></i></button> &nbsp;
-                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"
-                        aria-hidden="true"></i></button></td>
+                  <td style="text-align: center;"  ><button type="button" class="btn btn-primary btn-sm"(click)="onClickEditPopUp(data ,content)" ><i
+                        class="fa fa-pencil" aria-hidden="true" ngbTooltip="Edit"></i></button> &nbsp;
+                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" (click)="onClickDeleteRow(data)"
+                        aria-hidden="true" ngbTooltip="Edit"  ngbTooltip="delete"></i></button></td>
 
                 </tr>
 

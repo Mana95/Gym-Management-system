@@ -11,6 +11,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from "moment";
 import { membershipPeriodType } from 'src/app/_models/schedule-status';
 import { MembershipService } from 'src/app/services/membership.service';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
 
 
@@ -99,7 +100,8 @@ export class NewCustomerComponent implements OnInit {
    password:['',Validators.required],
    balancePrice: [''],
    packagePrice:[''],
-   payingPrice:['']
+   payingPrice:[''],
+   memberCatogory:['' ,Validators.required],
    
     
 
@@ -263,19 +265,19 @@ export class NewCustomerComponent implements OnInit {
    
    
     //get All membershiptype Data
-    this.authenticationService.getAllMembershipType().subscribe(
-      response => {
-        this.Type = response; 
-        this.currentTypeArray.push(response);
-        for (var i = 0; i < this.Type.length; i++) {        
-          this.ArrayValueType.push(this.Type[i].membershipName);
-        }
+    // this.authenticationService.getAllMembershipType().subscribe(
+    //   response => {
+    //     this.Type = response; 
+    //     this.currentTypeArray.push(response);
+    //     for (var i = 0; i < this.Type.length; i++) {        
+    //       this.ArrayValueType.push(this.Type[i].membershipName);
+    //     }
       
-      }, 
-      error => {
-        console.log(error);
-      }
-    );
+    //   }, 
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   onKey(event){
@@ -530,10 +532,12 @@ export class NewCustomerComponent implements OnInit {
             //create the invoice report
             const documentDefinition = this.getDocumentDefinition(cus_data ,userParam);
             pdfMake.createPdf(documentDefinition).open();
-            Swal.fire({
-              text: 'Membership Registered success',
-              icon: 'success'
-            });
+            // Swal.fire({
+            //   text: 'Membership Registered success',
+            //   icon: 'success'
+            // });
+            MessageAlertDisplay.SuccessToastMessage('Membership Registered success');
+            
             this.MembershipGroup.reset();
             this.loadData();
             this.submitted = false;
@@ -948,5 +952,20 @@ export class NewCustomerComponent implements OnInit {
   }
  }
 
-
+ showMembershipTypes(event){
+  
+if(event.target.value != ''){
+  this.currentTypeArray = [];
+  this.authenticationService.getMembershipTypByCatagory(event.target.value)
+  .subscribe(
+    res=>{
+      this.Type = res; 
+          this.currentTypeArray.push(res);
+          for (var i = 0; i < this.Type.length; i++) {        
+            this.ArrayValueType.push(this.Type[i].membershipName);
+          }
+    }
+  )
+}
+ }
 }

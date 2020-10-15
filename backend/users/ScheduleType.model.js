@@ -21,6 +21,9 @@ const schema = new Schema({
     createdDate: {
         type: Date,
        required:true
+    },
+    active:{
+        type:Boolean
     }
 
 });

@@ -45,8 +45,8 @@
                                                 submitted &&
                                                 f.membershipCatagory.errors
                                         }">
-                   
-                    <option *ngFor="let data of states">{{
+                                        <option selected>Choose...</option>
+                    <option [value]="getMemberCat" *ngFor="let data of states" >{{
                                             data
                                         }}</option>
                   </select>
@@ -100,8 +100,9 @@
                                             'is-invalid':
                                                 submitted && f.periodType.errors
                                         }"  (change) = "onChangeCategory($event)"  >
-                   
-                    <option *ngFor="let data of periodType">{{ data }}</option>
+                                        <option selected>Choose...</option>
+                                        <option *ngFor="let data of periodType">{{data}} </option>
+                 
                   </select>
                   <div *ngIf="submitted && f.periodType.errors" class="invalid-feedback">
                     <div *ngIf="f.periodType.errors.required">
@@ -272,13 +273,10 @@
                   {{ data.amount }}
                 </td>
                 <td style="text-align: center;">
-                  <button type="button" class="btn btn-primary btn-sm">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                  </button>
-                  &nbsp;
-                  <button type="button" class="btn btn-danger btn-sm">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                  </button>
+                  <button type="button" class="btn btn-primary btn-sm"(click)="onClickEditPopUp(data ,content)" ><i
+                    class="fa fa-pencil" aria-hidden="true" ngbTooltip="Edit"></i></button> &nbsp;
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" (click)="onClickDeleteRow(data)"
+                    aria-hidden="true" ngbTooltip="Edit"  ngbTooltip="delete"></i></button>
                 </td>
               </tr>
             </tbody>

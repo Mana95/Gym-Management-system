@@ -41,7 +41,7 @@ export class MyOrderComponent implements OnInit {
   }
   printOrderRecipt(data) {
 const documentDefinition = GymAdapterClass.getDocumentDefinition(data);
-pdfMake.createPdf(documentDefinition).open();
+ pdfMake.createPdf(documentDefinition).open();
   }
 
 }

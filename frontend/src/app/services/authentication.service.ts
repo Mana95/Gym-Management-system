@@ -42,6 +42,10 @@ export class AuthenticationService {
    // console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
+
+  getMembershipTypByCatagory(event){
+    return this.http.get(config.PAPYRUS+`/users/getMembershipTypByCatagory/${event}`)
+  }
   getReleventMembshipStatusData(email) {
     return this.http.get(config.PAPYRUS+`/users/getReleventMembshipStatusData/${email}`)
   }
@@ -125,9 +129,18 @@ export class AuthenticationService {
 
 
   saveScheduleType(body){
+   
     return this.http.post(config.PAPYRUS+`/users/saveScheduleType`,body)
   }
 
+  inActiveScheduleType(id){
+    var body = '';
+    return this.http.patch(config.PAPYRUS+`/users/inActiveScheduleType/${id}`,body)
+  }
+
+  patchScheduleType(data){
+    return this.http.patch(config.PAPYRUS+`/users/patchScheduleType`,data)
+  }
 
   updateStatus(body) {
     return this.http.post(config.PAPYRUS+`/users/updateStatus`,body)
@@ -152,7 +165,6 @@ export class AuthenticationService {
   getAllMembershipType() {
     return this.http.get(config.PAPYRUS+`/users/getAllMembershipType`)
   }
-
   insertMembershipTypeData(body) {
     return this.http.post(config.PAPYRUS +`/users/saveMembershiptypeData`, body);
   }

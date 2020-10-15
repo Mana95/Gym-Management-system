@@ -246,8 +246,33 @@
               </label>
               <textarea class="form-control" formControlName="description" rows="3"></textarea>
             </div>
+            <div class="alert alert-danger" role="alert" *ngIf="(Type==undefined || Type.length==0) && f.memberCatogory.value !=''">
+              Unfortunately there is no membership type for {{f.memberCatogory.value}} catogory
+             </div>
+
+             <div class="alert alert-warning" role="alert" *ngIf="f.memberCatogory.value ==''">
+              Select a membership catogory for  the relevent membership type's
+             </div>
 
             <div class="form-row">
+              <div class="form-group col-md-3" >
+                <label for="inputPassword4">Membership Catogory</label>
+                <select class="form-control"  (change)="showMembershipTypes($event)"   formControlName="memberCatogory"   [ngClass]="{
+                                        'is-invalid':
+                                            submitted && f.memberCatogory.errors
+                                    }">
+                                    <option value="">Choose...</option>            
+                  <option *ngFor="let data of ['Mens' , 'Ladies' , 'Student', 'Couples']" >{{ data}}</option>
+                
+                </select>
+                <div *ngIf="submitted && f.memberCatogory.errors" class="invalid-feedback">
+                  <div *ngIf="f.memberCatogory.errors.required">Type name is required</div>
+                </div> 
+                
+              </div>
+            </div>
+           
+            <div class="form-row" *ngIf="f.memberCatogory.value !=''">
               <div class="form-group col-md-3" >
                 <label for="inputPassword4">Membership Type</label>
                 <select class="form-control"  (change)="displayAmount($event)"   formControlName="typeName"   [ngClass]="{
@@ -301,14 +326,14 @@
 
             <b><h4>Cash only payment</h4></b>
             <hr/>
-            <div *ngIf ="showMembershipType"  class="alert alert-danger" role="alert">
-             Please choose a membership type 😒!
+            <div *ngIf ="showMembershipType && f.memberCatogory.value !=''"  class="alert alert-danger" role="alert">
+             Please choose a membership type !
             </div>
             <div *ngIf ="paymentAlertMessage"  class="alert alert-warning" role="alert">
-              Payament price is still not correct 😊!
+              Payament price is still not correct!
             </div>
             <div *ngIf ="paymentAlertMessageSuccess" class="alert alert-success" role="alert">
-              Payment price is correct 😊
+              Payment price is correct 
             </div>
             <div class="form-row">
               <div class="form-group col-md-3" *ngIf = "showPayingPriceInputField">

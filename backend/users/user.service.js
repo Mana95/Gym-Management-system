@@ -91,10 +91,40 @@ module.exports = {
   updateInvoice_Controller_service,
   updateMembershipCardStatus_service,
   getInvoiceData_service,
-  updateMembershipReciptDetails_service
+  updateMembershipReciptDetails_service,
+  getMembershipTypByCatagory_service,
+  patchScheduleType_service,
+  inActiveScheduleType_service
 
 };
 
+async function inActiveScheduleType_service(id){
+  await ScheduleType.updateOne({
+    _id : id
+    },
+     {$set:{active:false}}
+    ), function(error , result){
+      if(!error){
+        return 1;
+      }
+    }
+}
+
+async function patchScheduleType_service(data){
+   await ScheduleType.updateOne({
+      id : data.id 
+      },
+       {$set:data}
+      ), function(error , result){
+        if(!error){
+          return 1;
+        }
+      }
+}
+
+async function getMembershipTypByCatagory_service(cat){
+  return await MembershipType.find({membershipCatagory:cat});
+}
 async function updateMembershipReciptDetails_service(data){
 
   await Invoice.updateOne({
