@@ -71,15 +71,15 @@ static loadingSpinner(isBoolean:boolean = false) {
   return false
 }
 
-static confirmationMessage(){
+static confirmationMessage(message:string = null , confrimButtonText:string = null , icon:string =null){
   return (Swal.fire({
     title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
+    text: (message==null)? "You won't be able to revert this!":message,
+    icon:(icon==null)? "warning":icon, 
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: (confrimButtonText==null)? 'Yes, delete it!':confrimButtonText
   }));
 
 }

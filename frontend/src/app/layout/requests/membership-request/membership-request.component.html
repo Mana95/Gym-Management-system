@@ -10,7 +10,7 @@
               <div class="row">
                 <div class="col-md-7">
                   <h2>
-                    <b>Request Membership</b>
+                    <b><i class="fa fa-users" aria-hidden="true"></i>  Request Membership</b>
   
                   </h2>
                 </div>
@@ -51,7 +51,7 @@
                 </thead>
                 <tbody>
                   <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
-                  <tr *ngIf="membershipData.length <1">
+                  <tr *ngIf="membershipData?.length <1">
                     <td colspan="12" style="text-align: center;"><b>There are no records to show</b></td>
                   </tr>
                   <tr *ngFor="let data of membershipData | filter:searchText| paginate: { itemsPerPage:10, currentPage: p }">
@@ -61,22 +61,22 @@
                     <td style="text-align: center;">{{data.phonenumber}}</td>
                     <td style="text-align: center;">{{data.typeName}}</td>
                     <td style="text-align: center;">{{data.age}}</td>
-                    <td  *ngIf="'Accepted' == data.AcceptedRejectedStatus" style="color:green; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i> <b>Registered</b></td>
+                    <td  *ngIf="'Accepted' == data.AcceptedRejectedStatus" style="color:green; text-align: center; "><i class="fa fa-check"  aria-hidden="true"></i> <b>Request accepted</b></td>
                     <td  *ngIf="'Pending' == data.AcceptedRejectedStatus" style="color:darkgoldenrod; text-align: center; "><i class="fa fa-spinner"  aria-hidden="true"></i> <b>Pending</b></td>
                     <td  *ngIf="'Rejected' == data.AcceptedRejectedStatus" style="color:red; text-align: center; "><i class="fa fa-times"  aria-hidden="true"></i> <b>Rejected</b></td> 
                     <td style="text-align: center;">
                       
                       <!-- <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus"  class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Pending Schedule" ><i
                         class="fa fa-thumbs-up" aria-hidden="true"></i></button>     -->
-                        <button type="button" *ngIf="'Accepted' == data.AcceptedRejectedStatus|| 'Rejected' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Schedule is registered" ><i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </button>           
+                        <!-- <button type="button" *ngIf="'Accepted' == data.AcceptedRejectedStatus|| 'Rejected' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Schedule is registered" ><i class="fa fa-check-circle" aria-hidden="true"></i>
+                        </button>            -->
                       <!-- <button type="button" *ngIf="'true' == data.AcceptedRejectedStatus" disabled class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ngbTooltip="Pending Schedule" ><i
                         class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-  -->
-                      <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus" class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ><i class="fa fa-check-circle" aria-hidden="true"></i>
+  -->                 <i class="fa"[ngClass]="{'fa-check': ('Accepted' == data.AcceptedRejectedStatus)?true:false ,  'fa-times':('Rejected' == data.AcceptedRejectedStatus)?true:false}" [ngStyle]="{'color':('Rejected' == data.AcceptedRejectedStatus)?'red':'green'}"  aria-hidden="true" ngbTooltip={{data.AcceptedRejectedStatus}}></i>
+                      
+  <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus" class="btn btn-primary btn-sm" (click)= "updateStatus(data)" ><i class="fa fa-check" aria-hidden="true" ngbTooltip="accept"></i>
                       </button> &nbsp;
-                      <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus " class="btn btn-danger btn-sm" (click)="updateAcceptInactiveStatus(data)" ><i class="fa fa-ban"
-                          aria-hidden="true"></i></button></td> 
+                      <button type="button" *ngIf="'Pending' == data.AcceptedRejectedStatus " class="btn btn-danger btn-sm" (click)="updateAcceptInactiveStatus(data)" ><i class="fa fa-trash" aria-hidden="true" ngbTooltip="delete"></i></button></td> 
   
                   </tr>
   

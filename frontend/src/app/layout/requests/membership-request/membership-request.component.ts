@@ -5,6 +5,7 @@ import { AuthenticationService } from './../../../services/authentication.servic
 import { FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
 
 @Component({
@@ -55,39 +56,52 @@ export class MembershipRequestComponent implements OnInit {
     AcceptedRejectedStatus:"Accepted",
     paymentStatus:false 
     
-  }
+  };
 
-    this.authenticationService.updateStatus(updatesData)
-    .subscribe(
-      response =>{
-       
-        if(response == 1 ){
-          Swal.fire({  text: 'Membership Accepted done!',
-          icon: 'success'
+ MessageAlertDisplay.confirmationMessage(null , 'Yes, Accept Membership', 'info').then((res)=>{
+    if (res.value ==true){
+
+      this.authenticationService.updateStatus(updatesData)
+      .subscribe(
+        response =>{
+         
+          if(response == 1 ){
+            Swal.fire({  text: 'Membership Accepted done!',
+            icon: 'success'
+          }
+          );
+          }else{
+            Swal.fire('Oops...', `Something went wrong`, 'error')
+          }
+         
+          this.loadTableData();
         }
-        );
-        }else{
-          Swal.fire('Oops...', `Something went wrong`, 'error')
-        }
-       
-        this.loadTableData();
-      }
-    )
+      )
+    }
+  })
+
+
   }
 
   updateAcceptInactiveStatus(data){
 
-    this.authenticationService.updateActiveIncativeStatusMembership(data)
-    .subscribe(
-      res=>{
-        if(res==1){
-          Swal.fire({  text: 'Membership has bee RejectedI😕!',
-          icon: 'success'
-        }); 
-        this.loadTableData();
+
+  MessageAlertDisplay.confirmationMessage(null , 'Yes,Reject the request', null).then((res)=>{
+    if (res.value ==true) { 
+      this.authenticationService.updateActiveIncativeStatusMembership(data)
+      .subscribe(
+        res=>{
+          if(res==1){
+            Swal.fire({  text: 'Membership has bee RejectedI!',
+            icon: 'success'
+          }); 
+          this.loadTableData();
+          }
         }
-      }
-    )
+      )
+     }
+  })
+    
   }
 
 

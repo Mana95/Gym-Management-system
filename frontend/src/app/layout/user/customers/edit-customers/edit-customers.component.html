@@ -1,3 +1,49 @@
-<p>
-  edit-customers works!
-</p>
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;View Membership </b>
+              <button type="button" class="btn btn-primary" (click)="editMode()">
+                <i ngbTooltip="Enable edit mode" class="fa fa-pencil" aria-hidden="true"></i></button></h2>
+              <div class="alert alert-warning" role="alert" *ngIf="!inputFieldDisabled">
+                You are viewing the edit mode!
+              </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="editFormGroup" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+             
+              <div class="form-group">
+              <div class="group-gap">
+               
+             
+                <div class="avatar-upload">
+                  <div class="avatar-edit">
+                    <!-- <input type="file" accept=".pdf" ng2FileSelect fromcontrolName="jobname" [uploader]="uploader"
+                    multiple /><br /> -->
+                    <input type='file' id="imageUpload" ng2FileSelect  accept=".png, .jpg, .jpeg" #fileInput [uploader]="uploader"
+                      (change)="uploadFile($event)" />
+                  </div>
+                  <div class="avatar-preview">
+                    <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                    </div>
+                  </div>
+                </div>
+                <!-- Submit Button -->
+                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">Upload
+                  Image</button>
+              </div>
+            </div>
+
+            </div>
+
+
+
+
+            </form>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
