@@ -87,11 +87,39 @@
 
 
                       <div>
-                      <!-- <div class="col">
-                        <img src={{data.imageName}}  class="tiledBackground img-fluid img-thumbnail" alt="Sheep">
-                      </div> -->
+                     
                     </div>
                     </div>
+
+                    <hr/>
+                    <h4><b><i class="fa fa-video-camera" aria-hidden="true"></i> Reference video count {{ReferenceLink?.length}}</b></h4>
+                    <hr/>
+                    <div class="form-row">
+                      
+                      <table class="table table-striped table-hover table-bordered table-sm" id="mytable">
+                        <caption>
+                          <b><i class="fa fa-file-o" aria-hidden="true"></i> View links Details</b>
+                        </caption>
+                        <thead>
+                          <tr>
+                          <th style="text-align: center;" scope="col">Link</th>
+                          <th  style="text-align: center;" scope="col">view</th>
+                          </tr>
+                          </thead>
+                          <tbody>  
+                            <tr *ngFor= "let data of ReferenceLink">
+                            <td style="text-align: center;"><a href={{data?.referenceName}}>{{data?.referenceName}}</a> </td>
+                          <td style="text-align: center;">
+                            <button type="button" (click)="videoPopUp(template ,data)" class= "btn btn-primary btn-sm"><i class="fa fa-play" aria-hidden="true"></i> Play</button> &nbsp;
+                          
+                          </td>  
+                        </tr> 
+                            </tbody>
+                        </table>
+
+
+
+                      </div>
                     <hr/>
                     <h4><b><i class="fa fa-commenting" aria-hidden="true"></i> Steps</b></h4>
                     <hr/>
@@ -110,7 +138,21 @@
               </div>
           </div>
       </div>
+     
+      <ng-template #template let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title"><b><i class="fa fa-video-camera" aria-hidden="true"></i>
+            selected Video</b></h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body center">
+          
+            <iframe  [src]="videolink" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen
+            allowfullscreen></iframe>
 
-        
+          </div>
+      </ng-template>
 
    

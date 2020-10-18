@@ -40,9 +40,11 @@ export class CustomersComponent implements OnInit {
     )
   }
   routePage(data) {
-  console.log(JSON.stringify(data));
+    
+  //console.log(JSON.stringify(data));
   MessageAlertDisplay.confirmationMessage(`View ${data.firstName} membership information` , `Yes, View `, 'info').then((res)=>{
     if (res.value ==true){
+      localStorage.setItem('membership', JSON.stringify(data));
       this.router.navigate(['/viewMembership', data._id]);
     }
   })

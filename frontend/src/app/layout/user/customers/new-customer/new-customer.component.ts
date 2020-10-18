@@ -476,6 +476,7 @@ export class NewCustomerComponent implements OnInit {
     }
   
     let cus_data = {
+      
       membershipId:  this.f.membershipId.value,
       email: this.f.email.value,
       firstName: this.f.firstName.value,

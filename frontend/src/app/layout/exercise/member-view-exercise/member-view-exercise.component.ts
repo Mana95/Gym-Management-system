@@ -2,7 +2,8 @@ import { ExerciseDetails } from './../../../_models/ExerciseDetails';
 import { ScheduleService } from './../../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-member-view-exercise',
   templateUrl: './member-view-exercise.component.html',
@@ -19,6 +20,8 @@ export class MemberViewExerciseComponent implements OnInit {
   exerciseName: any;
   exerciseFor: any;
   equipment: any;
+  ReferenceLink:any;
+  videolink:SafeResourceUrl;
   // set dataOfExercise(){
   //   this.scheduleService.sharedData =this.excerciseDetails;
   // }
@@ -28,6 +31,8 @@ export class MemberViewExerciseComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private scheduleService : ScheduleService,
+    private modalService: NgbModal,
+    public sanitizer: DomSanitizer
   ) {
    }
 
@@ -65,6 +70,18 @@ export class MemberViewExerciseComponent implements OnInit {
     this.exerciseName = data.exerciseName;
     this.exerciseFor = data.exerciseFor;
     this.equipment = data.equipment;
+   this.ReferenceLink = data.referenceLink;
     this.showcomponent = true;
+  }
+
+
+  videoPopUp(tempalte , data) {
+
+    this.videolink =  this.sanitizer.bypassSecurityTrustResourceUrl(data.referenceName);
+    this.modalService.open(tempalte, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      //this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+     // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 }

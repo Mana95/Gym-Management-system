@@ -54,6 +54,7 @@ export class NewExerciseComponent implements OnInit {
       benefits:['', Validators.required],
       skills: new FormArray([]),
       exerciseImageLocation: new FormArray([]),
+      referenceLink: new FormArray([]),
       createdDate:[''],
       exerciseGender:['',Validators.required]
 
@@ -81,6 +82,10 @@ export class NewExerciseComponent implements OnInit {
   get S() {
     return this.f.skills as FormArray;
   }  
+
+  get reference() {
+    return this.f.referenceLink as FormArray;
+  }
   get exe() {
     return this.f.exerciseImageLocation as FormArray;
   }
@@ -170,7 +175,8 @@ export class NewExerciseComponent implements OnInit {
       skills:this.f.skills.value,
       createdDate:this.currentDate,
       createdId:this.createdId,
-      exerciseGender:this.f.exerciseGender.value
+      exerciseGender:this.f.exerciseGender.value,
+      referenceLink:this.f.referenceLink.value
     }
     console.log(exerciseData);
     if(this.exerciseGroup.valid){
@@ -202,7 +208,15 @@ export class NewExerciseComponent implements OnInit {
       Swal.fire('Oops...', `Please fill the field properly!`, 'error')
     }
   }
-
+  onClickReference(event){
+    this.submitted = false;
+    this.reference.push(this.formBuilder.group({
+      referenceName:['', Validators.required]
+    }));
+  }
+  onClickReferenceRemove(index) {
+    this.reference.removeAt(index);
+  }
   onClickDescrip(event) {
     this.submitted = false;
     this.S.push(this.formBuilder.group({

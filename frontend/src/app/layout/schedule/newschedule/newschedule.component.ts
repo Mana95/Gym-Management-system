@@ -141,7 +141,7 @@ this.requestScheduleGroup.controls["date"].setValue(
             });
             this.alertDisplay = false;
             this.showMsg = true;
-            
+            this.router.navigate(['/schedule']);
             this.submitted = false
           }else{
             Swal.fire('Oops...', `${response}`, 'error')
@@ -160,7 +160,7 @@ this.requestScheduleGroup.controls["date"].setValue(
         
 
 
-          this.requestScheduleGroup.reset();
+          //this.requestScheduleGroup.reset();
           this.loadNewId();
         }
       )

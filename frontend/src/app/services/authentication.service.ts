@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Cart } from '../_models/cart.js';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +17,7 @@ export class AuthenticationService {
 
   public cartItemsSubject:BehaviorSubject<Cart>;
   public cartItemsUser:Observable<Cart>;
+
 
   constructor(
 
@@ -29,6 +31,7 @@ export class AuthenticationService {
   )
   this.cartItemsUser  = this.cartItemsSubject.asObservable();
 
+ 
   }
 
   
@@ -42,6 +45,7 @@ export class AuthenticationService {
    // console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
+
 
   getMembershipTypByCatagory(event){
     return this.http.get(config.PAPYRUS+`/users/getMembershipTypByCatagory/${event}`)

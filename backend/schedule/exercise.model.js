@@ -53,6 +53,10 @@ const schema = new Schema({
             type:String,
         }
     }],
+    referenceLink:[{
+        referenceName:String,
+      
+    }],
     createdDate:{
         type: String,
         required: true,
