@@ -3,22 +3,20 @@
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="100px" class="user-avatar" />
             <h1>Gym Management Login </h1>
-        
-            
           <form [formGroup]="loginForm" (ngSubmit)= "onSubmit()">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" formControlName = "email" (input)="changeStatus()" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="{{ 'Email Address' | translate }}" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                            <div *ngIf="f.email.errors.required"  class="input-lg"><b>Email Address is required</b></div> 
-                            <div *ngIf="f.email.errors.email" class="input-lg" >Email must be a valid email address</div>
+                        <input type="text" formControlName = "email" (input)="changeStatus()" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="{{ 'Email Address' | translate }}" [ngClass]="{ 'is-invalid': submitted && loginFormControler.email.errors }">
+                        <div *ngIf="submitted && loginFormControler.email.errors" class="invalid-feedback">
+                            <div *ngIf="loginFormControler.email.errors.required"  class="input-lg"><b>Email Address is required</b></div> 
+                            <div *ngIf="loginFormControler.email.errors.email" class="input-lg" >Email must be a valid email address</div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <input type="password"  (input)="changeStatus()" formControlName = "password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                            <div *ngIf="f.password.errors.required"  class="input-lg"><b>Password is required</b></div>
+                        <input type="password"  (input)="changeStatus()" formControlName = "password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}" [ngClass]="{ 'is-invalid': submitted && loginFormControler.password.errors }">
+                        <div *ngIf="submitted && loginFormControler.password.errors" class="invalid-feedback">
+                            <div *ngIf="loginFormControler.password.errors.required"  class="input-lg"><b>Password is required</b></div>
 
 </div> 
 <div class="form-group">

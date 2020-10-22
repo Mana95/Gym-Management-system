@@ -109,26 +109,29 @@
                                         <label for="Supplier_Id" >Catagory Name</label>
                                         <select class="form-control" #data formControlName=categoryName  [ngClass]="{ 'is-invalid': submitted && f.categoryName.errors }">
                                             <option  selected>Catagory Status</option>
-                                            <option *ngFor="let data of catName">{{data.cat_name}}</option>
+                                            <option *ngFor="let data of selectionCataogyrObject">{{data.cat_name}}</option>
                                       </select>
                                       <div *ngIf="submitted && f.categoryName.errors" class="invalid-feedback">
                                         <div *ngIf="f.categoryName.errors.required">Main Catagory is required</div>
                                       </div>
                                     </div>
-                                    <div class="form-group col-md-6" *ngIf="activecat" (change)="display(item)">
+                                    <div class="form-group col-md-6" *ngIf="activecat"  (change)="displayItemData(data)">
                                        
-                                        <label for="Item"><b>Item</b></label>
-                                        <select class="form-control" #item  formControlName=itemDetails  [ngClass]="{ 'is-invalid': submitted && f.itemDetails.errors }">
+                                        <label for="Item"><b>Item name</b></label>
+                                        <select class="form-control"  formControlName=itemDetails   [ngClass]="{ 'is-invalid': submitted && f.itemDetails.errors }">
                                             <option  selected>Item Status</option>           
-                                            <option *ngFor="let data of subcat">{{data.item_name}} </option>
+                                            <option  *ngFor="let data of selectedItemObject" >{{data.item_name}} </option>
                                         </select>
                                         <div *ngIf="submitted && f.itemDetails.errors" class="invalid-feedback">
                                             <div *ngIf="f.itemDetails.errors.required">Item Name is required</div>
                                           </div>
+
+
+
                                     </div>
                                     <div class="form-group col-md-6" *ngIf="!activecat">
                                        
-                                        <label for="Supplier_Id">Item</label>
+                                        <label for="Supplier_Id">Item name</label>
                                         <select class="form-control" disabled>
                                             <option>Choose Category</option>
                                         </select>

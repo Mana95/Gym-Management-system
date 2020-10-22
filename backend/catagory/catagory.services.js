@@ -44,12 +44,12 @@ try{
 
 }
 
-async function getByItemName(itemName) {
-    return await ItemData.find({item_name: itemName});
+async function getByItemName(id) {
+    return await ItemData.find({catId: id});
 }
 
-async function getItemrelventItems(category) {
-    return await ItemData.find({cat_name: category});
+async function getItemrelventItems(id) {
+    return await ItemData.find({id: id});
 }
 
 async function getItemData(){
@@ -70,7 +70,8 @@ async function getCatDataRelevent(id){
 
 async function getCatName() {
     //console.log('getCatagoryName')
-    return await Catagory.find({} , {cat_name:1 , _id:0})
+    //return await Catagory.find({} , {cat_name:1 , _id:0})
+    return await Catagory.find({});
 }
 
 async function getAllSub() {

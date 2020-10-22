@@ -38,8 +38,8 @@ export class BsElementComponent implements OnInit {
   firstName: any;
   lastName: any;
   dataId: any;
-  catName: any;
-  subcat: any;
+  selectionCataogyrObject: any;
+  selectedItemObject: any;
   startBuyingPrice: Number;
   activecat = false;
   clickAdd = false;
@@ -108,7 +108,7 @@ export class BsElementComponent implements OnInit {
       .subscribe(
         response => {
           //  console.log(response);
-          this.catName = response;
+          this.selectionCataogyrObject = response;
         }
       )
   }
@@ -116,10 +116,11 @@ export class BsElementComponent implements OnInit {
     return this.currentUserSubject.value;
   }
 
-  display(data) {
+  displayItemData(data) {
     //console.log(data.value);
-
-    this.catagoryService.getItemsDetails(data.value)
+    const _findReleventCatId = this.selectedItemObject .find(ob=>ob.cat_name == data.value);
+return ;
+    this.catagoryService.getItemsDetails(_findReleventCatId.id)
       .subscribe(
         data => {
 
@@ -140,12 +141,15 @@ export class BsElementComponent implements OnInit {
 
   getCatValue(data) {
   
-    let catName = data.value;
-    console.log(catName)
-    this.catagoryService.getchoosenItems(catName)
+    let selectionCataogyrObject = data.value;
+
+    const _findReleventCatId = this.selectionCataogyrObject.find(ob=>ob.cat_name == data.value);
+    
+  
+    this.catagoryService.getchoosenItems(_findReleventCatId.id)
       .subscribe(
         data => {
-          this.subcat = data;
+          this.selectedItemObject = data;
           this.activecat = true;
           this.errorMessage = false;
           if(data.length ==0){

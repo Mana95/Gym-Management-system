@@ -14,15 +14,14 @@ export class CatagoryService {
    ) { }
 
    getSubCatNames(catName) {
-     console.log('CATAGORY');
-     console.log(catName);
+     
      return this.http.get<any>(config.PAPYRUS + `/catagory/getNames/${catName}`);
    }
-   getItemsDetails(item) {
-    return this.http.get<any>(config.PAPYRUS + `/catagory/getByItemName/${item}`);
+   getItemsDetails(id) {
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getByItemName/${id}`);
    }
-   getchoosenItems(catagory) {
-    return this.http.get<any>(config.PAPYRUS + `/catagory/getitemsNames/${catagory}`);
+   getchoosenItems(id) {
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getitemsNames/${id}`);
    }
 
    insertItemData(data) {
@@ -47,7 +46,7 @@ export class CatagoryService {
    deleteRecord(idData) {
 
     const recordId = idData.id;
-              alert(recordId);
+        
       return this.http.delete<any>(config.PAPYRUS + `/catagory/deleteRec/${recordId}`);
    }
    getAll() {

@@ -2,6 +2,9 @@ import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
+///service
+
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 @Component({
@@ -43,17 +46,21 @@ export class LoginComponent implements OnInit {
       this.showErrorMessage = false;
     };
 
-    get f() {
+    get loginFormControler() {
         return this.loginForm.controls;
      }
 
      
 //submig the login 
     onSubmit() {
+
+
+    
+
     this.submitted = true;
     if (this.loginForm.valid) {
     this.loading = true;
-    this.authenticationService.login(this.f.email.value, this.f.password.value)
+    this.authenticationService.login(this.loginFormControler.email.value, this.loginFormControler.password.value)
       .pipe(first())
       .subscribe(
         data => {

@@ -155,10 +155,16 @@ export class NewExerciseComponent implements OnInit {
   }
 
   SaveExerciseData() {
+    this.submitted = true;
     if(this.f.skills.value ==''){
       Swal.fire('Oops...', `Please mention about the exercise steps!`, 'error');
       return;
     }
+    if(this.f.referenceLink.value == ''){
+      Swal.fire('Oops...', `Reference link can not be empty,Please add some relevent link/'s`, 'error');
+      return;
+    }
+
     if(this.uploadButtonStatus==false){
       Swal.fire('Oops...', `Please upload the images!`, 'error');
       return;

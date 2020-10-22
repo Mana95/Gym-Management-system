@@ -92,7 +92,7 @@
                     </div>
 
                     <hr/>
-                    <h4><b><i class="fa fa-video-camera" aria-hidden="true"></i> Reference video count {{ReferenceLink?.length}}</b></h4>
+                    <h4><b><i class="fa fa-video-camera" aria-hidden="true"></i> Reference link count {{ReferenceLink?.length}}</b></h4>
                     <hr/>
                     <div class="form-row">
                       
@@ -103,16 +103,13 @@
                         <thead>
                           <tr>
                           <th style="text-align: center;" scope="col">Link</th>
-                          <th  style="text-align: center;" scope="col">view</th>
+                        
                           </tr>
                           </thead>
                           <tbody>  
                             <tr *ngFor= "let data of ReferenceLink">
                             <td style="text-align: center;"><a href={{data?.referenceName}}>{{data?.referenceName}}</a> </td>
-                          <td style="text-align: center;">
-                            <button type="button" (click)="videoPopUp(template ,data)" class= "btn btn-primary btn-sm"><i class="fa fa-play" aria-hidden="true"></i> Play</button> &nbsp;
-                          
-                          </td>  
+                        
                         </tr> 
                             </tbody>
                         </table>

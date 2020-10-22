@@ -164,9 +164,11 @@ export class TablesComponent implements OnInit {
         image: this.imageUrl,
         itemCreatedName: this.currentUserSubject.value.user_id,
         itemType: this.f.itemType.value,
-        itemStatus:true
+        itemStatus:true,
+        
        
       };
+      return;
       this.catagoryService.insertItemData(itemData)
         .subscribe(
           res => {
