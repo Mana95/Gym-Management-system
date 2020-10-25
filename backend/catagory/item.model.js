@@ -27,10 +27,10 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    catId:{
-        type: String,
-        required: true
-    },
+    // catId:{
+    //     type: String,
+    //     required: true
+    // },
     Importered_Country: {
         type: String,
         required: true

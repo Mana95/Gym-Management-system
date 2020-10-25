@@ -9,6 +9,8 @@ import * as moment from "moment";
 import { debounceTime, distinctUntilChanged, filter, map, mergeMap } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Stepper from 'bs-stepper';
+
 
 @Component({
   selector: 'app-accepted-schedule',
@@ -586,38 +588,32 @@ export class AcceptedScheduleComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-
-
-
-
-
-
-  //   if (this.f.scheduleCategoryType.value == 'Normal') {
-  //     if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Normal') == true) {
-  //       Swal.fire('Oops...', `Please Create the Schedule steps and intervals`, 'error')
-  //       return
-  //     } else if (this.f.normal.value.length == 0) {
-  //       Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
-  //       return;
-  //     }
-  //   } else if (this.f.scheduleCategoryType.value == 'Advanced') {
-  //     if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Advanced') == true) {
-  //       Swal.fire('Oops...', `Please Create the Schedule steps and intervals `, 'error');
-  //       return
-  //     } else if (this.f.tickets.value.length == 0) {
-  //       Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
-  //       return;
-  //     }
-  //   }
-  // //submit 
-  // if(this.f.dietPlan.value == true && this.DietPlanGroup.valid == false){
-  //   Swal.fire('Oops...', `You have apply the dietplan but did not fill the dietplan`, 'error');
-  //   return;
-  // }
-  // if (this.f.dietPlan.value == true && this.dietPlan.intervalNames.value.length == 0) {
-  //   Swal.fire('Oops...', `Please add diet plan intervals`, 'error');
-  //   return;
-  // }
+    if (this.f.scheduleCategoryType.value == 'Normal') {
+      if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Normal') == true) {
+        Swal.fire('Oops...', `Please Create the Schedule steps and intervals`, 'error')
+        return
+      } else if (this.f.normal.value.length == 0) {
+        Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
+        return;
+      }
+    } else if (this.f.scheduleCategoryType.value == 'Advanced') {
+      if ((this.displayDietPlan == true && this.dietPlan.intervalNames.value.length == 0) && this.getValidationField('Advanced') == true) {
+        Swal.fire('Oops...', `Please Create the Schedule steps and intervals `, 'error');
+        return
+      } else if (this.f.tickets.value.length == 0) {
+        Swal.fire('Oops...', `Please Create the Schedule steps`, 'error')
+        return;
+      }
+    }
+  //submit 
+  if(this.f.dietPlan.value == true && this.DietPlanGroup.valid == false){
+    Swal.fire('Oops...', `You have apply the dietplan but did not fill the intervals`, 'error');
+    return;
+  }
+  if (this.f.dietPlan.value == true && this.dietPlan.intervalNames.value.length == 0) {
+    Swal.fire('Oops...', `Please add diet plan intervals`, 'error');
+    return;
+  }
     let sceduleData = {
       id: this.f.id.value,
       type: this.f.type.value,
@@ -672,7 +668,7 @@ export class AcceptedScheduleComponent implements OnInit {
   
   
 
-//return 
+return 
     if (this.ScheduleMakeGroup.valid) {
       this.saveScheduleData(schduleObject);
     } else if (this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid) {

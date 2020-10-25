@@ -168,7 +168,7 @@ export class TablesComponent implements OnInit {
         
        
       };
-      return;
+      
       this.catagoryService.insertItemData(itemData)
         .subscribe(
           res => {

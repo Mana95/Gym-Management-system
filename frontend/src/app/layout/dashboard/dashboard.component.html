@@ -2,20 +2,20 @@
     <hr> 
     <div class="row">
             <div class="col-xl-3 col-lg-6">
-        <h2><b>Sales Activity</b></h2>
+        <h2><b>Activity</b></h2>
         </div>
     </div>
     
     <div class="row">
         
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'info'" [icon]="'fa-tasks'" [count]="26" [label]="'TO BE PACKED'" ></app-stat>
+            <app-stat [bgClass]="'secondary'" [icon]="'fa-tasks'" [count]="SchedulePending" [typeOfCard]='typeOfCard' [label]="'TO BE CREATED SCHEDULE'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'warning'" [icon]="'fa fa-truck'" [count]="12" [label]="'TO BE SHIPPED'" ></app-stat>
+            <app-stat [bgClass]="'warning'" [icon]="'fa fa-minus-square-o'" [count]="SchedulePendingApprived" [typeOfCard]="'approved'"  [label]="'TO BE APPROVED SCHEDULE'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'TO BE DELIVERED'" ></app-stat>
+            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'TO BE DELIVERED ORDERS'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'danger'" [icon]="'fa fa-sticky-note-o'" [count]="13" [label]="'TO BE INVOICED'"></app-stat>

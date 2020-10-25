@@ -105,4 +105,9 @@ export class ScheduleService {
   getReleventSchdule(id){
     return this.http.get(config.PAPYRUS+`/shedule/loadSchedule/${id}`)
   }
+
+
+  loadPending(): Observable<any> {
+    return this.http.get(config.PAPYRUS+`/shedule/loadPending`)
+  }
 }

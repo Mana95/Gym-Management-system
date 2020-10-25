@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
 @Component({
   selector: 'app-sub-catagory',
@@ -74,6 +75,9 @@ export class SubCatagoryComponent implements OnInit {
   }
 
   open(content) {
+    this.error = '';
+    this.getId();
+    this.loadFormData();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -100,7 +104,7 @@ export class SubCatagoryComponent implements OnInit {
 
       let sub_cat = {
         id: userID.value,
-        sub_cat_name: this.subC.sub_catName.value,
+        sub_cat_name: this.subC.sub_catName.value.toLowerCase(),
         description: this.subC.description.value,
         mainCatgory:this.subC.mainCatgory.value
       }
@@ -108,14 +112,16 @@ export class SubCatagoryComponent implements OnInit {
       .subscribe(
         data => {
           if(data == 1){
-            Swal.fire({
-              text: 'Inserted successfully',
-              icon: 'success'
-            });
+            MessageAlertDisplay.SuccessToastMessage('Sub cataogry inserted succesfully');
+            this.subCatagoryResgiter.reset();
             this.submitted = false;
             this.loadFormData();
+            this.getId()
           }else{
-            Swal.fire('Oops...', `${data} Already inserted `, 'error');
+       //     this.loadFormData();
+            this.getId()
+            this.error ='Subcatogory is already inserted for the relevent main catogory'
+    
           }
       },
         error => {
@@ -123,8 +129,8 @@ export class SubCatagoryComponent implements OnInit {
           this.loading = false;
         });
         this.submitted = false;
-        this.subCatagoryResgiter.reset();
-        this.loadFormData()
+   
+      //  this.loadFormData()
     }
 
 

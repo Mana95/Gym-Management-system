@@ -118,7 +118,7 @@
                                     <div class="form-group col-md-6" *ngIf="activecat"  (change)="displayItemData(data)">
                                        
                                         <label for="Item"><b>Item name</b></label>
-                                        <select class="form-control"  formControlName=itemDetails   [ngClass]="{ 'is-invalid': submitted && f.itemDetails.errors }">
+                                        <select class="form-control" #data formControlName=itemDetails   [ngClass]="{ 'is-invalid': submitted && f.itemDetails.errors }">
                                             <option  selected>Item Status</option>           
                                             <option  *ngFor="let data of selectedItemObject" >{{data.item_name}} </option>
                                         </select>
@@ -131,7 +131,7 @@
                                     </div>
                                     <div class="form-group col-md-6" *ngIf="!activecat">
                                        
-                                        <label for="Supplier_Id">Item name</label>
+                                        <label for="Supplier_Id"><b>Item name</b></label>
                                         <select class="form-control" disabled>
                                             <option>Choose Category</option>
                                         </select>
@@ -161,7 +161,7 @@
                                         </div>
                                         <div class="form-group col-md-2" *ngIf="activecat">
                                             
-                                            <input type="text" class="form-control" numbersOnly formControlName="quantity" #currentQty  placeholder="Qty"
+                                            <input type="number" [min]='1' class="form-control"  formControlName="quantity" #currentQty  placeholder="Qty"
                                               [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
                                             <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
                                               <div *ngIf="f.quantity.errors.required">Qty is required</div>
@@ -181,7 +181,11 @@
                                                     aria-hidden="true"></i> &nbsp;Clear All</button> -->
 
                                     </div>
+                                   
                                 </div>
+                                <div class="alert alert-danger" role="alert" *ngIf="showQtyError">
+                                   Qty can't be empty!
+                                  </div>
                             </div>
                             </div>
                         </div>

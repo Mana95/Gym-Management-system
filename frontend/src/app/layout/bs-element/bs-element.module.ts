@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/shared/shared/shared.module';
 
 
 
@@ -12,7 +13,7 @@ import { PageHeaderModule } from './../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    imports: [CommonModule, BsElementRoutingModule, PageHeaderModule, NgbModule , ReactiveFormsModule,FormModule],
+    imports: [CommonModule, BsElementRoutingModule, PageHeaderModule, NgbModule , ReactiveFormsModule,SharedModule,FormModule],
     declarations: [BsElementComponent]
 })
 export class BsElementModule {}

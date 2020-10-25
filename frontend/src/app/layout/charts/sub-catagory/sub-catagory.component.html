@@ -9,6 +9,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div class="alert alert-danger" role="alert" *ngIf = "error != ''">
+          <b>{{error}}</b>
+        </div>
         <div class="modal-body">
           <form [formGroup]="subCatagoryResgiter" (ngSubmit)="onSubmit(userID)">
             <div class="form-row">
@@ -19,24 +22,34 @@
                   <div *ngIf="subC.sub_catId.errors.required">Catagory ID is required</div>
                 </div> -->
               </div>
+              
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Sub Catagory Name</label>
                 <input type="text" class="form-control" formControlName="sub_catName" placeholder="Sub Catagory Name"
                   [ngClass]="{ 'is-invalid': submitted && subC.sub_catName.errors }">
                 <div *ngIf="submitted && subC.sub_catName.errors" class="invalid-feedback">
-                  <div *ngIf="subC.sub_catName.errors.required">Main Catagory is required</div>
+                  <div *ngIf="subC.sub_catName.errors.required">Sub Catagory is required</div>
                 </div>
               </div>
             </div>
-
+            <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputState">Main Catagory</label>
-                <select formControlName = "mainCatgory" class="form-control" [ngClass]="{ 'is-invalid': submitted && subC.mainCatgory.errors }">
-                  <option disabled selected>Employee Status</option>
+                <!-- <select formControlName = "mainCatgory" class="form-control" [ngClass]="{ 'is-invalid': submitted && subC.mainCatgory.errors }">
+                  <option  selected>Main catagory Status</option>
                   <option *ngFor= "let data of mainCat">{{data.cat_name}}</option> 
-               </select>
+               </select> -->
+               <select class="custom-select" formControlName="mainCatgory" [ngClass]="{ 'is-invalid': submitted && subC.mainCatgory.errors }">
+                <option value="">Choose..</option>
+                <option *ngFor="let data of mainCat" [ngValue]="data.cat_name">{{data.cat_name}}</option>
+             </select>
+             <div *ngIf="submitted && subC.mainCatgory.errors" class="invalid-feedback">
+              <div *ngIf="subC.mainCatgory.errors.required">Main Catagory is required</div>
+            </div>
+
+
               </div>
-           
+            </div>
 
             <div class="form-group">
               <label for="exampleForsubControlTextarea1">Description</label>

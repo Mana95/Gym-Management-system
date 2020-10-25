@@ -17,11 +17,11 @@ export class CatagoryService {
      
      return this.http.get<any>(config.PAPYRUS + `/catagory/getNames/${catName}`);
    }
-   getItemsDetails(id) {
-    return this.http.get<any>(config.PAPYRUS + `/catagory/getByItemName/${id}`);
+   getItemsDetails(data) {
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getByItemName/`,{params:data});
    }
-   getchoosenItems(id) {
-    return this.http.get<any>(config.PAPYRUS + `/catagory/getitemsNames/${id}`);
+   getchoosenItems(data) {
+    return this.http.get<any>(config.PAPYRUS + `/catagory/getitemsNames/`,{params:data});
    }
 
    insertItemData(data) {

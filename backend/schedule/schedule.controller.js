@@ -33,6 +33,14 @@ router.get('/getmembershipcheckUsernameAvailable/:id' ,getmembershipcheckUsernam
 router.get('/getDietMyPlanID/:id' , getDietMyPlanID);
 router.get('/getAllExercise/:name' , getAllExercise);
 router.get('/loadMyAllSchedule/:role' , loadMyAllSchedule_controller);
+router.get('/loadPending' , loadPending);
+
+function loadPending(req ,res, next){
+    scheduleService.loadPending_service()
+    .then(sch => res.json(sch))
+    .catch(err => next(err));
+}
+
 
 function loadMyAllSchedule_controller(req ,res, next){
     scheduleService.loadMyAllSchedule_Service(req.params.role)

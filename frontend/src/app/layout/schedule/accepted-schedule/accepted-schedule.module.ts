@@ -18,7 +18,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AcceptedScheduleComponent],
   imports: [
-    CommonModule ,AcceptedScheduleRoutingModule,FormsModule, ReactiveFormsModule,SharedModule ,NgbModule ,FormModule
+    CommonModule ,AcceptedScheduleRoutingModule,FormsModule, ReactiveFormsModule,SharedModule ,NgbModule ,FormModule 
   ]
 })
 export class AcceptedScheduleModule { 

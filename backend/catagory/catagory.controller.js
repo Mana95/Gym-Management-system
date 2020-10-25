@@ -13,8 +13,8 @@ router.get('/getAllSub' , getSubCatData);
 router.get('/getCatName' , getCatName);
 router.get('/feteadsda/:id' , getReleventCat);
 router.get('/getItemDetails', getItemDetails);
-router.get('/getitemsNames/:id' , getitemsNames);
-router.get('/getByItemName/:id' ,  getByName);
+router.get('/getitemsNames' , getitemsNames);
+router.get('/getByItemName' ,  getByName);
 
 router.delete('/deleteRec/:id', deleteData);
 
@@ -41,15 +41,15 @@ function updateItem(req ,res ,next){
 function getByName(req,res,next) {
    // console.log(req.params.id);
    
-    catService.getByItemName(req.params.id)
+    catService.getByItemName(req.query)
     .then(item => res.json(item))
     .catch(err => next(err));
 }
 
 
 function getitemsNames(req,res,next){
-   // console.log(req.params.id)
-    catService.getItemrelventItems(req.params.id)
+
+    catService.getItemrelventItems(req.query)
     .then(item => res.json(item))
     .catch(err => next(err));
 }
@@ -117,7 +117,16 @@ function insertCatData (req, res ,next) {
     //console.log(req.body)
     let data = req.body;
     catService.insertCat(data)
-    .then(cat_data => res.json(cat_data))
+    .then(cat =>{
+        if(cat != undefined && cat.errorStatus !=undefined && cat.errorStatus ==true){
+            res.status(500).send({
+                message: cat
+            })
+        }else{
+            res.json(cat)
+        }
+    }
+    )
     .catch(err => next(err));
 
 

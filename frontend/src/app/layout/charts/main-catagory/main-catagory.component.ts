@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MainNewCatagoryComponent } from './main-new-catagory/main-new-catagory.component';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
 @Component({
   selector: 'app-main-catagory',
@@ -63,6 +64,7 @@ export class MainCatagoryComponent implements OnInit {
    //modelRef.componentInstance.user = rowData;
     modelRef.result.then((result) => {
       if (result) {
+        MessageAlertDisplay.SuccessToastMessage(result.message);
         this.loadData();
       }
       });

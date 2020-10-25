@@ -44,12 +44,13 @@ try{
 
 }
 
-async function getByItemName(id) {
-    return await ItemData.find({catId: id});
+async function getByItemName(data) {
+    return await ItemData.find({item_name: data.itemName});
 }
 
-async function getItemrelventItems(id) {
-    return await ItemData.find({id: id});
+async function getItemrelventItems(data) {
+
+    return await ItemData.find({cat_name: data.name});
 }
 
 async function getItemData(){
@@ -81,8 +82,9 @@ async function getAllSub() {
 async function insertSubCat(data) {
 
 const subcat = new SubCatagory(data);
-  
-const subCatagoryNameFind = await SubCatagory.findOne({sub_cat_name:data.sub_cat_name},
+
+
+const subCatagoryNameFind = await SubCatagory.findOne({sub_cat_name:data.sub_cat_name.toLowerCase() , mainCatgory:data.mainCatgory},
     function(error , responseDb){
         if(error){
             return 'Server Error Please Contact Admin';
@@ -104,10 +106,18 @@ async function getAll(){
 }
 
 async function insertCat(data){
+
+        //find duplicat catNames
+        const _duplicateCats = await Catagory.findOne({cat_name:data.cat_name});
+
+        if(_duplicateCats){
+            return {errorStatus:true , message:'Main catogory name is already available!Please try another name'}
+        };
    // console.log(data)
     const cat = new Catagory(data);
-   // console.log(cat);
-   
-    // save user
-    await cat.save();
+   // console.log(cat // save user
+    const _saveCat = await cat.save();
+    if(_saveCat){
+        return {errorStatus:false , message:'Main cataogry insert succesfully'}
+    }
 }

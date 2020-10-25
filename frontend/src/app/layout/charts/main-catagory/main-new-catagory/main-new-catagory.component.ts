@@ -90,11 +90,12 @@ if(this.catagoryResgiter.valid) {
   this.catagoryService.insertMainCat(mainCatData)
   .subscribe(
     data => {
-   this.activeModal.close('Update Done');
+   this.activeModal.close(data);
     console.log(data);
   },
     error => {
-      this.error = error;
+      this.error = error.error.message.message;
+      //if()
       this.loading = false;
     },
     () =>{

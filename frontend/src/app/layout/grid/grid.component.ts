@@ -6,7 +6,7 @@ import { routerTransition } from "../../router.animations";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import * as moment from "moment";
-import { BehaviorSubject, Observable, forkJoin } from "rxjs";
+import { BehaviorSubject, Observable, forkJoin, Subject } from "rxjs";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -15,6 +15,7 @@ import { User } from "src/app/_models";
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { GoodReaciveNote } from "src/app/_models/grn";
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
     selector: "app-grid",
@@ -58,7 +59,8 @@ export class GridComponent implements OnInit {
         status: "sdsd";
         price: "sdsd";
     }[];
-
+    public people$: Subject<any> = new Subject();
+    private searchDecouncer$: Subject<string> = new Subject();
     constructor(
         private orderService: OrderService,
         private authenticationService: AuthenticationService,
@@ -74,8 +76,31 @@ export class GridComponent implements OnInit {
 
     ngOnInit() {
         this.loadFormData();
+        this.setupSearchDebouncer();
     }
+    private setupSearchDebouncer(): void {
+        // Subscribe to `searchDecouncer$` values,
+        // but pipe through `debounceTime` and `distinctUntilChanged`
+        this.searchDecouncer$.pipe(
+          debounceTime(250),
+          distinctUntilChanged(),
+        ).subscribe((term: string) => {
+          // Remember value after debouncing
+          console.log('dsdsd')
+    
+          // Do the actual search
+          this.search(term);
+        });
+      }
+      private search(term: any): void {
+        // Clear results
+        this.people$.next(null);
+    
+        // Make API call
+      //  const url = `https://swapi.co/api/people/?search=${term.toLowerCase().trim()}`;
 
+      console.log('hello')
+      }
     loadFormData() {
         this.grnGroup = this.formBuilder.group({
             grnId: [""],
@@ -155,6 +180,11 @@ export class GridComponent implements OnInit {
 
         // this.getTable.controls['subTotal'].setValue(Total);
         // this.getTable[i].controls['subTotal'].setValue(Total);
+
+
+
+
+        this.searchDecouncer$.next(event);
     }
 
     getPurchaseOrderValue(poData) {

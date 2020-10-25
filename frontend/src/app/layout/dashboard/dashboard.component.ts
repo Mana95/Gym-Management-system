@@ -1,3 +1,4 @@
+import { ScheduleService } from './../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { GlobalService } from 'src/app/shared/global/global.service';
@@ -11,10 +12,12 @@ import { GlobalService } from 'src/app/shared/global/global.service';
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
-    
-
+    SchedulePending:number = 0;
+    SchedulePendingApprived:number = 0;
     constructor(
-        private globalService :GlobalService
+        private globalService :GlobalService,
+        private scheduleService:ScheduleService
+
     ) {
         this.sliders.push(
             {
@@ -56,10 +59,33 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() {
 
+
+
+        this.loadActivityData()
+    }
+    loadActivityData() {
+        this.scheduleService.loadPending()
+        .subscribe(
+            res=>{
+                var resArray = res;
+            let _findPening = resArray.filter(s=>s.status == 4);
+            let _findApproved = resArray.filter(s=>s.status == 1);
+                if(_findPening)
+                this.SchedulePending = _findPening.length;
+               if(_findApproved)
+               this.SchedulePendingApprived = _findApproved.length;
+            }
+        )
+
+    }
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
+    }
+
+    get typeOfCard() {
+        return 'schedule'
     }
 }

@@ -37,9 +37,15 @@ module.exports = {
     getDietMyPlanID,
     saveExercise,
     getAllExercise,
-    loadMyAllSchedule_Service
+    loadMyAllSchedule_Service,
+    loadPending_service
 
 };
+
+async function loadPending_service (){
+    return await Schedule.find({});
+
+}
 async function loadMyAllSchedule_Service(id) {
 
     console.log(id);

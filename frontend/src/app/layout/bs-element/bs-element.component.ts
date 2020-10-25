@@ -35,6 +35,7 @@ export class BsElementComponent implements OnInit {
   supllierId: any
   supData: any;
   active = false;
+  showQtyError = false;
   firstName: any;
   lastName: any;
   dataId: any;
@@ -118,9 +119,9 @@ export class BsElementComponent implements OnInit {
 
   displayItemData(data) {
     //console.log(data.value);
-    const _findReleventCatId = this.selectedItemObject .find(ob=>ob.cat_name == data.value);
-return ;
-    this.catagoryService.getItemsDetails(_findReleventCatId.id)
+    
+
+    this.catagoryService.getItemsDetails({itemName:data.value})
       .subscribe(
         data => {
 
@@ -141,12 +142,9 @@ return ;
 
   getCatValue(data) {
   
-    let selectionCataogyrObject = data.value;
-
-    const _findReleventCatId = this.selectionCataogyrObject.find(ob=>ob.cat_name == data.value);
-    
-  
-    this.catagoryService.getchoosenItems(_findReleventCatId.id)
+   
+    if(data.value != 'Catagory Status'){
+    this.catagoryService.getchoosenItems({name :data.value})
       .subscribe(
         data => {
           this.selectedItemObject = data;
@@ -161,7 +159,13 @@ return ;
         
         });
 
-    this.active = true
+   
+        
+  }else{
+    this.activecat = false;
+    this.errorMessage = false;
+  }
+  this.active = true
   }
 
   open(content, supplierName) {
@@ -263,6 +267,16 @@ return ;
     const itemId = this.f['itemId'].value;
     const itemName = this.purchaseOrderGroup.controls['itemName'].value;
     const qty = Number(this.f.quantity.value)
+   
+    if(typeof this.f.quantity.value != "number"){
+      this.showQtyError = true;
+        return
+    };
+    if(this.f.quantity.value ==0){
+      this.showQtyError = true;
+      return
+    }
+    this.showQtyError = false;
     let AvlQty = this.f.Avlqty.value;
     console.log(itemId);
 
@@ -360,6 +374,12 @@ return ;
       ItemDataValues: this.f.credentials.value
     }
     console.log(purchaseOrderData);
+    if(purchaseOrderData.ItemDataValues.length == 0){
+      Swal.fire('Oops...', `Can not submit without items`, 'error');
+      return;
+    }
+
+
 
     if (this.purchaseOrderGroup.valid) {
    

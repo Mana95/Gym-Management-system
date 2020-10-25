@@ -21,6 +21,8 @@
                 >
                     RTL/LTR
                 </a> -->
+        
+    
             </li> &nbsp;
             <li class="nav-item dropdown" ngbDropdown>
                 <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
@@ -61,7 +63,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown" ngbDropdown>
+            <!-- <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
                     <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">{{currentUser.firstName}}</span>
                 </a>
@@ -80,7 +82,7 @@
                         {{ 'View All' | translate }}
                     </a>
                 </div>
-            </li>
+            </li> -->
             <li class="nav-item dropdown" ngbDropdown>
                 <!-- <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
                     <i class="fa fa-language"></i> {{ 'Language' | translate }} <b class="caret"></b>
@@ -111,14 +113,20 @@
                         {{ 'Simplified Chinese' | translate }}
                     </a>
                 </div> -->
+         
             </li>
+          
             <li *ngIf="getCartData()>0"><button type="button" class="btn btn-outline-warning" [routerLink]="['/addToCart']"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> {{getCartData()}} </button>
+            
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-user"></i>{{currentUser.firstName}}<b class="caret"></b>
+                    <i class="fa fa-user" ></i>{{currentUser.firstName}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
+                    <a  aria-disabled="true" class="dropdown-item" disabled='true' href="javascript:void(0)">
+                        <i class="fa fa-user-secret"></i> <b>{{ 'Role : ' + currentUser.role | uppercase }}</b>
+                    </a>
                     <a (click)="profilePageLoad()" class="dropdown-item" href="javascript:void(0)">
                         <i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}
                     </a>
