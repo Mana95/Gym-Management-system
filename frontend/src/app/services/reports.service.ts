@@ -24,4 +24,8 @@ export class ReportsService {
     return this.http.get<any>(config.PAPYRUS + `/users/usersReports/`,  {params:data});
   }
 
+  getItemReport(itemData):Observable<any>{
+    return this.http.get<any>(config.PAPYRUS + `/users/item_reports/`,  {params:itemData});
+  }
+
 }

@@ -12,6 +12,8 @@ import { User } from 'src/app/_models';
 })
 export class ProfileComponent implements OnInit {
   id:any;
+  displayProfileData :any;
+  stepperNumber :number = 0;
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -34,11 +36,38 @@ export class ProfileComponent implements OnInit {
     this.authenticationService.loadProfileData(this.id)
     .subscribe(
       data => {
+        this.displayProfileData = data[0];
         console.log(data);
       },
       error=>{
         console.log(error);
       }
     )
+  }
+  get getUserId() {
+    if(this.displayProfileData){
+      switch(this.displayProfileData.role){
+        case 'Admin':
+          return this.displayProfileData.user_id
+        break;
+        case 'Membership':
+          return this.displayProfileData.customerID
+        break;
+        case 'Instructor':
+          return this.displayProfileData.isId
+        break;
+      }
+  
+    }
+
+ 
+
+
+
+  }
+  navigateNextStepper(navNumber){
+   
+        this.stepperNumber =navNumber
+    
   }
 }

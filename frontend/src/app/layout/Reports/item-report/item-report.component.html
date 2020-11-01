@@ -1,3 +1,78 @@
-<p>
-  item-report works!
-</p>
+<div class="card mb-8">
+  <div class="card-body table-responsive">
+    <div class="col-md-12">
+      <div class="card bg-light mb-2">
+        <div class="card-header">
+          <h2><b><i class="fa fa-archive" aria-hidden="true"></i>
+             Items's summary report </b></h2>  
+        </div>
+        <div class="card-body">
+     
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="userID"><b>Date from</b></label>
+                <input type="date"  max="{{toDate|date:'yyyy-MM-dd'}}"  [(ngModel)]="fromDate" class="form-control"   [ngClass]="{
+                  'is-invalid':
+                      submitted && (fromDate == undefined)
+              }" />
+              <div *ngIf="submitted && fromDate == undefined" class="invalid-feedback">
+                <div >
+                  From date is required
+                </div>
+              </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="userID"><b>Date to</b></label>
+                  <input type="date"  min="{{fromDate|date:'yyyy-MM-dd'}}"  [(ngModel)]="toDate" class="form-control"   [ngClass]="{
+                    'is-invalid':
+                        submitted  && (toDate == undefined)
+                }" />
+                <div *ngIf="submitted && toDate == undefined" class="invalid-feedback">
+                  <div >
+                    To date is required
+                  </div>
+                </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="userID"><b>Catogry name</b> </label>
+                    <select  [(ngModel)]="catogry" class="form-control" id="exampleFormControlSelect1" (ngModelChange)="onChangeDisplayItemList()">
+                      <option value="" [disabled]="true">Select catogry</option>
+                      <option *ngFor="let quantity of catQuantities" [ngValue]="quantity.cat_name">{{quantity?.cat_name}}</option>
+               </select>
+               
+                  </div>
+                     </div>
+                     <div class="form-row">
+                      <div class="form-group col-md-6" *ngIf="catogry != ''" >
+                      <label for="userID"><b>Item name</b><small *ngIf ="itemName == ''" style="color: red;"> Note :Pleae select the an item</small> </label>
+                      <select  [(ngModel)]="itemName" class="form-control" id="exampleFormControlSelect1" (ngModelChange)="onChangeDisplayItemList()">
+                        <option value="" [disabled]="true">Select Item</option>
+                        <option *ngFor="let quantity of itemQuantity" [ngValue]="quantity.item_name">{{quantity?.item_name}}</option>
+                 </select>
+                     
+                        
+                      </div>
+                      <!-- <div class="form-group col-md-3" >
+                        <label for="firstName"><b>Active/Inactive </b></label>
+                                <div class="form-check">
+                                    <input type="checkbox"  [(ngModel)]="itemStatus" class="form-check-input"  >
+                                   
+                                  </div>  
+                        
+                      </div> -->
+                    </div>
+                    <br/>
+                    <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <button type="button"  (click)="onClickGenerateReport()" class="btn btn-primary btn-sm" ><i class="fa fa-cogs" aria-hidden="true"></i>  Generate Report</button>
+                        </div>
+                      </div>
+           
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

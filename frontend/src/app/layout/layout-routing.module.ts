@@ -96,7 +96,11 @@ const routes: Routes = [
             { path: 'poReport', loadChildren: () => import('./Reports/po-reports/po-reports.module').then(m => m.PoReportsModule), canActivate: [AuthGuard]},
             { path: 'user_report', loadChildren: () => import('./Reports/user-report/user-report.module').then(m => m.UserReportModule), canActivate: [AuthGuard]},
             { path: 'grn_report', loadChildren: () => import('./Reports/grn-report/grn-report.module').then(m => m.GrnReportModule), canActivate: [AuthGuard]},
+            { path: 'item_report', loadChildren: () => import('./Reports/item-report/item-report.module').then(m => m.ItemReportModule), canActivate: [AuthGuard]},
         
+
+
+
             {path:'edit-instructor-page/:id' , loadChildren: ()=> import('./user/instructors/instructors-edit/instructors-edit.module').then(m=>m.InstructorsEditModule), canActivate: [AuthGuard]},
             {path:'edit-supplier-page/:id' , loadChildren: ()=> import('./user/suppliers/edit-suplliers/edit-suplliers.module').then(m=>m.EditSuplliersModule), canActivate: [AuthGuard]},
 

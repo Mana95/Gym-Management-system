@@ -6,9 +6,9 @@ import { UserRoutingModule } from './user-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeaderModule } from './../../shared';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembershiptypeComponent } from './membershiptype/membershiptype.component';
 import { ScheduleTypeComponent } from './schedule-type/schedule-type.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -19,7 +19,7 @@ import { ModalModule } from 'ngx-bootstrap';
 @NgModule({
  
   imports: [
-    CommonModule  , UserRoutingModule ,PageHeaderModule ,   FormsModule,
+    CommonModule  , UserRoutingModule ,PageHeaderModule ,FormsModule,
     ReactiveFormsModule ,FileUploadModule ,
     NgbModule, NgxPaginationModule ,Ng2SearchPipeModule ,SharedModule,
     ModalModule.forRoot(),

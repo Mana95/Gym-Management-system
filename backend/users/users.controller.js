@@ -58,6 +58,7 @@ router.get('/getReleventType/:type' , getReleventType);
 router.get('/getByIdInstructor/:id', getByIdInstructor);
 router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmployee);
 router.get('/usersReports', usersReportsDataLoad);
+router.get('/item_reports', item_reports_controller);
 router.get('/getReleventUserData/:id', getReleventUserData);
 router.get('/getCommentData/:id', getCommentDataController);
 router.put('/:id', update);
@@ -89,7 +90,11 @@ router.get('/getInvoiceData/:id',getInvoiceData_Controller);
 
 module.exports = router;
 
-
+function item_reports_controller(req ,res ,next){
+    userService.item_reports_service(req.query)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 function inActiveScheduleType_controller(req , res, next){
 
     userService.inActiveScheduleType_service(req.params.id)

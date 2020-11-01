@@ -8,6 +8,7 @@ const details = require("details.json");
 var moment = require('moment');
 const nodemailer = require("nodemailer");
 const { ok } = require("assert");
+const { ItemData } = require("../_helpers/db");
 
 const User = db.User;
 const Roles = db.Roles;
@@ -24,7 +25,7 @@ const Instructor = db.Instructor;
 const Comment = db.Comment;
 const Invoice =db.Invoice;
 const MembershipStatus =db.MembershipStatus;
-
+const Cart = db.Cart;
 
 
 
@@ -94,10 +95,123 @@ module.exports = {
   updateMembershipReciptDetails_service,
   getMembershipTypByCatagory_service,
   patchScheduleType_service,
-  inActiveScheduleType_service
+  inActiveScheduleType_service,
+  item_reports_service
 
 };
 
+
+
+async function item_reports_service(itemData){
+  console.log(itemData);
+  let _filterGn = [];
+  const _findAllCartData = await Cart.find({createdDate:{$gte: new Date(moment(itemData.fromDate).add(1, 'day')), $lte:new Date(moment(itemData.toDate).add(1, 'day'))}});
+   
+    if(itemData && itemData.itemName == ''){
+ //  console.log(_findAllCartData.length);  
+      if(_findAllCartData && _findAllCartData.length > 0){
+        _findAllCartData.forEach((crt , index)=>{
+            if(crt && crt.CartValues && crt.CartValues.length>0){
+              crt.CartValues.forEach((itm , giIndex)=>{
+                let _arrayData = {
+                  itemId :itm.itemId,
+                  itemName:itm.itemName,
+                  avlQty:itm.avlableQty,
+                  deductQty:Number(itm.qty),
+                  sellingPrice:itm.sellingPrice,
+                  paymentDate : crt.paymentDate,
+                  nowAvailableQty:0
+                }
+
+              _filterGn.push(_arrayData)
+              });
+            }
+
+          })
+        }
+    }else{
+      if(_findAllCartData){
+        _findAllCartData.forEach((crt , index)=>{
+          if(crt && crt.CartValues && crt.CartValues.length>0){
+            crt.CartValues.forEach((itm , giIndex)=>{
+              if(itm.itemName == itemData.itemName){
+              let _arrayData = {
+                itemId :itm.itemId,
+                itemName:itm.itemName,
+                avlQty:itm.avlableQty,
+                deductQty:Number(itm.qty),
+                sellingPrice:itm.sellingPrice,
+                paymentDate : crt.paymentDate,
+                nowAvailableQty:0
+              }
+              _filterGn.push(_arrayData)
+            }
+            });
+          }
+
+        })
+      }
+      
+    }
+   // return _filterGn
+ //   console.log(_filterGn.length)
+    if(_filterGn.length>0){
+      var _findItemTable = (itemData.itemName == '')?await ItemData.find({}):await ItemData.find({$and:[{item_name:itemData.itemName ,cat_name:itemData.catogry}]});
+     
+     if(_findItemTable){
+       _findItemTable.forEach((finItm , index)=>{
+            var filterData = _filterGn.filter(ct=>ct.itemName == finItm.item_name);
+            if(filterData.length > 0)
+            filterData[0].nowAvailableQty = finItm.quantity;
+       })
+     };
+    }else{
+      return 'No such data for your item report request'
+    }
+
+    return _filterGn;
+}
+
+async function getUsersReports(data){
+  console.log(data);
+  var statusData = false;
+  if(data.status != ''){
+    const statusVal = (data.status=='true') ? true : false;
+    statusData = statusVal
+  }
+
+  if(statusData ==true && data.role != ''){
+ return await User.find({ role:data.role , active:statusData, createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}},
+ function(error , result){
+  if(result != undefined && result.length ==0){
+    return 2;
+}
+ });
+}else if(statusData ==true && data.role==''){
+  return await User.find({  active: statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+  {
+      if(result != undefined && result.length ==0){
+          return 2;
+      }
+  });
+}else if(statusData ==false && data.role !=''){
+  console.log('HI')
+  return await User.find({role: data.role,active:statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+  {
+      if(result != undefined && result.length ==0){
+          return 2;
+      }
+  });
+}
+else{
+  return await User.find({createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
+        {
+            if(result != undefined && result.length ==0){
+                return 2;
+            }
+        });   
+}
+}
 async function inActiveScheduleType_service(id){
   await ScheduleType.updateOne({
     _id : id
@@ -485,46 +599,7 @@ async function instrucotrInactive(data){
    }
 }
 
- async function getUsersReports(data){
-  console.log(data);
-  var statusData = false;
-  if(data.status != ''){
-    const statusVal = (data.status=='true') ? true : false;
-    statusData = statusVal
-  }
-
-  if(statusData ==true && data.role != ''){
- return await User.find({ role:data.role , active:statusData, createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}},
- function(error , result){
-  if(result != undefined && result.length ==0){
-    return 2;
-}
- });
-}else if(statusData ==true && data.role==''){
-  return await User.find({  active: statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
-  {
-      if(result != undefined && result.length ==0){
-          return 2;
-      }
-  });
-}else if(statusData ==false && data.role !=''){
-  console.log('HI')
-  return await User.find({role: data.role,active:statusData,  createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
-  {
-      if(result != undefined && result.length ==0){
-          return 2;
-      }
-  });
-}
-else{
-  return await User.find({createdDate:{$gte: new Date(moment(data.fromDate).add(1, 'day')), $lte:new Date(moment(data.toDate).add(1, 'day'))}}, function(error , result)
-        {
-            if(result != undefined && result.length ==0){
-                return 2;
-            }
-        });   
-}
-}
+ 
 
 
 async function membershipInactive(data) {
@@ -604,27 +679,27 @@ async function loadProfileData(id) {
   });
 
   const role = userRole[0].role;
-  const username = userRole[0].username;
+  const email = userRole[0].email;
 
   //switch cases to find relevent data
   switch (role) {
     case "Admin":
-      return await User.find({username:username});
+      return await User.find({email:email});
       break;
     case "User":
-      return await Employee.find({username:username});
+      return await Employee.find({email:email});
       break;
     case "Supplier":
-      return await Supplier.find({username:username});
+      return await Supplier.find({email:email});
       break;
     case "Customer":
-      return await Customers.find({username:username});
+      return await Customers.find({email:email});
       break;
     case "Membership":
-      return await Membership.find({username:username});
+      return await Membership.find({email:email});
       break;
     case "Instructor":
-      return await Instructor.find({username:username});
+      return await Instructor.find({email:email});
       break;
   }
 }

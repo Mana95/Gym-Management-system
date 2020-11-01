@@ -159,7 +159,7 @@
 </a> -->
 
 <!-- diet plan -->
-<div class="nested-menu" *ngIf = "Instructor || !onlyMember">
+<!-- <div class="nested-menu" *ngIf = "Instructor || !onlyMember">
     <a class="list-group-item" (click)="addExpandDietClass('pages')">
         <i class="fa fa-tags"></i>&nbsp;
         <span>{{ 'Diet Plan' | translate }}</span>
@@ -171,7 +171,7 @@
                 <i class="fa fa-shopping-bag"></i>&nbsp;
                 <span>{{ 'All DietPlan' | translate }}</span>
             </a>
-        </li>
+        </li> -->
         <!-- <li>
             <a href="javascript:void(0)" [routerLink]="['/new-diet-plan']" [routerLinkActive]="['router-link-active']" >
                 <i class="fa fa-adjust" aria-hidden="true"></i>&nbsp;
@@ -179,11 +179,11 @@
             </a>
         </li>
          -->
-        </ul>
+        <!-- </ul>
 </li>
 
 
-</div>
+</div> -->
 
 
 <!-- Catagory -->
@@ -340,8 +340,22 @@
                         <span>{{ 'User Reports' | translate }}</span>
                     </a>
                 </li>
+                <li >
+                    <a [routerLink]="['/item_report']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
+                        <i class="fa fa-calendar-o"></i>&nbsp;
+                        <span>{{ 'Item Reports' | translate }}</span>
+                    </a>
+                </li>
+                <li >
+                    <a [routerLink]="['/user_report']" [routerLinkActive]="['router-link-active']" class="list-group-item"  >
+                        <i class="fa fa-calendar-o"></i>&nbsp;
+                        <span>{{ 'Membership Reports' | translate }}</span>
+                    </a>
+                </li>
                 </ul>
+                
         </li>
+      
             </div>
 
        
