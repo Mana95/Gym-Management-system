@@ -15,7 +15,19 @@
 
                   </div>
                     <hr/>
-                    <br/>
+                    <div class="form-group form-inline">
+                      <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                          </div>
+                          <input class="form-control" type="text" name="searchText"
+                          placeholder="Search...." [(ngModel)]="searchText" />   </div>
+                      </div>
+                  </div>
+      
+     <hr/>
                     <table class="table table-striped table-hover table-bordered sm" id="mytable">
                       <caption>
                         <b>View Instructor Details</b>
@@ -41,7 +53,12 @@
                         </tr>
                       </thead>
                       <tbody>                 
-                        <tr *ngFor= "let data of instructorData">                
+                        <tr *ngFor= "let data of instructorData | paginate
+                        : {
+                              itemsPerPage: 10,
+                              currentPage: p
+                          }
+                    | filter: searchText">                
                           <td style="text-align: center;">
                             {{data.isId}}</td>
                           <td style="text-align: center;">
@@ -61,7 +78,7 @@
                         
                       </tbody>
                     </table>
-
+                    <pagination-controls (pageChange)="p = $event" style="float:right;"></pagination-controls>
                       </div>
                 </div>
             </div>

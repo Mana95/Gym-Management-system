@@ -8,26 +8,43 @@
       </button>
     </p>
   </div>
+  
   <div class="card-body table-responsive">
+    <div class="row">
+      <div class="col-md-6">
+      <h2>
+        <b><i class="fa fa-users" aria-hidden="true"></i>  All {{thisSalectedValue}} Employee  Status</b>
+      </h2>
+      </div>
+      <div class="col-md-4">
+          
+        <select class="form-control" id="power" required (change)="getChangeValue($event)">
+          <option selected>Employee Status</option>
+          <option *ngFor="let pow of selectOptionStatus" [value]="pow">{{pow}}</option>
+        </select>
+      
+      </div>
+      </div>
+      <hr />
     <table class="table table-hover table-striped">
       <thead>
         <div class="row">
           <div class="container">
             <div class="row">
-              <div class="col-md-7">
-                <h2>
-                  <b><i class="fa fa-users" aria-hidden="true"></i>  All {{thisSalectedValue}} Employee  Status</b>
-                </h2>
-                <select class="form-control" id="power" required (change)="getChangeValue($event)">
-                  <option selected>Employee Status</option>
-                  <option *ngFor="let pow of selectOptionStatus" [value]="pow">{{pow}}</option>
-                </select>
-              
-              </div>
+              <div class="form-group form-inline">
+                <div class="col-auto">
+                  <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                  <div class="input-group mb-6">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    </div>
+                    <input class="form-control" type="text" name="searchText"
+                    placeholder="Search...." [(ngModel)]="searchText" />   </div>
+                </div>
             </div>
-            <hr />
-            <br />
-
+            </div>
+          
+          
             <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
               <caption>
                 <b>View Employee Details</b>

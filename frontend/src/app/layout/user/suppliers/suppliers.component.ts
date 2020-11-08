@@ -10,6 +10,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 })
 export class SuppliersComponent implements OnInit {
   supData:any;
+  searchText:any
+  p: number = 1;
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,

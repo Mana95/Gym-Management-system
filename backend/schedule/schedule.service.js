@@ -128,10 +128,13 @@ async function createScheduleAndDiet(data) { //futrure development
         let updateData = {
             Sid: shcduleData.ScheduleId,
             status: 4,
-            dietPlan:true,
+            dietPlan:shcduleData.dietPlan,
             createdInstructorId: shcduleData.instructorId,
             createrName: shcduleData.instructorName
         }
+        
+       
+
         Schedule.updateOne({
             Sid: updateData.Sid
         }, {

@@ -59,6 +59,10 @@ router.get('/getByIdInstructor/:id', getByIdInstructor);
 router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmployee);
 router.get('/usersReports', usersReportsDataLoad);
 router.get('/item_reports', item_reports_controller);
+router.get('/grn_reports', grn_reports_controller);
+
+
+
 router.get('/getReleventUserData/:id', getReleventUserData);
 router.get('/getCommentData/:id', getCommentDataController);
 router.put('/:id', update);
@@ -90,6 +94,11 @@ router.get('/getInvoiceData/:id',getInvoiceData_Controller);
 
 module.exports = router;
 
+function grn_reports_controller(req ,res ,next){
+    userService.grn_reports_service(req.query)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 function item_reports_controller(req ,res ,next){
     userService.item_reports_service(req.query)
     .then(data => res.json(data))
@@ -379,8 +388,16 @@ async function NewPassword(req, res) {
 function savemember(req ,res ,next){
     //console.log(req.body)
     userService.savememberData(req.body)
-    .then(member => res.json(member))
-    .catch(err => next(err));
+   .then(user =>{
+            if(user != undefined && user.errorStatus !=undefined && user.errorStatus ==true){
+                res.status(500).send({
+                    message: user
+                })
+        }else{
+            res.json(user)  
+        }
+    })
+        .catch(err => next(err));
 }
 
 

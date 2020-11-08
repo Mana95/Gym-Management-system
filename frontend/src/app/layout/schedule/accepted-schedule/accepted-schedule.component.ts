@@ -663,12 +663,11 @@ export class AcceptedScheduleComponent implements OnInit {
       sceduleData: sceduleData,
       dietPlan: dietPlan
     }
-
-
+   
+    if(this.DietPlanGroup.valid == false){
+      sceduleData.dietPlan = false;
+    }
   
-  
-
-return 
     if (this.ScheduleMakeGroup.valid) {
       this.saveScheduleData(schduleObject);
     } else if (this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid) {

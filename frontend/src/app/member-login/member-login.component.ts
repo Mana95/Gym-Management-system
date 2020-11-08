@@ -99,21 +99,22 @@ export class MemberLoginComponent implements OnInit {
         this.authenticationService.saveMembership(memberData)
         .subscribe(
           response=>{
-            console.log(response);
-            this.error = response;
-            if(response ==1){
-
               Swal.fire({
                 text: 'Registered  success',
                 icon: 'success'
               });
-
-
               this.memberGroup.reset();
              this.router.navigate(['/login']);
-            }
           },
           error=>{
+        
+             if(error.error&& error.error.message){
+               if(error.error.message.array.length == 1){
+                this.error = error.error.message.array[0] + ' Already avaible';
+               }else{
+                this.error = error.error.message.array[0] + ' and '+ error.error.message.array[1] + ' Already avaible';
+               }
+             }
             console.log('Error');
             console.log(error);
           }

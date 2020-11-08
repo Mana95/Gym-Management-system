@@ -19,7 +19,7 @@ export class UserComponent implements OnInit {
   pageSize = 4;
   userview: any;
   p: number = 1;
-  searchText;
+  searchText:any;
   profileUrl: any = '../../../../../../backend/uploads/';
   loading = false;
   error = '';

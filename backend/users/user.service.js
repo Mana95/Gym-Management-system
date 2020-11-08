@@ -8,7 +8,7 @@ const details = require("details.json");
 var moment = require('moment');
 const nodemailer = require("nodemailer");
 const { ok } = require("assert");
-const { ItemData } = require("../_helpers/db");
+const { ItemData, GRN } = require("../_helpers/db");
 
 const User = db.User;
 const Roles = db.Roles;
@@ -96,11 +96,59 @@ module.exports = {
   getMembershipTypByCatagory_service,
   patchScheduleType_service,
   inActiveScheduleType_service,
-  item_reports_service
+  item_reports_service,
+  grn_reports_service
 
 };
 
-
+async function grn_reports_service(grnData){
+  let _grnArray = [];
+  const _findAllGrnData = await GRN.find({createdDate:{$gte: new Date(moment(grnData.fromDate).add(1, 'day')), $lte:new Date(moment(grnData.toDate).add(1, 'day'))}});
+  console.log(grnData); 
+  if(_findAllGrnData){
+     if(grnData.type == 'wihout item'){
+     
+      _findAllGrnData.forEach((grn , index)=>{
+        if(grnData.supplierName == ''){
+          let grnDetail = {
+            date : grn.date,
+            grnId :grn.id,
+            purchaseOrderId : grn.purchaseOrderId,
+            supplierName :grn.supplierName,
+            totalAmount : grn.totalAmount
+          }
+          _grnArray.push(grnDetail);
+        }else{
+          if(grnData.supplierName == grn.supplierName){
+            let grnDetail = {
+              date : grn.date,
+              grnId :grn.id,
+              purchaseOrderId : grn.purchaseOrderId,
+              supplierName :grn.supplierName,
+              totalAmount : grn.totalAmount
+            }
+            _grnArray.push(grnDetail);
+          }
+        }
+     
+      })
+      
+     }else{
+      _findAllGrnData.forEach((itmGrn , gIndex)=>{
+            let grnItemDetail = {
+              date : itmGrn.date,
+              grnId :itmGrn.id,
+              purchaseOrderId : itmGrn.purchaseOrderId,
+              supplierName :itmGrn.supplierName,
+              totalAmount : itmGrn.totalAmount,
+              items : itmGrn.ItemGrnTable
+            }
+            _grnArray.push(grnItemDetail); 
+      })
+     }
+     }
+      return _grnArray;
+}
 
 async function item_reports_service(itemData){
   console.log(itemData);
@@ -908,22 +956,37 @@ if(errorArray.length == 0){
 //Insert member to Database
 async function savememberData(data) {
  
-
-  
+  let _dupplicateData = [];
   if (await User.findOne({ email: data.email })) {
-    return 'Email "' + data.email + '" is already taken';
-  } else if (await User.findOne({ nicNumber: data.nicNumber })) {
-    return 'NicNumber "' + data.nicNumber + '" is already taken';
+    // throw 'User name is already existent';
+    _dupplicateData.push(data.email);
+   
   }
+  if (await User.findOne({ nicNumber: data.nicNumber })){
+    _dupplicateData.push(data.nicNumber);
+  }
+  if(_dupplicateData.length > 0 ){
+    return {errorStatus:true , array:_dupplicateData}
+  }		
   const user = new User(data);
-  // hash password
   if (data.password) {
-    user.hash = bcrypt.hashSync(data.password, 10);
-  }
-  // save user
-  if (await user.save()) {
-    return 1;
-  }
+      user.hash = bcrypt.hashSync(data.password, 10);
+    }
+    await user.save()
+  // if (await User.findOne({ email: data.email })) {
+  //   return 'Email "' + data.email + '" is already taken';
+  // } else if (await User.findOne({ nicNumber: data.nicNumber })) {
+  //   return 'NicNumber "' + data.nicNumber + '" is already taken';
+  // }
+  // const user = new User(data);
+  // // hash password
+  // if (data.password) {
+  //   user.hash = bcrypt.hashSync(data.password, 10);
+  // }
+  // // save user
+  // if (await user.save()) {
+  //   return 1;
+  // }
 }
 
 
@@ -1388,12 +1451,12 @@ async function getCatDataRelevent(id) {
 }
 
 async function getSuppliers() {
-  console.log('dsda')
+ 
   return await Supplier.find({active:true});
 }
 
 async function supRegister(data) {
-console.log('HI');
+
 const emailData = data.mailData
   //define the variable
   const userData = data.UserData;
@@ -1512,7 +1575,7 @@ async function cusRegister(data) {
 }
 
 function mailSendMethod(data ,email){
-console.log()
+
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -1557,7 +1620,7 @@ transporter.sendMail(mailOptions, (err, info) => {
 
 
 async function getDetailUsers(roleValue) {
-  console.log("service" + roleValue);
+
   return await User.find({ assignRole: roleValue });
 }
 
@@ -1567,7 +1630,7 @@ async function getGroupNames() {
 }
 
 async function loadByID(id) {
-  console.log("Service:" + id);
+ 
   return await Groups.findById(id);
 }
 
@@ -1645,7 +1708,7 @@ async function UpdateUserService(newData) {
 }
 
 async function groupinsertion(groupData) {
-  console.log("groupData");
+ 
 
   const group = new Groups(groupData);
   console.log(group);
@@ -1744,8 +1807,8 @@ async function creationUser(userData) {
 }
 
 async function signUpUser(data) {
-  console.log(data.username);
-  if (await User.findOne({ username: data.username })) {
+ // console.log(data.username);
+  if (await User.findOne({ email: data.email })) {
     // throw 'User name is already existent';
    console.log('Hello world');
     let message = 3;

@@ -165,16 +165,13 @@ if(this.registerForm.valid){
 this.authenticationService.register(userParam)
 .subscribe(
     data=> {
-     //   console.log('data');
-      //  console.log(data);
         this.customerData = true;
        
         if(data == UserRegistrationStatus.DUPLICATEUSER ){
             this.active = true;
-            this.errorValue = 'User Name is available';
+            this.errorValue = 'Email is available';
           console.log(this.errorValue);
         }
-       // setTimeout(function(){  this.active =false; }, 2000);
     },
     error => {
      //   console.log('error');

@@ -150,7 +150,7 @@ onSubmit() {
     this.submitted = true;
     this.loading = true;
     if(this.f.amount.value != "")
-    var amount =  this.f.amount.value.toFixed(2);
+    var amount =  Number(this.f.amount.value).toFixed(2);
 
     // if(this.membershipGroup.valid && this.f.amount.value <= 1500){
     //     return;

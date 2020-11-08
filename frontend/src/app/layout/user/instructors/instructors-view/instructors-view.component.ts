@@ -13,6 +13,9 @@ export class InstructorsViewComponent implements OnInit {
   instructorData:any;
   powers:any;
   pow:any;
+  searchText:any;
+  p: number = 1;
+
   constructor(
     private router: Router,
     private authenticationService : AuthenticationService

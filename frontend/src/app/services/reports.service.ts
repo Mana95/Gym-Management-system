@@ -28,4 +28,8 @@ export class ReportsService {
     return this.http.get<any>(config.PAPYRUS + `/users/item_reports/`,  {params:itemData});
   }
 
+  getGRNReport(grnData):Observable<any>{
+    return this.http.get<any>(config.PAPYRUS + `/users/grn_reports/`,  {params:grnData});
+  }
+
 }
