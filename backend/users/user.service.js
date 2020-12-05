@@ -1828,6 +1828,9 @@ async function signUpUser(data) {
 
 async function authenticate({ email, password }) {
 
+
+    
+
   if (await User.findOne({ email: email, active: false })) {
     return {errorStatus:true , message:"User is not Activated please contact admin department"}
   } else if (!(await User.findOne({ email: email }))) {

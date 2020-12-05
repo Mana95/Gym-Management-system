@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged, filter, map, mergeMap } from 'rxjs/
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import Stepper from 'bs-stepper';
+import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class AcceptedScheduleComponent implements OnInit {
   ScheduleId: any;
   buttonDisplay = false;
   ScheduleMakeGroup: FormGroup;
+  
   //day2CheckBox:boolean = false;;
   DietPlanGroup: FormGroup;
   dietSubmitted = false;
@@ -45,7 +47,7 @@ export class AcceptedScheduleComponent implements OnInit {
   buttonProDisplay = false;
   monthwise = false;
   dayawise = false
-  Display = false;
+  Display :boolean = false;
   arrayData: any;
   states = [];
   maxNumber: any;
@@ -134,10 +136,14 @@ export class AcceptedScheduleComponent implements OnInit {
 
 
 
-
-
   addIntervals() {
+    
+   
+    
+    
+
     this.disaledButton = false;
+
     this.intervalArray.push(this.formBuilder.group({
       intervalName: ['', Validators.required],
       intervalItemArray: this.formBuilder.array([this.getEmbeddedData()])
@@ -159,6 +165,7 @@ export class AcceptedScheduleComponent implements OnInit {
   }
 
   getEmbeddedData() {
+
     return this.formBuilder.group({
       foodItemName: ['', Validators.required],
       quantity: ['', Validators.required],
@@ -613,6 +620,9 @@ export class AcceptedScheduleComponent implements OnInit {
   if (this.f.dietPlan.value == true && this.dietPlan.intervalNames.value.length == 0) {
     Swal.fire('Oops...', `Please add diet plan intervals`, 'error');
     return;
+  }
+  if(this.f.dietPlan.value == false){
+    MessageAlertDisplay.confirmationMessage()
   }
     let sceduleData = {
       id: this.f.id.value,

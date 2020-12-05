@@ -5,7 +5,7 @@ const cron = require("node-cron");
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var multer = require('multer');
+var multer = require('multer'); //file uploader
 var moment = require('moment');
 
 const jwt = require('_helpers/jwt');

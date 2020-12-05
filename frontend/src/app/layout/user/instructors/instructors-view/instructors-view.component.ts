@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -13,24 +13,27 @@ export class InstructorsViewComponent implements OnInit {
   instructorData:any;
   powers:any;
   pow:any;
-  searchText:any;
-  p: number = 1;
+    searchText:any;
+    p: number = 1;
 
-  constructor(
-    private router: Router,
-    private authenticationService : AuthenticationService
-  ) { }
+    constructor(
+      private router: Router,
+      private authenticationService : AuthenticationService
+    ) { }
 
-  ngOnInit() {
-    this.authenticationService.getAllSchedule()
-    .subscribe(
-      response=>{
-        this.powers = response;
+    ngOnInit() {
+      this.authenticationService.getAllSchedule()
+      .subscribe(
+        response=>{
+          this.powers = response;
        
       }
     )
     this.loadTableData();
   }
+
+  
+
   getChangeValue(event) {
    // console.log(event.target.value);
     let selectedValue = event.target.value;
@@ -61,6 +64,12 @@ export class InstructorsViewComponent implements OnInit {
     .subscribe(
       response=>{
         this.instructorData = response
+      },
+      error=>{
+        console.log(error)
+      },
+      ()=>{
+
       }
     )
   }
@@ -105,3 +114,4 @@ export class InstructorsViewComponent implements OnInit {
 
 
 }
+
