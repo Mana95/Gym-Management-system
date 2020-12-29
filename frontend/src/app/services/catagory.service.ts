@@ -25,7 +25,7 @@ export class CatagoryService {
    }
 
    insertItemData(data) {
-     console.log('SERVICE' + data);
+     
     return this.http.post<any>(config.PAPYRUS + `/catagory/insertItemData`, data);
    }
 

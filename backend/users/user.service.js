@@ -27,8 +27,6 @@ const Invoice =db.Invoice;
 const MembershipStatus =db.MembershipStatus;
 const Cart = db.Cart;
 
-
-
 module.exports = {
   authenticate,
   getAll,
@@ -97,9 +95,30 @@ module.exports = {
   patchScheduleType_service,
   inActiveScheduleType_service,
   item_reports_service,
-  grn_reports_service
+  grn_reports_service,
+  getMembershipById_Service,
+  checkMembership_Service
 
 };
+
+async function checkMembership_Service(reqData){
+   var _CheckAvailbility = await Membership.findOne({$and:[{customerID:reqData ,AcceptedRejectedStatus:'Pending'||'Accepted'}]})
+    if(_CheckAvailbility){
+      return {message: 'Inprogress'}
+    }else{
+      return {message: 'Pending'}
+    }
+
+}
+
+async function getMembershipById_Service(id){
+  const _findUser = await User.findOne({user_id:id});
+  if(_findUser){
+      return await Membership.findOne({email:_findUser.email});
+  }else{
+    return;
+  };
+}
 
 async function grn_reports_service(grnData){
   let _grnArray = [];
@@ -261,6 +280,7 @@ else{
 }
 }
 async function inActiveScheduleType_service(id){
+  console.log('dsdsds')
   await ScheduleType.updateOne({
     _id : id
     },
@@ -780,7 +800,7 @@ async function getreleventRoleData(data) {
 }
 
 async function getAllSchedule() {
-  return await ScheduleType.find({});
+  return await ScheduleType.find({active:true});
 }
 
 async function getAllMembership() {
@@ -791,7 +811,7 @@ async function getAllMembership() {
 async function savescheduleType(body) {
  
   var _findDuplicates =await ScheduleType.findOne({type:body.type});
- 
+  console.log('Hellow')
   if(_findDuplicates  == undefined){
     const scheduleType = new ScheduleType(body);
     await scheduleType.save();

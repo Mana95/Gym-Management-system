@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
     statusMessage = false;
      erroShow = false;
      showErrorMessage :boolean =false;
+     loginCounter :number=0;
+     counter:number;
+     currentUser:any;
     constructor(
         private formBuilder: FormBuilder,
         public router: Router,
@@ -65,10 +68,35 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           if(data.errorStatus != undefined && data.errorStatus == false){
+            this.currentUser = this.authenticationService.currentUserValue;
+            if(this.currentUser && this.currentUser.role == 'Member'){
+              this.authenticationService.checkMembership( this.currentUser.user_id)
+              .subscribe(
+                response =>{
+                 if(response.message == 'Inprogress'){
+                  localStorage.setItem('dashboadStatus', 'true');
+                 }else{
+                  localStorage.setItem('dashboadStatus', 'false');
+
+                 }
+                }
+
+              )
+
+
+            }
             this.router.navigate(['/dashboard']);
           };
         },
         error => {
+
+            //password limiter
+          this.setLoginCounter()
+
+
+
+
+
           this.error = error.error.message
           this.loading = false; 
           if(error.error != undefined && error.error.message.errorStatus ==true){
@@ -81,5 +109,16 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
         localStorage.setItem('isLoggedin', 'true');
+    }
+
+    setLoginCounter() {
+      this.loginCounter += 1;
+      localStorage.setItem('logCount', this.loginCounter.toString());
+
+      if (this.loginCounter % 3 === 0) {
+                this.counter = 30 * (Math.pow(2, (this.loginCounter / 3) - 1));
+                console.log(this.counter)
+      }
+
     }
 }

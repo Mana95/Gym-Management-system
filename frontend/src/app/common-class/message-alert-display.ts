@@ -5,11 +5,11 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 export class MessageAlertDisplay {
 
-    static SuccessToastMessage(message , open:boolean=false) {
+    static SuccessToastMessage(message , open:boolean=false ,icon=undefined) {
         
       const Toast = Swal.mixin({
         toast: true,
-        position: 'bottom-left',
+        position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
@@ -20,7 +20,7 @@ export class MessageAlertDisplay {
       })
       
       Toast.fire({
-        icon: 'success',
+        icon: (icon==undefined)?'success':icon,
         title: message
       })
     }

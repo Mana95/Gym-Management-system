@@ -178,6 +178,7 @@ export class TablesComponent implements OnInit {
               text: 'Item Update successfully',
               icon: 'success'
             });
+            this.modalService.dismissAll();
           },
           error => {
             this.error = error;

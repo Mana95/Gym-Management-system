@@ -60,7 +60,7 @@ router.get('/getReleventActivationOfEmployee/:id', getReleventActivationOfEmploy
 router.get('/usersReports', usersReportsDataLoad);
 router.get('/item_reports', item_reports_controller);
 router.get('/grn_reports', grn_reports_controller);
-
+router.get('/getMembershipById/:id' , getMembershipById_controller)
 
 
 router.get('/getReleventUserData/:id', getReleventUserData);
@@ -91,8 +91,22 @@ router.post('/updateMembershipCardStatus' , updateMembershipCardStatus_controlle
 router.post('/updateMembershipReciptDetails' , updateMembershipReciptDetails_controller)
 router.get('/getMembershipTypByCatagory/:cat',getMembershipTypByCatagory_controller);
 router.get('/getInvoiceData/:id',getInvoiceData_Controller);
-
+router.get('/checkMembership/:id',checkMembership_Controller);
 module.exports = router;
+
+
+function checkMembership_Controller(req ,res ,next){
+    userService.checkMembership_Service(req.params.id)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
+
+
+function getMembershipById_controller(req ,res ,next){
+    userService.getMembershipById_Service(req.params.id)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 function grn_reports_controller(req ,res ,next){
     userService.grn_reports_service(req.query)

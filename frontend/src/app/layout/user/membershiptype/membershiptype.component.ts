@@ -173,15 +173,16 @@ if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value ==
   this.autenticationService.insertMembershipTypeData(typeData)
   .subscribe(
     response=> {
-      console.log(response);
+   
+      this.modalService.dismissAll();
       MessageAlertDisplay.errorMessage();
     },
     error=>{
       MessageAlertDisplay.responseErrorMessage(`${typeData.membershipName} is already inserted`);
-      console.log(error);
+    
     },
     ()=>{
-      console.log("Your Membership Data is succesfully inserted into Mongodb Collection");
+    
       MessageAlertDisplay.SuccessToastMessage('Membership Type successfully created');
       this.submitted = false;
       this.membershipGroup.reset();

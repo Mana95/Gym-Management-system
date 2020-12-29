@@ -90,11 +90,6 @@ export class ScheduleTypeComponent implements OnInit {
 
   //saveData 
   onSubmit() {
-
-
-
-
-
     this.submitted = true;
     this.loading = true;
     const m = moment();
@@ -102,7 +97,7 @@ export class ScheduleTypeComponent implements OnInit {
 
     let schedule = {
       id: this.f.id.value,
-      type: this.f.typeName.value,
+      type: this.f.typeName.value.toLowerCase(),
       description: this.f.description.value,
       createdDate: new Date(m.format('L')),
       active:true
@@ -111,35 +106,23 @@ export class ScheduleTypeComponent implements OnInit {
 
     if (this.scheduleTypeGroup.valid) {
 
+      if(this.scheduleData){
+        let _findSchdeuleType = this.scheduleData.filter(sc => sc.id == this.f.id.value);
+        if(this.scheduleData == undefined){
+          this.saveUpdateSchdule(schedule);
+        }else if(_findSchdeuleType && _findSchdeuleType.length == 0){
+          this.saveUpdateSchdule(schedule);
+        }else{
 
-      const findSchduleType = this.scheduleData.filter(sc => sc.id == this.f.id.value);
-      if (findSchduleType && findSchduleType.length == 0) {
-        this.autenticationService.saveScheduleType(schedule)
+          let _findSchdeul = this.scheduleData.filter(sc => sc.type == schedule.type);
+
+          if(_findSchdeul.length > 0 && _findSchdeul[0].id != schedule.id){
+            MessageAlertDisplay.SuccessToastMessage('Schedule name is already inserted!', false , 'error');
+            return;
+          }
+          this.autenticationService.patchScheduleType(schedule)
           .subscribe(
             data => {
-
-              MessageAlertDisplay.SuccessToastMessage('Schedule Type successfully created');
-            },
-            error => {
-              if (error && error.errorStatus) {
-
-              }
-
-              console.log(error);
-            },
-            () => {
-              this.submitted = false;
-              this.scheduleTypeGroup.reset();
-              this.loadID();
-              this.loadTypeData();
-            }
-
-          )
-      } else {
-        this.autenticationService.patchScheduleType(schedule)
-          .subscribe(
-            data => {
-
               MessageAlertDisplay.SuccessToastMessage('Schedule Type updated successfully!');
             },
             error => {
@@ -157,7 +140,19 @@ export class ScheduleTypeComponent implements OnInit {
             }
 
           )
+        }
+
+
       }
+      //var findSchduleType = this.scheduleData.filter(sc => sc.id == this.f.id.value);
+      
+
+
+      // if ((findSchduleType && findSchduleType.length == 0) || this.scheduleData == undefined) {
+        
+      // } else {
+       
+      // }
 
     }
 
@@ -196,5 +191,33 @@ export class ScheduleTypeComponent implements OnInit {
     }
   });
   }
+
+
+
+    saveUpdateSchdule(schedule){
+      this.autenticationService.saveScheduleType(schedule)
+      .subscribe(
+        data => {
+
+          MessageAlertDisplay.SuccessToastMessage('Schedule Type successfully created');
+        },
+        error => {
+          console.log(error);
+          if (error) {
+            MessageAlertDisplay.SuccessToastMessage(error.error.message.errorMessage, false , 'error');
+          }
+
+          console.log(error);
+        },
+        () => {
+          this.submitted = false;
+          this.scheduleTypeGroup.reset();
+          this.loadID();
+          this.loadTypeData();
+        }
+
+      )
+    }
+
 
 }

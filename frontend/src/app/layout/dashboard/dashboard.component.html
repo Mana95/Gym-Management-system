@@ -1,12 +1,21 @@
 <div [@routerTransition]>
     <hr> 
-    <div class="row">
+    <div class="row" *ngIf="isAdmin">
             <div class="col-xl-3 col-lg-6">
         <h2><b>Activity</b></h2>
         </div>
     </div>
     
-    <div class="row">
+    <div class="row" *ngIf="isMembers">
+        <div class="col-xl-12 col-lg-12">
+    <h4><div class="alert alert-info" role="alert">
+        <b> {{getDisplayMessage}}  </b>
+      </div></h4>
+    </div>
+</div>
+
+
+    <div class="row" *ngIf="isAdmin">
         
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'secondary'" [icon]="'fa-tasks'" [count]="SchedulePending" [typeOfCard]='typeOfCard' [label]="'TO BE CREATED SCHEDULE'" ></app-stat>
@@ -20,16 +29,22 @@
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'danger'" [icon]="'fa fa-sticky-note-o'" [count]="13" [label]="'TO BE INVOICED'"></app-stat>
         </div>
+        <hr />
     </div>
-    <hr />
+   
+    
+      <div class="row"  *ngIf="isMembership">
+        <div class="col-xl-6 col-lg-6">
+            <h4><b>Membership type:</b>  {{membershipType}} </h4>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+                <h4><b>Membership expire date:</b> {{membershipExpireDate}} </h4>
+                </div>
+      </div>
       <hr />
     <div class="row">
-   <div class="col-xl-3 col-lg-6">
-                  
-<br>
-
- 
-
-        </div>
+        <div class="col-xl-6 col-lg-6">
+            <h2><b>New Announcement</b></h2>
+            </div>
     </div>
 </div>

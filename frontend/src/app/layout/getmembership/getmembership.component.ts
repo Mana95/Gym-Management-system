@@ -658,12 +658,19 @@ export class GetmembershipComponent implements OnInit {
             console.log(response);
               if(UserRegistrationStatus.SUCCESS == response){
               this.opensweetalert();
+
+
+              localStorage.setItem('dashboadStatus', 'true');
+
+
+
+
               this.router.navigate(['/dashboard'])
               this.submitted = false;
               this.getMembershipGroup.reset();
               this.loadAutoGenId();     
             }else if(response == UserRegistrationStatus.DUPLICATEID){
-              console.log('HI heo helo')
+    
               this.opensweetalertdng(AlertMessages.DUPLICATEIDMEMBERSHIP);
             }
           },

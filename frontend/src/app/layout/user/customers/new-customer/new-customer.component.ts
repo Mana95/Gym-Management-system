@@ -531,6 +531,7 @@ export class NewCustomerComponent implements OnInit {
           if(response==1){
             console.log(1);
             //create the invoice report
+            
             const documentDefinition = this.getDocumentDefinition(cus_data ,userParam);
             pdfMake.createPdf(documentDefinition).open();
             // Swal.fire({
@@ -542,7 +543,7 @@ export class NewCustomerComponent implements OnInit {
             this.MembershipGroup.reset();
             this.loadData();
             this.submitted = false;
-          
+            this.router.navigate(['/Membership']);
           }else{
             Swal.fire('Oops...',`${response[0]} ,${response[1]} is Already inserted`, 'error')
           }

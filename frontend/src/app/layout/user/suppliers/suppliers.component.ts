@@ -39,23 +39,24 @@ export class SuppliersComponent implements OnInit {
     
   }
   routePage(data) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['/edit-supplier-page', data._id]);   
+    this.router.navigate(['/edit-supplier-page', data._id]);
+    // Swal.fire({
+    //   title: 'Are you sure?',
+    //   text: 'You will not be able to recover this imaginary file!',
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Yes, delete it!',
+    //   cancelButtonText: 'No, keep it'
+    // }).then((result) => {
+    //   if (result.value) {
+         
 
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
+    //   // For more information about handling dismissals please visit
+    //   // https://sweetalert2.github.io/#handling-dismissals
+    //   } else if (result.dismiss === Swal.DismissReason.cancel) {
      
-      }
-    })
+    //   }
+    // })
     
   }
   deleteSupplier(data) {

@@ -18,6 +18,8 @@ export class AuthenticationService {
   public cartItemsSubject:BehaviorSubject<Cart>;
   public cartItemsUser:Observable<Cart>;
 
+  private currentMembershipSubject: BehaviorSubject<any>;
+  public currentMembership: Observable<any>;
 
   constructor(
 
@@ -25,6 +27,11 @@ export class AuthenticationService {
   ) { 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
+    this.currentMembershipSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('membership')));
+    this.currentMembership = this.currentMembershipSubject.asObservable();
+
+   
 
     this.cartItemsSubject = new BehaviorSubject<Cart>(
       JSON.parse(localStorage.getItem("cartObject"))
@@ -45,8 +52,16 @@ export class AuthenticationService {
    // console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
+  
 
+  public get currentMembershipValue() {
+    return this.currentMembershipSubject.value;
+  }
 
+  checkMembership(objectData):Observable<any>{
+    return this.http.get(config.PAPYRUS+`/users/checkMembership/${objectData}`)
+  
+  }
   getMembershipTypByCatagory(event){
     return this.http.get(config.PAPYRUS+`/users/getMembershipTypByCatagory/${event}`)
   }
@@ -318,7 +333,7 @@ export class AuthenticationService {
         //Get Group data by id 
 
         LoadGroupData(groupid): Observable<any> {
-          console.log("service :" + groupid);
+       
           return this.http.get<any>(config.PAPYRUS+`/users/getId/${groupid}`);
 
         }
@@ -341,6 +356,7 @@ export class AuthenticationService {
           // }
           localStorage.removeItem('currentUser');
           localStorage.removeItem('cartObject');
+          localStorage.removeItem('membership');
           this.currentUserSubject.next(null);
         }
 
@@ -348,7 +364,7 @@ export class AuthenticationService {
         var cartdata = this.cartItemsSubject.value;
 
           if(cartdata!=undefined){
-            console.log(cartdata);
+           
           }
           localStorage.removeItem('cartObject');
 
@@ -391,6 +407,11 @@ export class AuthenticationService {
 
         loadAllinvoiceData() {
           return this.http.get(config.PAPYRUS+`/users/loadAllinvoiceData`);  
+        }
+
+
+        getMembershipById(id) {
+          return this.http.get(config.PAPYRUS+`/users/getMembershipById/${id}`);  
         }
 }
 

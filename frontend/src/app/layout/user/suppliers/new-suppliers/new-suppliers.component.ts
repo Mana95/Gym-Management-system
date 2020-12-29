@@ -284,9 +284,11 @@ export class NewSuppliersComponent implements OnInit {
             });
             this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'
             this.submitted = false;
+            this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png';
+            this.f.document.value.reset()
             this.supRegister.reset();
             this.loadNewId();
-            this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'
+        
           }else{
             if(response.length ==1){
               Swal.fire('Oops...', `${response[0]} Already inserted `, 'error');

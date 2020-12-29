@@ -1,8 +1,11 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ScheduleService } from './../../services/schedule.service';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { GlobalService } from 'src/app/shared/global/global.service';
-
+import { Role } from 'src/app/_models/role';
+import * as moment from "moment";
+import { BehaviorSubject, Observable } from 'rxjs';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -14,9 +17,22 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     SchedulePending:number = 0;
     SchedulePendingApprived:number = 0;
+    membershiptType:string;
+    currentUser: any;
+    membershipType:string;
+    membershipObject : any;
+    membershipExpireDate : string;
+
+
+
+    private displayStatusSubject: BehaviorSubject<any>;
+    public displayStatus: Observable<any>;
+  
+
     constructor(
         private globalService :GlobalService,
-        private scheduleService:ScheduleService
+        private scheduleService:ScheduleService,
+        private authenticationService:AuthenticationService,
 
     ) {
         this.sliders.push(
@@ -57,14 +73,36 @@ export class DashboardComponent implements OnInit {
                 voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
             }
         );
+        this.currentUser = this.authenticationService.currentUserValue;
+
+        if(this.currentUser.role == 'Membership'){
+            this.authenticationService.getMembershipById(this.currentUser.user_id)
+            .subscribe(response=>{
+                this.membershipObject = response
+                this.membershipType =  this.membershipObject.typeName;
+              this.membershipExpireDate = moment(this.membershipObject.endDate).format('MMM Do YYYY')
+
+
+            })
+        }
+        
     }
 
     ngOnInit() {
+     //   localStorage.setItem('dashboadStatus', 'false');
+        this.loadActivityData();
 
-
-
-        this.loadActivityData()
+        this.displayStatusSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('dashboadStatus')));
+        this.displayStatus = this.displayStatusSubject.asObservable();
+       
     }
+
+    public get checkDisplayStatus() {
+  
+        return this.displayStatusSubject.value;
+      }
+
+
     loadActivityData() {
         this.scheduleService.loadPending()
         .subscribe(
@@ -79,6 +117,9 @@ export class DashboardComponent implements OnInit {
             }
         )
 
+
+             
+
     }
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);
@@ -87,5 +128,34 @@ export class DashboardComponent implements OnInit {
 
     get typeOfCard() {
         return 'schedule'
+    }
+
+
+    get isMembership() {
+
+        return this.currentUser && this.currentUser.role === Role.Membership;
+
+        // for(var i =0 ; this.role_name_array.length; i++ ){
+        //     return this.currentUser && this.currentUser.role === this.role_name_array[i];
+        // }
+       
+    }
+    get isMembers() {
+        return this.currentUser && this.currentUser.role === Role.Member;
+    }
+    get isAdmin() {
+        return this.currentUser && this.currentUser.role === Role.Admin;
+    }
+
+
+
+    get getDisplayMessage() {
+        var _displayStatus = this.checkDisplayStatus;
+      
+        if(_displayStatus == true){
+            return 'Now your membership request is on processing'
+        }
+     
+        return   ' Request a membership package by clicking the "Request membership"';
     }
 }
