@@ -299,7 +299,7 @@ export class GridComponent implements OnInit {
             ItemGrnTable: this.f.TableArray.value,
             totalAmount: this.f.totalAmount.value,
         };
-        console.log(GRNDATA.ItemGrnTable);
+        
         if (this.grnGroup.valid) {
             Swal.fire({
                 title: "Do you want to print GRN?",

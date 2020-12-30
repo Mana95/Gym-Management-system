@@ -273,9 +273,30 @@ async function SaveDataGrn(data) {
     //update Field QTY
     var qtyArray = grnData.ItemGrnTable;
     // console.log(qtyArray[0]);
-
+ 
     if(await grnSave.save()){
-       // console.log('save wenwa GRN')
+       // console.log('save wenwa GRN');
+       if(grnData && grnData.ItemGrnTable.length>0){
+        grnData.ItemGrnTable.forEach((itm , i)=>{
+            var _findItem = ItemData.findOne({id:itm.itemId});
+            if(_findItem){
+                if(_findItem.buyingPrice < Number(itm.buyingPrice)){
+                 ItemData.updateOne({id:itm.itemId},{$set:{'buyingPrice':Number(itm.buyingPrice)}},function(err , result){
+                     if(err){
+                         console.log(err)
+                     }else{
+                         console.log(result)
+                     }
+                 });
+                }
+            }
+        })
+    }
+      
+
+
+    
+
     await PurchaseOrder.updateOne({purchaseOrderId:grnData.purchaseOrderId},  { $set:{"status":"Completed"}} );
    // console.log('PO UDPATED')
     qtyArray.forEach((itemData, index) => {

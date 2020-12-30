@@ -164,16 +164,16 @@
               <tbody>
                 <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
 
-                <tr *ngFor="let data of itemData">
+                <tr *ngFor="let data of itemData" [ngStyle]="{'color': (data?.selling_price < data?.buyingPrice)?'red':''}">
 
                   <td style="text-align: center;"><img width="50" height="50" class="avatar"[src]="data.image"/></td>
-                  <td style="text-align: center;">{{ data.item_name}}</td>
-                  <td style="text-align: center;">{{data.sub_cat}}</td>
-                  <td style="text-align: center;">{{data.cat_name}}</td>
-                  <td style="text-align: center;" >{{data?.selling_price}}</td>
-                  <td style="text-align: center;" >{{data?.quantity}}</td>
-                  <td style="text-align: center;"><button type="button" class="btn btn-primary btn-sm"><i
-                        class="fa fa-pencil" (click)="openEditModel(data)" aria-hidden="true"></i></button> &nbsp;
+                  <td style="text-align: center;">{{ data?.item_name}}</td>
+                  <td style="text-align: center;">{{data?.sub_cat}}</td>
+                  <td style="text-align: center;">{{data?.cat_name}}</td>
+                  <td style="text-align: center;" [ngStyle]="{'color': (data.selling_price == undefined)?'red':'black'}"><b>{{(data.selling_price |  currency:'Rs:':'symbol') || 'Not set'}}</b></td>
+                  <td style="text-align: center;" >{{data.quantity|| 0}}</td>
+                  <td style="text-align: center;"><button type="button" (click)="openEditModel(data)"  [disabled]="(data.quantity == undefined?true:false)" class="btn btn-primary btn-sm"><i
+                        class="fa fa-pencil"  aria-hidden="true"></i></button> &nbsp;
                     <button type="button" (click)="inActiveItem(data)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"
                         aria-hidden="true"></i></button></td>
 

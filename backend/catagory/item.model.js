@@ -80,6 +80,9 @@ const schema = new Schema({
         type:Boolean,
         default:false
     },
+    buyingPrice:{
+        type: Number,
+    },
     stock: [{
         stockId: {
             type: String,

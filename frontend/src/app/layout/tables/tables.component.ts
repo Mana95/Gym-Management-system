@@ -165,7 +165,7 @@ export class TablesComponent implements OnInit {
         itemCreatedName: this.currentUserSubject.value.user_id,
         itemType: this.f.itemType.value,
         itemStatus:true,
-        
+        buyingPrice:0
        
       };
       

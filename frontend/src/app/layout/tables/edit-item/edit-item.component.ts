@@ -64,6 +64,7 @@ export class EditItemComponent implements OnInit {
       sub_cat: ['', Validators.required],
       importCountry: ['', Validators.required],
       selling_price:['',Validators.required],
+      buying_price:[''],
       expDate:['']
     })
     this.editItemGroup.controls['id'].setValue(this.user.id);
@@ -73,6 +74,7 @@ export class EditItemComponent implements OnInit {
     this.editItemGroup.controls['description'].setValue(this.user.description);
     this.editItemGroup.controls['cat_name'].setValue(this.user.cat_name);
     this.editItemGroup.controls['sub_cat'].setValue(this.user.sub_cat);
+    this.editItemGroup.controls['buying_price'].setValue(this.user.buyingPrice);
     if(this.user.selling_price !=undefined){
       this.editItemGroup.controls['selling_price'].setValue(this.user.selling_price);
     }

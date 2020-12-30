@@ -23,7 +23,7 @@
                             <div class="form-group col-md-6" (change)="getPurchaseOrderValue(data)">
                                 <label for="Supplier_Id">Purchase Order ID</label>
                                 <select class="form-control" #data formControlName="purchaseOrderId">
-                                    <option selected>Choose...</option>
+                                    <option value=''>Choose...</option>
                                     <option *ngFor="let data of poId">{{
                                         data.purchaseOrderId
                                     }}</option>

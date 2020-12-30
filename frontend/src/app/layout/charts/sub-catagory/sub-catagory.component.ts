@@ -116,7 +116,9 @@ export class SubCatagoryComponent implements OnInit {
             this.subCatagoryResgiter.reset();
             this.submitted = false;
             this.loadFormData();
-            this.getId()
+            this.getId();
+            this.modalService.dismissAll();
+            
           }else{
        //     this.loadFormData();
             this.getId()
