@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'src/app/config/config';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 
 
 @Component({
@@ -179,6 +180,8 @@ const supplierDetails = {
       this.error = error;
       this.loading = false;
     })
+  }else{
+    Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
   }
 
  }

@@ -4,11 +4,13 @@
       <div class="card bg-light mb-2">
         <div class="card-header">
           <h2><b> <i class="fa fa-handshake-o" aria-hidden="true"></i>
-             Get Membership Request</b></h2>  
+             Get Membership Request form</b></h2>  
            
         </div>
         <div class="card-body">
           <form [formGroup]="getMembershipGroup" (ngSubmit)="onSubmit()">
+           <h3><b>Personal information</b></h3>
+           <hr>
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="userID"><b>Membership ID</b></label>
@@ -159,7 +161,9 @@
                   It is not a valid Emergency number.
                 </div>
               </div>
-            </div>
+            </div><hr>
+            <h3><b>Body measurements</b></h3>
+            <hr>
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="inputPassword4">Height</label>
@@ -264,7 +268,9 @@
               </label>
               <textarea class="form-control" formControlName="description" rows="3"></textarea>
             </div>
-
+            <hr>
+            <h3><b>Membership information</b></h3>
+            <hr>
             <div class="form-row">
               <div class="form-group col-md-3" (change)="displayAmount(data)" >
                 <label for="inputPassword4">Membership Type</label>

@@ -16,7 +16,8 @@ export class MainCatagoryComponent implements OnInit {
   userGroup:any;
   loading = false;
   error = '';
-
+  searchText:any;
+    p: number = 1;
   constructor(
     private catagoryService: CatagoryService,
     private authenticationService: AuthenticationService,

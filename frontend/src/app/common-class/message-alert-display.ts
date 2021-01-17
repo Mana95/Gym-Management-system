@@ -2,6 +2,7 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { AlertMessages } from '../_models/schedule-status';
 pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 export class MessageAlertDisplay {
 
@@ -26,9 +27,7 @@ export class MessageAlertDisplay {
     }
 //validation failed
 static errorMessage() {
-    Swal.fire({
-        title: `Form validation failed`,
-        icon: 'error'})
+  Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
 }
 
 static responseErrorMessage(message) {

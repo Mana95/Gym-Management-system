@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { config } from 'src/app/config/config';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { AlertMessages } from "src/app/_models/schedule-status";
 @Component({
     selector: "app-instructors-edit",
     templateUrl: "./instructors-edit.component.html",
@@ -504,6 +505,8 @@ export class InstructorsEditComponent implements OnInit {
 
 
 
+        }else{
+            Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
         }
     }
     uploadImage(data:FormData ,uniqueId): Observable<any> {

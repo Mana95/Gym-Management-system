@@ -45,7 +45,7 @@
                                                 submitted &&
                                                 f.membershipCatagory.errors
                                         }">
-                                        <option selected>Choose...</option>
+                                        <option value="">Choose...</option>
                     <option  *ngFor="let data of states" >{{
                                             data
                                         }}</option>
@@ -100,7 +100,7 @@
                                             'is-invalid':
                                                 submitted && f.periodType.errors
                                         }"  (change) = "onChangeCategory($event)"  >
-                                        <option selected>Choose...</option>
+                                        <option value="">Choose...</option>
                                         <option *ngFor="let data of periodType">{{data}} </option>
                  
                   </select>
@@ -113,11 +113,12 @@
                 <!-- Month -->
                 <div class="form-group col-md-6" *ngIf="monthToMonth">
                   <label for="inputPassword4">Month</label>
+
                   <select class="form-control" formControlName="YMDValue" [ngClass]="{
                                             'is-invalid':
                                                 submitted && f.YMDValue.errors
                                         }">
-                   
+                    <option value="">Choose...</option>
                     <option *ngFor="let data of mounthArray">{{ data }}</option>
                   </select>
                   <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
@@ -133,7 +134,7 @@
                             'is-invalid':
                                 submitted && f.YMDValue.errors
                         }">
-   
+                        <option value="">Choose...</option>
     <option *ngFor="let data of mounthArray">{{ data }}</option>
   </select>
   <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
@@ -151,7 +152,7 @@
                             'is-invalid':
                                 submitted && f.YMDValue.errors
                         }"    (change) = "identifyWeeks($event)">
-   
+                         <option value="">Choose...</option>
     <option *ngFor="let data of dayArrays">{{ data }}</option>
   </select>
   <div *ngIf="submitted && f.YMDValue.errors" class="invalid-feedback">
@@ -219,6 +220,17 @@
 
           <hr />
           <!-- <p>Your role is: <strong>{{currentUser.role}}</strong>.</p> -->
+          <div class="form-group form-inline">
+            <div class="col-auto">
+              <label class="sr-only" for="inlineFormInputGroup">Search</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                </div>
+                <input class="form-control" type="text" name="searchText"
+                placeholder="Search...." [(ngModel)]="searchText" />   </div>
+            </div>
+        </div>
           <br />
 
           <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
@@ -253,7 +265,12 @@
             <tbody>
               <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
 
-              <tr *ngFor="let data of values">
+              <tr *ngFor="let data of values | paginate
+              : {
+                    itemsPerPage: 10,
+                    currentPage: p
+                }
+          | filter: searchText">
                 <td style="text-align: center;">
                   {{ data.membership_type_id }}
                 </td>
@@ -281,6 +298,8 @@
               </tr>
             </tbody>
           </table>
+          <pagination-controls (pageChange)="p = $event" style="float:right;"></pagination-controls>
+           
         </div>
       </div>
     </thead>

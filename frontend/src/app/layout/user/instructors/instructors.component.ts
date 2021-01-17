@@ -448,7 +448,7 @@ if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/defaul
    }
  )
 }else {
-  Swal.fire('Oops...', `${AlertMessages.ERRORMESSAGEFORFORMVALIDATION}`, 'error');
+  Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
 }
   }
 

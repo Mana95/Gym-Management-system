@@ -38,6 +38,17 @@
                     
          <hr />
                     <!-- <p>Your role is: <strong>{{currentUser.role}}</strong>.</p> -->
+                    <div class="form-group form-inline">
+                      <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInputGroup">Search</label>
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                          </div>
+                          <input class="form-control" type="text" name="searchText"
+                          placeholder="Search...." [(ngModel)]="searchText" />   </div>
+                      </div>
+                  </div>
                     <br />
                    
            
@@ -56,7 +67,12 @@
                       <tbody>
                         <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
              
-                        <tr *ngFor="let data of userGroup">
+                        <tr *ngFor="let data of userGroup| paginate
+                        : {
+                              itemsPerPage: 10,
+                              currentPage: p
+                          }
+                    | filter: searchText">
                 
                           <td style="text-align: center;" >{{data.id}}</td>
                           <td style="text-align: center;">{{ data.cat_name}}</td>
@@ -69,4 +85,6 @@
 
                       </tbody>
                   </table>
+                  <pagination-controls (pageChange)="p = $event" style="float:right;"></pagination-controls>
+         
               </div>

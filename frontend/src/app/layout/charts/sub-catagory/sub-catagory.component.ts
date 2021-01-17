@@ -20,6 +20,10 @@ export class SubCatagoryComponent implements OnInit {
   loading = false;
   error = '';
   userId:any;
+
+  searchText:any;
+  p: number = 1;
+  
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,

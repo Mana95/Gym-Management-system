@@ -14,6 +14,9 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   styleUrls: ['./membershiptype.component.scss']
 })
 export class MembershiptypeComponent implements OnInit {
+  pow:any;
+  searchText:any;
+  p: number = 1;
 
   submitted = false;
   loading = false;

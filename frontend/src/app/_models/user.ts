@@ -20,6 +20,7 @@ export class User {
     phonenumber:number; 
     membershipStatus:boolean;
     nicNumber:string;
+    createdDate:string;
 }
 
 export enum UserRegistrationStatus {

@@ -21,6 +21,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 })
 export class TablesComponent implements OnInit {
   private currentUserSubject: BehaviorSubject<User>;
+  searchText:any;
+  p: number = 1;
   public currentUser: Observable<User>;
   itemData: any;
   closeResult: string;

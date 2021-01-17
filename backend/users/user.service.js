@@ -1505,7 +1505,7 @@ const emailData = data.mailData
     function(error, res){
      
       if(res!==null){
-        supplierArray.cdbacakpush('Nic Number');
+        supplierArray.push('Nic Number');
       }
     });
 

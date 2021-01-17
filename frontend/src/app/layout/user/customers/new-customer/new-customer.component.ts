@@ -9,7 +9,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from "moment";
-import { membershipPeriodType } from 'src/app/_models/schedule-status';
+import { AlertMessages, membershipPeriodType } from 'src/app/_models/schedule-status';
 import { MembershipService } from 'src/app/services/membership.service';
 import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 
@@ -561,7 +561,7 @@ export class NewCustomerComponent implements OnInit {
 
 
     }else{
-      Swal.fire('Oops...',`Form Validation failed`, 'error')
+      Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
     }
 
   }

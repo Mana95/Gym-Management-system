@@ -11,6 +11,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import Stepper from 'bs-stepper';
 import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 
 
 @Component({
@@ -683,7 +684,7 @@ export class AcceptedScheduleComponent implements OnInit {
     } else if (this.ScheduleMakeGroup.valid && this.DietPlanGroup.valid) {
       this.saveScheduleData(schduleObject);
     } else {
-      Swal.fire('Oops...', `Form validation failed`, 'error')
+      Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
     }
     if (this.displayDietPlan == true) {
       //dekama save wenna ona ne

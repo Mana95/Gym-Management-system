@@ -50,6 +50,17 @@
         </div>                                      
             </div>
             <hr />
+            <div class="form-group form-inline">
+              <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Search</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                  </div>
+                  <input class="form-control" type="text" name="searchText"
+                  placeholder="Search...." [(ngModel)]="searchText" />   </div>
+              </div>
+          </div>
             <br />
             
             <table #dataTable class="table table-striped table-hover table-bordered table-sm" id="mytable">
@@ -74,7 +85,7 @@
                   <td colspan="12" style="text-align: center;"><b>There are no records to show</b></td>
                 </tr>
                 
-                <tr *ngFor="let data of  pendingSchedule | paginate:{ itemsPerPage: 10 ,currentPage: p}">
+                <tr *ngFor="let data of  pendingSchedule | paginate:{ itemsPerPage: 10 ,currentPage: p} | filter: searchText">
                   <td style="text-align: center;">{{data.date}}</td>
                  <td style="text-align: center;">{{data.Sid}}</td>  
                   <td style="text-align: center;">{{data.membershipId}}</td>

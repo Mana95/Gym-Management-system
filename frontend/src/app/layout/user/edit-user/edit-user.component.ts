@@ -8,6 +8,7 @@ import { config } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -222,6 +223,8 @@ const editUserDetails = {
     }
 
 
+   }else{
+    Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
    }
 
  

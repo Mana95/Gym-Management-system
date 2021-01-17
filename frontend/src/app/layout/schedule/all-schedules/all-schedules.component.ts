@@ -12,6 +12,9 @@ export class AllSchedulesComponent implements OnInit {
   AllSchedule:any;
   userId:any;
   p: number = 1;
+  pow:any;
+  searchText:any;
+
   constructor(
     private authenticationService:AuthenticationService,
     private scheduleService:ScheduleService,

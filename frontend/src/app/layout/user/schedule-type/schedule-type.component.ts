@@ -7,6 +7,7 @@ import { CatagoryService } from 'src/app/services/catagory.service';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import * as moment from "moment";
 import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 @Component({
   selector: 'app-schedule-type',
   templateUrl: './schedule-type.component.html',
@@ -16,6 +17,9 @@ export class ScheduleTypeComponent implements OnInit {
   submitted = false;
   loading = false;
   closeResult: string;
+  pow:any;
+    searchText:any;
+    p: number = 1;
 
   scheduleTypeGroup: FormGroup;
   scheduleData: any;
@@ -135,7 +139,7 @@ export class ScheduleTypeComponent implements OnInit {
             () => {
               this.submitted = false;
 
-
+             
               this.loadTypeData();
             }
 
@@ -154,7 +158,9 @@ export class ScheduleTypeComponent implements OnInit {
        
       // }
 
-    }
+    }else[
+      Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
+    ]
 
 
 
@@ -211,9 +217,11 @@ export class ScheduleTypeComponent implements OnInit {
         },
         () => {
           this.submitted = false;
+          
           this.scheduleTypeGroup.reset();
           this.loadID();
           this.loadTypeData();
+          this.modalService.dismissAll();   
         }
 
       )

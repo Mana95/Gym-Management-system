@@ -17,6 +17,10 @@ export class ScheduleRequestComponent implements OnInit {
   rejectedForm :FormGroup;
   submitted = false;
   formData:any;
+  pow:any;
+  searchText:any;
+  p: number = 1;
+
   showMsg = false;
   constructor(
     private scheduleService:ScheduleService,

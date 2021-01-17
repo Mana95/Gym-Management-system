@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from "moment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class NewscheduleComponent implements OnInit {
     });
    // console.log('HOOOOO')
     this.currentTime = moment().format("LT");
-    this.currentDate = moment().subtract(10, "days").calendar();
+    this.currentDate = moment(this.currentUserSubject.value.createdDate).format('YYYY-MM-DD')
     this.requestScheduleGroup.controls['mId'].setValue(this.currentUserSubject.value.user_id)
     this.requestScheduleGroup.controls['date'].setValue(this.currentDate)
 
@@ -165,6 +166,8 @@ this.requestScheduleGroup.controls["date"].setValue(
         }
       )
 
+    }else{
+      Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
     }
 
   }

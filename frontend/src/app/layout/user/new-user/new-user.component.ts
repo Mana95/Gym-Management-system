@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
+import { AlertMessages } from 'src/app/_models/schedule-status';
 @Component({
   selector: 'app-new-user',
 
@@ -99,7 +100,7 @@ export class NewUserComponent implements OnInit {
       firstName: ['', Validators.required],
       username: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: ['', Validators.required],
+      
       phonenumber: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       Emergency: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       address: ['', Validators.required],
@@ -383,7 +384,7 @@ else if (dayText > 31) {
  )
 } else{
       this.imageErrorMessage = true;
-      Swal.fire('Oops...', `Something went wrong.form Validated failed!`, 'error')
+      Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
     }
 
   }
