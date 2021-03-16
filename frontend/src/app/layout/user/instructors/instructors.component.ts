@@ -43,6 +43,7 @@ export class InstructorsComponent implements OnInit {
   day:any;
   ADD =false;
   buttonStatus = false;
+  showAlert: boolean = false;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -66,8 +67,8 @@ export class InstructorsComponent implements OnInit {
       currnetJoinDate: [""],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
-      password: ["",  [Validators.required, Validators.minLength(6)]],
-      username: ["", Validators.required],
+      password: [""],
+      username: [""],
       phonenumber: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       phonenumber1: ["", [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       birth: ["", Validators.required],
@@ -365,6 +366,7 @@ public uploader: FileUploader = new FileUploader({
       // When file uploads set it to file formcontrol
       reader.onload = () => {
         this.imageUrl = reader.result;
+        this.showAlert = false;
         this.registrationGroup.patchValue({
           file: reader.result
         });
@@ -384,13 +386,13 @@ onSubmit() {
 
 let UserData = {
     user_id: this.f.id.value,
-    username: this.f.username.value,
-    firstName: this.f.username.value,
+    username:this.f.firstName.value,
+    firstName:this.f.firstName.value,
     role: "Instructor",
     email: this.f.email.value,
     nicNumber:this.f.nicNumber.value,
     active: true,
-    password: this.f.password.value
+    password: '123123'
 }
 
   let instructordata = {
@@ -421,7 +423,7 @@ formData.append('file',  this.newImage);
 if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png')){
  const postsImage =  this.uploadImage(formData , this.f.id.value);
  const saveInstrutor = this.authenticationService.saveInstrutor(instructordata ,UserData);
-
+ this.showAlert = false
  forkJoin([postsImage , saveInstrutor])
  .subscribe(
    result=>{
@@ -448,6 +450,12 @@ if(this.registrationGroup.valid && (this.imageUrl !== '../../../../assets/defaul
    }
  )
 }else {
+  if(this.imageUrl == '../../../../assets/default-avatar-de27c3b396a84cb2b365a787c1a77cbe.png'){
+    this.showAlert = true;
+  }else{
+    this.showAlert = false;
+  }
+  
   Swal.fire('Oops...', AlertMessages.ERRORMESSAGEFORFORMVALIDATION, 'error')
 }
   }

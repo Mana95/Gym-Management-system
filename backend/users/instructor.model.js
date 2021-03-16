@@ -17,7 +17,7 @@ const schema = new Schema({
 
         firstName:{
             type:String,
-            required:true
+          
         },
         lastName:{
             type:String,
@@ -25,7 +25,7 @@ const schema = new Schema({
         },
         username:{
             type:String,
-            required:true
+          
         },
         phonenumber:{
             type:Number,

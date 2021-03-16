@@ -272,6 +272,7 @@ export class BsElementComponent implements OnInit {
       this.showQtyError = true;
         return
     };
+
     if(this.f.quantity.value ==0){
       this.showQtyError = true;
       return
@@ -282,31 +283,29 @@ export class BsElementComponent implements OnInit {
 
     let final = AvlQty + qty;
     if (qty !== 0 && itemId !== '' && itemName !== '') {
-      //  const creds = this.purchaseOrderGroup.controls.credentials as FormArray;
+      // Assing the Array data
       const tableValue = this.formBuilder.group({
         itemId: this.f.itemId.value,
         itemName: this.f.itemName.value,
         qty: qty,
         status: 'Pending'
       });
-      console.log(tableValue.controls['itemName'].value);
 
-      // const findValue = this.f.credentials.value.find(x=>x.itemId==this.f.itemId.value);
-
+      //Credentials means the Entire table data
       if (this.f.credentials.value != undefined) {
+
+        if( this.f.credentials.value &&  this.f.credentials.value.length>0){
 
         this.f.credentials.value.forEach((data, index) => {
 
           if (this.f.itemId.value == this.f.credentials.value[index].itemId) {
             this.PushVaribaleCheck = this.f.credentials.value[index].itemName;
-            const addValue = qty + this.f.credentials.value[index].qty;
 
+            const addValue = qty + this.f.credentials.value[index].qty;
             const myForm = (<FormArray>this.purchaseOrderGroup.get("credentials")).at(index);
             myForm.patchValue({
               qty: addValue
-            })
-
-
+            });
             // 
             this.pushValue = true;
 
@@ -314,6 +313,9 @@ export class BsElementComponent implements OnInit {
 
           }
         })
+      }
+        var _tableValue = tableValue.controls['itemName'].value;
+        var _puchcheck =  this.PushVaribaleCheck
         if (tableValue.controls['itemName'].value != this.PushVaribaleCheck) {
 
           this.phoneForms.push(tableValue);
@@ -425,6 +427,14 @@ export class BsElementComponent implements OnInit {
 
   }
   
-
+  CheckQuanityMax(event){
+   var _inputVar = Number(event.target.value);
+   if (_inputVar == 0) {
+    event.target.value = "1";
+    this.purchaseOrderGroup.controls['Avlqty'].setValue(1);
+ 
+  } 
+  
+  }
 
 }

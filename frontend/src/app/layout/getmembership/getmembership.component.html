@@ -241,7 +241,7 @@
                   <label for="firstName"><b>Disaster </b></label>
                   <select class="form-control" formControlName="disaster" (click)="appearDiscription($event)" [ngClass]="{ 'is-invalid': submitted && f.disaster.errors }">
                    
-                     <option value="" disabled>Choose your city</option>
+                     <option value="" disabled>Choose..</option>
                     <option *ngFor="let data of display" [ngValue]="data.id">{{data.id}}</option>
                   </select>
                   <div *ngIf="submitted && f.disaster.errors" class="invalid-feedback">
@@ -316,9 +316,9 @@
             </div>
 
             <div class="form-row">
-              <div class="alert alert-info" role="alert">
+              <!-- <div class="alert alert-info" role="alert">
                      This is a info alert—check it out!
-                </div>
+                </div> -->
             </div>
 
             <div class="form-group">

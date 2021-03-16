@@ -77,7 +77,6 @@ export class NewUserComponent implements OnInit {
     //let Phonenumber = "^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$"
     
     this.Url = this.sanitizer.bypassSecurityTrustUrl(this.pdfSrc);
-
     ///bypassSecurityTrustResourceUrl
   }
   //validation the phone number
@@ -96,11 +95,11 @@ export class NewUserComponent implements OnInit {
       id: [''],
       email: ['', [Validators.required, Validators.email]],
       birth: [''],
+      currentDate:[''],
       age: ['', [Validators.required , Validators.pattern(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/)]],
       firstName: ['', Validators.required],
-      username: ['', Validators.required],
       lastName: ['', Validators.required],
-      
+      password: ['', [Validators.required, Validators.minLength(6)]],
       phonenumber: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       Emergency: ['', [Validators.required, Validators.pattern(/^(?:0|94|\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/)]],
       address: ['', Validators.required],
@@ -113,7 +112,8 @@ export class NewUserComponent implements OnInit {
         validator: this.MustMatch('password', 'confirmPassword')
       })
     this.user.active = false;
-
+    
+       
     let currentDates = moment().subtract(10, "days").calendar();
     this.CurrentDate = currentDates;
 
@@ -127,6 +127,7 @@ export class NewUserComponent implements OnInit {
       this.userRegisterFrom.controls["id"].setValue(id);
 
     }
+    this.userRegisterFrom.controls['currentDate'].setValue(moment().format('YYYY-MM-DD'))
   }
 
 
@@ -311,8 +312,8 @@ else if (dayText > 31) {
 
     let UserData = {
       user_id: this.f.id.value,
-      username: this.f.username.value,
-      firstName: this.f.username.value,
+      username: this.f.firstName.value,
+      firstName: this.f.firstName.value,
       role: "User",
       email: this.f.email.value,
       active: true,
@@ -331,7 +332,7 @@ else if (dayText > 31) {
       birth: this.f.birth.value,
       nicNumber: this.f.age.value,
       firstName: this.f.firstName.value,
-      username: this.f.username.value,
+      username:this.f.firstName.value,
       lastName: this.f.lastName.value,
       password: this.f.password.value,
       phonenumber: this.f.phonenumber.value,

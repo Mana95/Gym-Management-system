@@ -16,7 +16,7 @@ router.get('/getItemDetails', getItemDetails);
 router.get('/getitemsNames' , getitemsNames);
 router.get('/getByItemName' ,  getByName);
 
-router.delete('/deleteRec/:id', deleteData);
+router.post('/deleteRec', deleteData);
 
 router.put('/updateItem' ,  updateItem);
 

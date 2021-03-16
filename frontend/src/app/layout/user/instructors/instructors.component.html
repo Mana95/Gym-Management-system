@@ -25,6 +25,10 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="alert alert-danger" role="alert" *ngIf="showAlert" >
+                  Please make sure to upload the image !
+                </div>
                 <!-- Submit Button -->
                 <button type="button" class="btn btn-danger btn-lg btn-block" (click)="fileInput.click()">Upload
                   Image</button>
@@ -97,7 +101,7 @@
             </div>
 
 
-            <div class="form-row">
+            <!-- <div class="form-row">
 
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Password</label>
@@ -117,7 +121,7 @@
                 </div>
               </div>
 
-            </div>
+            </div> -->
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4">Mobile Number</label>
@@ -158,7 +162,7 @@
               <div class="form-group col-md-3">
                 <label for="inputPassword4">Schedule Type</label>
                 <select class="form-control" formControlName="typeName" [ngClass]="{ 'is-invalid': submitted && f.typeName.errors }">
-                  <option selected>Choose...</option>
+                  <option value="">Choose...</option>
                   <option *ngFor="let data of Type">{{data.type}} </option>
                 </select>
                 <div *ngIf="submitted && f.typeName.errors" class="invalid-feedback">
@@ -230,7 +234,17 @@
                     </div>
                     <div class="form-group col-3">
                       <label>Employee Type</label>
-                      <input type="text" formControlName="empType" placeholder="Ex:Full Time" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" />
+                      <!-- <input type="text" formControlName="empType" placeholder="Ex:Full Time" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }" /> -->
+                      <select class="form-control" formControlName="empType"   [ngClass]="{ 'is-invalid': submitted && ticket.controls.empType.errors }">
+                        <option value="">Choose...</option>
+                        <option *ngFor="let data of ['Full time' , 'Part time' , 'Other']">{{data}} </option>
+                      </select>
+                    
+                    
+                    
+                    
+                    
+                    
                       <div *ngIf="submitted && ticket.controls.empType.errors" class="invalid-feedback">
                           <div *ngIf="ticket.controls.empType.errors.required">Employee Type is required</div>           
                       </div>
@@ -247,7 +261,7 @@
                 </div>
                 <div class="form-group col-3">
                   <label>Experience in Months</label>
-                  <input type="number"  min="1" formControlName="experinceMonth" placeholder="Experience in Months" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.experinceMonth.errors }" />
+                  <input type="number"  min="1"  numbersOnly formControlName="experinceMonth" placeholder="Experience in Months" class="form-control" [ngClass]="{ 'is-invalid': submitted && ticket.controls.experinceMonth.errors }" />
                   <div *ngIf="submitted && ticket.controls.experinceMonth.errors" class="invalid-feedback">
                     <div *ngIf="ticket.controls.experinceMonth.errors.required">Experience Months is required</div>           
                 </div>
@@ -272,7 +286,16 @@
             <div  class="form-row">
               <div class="form-group col-3">
               <label>Level</label>
-                      <input type="text" formControlName="level" class="form-control" placeholder="Ex:BSC,MSC" [ngClass]="{ 'is-invalid': submitted && education.controls.level.errors }" />
+                      <!-- <input type="text" formControlName="level" class="form-control" placeholder="Ex:BSC,MSC" [ngClass]="{ 'is-invalid': submitted && education.controls.level.errors }" /> -->
+             
+                      <select class="form-control" formControlName="level" [ngClass]="{ 'is-invalid': submitted && education.controls.level.errors }">
+                        <option value="">Choose...</option>
+                        <option *ngFor="let data of ['Phd' , 'MSC' , 'BSC','BA' , 'Certificate','Other']">{{data}} </option>
+                      </select>
+                     
+                     
+                     
+                     
                       <div *ngIf="submitted && education.controls.level.errors" class="invalid-feedback">
                           <div *ngIf="education.controls.level.errors.required">Level is required</div>
                       </div>

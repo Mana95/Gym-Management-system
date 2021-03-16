@@ -96,12 +96,12 @@ export class UserComponent implements OnInit {
           //  }
           if (Array.isArray(data)) {
             console.log(data);
-            for (let i = 0, j = data.length; i < j; i++) {
+            // for (let i = 0, j = data.length; i < j; i++) {
             
-              let imagepath = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:4200/assets/u/E_4J95WAR9/2.jpg');
-              data[i].imagePath = imagepath;
+            //   let imagepath = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:4200/assets/u/E_4J95WAR9/2.jpg');
+            //   data[i].imagePath = imagepath;
 
-            }
+            // }
           }
           this.userview = data;
           //  this.userview.imagePath=

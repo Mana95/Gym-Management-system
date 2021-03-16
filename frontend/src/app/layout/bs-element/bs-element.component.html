@@ -157,11 +157,11 @@
                                         </div>
                                         <div class="form-group col-md-2" *ngIf="!activecat" >
                                            
-                                            <input type="text" readonly formControlName="itemQty" placeholder="Qty" numbersOnly class="form-control" />
+                                            <input type="text" readonly formControlName="itemQty" max="1" placeholder="Qty" numbersOnly class="form-control" />
                                         </div>
                                         <div class="form-group col-md-2" *ngIf="activecat">
                                             
-                                            <input type="number" [min]='1' class="form-control"  formControlName="quantity" #currentQty  placeholder="Qty"
+                                            <input type="number" [min]='1' (input)="CheckQuanityMax($event)" class="form-control"  formControlName="quantity" #currentQty  placeholder="Qty"
                                               [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
                                             <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
                                               <div *ngIf="f.quantity.errors.required">Qty is required</div>
