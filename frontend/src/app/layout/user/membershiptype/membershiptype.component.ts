@@ -1,3 +1,4 @@
+
 import { MessageAlertDisplay } from 'src/app/common-class/message-alert-display';
 import { FormGroup, Form, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -5,7 +6,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CatagoryService } from 'src/app/services/catagory.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { distinct } from 'rxjs/operators';
+import { distinct, first } from 'rxjs/operators';
 import { states } from 'src/app/_models/common';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
@@ -17,7 +18,7 @@ export class MembershiptypeComponent implements OnInit {
   pow:any;
   searchText:any;
   p: number = 1;
-
+  editmode = false;
   submitted = false;
   loading = false;
   membershipGroup:FormGroup;
@@ -46,24 +47,24 @@ export class MembershiptypeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-this.membershipGroup = this.formBuilder.group({
-  membership_type_id:[''],
-  typeName:['',Validators.required], 
-  month:['',Validators.required],
-  membershipCatagory : ['' , Validators.required],
-  periodType:['',Validators.required],
-  YMDValue: ['' , Validators.required],  
-  amount:['', Validators.required],
-  note:['', Validators.required]
 
-});
 
 this.AssignData();
 
   }
   AssignData() {
 
+    this.membershipGroup = this.formBuilder.group({
+      membership_type_id:[''],
+      typeName:['',Validators.required], 
+      month:['',Validators.required],
+      membershipCatagory : ['' , Validators.required],
+      periodType:['',Validators.required],
+      YMDValue: ['' , Validators.required],  
+      amount:['', Validators.required],
+      note:['', Validators.required]
     
+    });
 
 const amount = this.membershipGroup.get('amount');
 const years = this.membershipGroup.get('years');
@@ -170,11 +171,26 @@ onSubmit() {
       status:true
 
     }
+
+    if(this.editmode && this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value == "")){
+      this.autenticationService.updateMembership(typeData).pipe(first())
+      .subscribe(
+        res=>{
+          this.modalService.dismissAll();
+          MessageAlertDisplay.SuccessToastMessage('Membership type update created');
+          this.membershipGroup.reset();
+          this.AssignData();
+        },
+        error=>{
+          console.log(error)
+        }
+      )
+    }
   
-if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value == "")){
+if(!this.editmode && this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value == "")){
 
   this.autenticationService.insertMembershipTypeData(typeData)
-  .subscribe(
+  .subscribe( 
     response=> {
    
       this.modalService.dismissAll();
@@ -186,7 +202,7 @@ if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value ==
     },
     ()=>{
     
-      MessageAlertDisplay.SuccessToastMessage('Membership Type successfully created');
+      MessageAlertDisplay.SuccessToastMessage('Membership type successfully created');
       this.submitted = false;
       this.membershipGroup.reset();
       this.AssignData();
@@ -202,9 +218,13 @@ if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value ==
    
 
   }
-
+ get getButtonType() {
+    return (this.editmode == true)?'Update': 'Submit';
+  }
   open(content) {
-
+    this.editmode = false;
+     this.membershipGroup.reset();
+     this.AssignData()
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -233,17 +253,21 @@ if(this.getFormValidation() && (this.f.amount.value !=0 ||this.f.amount.value ==
 
  
   onClickEditPopUp(data, content) {
-
+      this.editmode = true;
     this.membershipGroup.controls['membership_type_id'].setValue(data.membership_type_id);
     this.membershipGroup.controls['typeName'].setValue(data.membershipName);
-    this.membershipGroup.controls['month'].setValue(data.month);
+    this.membershipGroup.controls['month'].setValue("");
     this.membershipCatagoryValue = data.membershipCatagory;
     this.membershipGroup.controls['membershipCatagory'].setValue(data.membershipCatagory);
     this.membershipGroup.controls['periodType'].setValue(data.periodType);
     this.membershipGroup.controls['YMDValue'].setValue(data.YMDValue);
     this.membershipGroup.controls['amount'].setValue(data.amount);
     this.membershipGroup.controls['note'].setValue(data.note);
+    const findType = this.states.find(h=>h== data.membershipCatagory);
 
+    if(findType){
+      console.log('dsds')
+    }
     const modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
 
     modalRef.componentInstance.user = data;

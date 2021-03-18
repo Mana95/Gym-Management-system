@@ -74,6 +74,14 @@ export class InvoiceDetailModalComponent implements OnInit {
           rejectedReason:this.f.rejectedreason.value
         }
       
+        const getMemberhipStaus = localStorage.getItem("infiniteScrollEnabled");
+        console.log(getMemberhipStaus)
+        if(getMemberhipStaus){
+          console.log('ehema ekak thiyenwa')
+        }
+
+
+      
         //
         this.authenticationService.updateInvoice(invoiceData)
         .subscribe(

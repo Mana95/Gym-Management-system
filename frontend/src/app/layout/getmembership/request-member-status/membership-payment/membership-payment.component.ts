@@ -105,7 +105,7 @@ this.cd.markForCheck();
   onSubmit() {
 
 
-console.log(this.user);
+ 
 
  
     this.submitted = true;
@@ -132,6 +132,7 @@ console.log(this.user);
       this.authenticationService.saveMembershipReciptDetails(invoiceDetails)
       .subscribe(
         response=>{
+          localStorage.setItem('membershipPayment' , 'Pending')
           console.log(response)
           if(response ==1 ){
             Swal.fire({

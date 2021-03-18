@@ -1,3 +1,31 @@
+     
+         <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" style="color: red;" id="modal-basic-title"><b>Mention the inactive reason <i class="fa fa-question" aria-hidden="true"></i>
+            </b></h4>
+            <button type="button" class="close" aria-label="Close"  #closebutton (click)="modal.dismiss()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="rejectedForm" (ngSubmit)="onSubmit()">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="inputquantity4"><b>Reason for inactive the membership</b></label>
+                  <textarea type="text" class="form-control"  formControlName="rejectedReason"    [ngClass]="{ 'is-invalid': submitted && f.rejectedReason.errors }"></textarea>
+                  <div *ngIf="submitted && f.rejectedReason.errors" class="invalid-feedback">
+                    <div *ngIf="f.rejectedReason.errors.required">Reason is required</div>
+                  </div>
+                </div>
+          
+               
+              </div>
+              <button type="submit" class="btn btn-danger"> Submit <i class="fa fa-book" aria-hidden="true"></i></button>
+              </form>
+            </div>
+
+
+        </ng-template>
      <div class="card mb-3">
               <div class="card-header"><p><b>Membership</b>&nbsp; <button type="button" class="btn btn-success  btn-sm" [routerLink]="['/new_cus']">New &nbsp;<i class="fa fa-plus-square"></i></button></p>
               </div>  
@@ -48,10 +76,12 @@
                             <td style="text-align: center;">{{data.endDate | date }}</td>
                             <td style="text-align: center;">{{data.email}} </td>
                             <td style="text-align: center;">{{data.phonenumber}} </td>
-                            <td style="text-align: center; color: green;" *ngIf="data.status == 'true'" ><b><i class="fa fa-check" aria-hidden="true"  ngbTooltip="Membership active" ></i></b></td>
-                            <td style="text-align: center; color: red;" *ngIf="data.status =='false'"><b><i class="fa fa-user-times" aria-hidden="true"  ngbTooltip="Membership inactive"></i></b></td>
+                            <!-- <td style="text-align: center; color: green;" *ngIf="data.status == 'true'" >
+                              <b><i class="fa fa-check" aria-hidden="true"  ngbTooltip="Membership active" ></i></b></td> -->
+                            <td style="text-align: center;" [ngStyle]="{'color': checkStatus(data)?.color }" *ngIf="checkStatus(data)" ><b><i [class]="checkStatus(data).icon" aria-hidden="true"  [ngbTooltip]="checkStatus(data)?.message" ></i></b></td>
+                            <!-- <td style="text-align: center; color: red;" *ngIf="data.status =='false'"><b><i class="fa fa-user-times" aria-hidden="true"  ngbTooltip="Membership inactive"></i></b></td> -->
                             <td><button type="button" (click)="routePage(data)" class= "btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true" ></i></button> &nbsp;
-                            <button type="button" [disabled]="(data.status != 'true' ?true: false)" (click)="inactiveMembership(data)" class= "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>                     
+                              <button type="button" [disabled]="(data.status != '5' ?true: false)"   (click)="inactiveMembership(data , content)" class= "btn btn-danger btn-sm"><i class="fa fa-user-times" [ngbTooltip]="(data.status != '5'?'already inactive': 'Inactive')" aria-hidden="true"></i></button></td>                     
                             </tr>
                         </tbody>
                       </table>

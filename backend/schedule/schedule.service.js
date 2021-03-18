@@ -42,7 +42,7 @@ module.exports = {
 
 };
 
-async function loadPending_service (){
+async function loadPending_service() {
     return await Schedule.find({});
 
 }
@@ -128,12 +128,12 @@ async function createScheduleAndDiet(data) { //futrure development
         let updateData = {
             Sid: shcduleData.ScheduleId,
             status: 4,
-            dietPlan:shcduleData.dietPlan,
+            dietPlan: shcduleData.dietPlan,
             createdInstructorId: shcduleData.instructorId,
             createrName: shcduleData.instructorName
         }
-        
-       
+
+
 
         Schedule.updateOne({
             Sid: updateData.Sid
@@ -142,21 +142,21 @@ async function createScheduleAndDiet(data) { //futrure development
         }, function (err, responses) {
             if (err) {
                 console.log(err);
-                return {message:'Your Shedule did not save please Try Again' , errorStatus:true}
+                return { message: 'Your Shedule did not save please Try Again', errorStatus: true }
             }
         });
         //shedule plan is created
         if (data.sceduleData.dietPlan) {
             const dietPlan = data.dietPlan;
-        const dietPlan_data = new DietMealPlan(dietPlan);
-        let dietPlanResult = await dietPlan_data.save();
-            if(dietPlanResult){
-             return  {message:'Schdule plan and Diet plan created successfully' , errorStatus:false}
+            const dietPlan_data = new DietMealPlan(dietPlan);
+            let dietPlanResult = await dietPlan_data.save();
+            if (dietPlanResult) {
+                return { message: 'Schdule plan and Diet plan created successfully', errorStatus: false }
             }
 
 
-        }else{
-            return  {message:'Schdule plan created successfully' , errorStatus:false}
+        } else {
+            return { message: 'Schdule plan created successfully', errorStatus: false }
         }
     } else {
         return {
@@ -213,8 +213,8 @@ async function checkAvl(id) {
     const currentMonth = moment().format('M');
 
     const getDate = await Schedule.findOne({
-            membershipId: id
-        },
+        membershipId: id
+    },
         function (error, responses) {
             //getmonth
             const getDate = responses.createdDate;
@@ -327,6 +327,7 @@ async function PendingSchedule() {
 }
 
 async function getByMySchedule(id) {
+
     const findMembershipId = await Membership.find({
         $and: [{
             customerID: id,
@@ -342,16 +343,16 @@ async function getByMySchedule(id) {
 
 async function insertSchData(data) {
 
-    //v
-    //find membreshipId
     const findMembershipId = await Membership.find({
         $and: [{
             customerID: data.userId,
             membershipExpire: false
         }]
-    })
-    // console.log(findMembershipId);
+    });
+
+
     data.membershipId = findMembershipId[0].membershipId;
+
 
     const schduleFind = await Schedule.findOne({
         membershipId: data.membershipId,

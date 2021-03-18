@@ -81,7 +81,9 @@ export class SidebarComponent implements OnInit {
           
         )
     }
-
+    get getRouteName () {
+        return 'Request Membership'
+    }
     get onlyForMember(){
         if(this.currentUser.role == Role.Membership){
             return this.currentUser && this.currentUser.role === Role.Membership;

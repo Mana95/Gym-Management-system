@@ -13,7 +13,7 @@ import { SharedModule } from 'src/app/shared/shared/shared.module';
   declarations: [MembershipRequestComponent],
   imports: [
     CommonModule , MembershipRequestRoutingModule ,NgbModule ,FormsModule,Ng2SearchPipeModule 
-    ,NgxPaginationModule ,SharedModule 
+    ,NgxPaginationModule ,SharedModule ,ReactiveFormsModule
   ]
 })
 export class MembershipRequestModule { }

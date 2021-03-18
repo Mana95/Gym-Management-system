@@ -184,6 +184,9 @@ export class AuthenticationService {
   getAllMembershipType() {
     return this.http.get(config.PAPYRUS+`/users/getAllMembershipType`)
   }
+  updateMembership(body) {
+    return this.http.patch(config.PAPYRUS +`/users/updateMembership`, body);
+  }
   insertMembershipTypeData(body) {
     return this.http.post(config.PAPYRUS +`/users/saveMembershiptypeData`, body);
   }

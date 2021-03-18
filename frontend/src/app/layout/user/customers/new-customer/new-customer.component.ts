@@ -498,12 +498,14 @@ export class NewCustomerComponent implements OnInit {
       amount: this.f.amount.value,
       VMonth: this.f.VMonth.value,
       endDate: this.f.endDate.value,
-      status: true,
+      status: '5',
       nicNumber: this.f.nicNumber.value,
       role: "Membership",
+      membershipExpire : false,
       noteDisaster: this.f.noteDisaster.value,
       payingPrice:this.f.payingPrice.value,
-      balancePrice:this.f.balancePrice.value
+      balancePrice:this.f.balancePrice.value,
+      membershipCount:1
 
     }
 

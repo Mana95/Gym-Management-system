@@ -112,6 +112,8 @@ const routes: Routes = [
           
             { path: 'myOrder', loadChildren: () => import('./salesorder/my-order/my-order.module').then(m => m.MyOrderModule), canActivate: [AuthGuard]},
          
+            { path: 'renew-membership', loadChildren: () => import('./salesorder/my-order/my-order.module').then(m => m.MyOrderModule), canActivate: [AuthGuard]},
+         
 
 
         ]

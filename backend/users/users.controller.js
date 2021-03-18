@@ -78,7 +78,7 @@ router.patch('/updateSupplierData', updateSupplierData);
 router.patch('/updateActiveIncativeStatusMembership', updateActiveIncativeStatusMembership);
 router.patch('/patchScheduleType', patchScheduleType_controller);
 router.patch('/inActiveScheduleType/:id', inActiveScheduleType_controller);
-
+router.patch('/updateMembership', updateMembership_controller);
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
 router.post('/d', deleteRecord);
@@ -124,7 +124,11 @@ function inActiveScheduleType_controller(req , res, next){
     .then(data => res.json(data))
     .catch(err => next(err)); 
 }
-
+function updateMembership_controller(req ,res , next){
+    userService.updateMembership_service(req.body)
+    .then(data => res.json(data))
+    .catch(err => next(err)); 
+}
 
 
 function patchScheduleType_controller(req ,res ,next){

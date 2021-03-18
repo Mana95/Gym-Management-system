@@ -52,7 +52,7 @@ export class MembershipRequestComponent implements OnInit {
   let updatesData = {
     id:rowData.membershipId,
     role:'Member',
-    status: true,
+    status: '2',
     AcceptedRejectedStatus:"Accepted",
     paymentStatus:false 
     

@@ -14,6 +14,9 @@ const schema = new Schema({
         unique:true
    
     },
+    membershipCount:{
+        type:Number
+    },
     email: {
 
         type: String,

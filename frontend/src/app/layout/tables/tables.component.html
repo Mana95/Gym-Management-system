@@ -43,7 +43,7 @@
                 <label for="inputState">State</label>
       <select id="inputState" class="form-control" formControlName=itemType [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
         <option  selected>Item Status</option>
-        <option *ngFor="let data of ArraySelectOption">{{data}}</option>
+        <option *ngFor="let data of ArraySelectOption" >{{data}}</option>
      
       </select>
                 <div *ngIf="submitted && f.itemType.errors" class="invalid-feedback">

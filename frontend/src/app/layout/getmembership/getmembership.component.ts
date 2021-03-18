@@ -611,7 +611,7 @@ export class GetmembershipComponent implements OnInit {
       amount: this.f.amount.value,
       VMonth: this.f.VMonth.value,
       endDate: this.f.endDate.value,
-      status: false,
+      status: '1',  //Request send
       nicNumber: this.f.nicNumber.value,
       role: "Member",
       paymentDetails:'Pending',
