@@ -27,6 +27,9 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    itemQuantity:{
+        type:Boolean
+    },
     // catId:{
     //     type: String,
     //     required: true

@@ -28,6 +28,7 @@ export class NewExerciseComponent implements OnInit {
   locaionPath: any;
   imageUrl: string | ArrayBuffer;
   uploadButtonStatus = false;
+  
   selectOption= ['Abs Exercises' ,'Back Exercises','Chest Exercises', 'Legs Exercises','Shoulder Exercises','Biceps Exercises','Triceps Exercises'];
   constructor(
     private formBuilder:FormBuilder,
@@ -215,9 +216,10 @@ export class NewExerciseComponent implements OnInit {
     }
   }
   onClickReference(event){
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     this.submitted = false;
     this.reference.push(this.formBuilder.group({
-      referenceName:['', Validators.required]
+      referenceName:['',[Validators.required, Validators.pattern(reg)]]
     }));
   }
   onClickReferenceRemove(index) {

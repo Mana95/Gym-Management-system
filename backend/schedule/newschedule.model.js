@@ -68,6 +68,9 @@ const schema = new Schema({
     },
     scheduleOwnerEmail: {
         type:String
+    },
+    endDate:{
+        type:String
     }
 
 });

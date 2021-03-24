@@ -49,6 +49,11 @@ export class CatagoryService {
         
       return this.http.delete<any>(config.PAPYRUS + `/catagory/deleteRec/${recordId}`);
    }
+
+   deleteSubRecord(id){
+    const recordId = id.id; 
+    return this.http.delete<any>(config.PAPYRUS + `/catagory/deleteSubRecord/${recordId}`);
+   }
    getAll() {
 
     return this.http.get<any>(config.PAPYRUS + `/catagory/getAll`);

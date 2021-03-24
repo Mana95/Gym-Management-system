@@ -1356,71 +1356,87 @@ async function insertMembership(body) {
   errorArray.length =0;
   const UserData = body.UserDatabody;
   const membershipData = body.membershipbody;
- 
-  
-
-
-
   var checkInactive = await Membership.findOne({$and:[{customerID:membershipData.customerID ,membershipExpire:false , status:"7"}]});
-  membershipCount
+ // console.log(checkInactive);
+
+  //checking inactive user
   if(checkInactive){
+    const _value = checkInactive.membershipCount == undefined?1:checkInactive.membershipCount;
+    const _memCount = Number(_value)+1;
 
-  }
+    var updateMembership = await Membership.updateOne({membershipId:checkInactive.membershipId}, {$set:body.membershipbody} ,function(err , result){ });
 
-  var checkUserId = await Membership.findOne({$and:[{customerID:membershipData.customerID ,membershipExpire:false , status:"1"}]},function(err, result){
-    // console.log(result);
-  });
-
- // return;
- if(checkUserId){
-   //check that user already send a Membership request
-  await Membership.findOne({customerID:membershipData.customerID}, {$and:[{role:'Member'} , {AcceptedRejectedStatus:'Pending'}]}
-  ,function(error ,res){
-    if(res!==null){
-    //  console.log('Membership thiyenwa');
-      memberhipMessage.push('Memberhip request already sended🙎‍♂')
-     //throw (memberhipMessage);
+    if(updateMembership){
+      await Membership.updateOne({membershipId:checkInactive.membershipId}, {$set:{
+        membershipCount :_memCount
+      }} , function(err , result){
+      
+      });
     }
- })
-     //check the membership Role Changed
-     await Membership.findOne({$and:[{customerID:membershipData.customerID ,role:'Membership'}]  } ,function(err, res){
-      if(res!==null){
-       // console.log('ds')
-        membershipChanged.push('Cannot submit,You are now membership please login again😊.')
+    
+    return ({message:'Inactive membership request send done!,Please give a moment to do the process😊.', status:true});
+
+  }else{
+    
+    //there us no inactive membership
+    var checkUserId = await Membership.findOne({$and:[{customerID:membershipData.customerID ,membershipExpire:false , status:"1"}]},function(err, result){
+      // console.log(result);
+    });
+    if(checkUserId){
+      //check that user already send a Membership request
+     await Membership.findOne({customerID:membershipData.customerID}, {$and:[{role:'Member'} , {AcceptedRejectedStatus:'Pending'}]}
+     ,function(error ,res){
+       if(res!==null){
+       //  console.log('Membership thiyenwa');
+         memberhipMessage.push('Memberhip request already sended🙎‍♂')
+        //throw (memberhipMessage);
+       }
+    })
+        //check the membership Role Changed
+        await Membership.findOne({$and:[{customerID:membershipData.customerID ,role:'Membership'}]  } ,function(err, res){
+         if(res!==null){
+          // console.log('ds')
+           membershipChanged.push('Cannot submit,You are now membership please login again😊.')
+         }
+       })
+    if(membershipChanged.length ==2){
+     return (membershipChanged);
+    }
+    if(memberhipMessage.length == 2){
+     // console.log('membership message')
+         return (memberhipMessage);
+    }
+    }else if(checkInactive == null){
+      
+     console.log(membershipData.phonenumber)
+     //check the email of the membership
+     await Membership.findOne({  email: UserData.email },function(error , res){
+      if(res!=null){
+        errorArray.push('email');
+      }
+    });
+    //check the nicNumber of the membership
+    await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
+      if(res!=null){
+        errorArray.push('Nic Number');
+      }
+    });
+    //return phoe number
+    await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
+      if(res!=null){
+        errorArray.push('Mobile Number')
       }
     })
- if(membershipChanged.length ==2){
-  return (membershipChanged);
- }
- if(memberhipMessage.length == 2){
-  // console.log('membership message')
-      return (memberhipMessage);
- }
- }else{
-   
-  console.log(membershipData.phonenumber)
-  //check the email of the membership
-  await Membership.findOne({  email: UserData.email },function(error , res){
-   if(res!=null){
-     errorArray.push('email');
-   }
- });
- //check the nicNumber of the membership
- await Membership.findOne({ nicNumber: membershipData.nicNumber },function(error , res){
-   if(res!=null){
-     errorArray.push('Nic Number');
-   }
- });
- //return phoe number
- await Membership.findOne({phonenumber: membershipData.phonenumber},function(error , res){
-   if(res!=null){
-     errorArray.push('Mobile Number')
-   }
- })
- 
- }
+    
+    }
+  }
+  
+
+ // return;
+
  //create objects
  const membership = new Membership(body.membershipbody);
+  console.log(errorArray.length)
 if(errorArray.length == 0){
   //saveing the data 
   await membership.save();
@@ -2324,10 +2340,6 @@ async function signUpUser(data) {
 }
 
 async function authenticate({ email, password }) {
-
-
-    
-
   if (await User.findOne({ email: email, active: false })) {
     return {errorStatus:true , message:"User is not Activated please contact admin department"}
   } else if (!(await User.findOne({ email: email }))) {

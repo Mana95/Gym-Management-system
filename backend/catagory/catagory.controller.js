@@ -16,8 +16,8 @@ router.get('/getItemDetails', getItemDetails);
 router.get('/getitemsNames' , getitemsNames);
 router.get('/getByItemName' ,  getByName);
 
-router.post('/deleteRec', deleteData);
-
+router.delete('/deleteRec/:id', deleteData);
+router.delete('/deleteSubRecord/:id' ,  deleteSubRecord)
 router.put('/updateItem' ,  updateItem);
 
 router.patch('/inactive' ,  inactiveItem);
@@ -82,6 +82,12 @@ function insertSubCat(req ,res ,next) {
     //console.log(req.body);
     catService.insertSubCat(req.body)
     .then((sub) => res.json(sub))
+    .catch(err => next(err));
+}
+
+function deleteSubRecord(req ,res , next){
+    catService.deleteSubRecord(req.params.id)
+    .then(() => res.json({}))
     .catch(err => next(err));
 }
 

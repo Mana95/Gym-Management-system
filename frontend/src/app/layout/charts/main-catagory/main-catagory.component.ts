@@ -63,7 +63,7 @@ export class MainCatagoryComponent implements OnInit {
       }
       this.catagoryService.deleteRecord(idData)
       .subscribe(data => {
-        console.log(data);
+        this.loadData();
         refresh:true;
       },
       error => {
@@ -71,7 +71,7 @@ export class MainCatagoryComponent implements OnInit {
         this.loading = false;
   
       });
-      this.loadData();
+      //this.loadData();
     } })
 
 

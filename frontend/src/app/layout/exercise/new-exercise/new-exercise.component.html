@@ -78,6 +78,7 @@
                             <input type="text" formControlName="referenceName" class="form-control" placeholder="link" [ngClass]="{ 'is-invalid': submitted && refernce.controls.referenceName.errors }" />
                             <div *ngIf="submitted && refernce.controls.referenceName.errors" class="invalid-feedback">
                                 <div *ngIf="refernce.controls.referenceName.errors.required">Reference link  is required</div>
+                                <div *ngIf="refernce.controls.referenceName.errors.pattern">Please enter valid url.</div>
                             </div>
                     </div>   
                 </div>

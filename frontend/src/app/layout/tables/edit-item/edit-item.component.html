@@ -104,8 +104,8 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-row">
+            <!-- [disabled]="(data.quantity == undefined?true:false)" -->
+            <div class="form-row" *ngIf="(data.quantity == 0?true:false)">
               <div class="form-group col-md-12">
                 <div class="alert alert-danger" role="alert" *ngIf="f.selling_price.value < f.buying_price.value">
                  The Item selling price should  greater than the buying price
@@ -113,9 +113,9 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row" *ngIf="(data.quantity == 0?true:false)">
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6" >
                 <label for="inputPassword4">Buying price</label>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">

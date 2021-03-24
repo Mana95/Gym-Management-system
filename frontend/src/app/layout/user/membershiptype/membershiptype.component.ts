@@ -9,6 +9,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { distinct, first } from 'rxjs/operators';
 import { states } from 'src/app/_models/common';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { GymAdapterClass } from 'src/app/common-class/gym-adapterClass';
+
 @Component({
   selector: 'app-membershiptype',
   templateUrl: './membershiptype.component.html',
@@ -127,22 +129,22 @@ this.autenticationService.getAllMembershipType()
   }
   onChangeCategory(event) {
     const currentValue = event.target.value;
-
+    const _periodType = ['1: Month to month' , '2: year to year' , '3: day to day'];
         switch(currentValue){
-          case this.periodType[0]:
+          case _periodType[0]:
 
             this.yearToyear = false;
             this.dayToDay = false;
             this.monthToMonth = true;
             
             break;
-            case this.periodType[1]:
+            case _periodType[1]:
               this.dayToDay = false;
               this.monthToMonth = false;
             this.yearToyear = true;
     
             break;
-            case this.periodType[2]:
+            case _periodType[2]:
               this.yearToyear = false;      
             this.monthToMonth = false;
             this.dayToDay = true;
@@ -297,4 +299,9 @@ if(!this.editmode && this.getFormValidation() && (this.f.amount.value !=0 ||this
     
 return this.f.membershipCatagory.value;
   }
+
+ getAmount(amount){
+  return GymAdapterClass.formatMoney(amount);
+}
+
 }

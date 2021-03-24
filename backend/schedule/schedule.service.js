@@ -120,6 +120,7 @@ async function DietPlangetById(id) {
 }
 
 async function createScheduleAndDiet(data) { //futrure development
+
     const shcduleData = data.sceduleData;
     const schedule_Plan = new Schedule_Plan(shcduleData);
     let scheduleResult = await schedule_Plan.save();
@@ -130,7 +131,8 @@ async function createScheduleAndDiet(data) { //futrure development
             status: 4,
             dietPlan: shcduleData.dietPlan,
             createdInstructorId: shcduleData.instructorId,
-            createrName: shcduleData.instructorName
+            createrName: shcduleData.instructorName,
+            endDate:shcduleData.endDate
         }
 
 
@@ -327,18 +329,25 @@ async function PendingSchedule() {
 }
 
 async function getByMySchedule(id) {
-
-    const findMembershipId = await Membership.find({
-        $and: [{
-            customerID: id,
-            membershipExpire: false
-        }]
-    })
-
+console.log(id)
 
     return await Schedule.find({
-        membershipId: findMembershipId[0].membershipId
-    })
+        userId: id
+    });
+
+
+    // const findMembershipId = await Membership.find({
+    //     $and: [{
+    //         customerID: id,
+    //         membershipExpire: false
+    //     }]
+    // })
+
+
+    // return await Schedule.find({
+    //     membershipId: findMembershipId[0].membershipId
+    // });
+
 }
 
 async function insertSchData(data) {

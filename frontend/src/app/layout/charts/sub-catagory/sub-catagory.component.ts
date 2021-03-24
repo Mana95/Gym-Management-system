@@ -98,7 +98,38 @@ export class SubCatagoryComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+  deleteRecord(data) {
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+      Swal.fire(
+        'Deleted!',
+        'Your imaginary file has been deleted.',
+        'success'
+      );
+      let idData = {
+        "id" : data._id
+      }
+      this.catagoryService.deleteSubRecord(idData)
+      .subscribe(data => {
+        this.loadFormData()
+        refresh:true;
+      },
+      error => {
+        this.error = error;
+        this.loading = false;
+  
+      });
+      //this.loadData();
+    } })
+  }
 
   onSubmit(userID) {
     this.submitted = true;

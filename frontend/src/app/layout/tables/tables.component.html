@@ -9,7 +9,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" *ngIf="displayItemTable">
           <form [formGroup]="itemGroup" (ngSubmit)="onSubmit(fileInput)">
             <div class="form-group">
               <div class="group-gap">
@@ -21,7 +21,8 @@
                       (change)="uploadFile($event)" />
                   </div>
                   <div class="avatar-preview">
-                    <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                    <!-- <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'"> -->
+                      <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
                     </div>
                   </div>
                 </div>
@@ -40,9 +41,9 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="inputPassword4">Item Type</label>
-                <label for="inputState">State</label>
+            
       <select id="inputState" class="form-control" formControlName=itemType [ngClass]="{ 'is-invalid': submitted && f.itemType.errors }">
-        <option  selected>Item Status</option>
+        <option   value="">Choose item type</option>
         <option *ngFor="let data of ArraySelectOption" >{{data}}</option>
      
       </select>
@@ -52,14 +53,14 @@
               </div>
              
             </div>
-
+           
             <!-- 2nd Row -->
             <div class="form-row">
               <div class="form-group col-md-6" (change)="getSubCatValue(data)">
                 <label for="inputPassword4">Main Catagory Name</label>
                 <select class="form-control" #data formControlName=cat_name
                   [ngClass]="{ 'is-invalid': submitted && f.cat_name.errors }">
-                  <option  selected>Main catagory Status</option>
+                  <option  value="">Choose main catagory</option>
                   <option *ngFor="let data of mainCat">{{data.cat_name}}</option>
                 </select>
                 <div *ngIf="submitted && f.cat_name.errors" class="invalid-feedback">
@@ -70,19 +71,23 @@
                 <label for="inputquantity4">Sub Catagory</label>
                 <select class="form-control" formControlName="sub_cat"
                   [ngClass]="{ 'is-invalid': submitted && f.sub_cat.errors }">
-                  <option  selected>Sub catagory Status</option>
+                  <option  value="">Choose sub catagory</option>
                   <option *ngFor="let data of subcat">{{data.sub_cat_name}}</option>
                 </select>
                 <div *ngIf="submitted && f.sub_cat.errors" class="invalid-feedback">
-                  <div *ngIf="f.sub_cat.errors.required">Item ID is required</div>
+                  <div *ngIf="f.sub_cat.errors.required">Sub catagory is required</div>
                 </div>
               </div>
               <div class="form-group col-md-6" *ngIf="!active">
                 <label for="inputquantity4">Sub Catagory</label>
                 <select class="form-control" disabled>
+                  
                   <option *ngFor="let data of subcat"><b>Select a Catagory</b></option>
                 </select>
 
+              </div>
+              <div class="alert alert-danger" role="alert" *ngIf="displayErrorForCat">
+                There have no sub catagory for selected main catagory!
               </div>
               <div class="form-group col-md-12">
                 <label for="inputPassword4">Item Name</label>
@@ -94,7 +99,7 @@
                 </div>
               </div>
             </div>
-           
+         
             <div class="form-row">
              <div class="form-group col-md-12">
                 <label for="quantity">Importered Country</label>
@@ -189,7 +194,7 @@
                   <td style="text-align: center;">{{data?.cat_name}}</td>
                   <td style="text-align: center;" [ngStyle]="{'color': (data.selling_price == undefined)?'red':'black'}"><b>{{(data.selling_price |  currency:'Rs:':'symbol') || 'Not set'}}</b></td>
                   <td style="text-align: center;" >{{data.quantity|| 0}}</td>
-                  <td style="text-align: center;"><button type="button" (click)="openEditModel(data)"  [disabled]="(data.quantity == undefined?true:false)" class="btn btn-primary btn-sm"><i
+                  <td style="text-align: center;"><button type="button" (click)="openEditModel(data)"   class="btn btn-primary btn-sm"><i
                         class="fa fa-pencil"  aria-hidden="true"></i></button> &nbsp;
                     <button type="button" (click)="inActiveItem(data)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"
                         aria-hidden="true"></i></button></td>

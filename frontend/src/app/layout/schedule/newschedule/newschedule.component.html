@@ -16,8 +16,15 @@
       <div class="card bg-light mb-2">
         <div class="card-header">
           <h2><b>Request Schedule</b></h2>
+      
+          
         </div>
         <div class="card-body">
+          <div class="row" >
+            <p class="alert alert-info">
+                <strong>Can request only 3 Schedule for a person</strong>
+            </p>
+          </div>
           <form [formGroup]="requestScheduleGroup" (ngSubmit)="onSubmit()">
 
             <div class="form-row">

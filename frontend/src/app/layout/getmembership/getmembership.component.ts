@@ -638,6 +638,15 @@ export class GetmembershipComponent implements OnInit {
       this.authenticationSercive.saveInsertMembershipDetails(memberShipDetials, UserData)
         .subscribe(
           response => {
+            if(response && response.status){
+              Swal.fire({
+                text: response.message,
+                icon: 'success'
+              });
+              this.router.navigate(['/dashboard'])
+              return;
+            }
+            console.log(response)
             if(response.length == 2){
               if(response[0]=='memberhipMessage'){
                 Swal.fire('Oops...', `${response[1]}`, 'error');

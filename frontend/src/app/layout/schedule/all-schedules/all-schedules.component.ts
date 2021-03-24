@@ -45,7 +45,6 @@ export class AllSchedulesComponent implements OnInit {
     .subscribe(
       result=>{
         console.log(result)
-        console.log(result);
         this.AllSchedule = result;
       }
     )

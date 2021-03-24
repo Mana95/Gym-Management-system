@@ -1,7 +1,7 @@
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +19,11 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   styleUrls: ['./tables.component.scss'],
   animations: [routerTransition()]
 })
+
+
 export class TablesComponent implements OnInit {
+
+  displayItemTable = false;
   private currentUserSubject: BehaviorSubject<User>;
   searchText:any;
   p: number = 1;
@@ -35,7 +39,9 @@ export class TablesComponent implements OnInit {
   userId: any;
   active = false;
   error = '';
-  imageUrl: any = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+  displayErrorForCat = false;
+  imageUrl :any= '../../../assets/item-logo.jpg';
+  defaultImage = '../../../assets/item-logo.jpg';
   editFile = true;
   removeUpload = false; image: any;
 
@@ -69,8 +75,9 @@ export class TablesComponent implements OnInit {
   formatter = (result: string) => result.toUpperCase();
 
   ngOnInit() {
-    this.imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
-    this.loadData();
+   // this.imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8cjGLpeP44cyO-vNJ_y7jhIQL3mDKnuCQWb0Mkb8Hz8YO7wL-Rw&s';
+ //   this.loadData();
+ this.loadData();
   }
 
   checkDate(event) {
@@ -87,8 +94,7 @@ export class TablesComponent implements OnInit {
       map(term => term === '' ? []
         : this.states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
-
-  loadData() {
+  defineFormData() {
     this.itemGroup = this.formBuilder.group({
       id: [''],
       cat_name: ['', Validators.required],
@@ -98,6 +104,19 @@ export class TablesComponent implements OnInit {
       sub_cat: ['', Validators.required],
       importCountry: ['', Validators.required],
     });
+      // Id Gen
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
+      const string_length = 8;
+      let id = 'IT_' + '';
+      for (let i = 0; i < string_length; i++) {
+        const rnum = Math.floor(Math.random() * chars.length);
+        id += chars.substring(rnum, rnum + 1);
+        this.userId = id;
+        this.itemGroup.controls['id'].setValue(id);
+      }
+  }
+  loadData() {
+  
 
    
     this.catagoryService.getItemDetials()
@@ -117,16 +136,7 @@ export class TablesComponent implements OnInit {
           this.mainCat = data;
         }
       );
-    // Id Gen
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUFWXYZ1234567890';
-    const string_length = 8;
-    let id = 'IT_' + '';
-    for (let i = 0; i < string_length; i++) {
-      const rnum = Math.floor(Math.random() * chars.length);
-      id += chars.substring(rnum, rnum + 1);
-      this.userId = id;
-      this.itemGroup.controls['id'].setValue(id);
-    }
+  
   }
 
   uploadFile(event) {
@@ -151,11 +161,19 @@ export class TablesComponent implements OnInit {
 
 
   onSubmit(data) {
-    console.log(data.value);
+    
     this.submitted = true;
     this.loading = true;
-    if (this.itemGroup.valid) {
-      
+    if(this.displayErrorForCat){
+      Swal.fire('Oops...', `Please select a sub catagory!`, 'error');
+      return;
+    }
+
+    if (this.itemGroup.valid && this.active) {
+      if (this.defaultImage == this.imageUrl){
+        Swal.fire('Oops...', `Please upload the item image!`, 'error');
+        return;
+      }
       const itemData = {
         id: this.f.id.value,
         cat_name: this.f.cat_name.value,
@@ -167,6 +185,7 @@ export class TablesComponent implements OnInit {
         itemCreatedName: this.currentUserSubject.value.user_id,
         itemType: this.f.itemType.value,
         itemStatus:true,
+        itemQuantity:false,
         buyingPrice:0
        
       };
@@ -198,26 +217,39 @@ export class TablesComponent implements OnInit {
 
   getSubCatValue(data) {
     const catName = data.value;
-    console.log(catName);
+   
     this.autenticationService.getSubCatNames(catName)
       .subscribe(
         // tslint:disable-next-line:no-shadowed-variable
         data => {
+     
           this.subcat = data;
-          console.log(data);
-
+          if(this.subcat.length > 0){
+            this.active = true;
+            this.displayErrorForCat = false;
+            
+          }else{
+            this.displayErrorForCat = true;
+            this.itemGroup.controls['sub_cat'].setValue("");
+            this.active = false;
+          }
+         
         },
         error => {
           console.log(error);
         });
-
-    this.active = true;
+        
+   
   }
 
 
 
   open(content) {
-
+    this.defineFormData();
+    this.submitted = false;
+    this.active = false;
+    this.displayItemTable = true;
+    this.displayErrorForCat = false;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

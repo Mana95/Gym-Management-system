@@ -13,6 +13,7 @@ static getGRNItemDocumentDefinition(data){
 
 
 }
+
 static getGRNDocumentDefinition(data){
   var responsedata = data.response;
     

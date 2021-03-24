@@ -257,7 +257,7 @@
                   Valid untill
                 </th>
                 <th style="text-align: center;" scope="col">
-                  Amount <b>(Rs:)</b>
+                  Amount 
                 </th>
                 <th style="text-align: center;" scope="col">
                   Action
@@ -289,7 +289,7 @@
                   <b>{{ data.YMDValue }}</b>
                 </td>
                 <td style="text-align: center;">
-                  {{ data.amount }}
+                  {{getAmount(data.amount)}}
                 </td>
                 <td style="text-align: center;">
                   <button type="button" class="btn btn-primary btn-sm"(click)="onClickEditPopUp(data ,content)" ><i

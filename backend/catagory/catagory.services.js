@@ -21,7 +21,8 @@ module.exports = {
    getItemrelventItems,
    getByItemName,
    updateItem,
-   inactiveItem
+   inactiveItem,
+   deleteSubRecord
   
 
 };
@@ -97,8 +98,12 @@ const subCatagoryNameFind = await SubCatagory.findOne({sub_cat_name:data.sub_cat
 
 }
 
+async function deleteSubRecord(id){
+    await SubCatagory.deleteOne({"_id": id});
+}
+
 async function deleteData (id){
-    //console.log(id)
+
     await Catagory.deleteOne({"_id": id});
 }
 async function getAll(){
