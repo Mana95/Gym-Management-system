@@ -34,6 +34,7 @@ export class EditItemComponent implements OnInit {
     'Bonaire, Sint Eustatius and Saba', 'Bosnia and Herzegovina',
 
   ];
+  showPricingFields = false;
   editFile = true;
   removeUpload = false;
   mainCat:any;
@@ -63,7 +64,7 @@ export class EditItemComponent implements OnInit {
       itemType: ['', Validators.required],
       sub_cat: ['', Validators.required],
       importCountry: ['', Validators.required],
-      selling_price:['',Validators.required],
+      selling_price:[''],
       buying_price:[''],
       expDate:['']
     })
@@ -78,7 +79,9 @@ export class EditItemComponent implements OnInit {
     if(this.user.selling_price !=undefined){
       this.editItemGroup.controls['selling_price'].setValue(this.user.selling_price);
     }
-   
+    if(this.user.itemQuantity != false){
+      this.showPricingFields = true;
+    }
     this.imageUrl=this.user.image;
 
     this.autenticationService.getSubCatNames(this.user.cat_name)
@@ -117,20 +120,25 @@ onSubmit() {
   this.submitted = true;
 
   if(this.editItemGroup.valid){
-    const itemData = {
-      _id:this.user._id,
-      id: this.f.id.value,
-      cat_name: this.f.cat_name.value,
-      item_name: this.f.item_name.value,
-      description: this.f.description.value,
-      sub_cat: this.f.sub_cat.value,
-      Importered_Country: this.f.importCountry.value,
-      image: this.imageUrl,
-      itemCreatedName: this.currentUserSubject.value.user_id,
-      itemType: this.f.itemType.value,
-      selling_price:Number(this.f.selling_price.value)
-     
-    };
+    let itemData = {}
+    
+      itemData = {
+        _id:this.user._id,
+        id: this.f.id.value,
+        cat_name: this.f.cat_name.value,
+        item_name: this.f.item_name.value,
+        description: this.f.description.value,
+        sub_cat: this.f.sub_cat.value,
+        Importered_Country: this.f.importCountry.value,
+        image: this.imageUrl,
+        itemCreatedName: this.currentUserSubject.value.user_id,
+        itemType: this.f.itemType.value,
+        selling_price:!this.user.itemQuantity?undefined:Number(this.f.selling_price.value)
+        
+      
+      //itemData = saveItemData;
+    }
+  
 
     this.catagoryService.updateItem(itemData)
     .subscribe(

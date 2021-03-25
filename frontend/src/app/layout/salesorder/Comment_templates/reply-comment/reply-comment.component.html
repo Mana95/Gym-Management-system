@@ -35,12 +35,15 @@
 <h2 class="text-center" *ngIf="commentData?.length>0"><b>Old  Comments</b></h2>
 <div class="row">
     <label for="staticEmail" class=" col-form-label"><b>Rate <i class="fa fa-star" aria-hidden="true"></i></b></label>
-    <div class="col-md-4">
+    <div class="col-md-2">
     <select class="form-control" #rateValue  (change)="loadData(rateValue.value)">
-        <option de>{{data}}</option>
-        <option *ngFor= "let data of [1,2,3,4,5]">{{data}}</option>
+        <option value="">All</option>
+        <option *ngFor= "let data of rateArray">{{data}}</option>
         </select>
         </div>
+        <div class="alert alert-danger" role="alert" *ngIf="showArrayComment">
+            Please select another raiting level!
+          </div>
 </div>
     <br>
 <table #dataTable id="mytable">

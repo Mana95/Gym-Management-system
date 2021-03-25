@@ -28,11 +28,12 @@ export class ReplyCommentComponent implements OnInit {
   public commentIndex = 0;
   public reply: Array<object> = [];
   commentData: any;
+  OrginalArrayObject:any;
   uniqueId: any;
   currentUserRole:any;
- 
+  rateArray = [1,2,3,4,5]
   @ViewChildren (DatacontainerDirective) entry: QueryList<DatacontainerDirective>;
-  
+  showArrayComment = false;
   
   constructor(
     private resolver: ComponentFactoryResolver,
@@ -56,6 +57,7 @@ export class ReplyCommentComponent implements OnInit {
           console.log('result');
           console.log(result);
           this.commentData = result;
+          this.OrginalArrayObject = result;
         }
       )
   }
@@ -110,20 +112,17 @@ export class ReplyCommentComponent implements OnInit {
     // newCommentData.length = 0;
    var commentDetails = this.commentData
   
-    // commentDetails.forEach((cmnt,index)=>{
-    //   if(cmnt.rating == Number(rateValue)){
-    //     newCommentData.push(cmnt)
-    //   }
-    // })
-    // this.commentData = newCommentData;
-    if(rateValue != null){
-    var data =   this.commentData.filter(cmnt=> cmnt.rating == Number(rateValue));
+    if(rateValue != ''){
+    var data =   this.OrginalArrayObject.filter(cmnt=> cmnt.rating == Number(rateValue));
+    (data.length == 0)?this.showArrayComment = true:this.showArrayComment = false;
+    
     this.commentData = data;
+    
     return;
     }
- this.commentData = commentDetails;
+ this.commentData = this.OrginalArrayObject;
 
-
+ this.showArrayComment = false;
 
   }
   // commentDataMethod() {

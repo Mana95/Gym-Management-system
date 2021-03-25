@@ -61,6 +61,7 @@ export class CheckoutComponent implements OnInit {
   this.paymentGroup.controls['firstName'].setValue(this.logInUserData.firstName);
   this.paymentGroup.controls['lastName'].setValue(this.logInUserData.lastName);
   this.paymentGroup.controls['email'].setValue(this.logInUserData.email);
+  
   this.paymentGroup.controls['totalPrice'].setValue(this.user.cartTotal);
   this.generateId();
   }
@@ -544,5 +545,9 @@ return {
     //font: 'Quicksand',
   },
 };
+  }
+
+  getStandardPrice(value){
+   return GymAdapterClass.formatMoney(value)
   }
 }

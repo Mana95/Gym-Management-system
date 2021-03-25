@@ -1,10 +1,12 @@
+import { OrderService } from 'src/app/services/order.service';
 import { AuthenticationService } from './../../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/_models';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Cart } from 'src/app/_models/cart';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-header',
@@ -12,6 +14,7 @@ import { Cart } from 'src/app/_models/cart';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+    private destroy$ = new Subject();
     private currentUserSubject: BehaviorSubject<User>;
     public currentLoginUser: Observable<User>;
     public pushRightClass: string;
@@ -19,11 +22,13 @@ export class HeaderComponent implements OnInit {
     // public cartItemsUser:Observable<Cart>;
     currentUser:any;
     cartItem:any;
+    cartBasValue = 0;
     public currentCart: Observable<Cart>;
     constructor(
         private translate: TranslateService,
          public router: Router,
-        private authenticationService:AuthenticationService
+        private authenticationService:AuthenticationService,
+        private orderService : OrderService
         ) {
             // this.cartItemsSubject = new BehaviorSubject<Cart>(
             //     JSON.parse(localStorage.getItem("cartObject"))
@@ -53,6 +58,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
+        this.getCartData();
+        const _getLocalCart = JSON.parse(localStorage.getItem('cartObject'));
+        if(_getLocalCart.length > 0){
+            this.cartBasValue = _getLocalCart.length;
+        }
 
         this.authenticationService.cartItemsUser.subscribe(
             cart=>{
@@ -95,10 +105,18 @@ export class HeaderComponent implements OnInit {
         this.translate.use(language);
     }
 
-    getCartData() {
-        if(this.cartItem){
-            return this.cartItem.length
-        }
-            return 0;
+     getCartData() {
+     this.orderService.getCartItemData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data=>{
+       this.cartBasValue = data
+      })
+         
     }
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.complete();
+      }
+      
+
 }

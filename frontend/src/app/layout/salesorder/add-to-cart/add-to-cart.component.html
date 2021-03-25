@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </td>
-                <td data-th="Price">{{ data.sellingPrice }}</td>
+                <td data-th="Price">{{GetpriceStandard(data.sellingPrice)}}</td>
                 <td data-th="Quantity">
                     {{ data.avlableQty }}
                 </td>
@@ -41,7 +41,7 @@
                     <small class="alert-small" *ngIf="showMessage"> less than AvlQuantity</small>
                 </td>
                 <td data-th="Subtotal" class="text-center">
-                    {{ data.totalPrice }}
+                    {{GetpriceStandard( data.totalPrice)}} 
                 </td>
                 <td class="actions" data-th="">
                     <button class="btn btn-info btn-sm" (click)="changeValue(inputNumber, data)">
@@ -64,8 +64,8 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row">
-                        <h5>Total (Rs):</h5>
-                        {{ totalValue }}
+                        <h5>Total   {{ GetpriceStandard(totalValue) }}</h5>
+                      
                     </div>
                 </li>
             </ul>

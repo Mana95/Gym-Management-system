@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Cart } from 'src/app/_models/cart';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { GymAdapterClass } from 'src/app/common-class/gym-adapterClass';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -90,7 +91,9 @@ export class AddToCartComponent implements OnInit {
     this.loadDataCart();
   }
   }
-
+  GetpriceStandard(value){
+   return GymAdapterClass.formatMoney(value)
+  }
 
   changeCartData(inputNumber, data) {
     //localStorage.setItem('cartObject', JSON.stringify(data));

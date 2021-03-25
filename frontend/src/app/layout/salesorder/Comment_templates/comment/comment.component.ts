@@ -58,11 +58,11 @@ export class CommentComponent implements OnInit {
     this.currentDate = moment().subtract(10, 'days').calendar();
     let Time = this.currentTime
     
-    if (this.f.rating.invalid) {
-      Swal.fire('Oops...', `Please make rate for your comment`, 'error')
-    }else if (this.f.comment.invalid){
+   if (this.f.comment.invalid){
       Swal.fire('Oops...', `Please make sure to insert a comment before submit`, 'error')
-    }
+    }else if (this.f.rating.invalid) {
+      Swal.fire('Oops...', `Please make a rate for your comment`, 'error')
+    } 
      else {
       this.commentInfo.push({
         commentId : this.id++,

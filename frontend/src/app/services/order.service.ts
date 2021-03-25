@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { config } from '../config/config.js';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private readonly cartItemData$ = new Subject<any>();
 
   constructor(private http: HttpClient) { }
+
+
+  setCartItemData(data : any){
+    this.cartItemData$.next(data);
+
+    console.log(this.cartItemData$.asObservable())
+  }
+
+  getCartItemData():Observable<any>{
+  return this.cartItemData$.asObservable();
+}
 
 
   saveCartData(cartData ,invoiceData ,myOrderData) {

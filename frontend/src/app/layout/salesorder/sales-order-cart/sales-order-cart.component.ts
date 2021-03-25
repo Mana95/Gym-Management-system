@@ -1,3 +1,4 @@
+import { GymAdapterClass } from './../../../common-class/gym-adapterClass';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from './../../../services/order.service';
 import { Component, OnInit } from '@angular/core';
@@ -42,6 +43,10 @@ routePage(data) {
         this.cartData = response;
       }
     );
+  }
+
+  displayStandardFormat(price){
+     return GymAdapterClass.formatMoney(price)
   }
 
 }

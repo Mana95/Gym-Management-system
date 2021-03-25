@@ -165,7 +165,7 @@ export class TablesComponent implements OnInit {
     this.submitted = true;
     this.loading = true;
     if(this.displayErrorForCat){
-      Swal.fire('Oops...', `Please select a sub catagory!`, 'error');
+      Swal.fire('Oops...', `There no selected sub-category for the selected main category!`, 'error');
       return;
     }
 

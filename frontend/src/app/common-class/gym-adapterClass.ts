@@ -1334,8 +1334,8 @@ static  getDocumentDefinition(data){
          return varformatDate;
     }
 
-    static formatMoney(number) {
-      return number.toLocaleString('en-US', { style: 'currency', currency: 'LKR' });
+    static formatMoney(number , currency = 'LKR') {
+      return number.toLocaleString('en-US', { style: 'currency', currency: currency });
     }
 
     static getSalesAmountTotal(response , typeGRN = ''){

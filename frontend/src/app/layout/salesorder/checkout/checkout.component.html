@@ -23,7 +23,7 @@
             <h6 class="my-0">{{data.itemName}} {{data.qty}}*{{data.sellingPrice}} </h6>
             <small class="text-muted">{{data.itemId}}</small>
           </div>
-          <span class="text-muted">Rs: {{data.totalPrice}}</span>
+          <span class="text-muted">{{getStandardPrice(data.totalPrice) }}</span>
         </li>
         <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
           <div>
@@ -47,8 +47,8 @@
           <span class="text-success">-$5</span>
         </li> -->
         <li class="list-group-item d-flex justify-content-between">
-           <span>Total (SL RS:)</span>
-          <strong>RS:{{user.cartTotal}}</strong>
+           <span>Total (SL LKR:)</span>
+          <strong>{{getStandardPrice(user.cartTotal) }}</strong>
         </li>
       </ul>
 
@@ -116,7 +116,7 @@
         <div class="row">
       
           <div class="col-md-6 mb-3">
-            <label for="cc-number">Totol Payment Rs:</label>
+            <label for="cc-number">Total Payment LKR:</label>
             <input type="text" class="form-control" formControlName ="totalPrice" readonly="true" id="cc-number" placeholder="" required>
             <div class="invalid-feedback">
               Credit card number is required

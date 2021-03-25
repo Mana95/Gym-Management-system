@@ -168,6 +168,11 @@ if(this.viewCartForm.valid && this.itemCart.qty.value>0){
   }
 
   this.orderService.insertItemCart(itemCartData);
+  const _getLocalCart = JSON.parse(localStorage.getItem('cartObject'));
+  if(_getLocalCart.length > 0){
+    this.orderService.setCartItemData(_getLocalCart.length)
+  }
+  
   Swal.fire({
     text: `${itemCartData.itemName} Added to Paying table`,
     icon: 'success'
