@@ -116,7 +116,7 @@
          
             </li>
           
-            <li><button type="button"   class="btn btn-outline-warning" [routerLink]="['/addToCart']"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> {{cartBasValue}} </button>
+            <li><button type="button" [disabled]="cartBasValue==0"   class="btn btn-outline-warning" [routerLink]="['/addToCart']"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> {{cartBasValue}} </button>
             
             </li>
             <li class="nav-item dropdown" ngbDropdown>

@@ -1,3 +1,4 @@
+import { GymAdapterClass } from 'src/app/common-class/gym-adapterClass';
 
 import { AbstractControl, Validators } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -9,16 +10,20 @@ import { CatagoryService } from 'src/app/services/catagory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { unescapeIdentifier } from '@angular/compiler';
 @Component({
   selector: 'app-sale-order-item-view',
   templateUrl: './sale-order-item-view.component.html',
   styleUrls: ['./sale-order-item-view.component.scss']
 })
 export class SaleOrderItemViewComponent implements OnInit {
+  private destroy$ = new Subject();
   itemCartData:any;
   viewCartForm : FormGroup
   submitted = false;
-  displayTotal ='0.00';
+  displayTotal = '0';
   displayAlert = false;
   maxNumber :any;
   viewCartEnalability = false;
@@ -26,7 +31,7 @@ export class SaleOrderItemViewComponent implements OnInit {
   comments: string;
   count: number;
   itemId:any;
-
+  showTextField : string;
   constructor(
     private orderService: OrderService, 
     private route: ActivatedRoute,
@@ -41,14 +46,21 @@ export class SaleOrderItemViewComponent implements OnInit {
   ngOnInit() {
     this.loadItemDetails()
     this.cartData= this.authenticationService.cartDataValue;
-    console.log('dsadsadsadas');
-    console.log(this.cartData)
+   
+   
     if(this.cartData != undefined){
     if(this.cartData.length>0){
       this.viewCartEnalability = true;
     }
   }
-    
+  //this.getViewCartEnalability();
+  this.checkStorage();
+  }
+  checkStorage() {
+    const _getLocalCart = JSON.parse(localStorage.getItem('cartObject'));
+   if(_getLocalCart.length > 0){
+   this.viewCartEnalability = true
+  }
   }
   receiveComment($event) {
     //alert("here is")
@@ -56,7 +68,10 @@ export class SaleOrderItemViewComponent implements OnInit {
     this.count = this.comments.length;
     console.log(this.comments.length);
   }
-
+  displaySellingPrice(value)
+{
+  return GymAdapterClass.formatMoney(value)
+}
   recieveCount($event) {
     this.comments = $event;
     this.count = this.comments.length;
@@ -113,14 +128,39 @@ export class SaleOrderItemViewComponent implements OnInit {
     return this.viewCartForm.controls;
 
   }
+
 //Calculate the 
   calculateTotal(event){
    let inputNumber = this.itemCart.qty.value;
    let price = this.itemCart.sellingPrice.value;
-   this.maxNumber = this.itemCart.avlableQty.value
+   this.maxNumber = this.itemCart.avlableQty.value;
+   const _getLocalCartArray = JSON.parse(localStorage.getItem('cartObject'));
+   if(_getLocalCartArray !=undefined){
+    const _findcartObject = _getLocalCartArray.find(par=>par.id==this.itemCart.id.value);
+    if(_findcartObject){
+      const _finalCount = Number(_findcartObject.qty) + Number(inputNumber);
+      if(_finalCount >= this.itemCart.avlableQty.value){
+    
+        this.displayAlert = true;
+        this.viewCartForm.controls['qty'].setValue(0);
+        this.showTextField = 'you have already selected greater that to the available quanity'
+        this.displayTotal =price.toFixed(2); 
+        setTimeout(()=>{ 
+          this.displayAlert = false; }, 2000);
+          return;
+      }else{
+        let total = inputNumber * price;
+        this.displayTotal = total.toFixed(2);
+        this.viewCartForm.controls['totalPrice'].setValue(total);
+       }
+    }
+   }
+   
     if(inputNumber >= this.itemCart.avlableQty.value){
       this.displayAlert = true;
       this.viewCartForm.controls['qty'].setValue(0);
+      this.showTextField = 'Please enter a lower number there have much more quanity'
+      
       
       this.displayTotal =price.toFixed(2); 
       setTimeout(()=>{ 
@@ -128,7 +168,7 @@ export class SaleOrderItemViewComponent implements OnInit {
         return;
     }else{
    let total = inputNumber * price;
-   this.displayTotal = total.toFixed(2);
+   this.displayTotal =total.toFixed(2);
    this.viewCartForm.controls['totalPrice'].setValue(total);
   }
   // console.log(inputNumber);
@@ -182,5 +222,14 @@ if(this.viewCartForm.valid && this.itemCart.qty.value>0){
 }
    
       //console.log(itemCartData);
+  }
+get displayTotPrice() {
+  
+  const _returnTot = GymAdapterClass.formatMoney(Number(this.displayTotal));
+  return _returnTot;
+}
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

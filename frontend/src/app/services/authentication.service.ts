@@ -58,6 +58,10 @@ export class AuthenticationService {
     return this.currentMembershipSubject.value;
   }
 
+  changePassword(body):Observable<any>{
+    return this.http.patch(config.PAPYRUS+`/users/changepassword/`,body)
+  }
+
   checkMembership(objectData):Observable<any>{
     return this.http.get(config.PAPYRUS+`/users/checkMembership/${objectData}`)
   
@@ -413,6 +417,10 @@ export class AuthenticationService {
 
         getMembershipById(id) {
           return this.http.get(config.PAPYRUS+`/users/getMembershipById/${id}`);  
+        }
+
+        validateOldPassword(text) : Observable<any>{
+          return this.http.get(config.PAPYRUS+`/users/validateOldPassword/`,{params:text});  
         }
 }
 

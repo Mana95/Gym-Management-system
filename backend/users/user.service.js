@@ -98,9 +98,23 @@ module.exports = {
   grn_reports_service,
   getMembershipById_Service,
   checkMembership_Service,
-  updateMembership_service
+  updateMembership_service,
+  validateOldPassword_service,
+  
 
 };
+
+
+
+async function validateOldPassword_service(body){
+      const _oldPwData = body;
+      const user = await User.findOne({user_id:_oldPwData.id});
+      if (user && bcrypt.compareSync(_oldPwData.password, user.hash)) {
+       return {er:false , message:'old password is matching perfectly!'}
+      } else{
+        return {er:true , message:'Old password is not correct,Please enter the correct password!'}
+      }
+}
 
 async function updateMembership_service(body){
   console.log(body)

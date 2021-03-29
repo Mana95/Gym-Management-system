@@ -9,9 +9,9 @@
 			  <div class="col-md-8">
 				<div class="card-body">
 				  <h2 class="card-title"><b><label><i class="fa fa-archive" aria-hidden="true"></i> Item Name : </label> {{data?.item_name}}</b></h2>
-				 <h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i> Rs: {{data.selling_price}}</b> </h3>
+				 <h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i>  {{displaySellingPrice(data.selling_price)}}</b> </h3>
 				<hr/>
-				  <p class="card-text"><small class="text-muted">In stock</small></p> <ngb-alert type = "danger" (close)="closeAlert()" *ngIf="displayAlert">Did not Have much Quantity</ngb-alert>
+				  <p class="card-text"><small class="text-muted">In stock</small> &nbsp;<b>{{itemCart?.avlableQty?.value - 0}}</b> </p> <ngb-alert type = "danger" (close)="closeAlert()" *ngIf="displayAlert">{{showTextField}}</ngb-alert>
 				   
 				  <div class="row">
 				  <div class="col-md-3">	 
@@ -32,7 +32,7 @@
 				<p class="card-text">
 				Main Category: {{data.cat_name}}	
 				</p>
-				<h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i>Total Rs:{{displayTotal}}</b> </h3>
+ 				<h3 class="card-text"><b><i class="fa fa-money" aria-hidden="true"></i> &nbsp;Total  {{displayTotPrice}}</b> </h3>
 			
 				</div>
 			  </div>

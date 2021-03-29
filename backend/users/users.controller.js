@@ -30,6 +30,7 @@ router.post('/EmployeeCreation' , EmployeeCreation);
 router.post('/updateRole' , updateRole);
 router.post('/checkNIC' , checkNIC);
 
+router.get('/validateOldPassword', validateOldPassword_controller);
 router.get('/u', getAll);
 router.get('/getReleventMembshipStatusData/:email', getReleventMembshipStatusData_controller);
 router.get('/groups', getAllGroups);
@@ -67,18 +68,19 @@ router.get('/getReleventUserData/:id', getReleventUserData);
 router.get('/getCommentData/:id', getCommentDataController);
 router.put('/:id', update);
 router.get('/loadAllinvoiceData', loadAllinvoiceData_Controller);
+
 router.patch('/deleteSupplierData', deleteSupplierData);
-
 router.patch('/membershipInactive', memerbershipUpdateStatus);
-
 router.patch('/updateinstructor', updateInstructor);
 router.patch('/instrucotrInactive', instructorUpdateStatus);
 router.patch('/updateSupplierData', updateSupplierData);
-
 router.patch('/updateActiveIncativeStatusMembership', updateActiveIncativeStatusMembership);
 router.patch('/patchScheduleType', patchScheduleType_controller);
 router.patch('/inActiveScheduleType/:id', inActiveScheduleType_controller);
 router.patch('/updateMembership', updateMembership_controller);
+router.patch('/changepassword', changepassword_controller);
+
+
 router.delete('/deleteRecord', _delete);
 router.get('/role', getbyrole);
 router.post('/d', deleteRecord);
@@ -94,6 +96,48 @@ router.get('/getInvoiceData/:id',getInvoiceData_Controller);
 router.get('/checkMembership/:id',checkMembership_Controller);
 module.exports = router;
 
+
+function changepassword_controller(req ,res, next){
+    User.findOne({
+        user_id:req.body.id
+      }, function (err, userEmail, next) {
+   
+        if (!userEmail) {
+          return res
+            .status(409)
+            .json({ message: 'User does not exist' });
+        }
+  
+         return bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res
+              .status(400)
+              .json({ message: 'Error hashing password' });
+          }
+          userEmail.hash = hash;
+          userEmail.save(function (err) {
+            if (err) {
+              return res
+                .status(400)
+                .json({ message: 'Password can not reset.' });
+            }else {
+            
+              return res
+                .status(201)
+                .json({ message: 'Password reset successfully' });
+            } 
+          });
+        });
+      });
+}
+
+function validateOldPassword_controller(req ,res ,next){
+    userService.validateOldPassword_service(req.query)
+    .then(data => {
+        (data.er)? res.status(500).send(data.message):res.status(200).send(data.message);
+    })
+    .catch(err => next(err));
+}
 
 function checkMembership_Controller(req ,res ,next){
     userService.checkMembership_Service(req.params.id)

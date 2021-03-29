@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit {
         this.pushRightClass = 'push-right';
         this.getCartData();
         const _getLocalCart = JSON.parse(localStorage.getItem('cartObject'));
-        if(_getLocalCart.length > 0){
+        if(_getLocalCart && _getLocalCart.length > 0){
             this.cartBasValue = _getLocalCart.length;
         }
 
